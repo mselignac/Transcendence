@@ -1,14 +1,10 @@
-version: '3.8'
+version: '3.9'
 services:
-  dev-db:
-    image: postgres:13
+  backend:
+    build: ./nest_js_course
     ports:
-    - 5434:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
-    networks:
-      - freecodecamp
-networks:
-  freecodecamp:
+      - 3000
+    container_name: backend-transcendence
+    volumes: #remove when development is finished
+      - ./nest_js_course/src:/usr/src/app/backend/src
+    restart: unless-stopped
