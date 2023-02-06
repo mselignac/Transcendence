@@ -10,6 +10,7 @@ COPY prisma ./prisma/
 # RUN npm install -g npm
 # RUN npm install
 RUN yarn install
+RUN yarn add argon2
 
 COPY . .
 
@@ -26,5 +27,3 @@ CMD [ "yarn", "run", "start:dev"]
 # COPY --from=builder /app/*.json ./
 # COPY --from=builder /app/dist ./dist
 # COPY --from=builder /app/prisma ./prisma
-
-

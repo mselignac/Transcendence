@@ -3,8 +3,27 @@ services:
   backend:
     build: ./nest_js_course
     ports:
-      - 3000
+      - 3000:3000
+    env_file:
+      - .env
     container_name: backend-transcendence
     volumes: #remove when development is finished
       - ./nest_js_course/src:/usr/src/app/backend/src
     restart: unless-stopped
+
+  database:
+    image: postgres:13
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    container_name: database-transcendence
+    restart: unless-stopped
+    env_file:
+      - ./nest_js_course/.env
+#     networks:
+#       - freecodecamp
+# networks:
+#   freecodecamp:
