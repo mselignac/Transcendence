@@ -1,14 +1,18 @@
 version: '3.9'
 services:
   backend:
-    build: ./nest_js_course
+    build: ./backend
     ports:
       - 3000:3000
     env_file:
       - .env
+    # depends_on:
+    #   database:
+    #     condition: service_healthy
     container_name: backend-transcendence
-    volumes: #remove when development is finished
-      - ./nest_js_course/src:/usr/src/app/backend/src
+    volumes:
+      - ./backend:/app/
+      - /app/node_modules
     restart: unless-stopped
 
   database:
@@ -22,7 +26,7 @@ services:
     container_name: database-transcendence
     restart: unless-stopped
     env_file:
-      - ./nest_js_course/.env
+      - backend/.env
 #     networks:
 #       - freecodecamp
 # networks:

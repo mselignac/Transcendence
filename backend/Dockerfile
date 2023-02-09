@@ -1,26 +1,23 @@
-FROM node:lts-alpine3.17
+FROM node:lts-alpine3.17 AS builder
 
-RUN mkdir -p usr/src/app/backend
-
-WORKDIR /usr/src/app/backend
+WORKDIR /app
 
 COPY *.json ./
 COPY prisma ./prisma/
 
-# RUN npm install -g npm
+RUN npm install -g npm
 # RUN npm install
 RUN yarn install
-RUN yarn add argon2
 
 COPY . .
+
+# RUN yarn run build
 
 RUN npx prisma generate
 
 EXPOSE 3000
 
 CMD [ "yarn", "run", "start:dev"]
-# RUN yarn run start:dev
-
 # FROM node:lts-alpine3.17
 
 # COPY --from=builder /app/node_modules ./node_modules
