@@ -1,5 +1,18 @@
 version: '3.9'
 services:
+  database:
+    image: postgres:13
+    ports:
+    - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    container_name: database-transcendence
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+
   backend:
     build: ./backend
     ports:
@@ -15,18 +28,6 @@ services:
       - /app/node_modules
     restart: unless-stopped
 
-  database:
-    image: postgres:13
-    ports:
-    - 5432:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
-    container_name: database-transcendence
-    restart: unless-stopped
-    env_file:
-      - backend/.env
 #     networks:
 #       - freecodecamp
 # networks:

@@ -12,12 +12,11 @@ RUN yarn install
 COPY . .
 
 # RUN yarn run build
-
-RUN npx prisma migrate deploy
+RUN npx prisma generate
 
 EXPOSE 3000
 
-CMD [ "yarn", "run", "start:dev"]
+CMD [ "yarn", "run", "start:migrate:dev"]
 # FROM node:lts-alpine3.17
 
 # COPY --from=builder /app/node_modules ./node_modules
