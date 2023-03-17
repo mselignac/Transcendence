@@ -1,4 +1,3 @@
-
 NAME	= transcendence
 
 COMPOSE	= docker-compose -p $(NAME)

@@ -1,11 +1,11 @@
-FROM node:lts-alpine3.17 AS builder
+FROM node:lts-alpine3.17
 
 WORKDIR /app
 
 COPY *.json ./
 COPY prisma ./prisma/
 
-RUN npm install -g npm
+# RUN npm install -g npm
 # RUN npm install
 RUN yarn install
 
