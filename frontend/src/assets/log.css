@@ -1,0 +1,120 @@
+@import './base.css';
+
+
+#log {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    font-weight: normal;
+    /* background: linear-gradient(60deg, hsla(160, 100%, 40%, 0.3),  hsla(10, 100%, 37%, 0.22) 75%); */
+    background: hsla(0, 0%, 10%, 0.562);
+}
+
+.log_div {
+    /* background-color: aquamarine; */
+    display: flex;
+    margin: 20em;
+    width: 50%;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* border: 3px solid hsla(167, 68%, 45%, 0.226); */
+    border: 3px solid hsla(0, 0%, 27%, 0.226);
+    border-radius: 20px 20px 20px 20px;
+    /* background-color:  hsla(167, 68%, 45%, 0.178); */
+    background-color:  hsla(0, 0%, 87%, 0.397);
+  
+    height: 50%;
+    align-self: center;
+    flex-direction: column;
+    /* box-shadow: inset 1px 1px 20px black; */
+    /* text-transform: uppercase; */
+}
+  
+  .button_log {
+    /* background-color: blue; */
+    /* margin: em; */
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 3px pink;
+    display: flex;
+    font-size: 150%;
+    /* align-self: center; */
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 10px 10px 10px 10px;
+    justify-content: center;
+}
+  
+  
+  .log_id_div {
+    /* background-color: aquamarine; */
+    /* margin-top: ; */
+    display: flex;
+    /* margin: 2em; */
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+  
+    height: 50%;
+    /* box-shadow: inset 1px 1px 20px black; */
+    /* text-transform: uppercase; */
+}
+  
+  .login_div {
+    /* background-color: aquamarine; */
+    display: flex;
+    /* margin: 2em; */
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    align-self: flex-end;
+    height: 50%;
+    /* box-shadow: inset 1px 1px 20px black; */
+    /* text-transform: uppercase; */
+}
+  
+  .button_user_log {
+    /* background-color: blue; */
+    /* margin: 2em; */
+    width: 70%;
+    height: 17%;
+    margin: 2%;
+    margin-bottom: 5%;
+    padding: 0.5em;
+    color: rgb(48, 48, 48);
+    display: flex;
+    font-size: 150%;
+    /* align-self: center; */
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px 5px 5px 5px;
+    justify-content: center;
+}
+  
+  .button_login_log {
+    /* background-color: hsla(160, 100%, 11%, 0.534); */
+    background-color: hsl(230, 18%, 32%);
+    width: 50%;
+    height: 15%;
+    margin-top: 15%;
+    padding: 0.5em;
+    display: flex;
+    font-size: 140%;
+    /* align-self: center; */
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px 5px 5px 5px;
+    justify-content: center;
+    color:rgba(194, 192, 218, 0.767);
+}
+  
+::placeholder {
+    color: rgba(0, 0, 0, 0.589);
+}
+  
+  .button_login_log:hover {
+    scale: 1.1;
+    background-color: rgb(50, 54, 109);
+}

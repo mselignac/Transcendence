@@ -1,0 +1,276 @@
+@import './base.css';
+
+#game_mode {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    font-weight: normal;
+    background: hsla(0, 0%, 10%, 0.562);
+}
+
+.make_bold {
+    font-weight: bolder;
+    /* scale: 1.1; */
+}
+
+.user {
+    font-weight: bolder;
+    font-size: 220%;
+    color:hsla(239, 49%, 21%, 0.651)
+}
+
+.user:hover {
+    scale: 1.1;
+    background-color: transparent;
+}
+
+.make_bold:hover {
+    scale: 1.1;
+}
+
+.game_div {
+
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 1fr 9fr;
+    background-color:  hsla(236, 93%, 29%, 0.096);
+}
+
+.left {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    background-color:  hsla(241, 93%, 17%, 0.425);
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.channel_button {
+    display: flex;
+    margin-left: 3%;
+    background-color: hsla(246, 89%, 24%, 0.651);
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px 15px 15px 15px;
+    border-color: transparent;
+    font-weight: bolder;
+    color: rgb(170, 154, 154);
+    font-size: 150%;
+}
+
+.channel_button:hover {
+    scale: 1.3;
+}
+
+.channels_names {
+    display: flex;
+    grid-column: 1;
+    grid-row: 2;
+    background-color: hsla(236, 93%, 17%, 0.274);
+    flex-direction: column;
+    align-items: center;
+}
+
+.right {
+    display: grid;
+    grid-column: 3;
+    grid-row: 1;
+    background-color:  hsla(241, 93%, 17%, 0.425);
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.friendlist {
+    display: grid;
+    grid-column: 3;
+    grid-row: 2;
+    grid-template-rows: 1fr 15fr;
+    background-color: hsla(236, 93%, 17%, 0.274);
+}
+
+.list {
+    display: flex;
+    margin-top: 15%;
+    /* margin-left: 8px; */
+    grid-row: 2;
+    flex-direction: column;
+    align-items: center;
+    /* align-items: flex-start; */
+}
+
+.friendlist_title {
+    display: flex;
+    grid-row: 1;
+    /* width: 100%; */
+    background-color: hsla(241, 93%, 17%, 0.075);
+    align-items: center;
+    justify-content: space-around;
+    font-style: italic;
+}
+
+.friendlist_button {
+    display: grid;
+    grid-row: 1;
+    width: 15%;
+    background-color: hsla(246, 89%, 24%, 0.651);
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px 15px 15px 15px;
+    border-color: transparent;
+    font-weight: bolder;
+    color: rgb(170, 154, 154);
+    font-size: 150%;
+}
+
+.friendlist_button:hover {
+    scale: 1.3;
+}
+
+.top {
+    display: grid;
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-columns: 1fr 1fr;
+    /* background-color:  hsla(0, 93%, 29%, 0.397); */
+    justify-content: center;
+    align-items: center;
+}
+
+.top_button {
+    display: flex;
+    width: 50%;
+    justify-self: center;
+    justify-content: center;
+    font-size: 250%;
+    border: transparent;
+    background-color: transparent;
+    font-weight: bolder;
+    text-shadow: 2px 2px 3px rgb(135, 136, 146);
+    color: hsla(240, 9%, 42%, 0.664);
+}
+
+.top_button:hover {
+    scale: 1.1;
+    background-color: transparent;
+}
+
+.game_mode_div {
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+    background-color: rgba(228, 230, 243, 0.377);
+    grid-column: 2;
+    grid-row: 2;
+    margin: 5%;
+    border-radius: 20px 20px 20px 20px;
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+
+.game_mode_one {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 300%;
+    width: 100%;
+    height: 100%;
+    grid-row: 1;
+    /* background-color: rgba(134, 100, 100, 0.377); */
+}
+
+.game_mode_two {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 8%;
+    align-items: center;
+    flex-direction: column;
+    font-size: 230%;
+    width: 100%;
+    height: 100%;
+    grid-row: 2;
+    /* background-color: rgba(95, 39, 39, 0.377); */
+}
+
+.button_mode {
+    display: flex;
+    font-size: 220%;
+    background-color: transparent;
+    margin-top: 3%;
+    color: rgb(75, 75, 78);
+    border: transparent;
+}
+
+.button_mode:hover {
+    scale: 1.1;
+}
+
+/*
+.button_log {
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 3px pink;
+    display: flex;
+    font-size: 150%;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 10px 10px 10px 10px;
+    justify-content: center;
+}
+  
+  
+.log_id_div {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+  
+    height: 50%;
+}
+  
+.login_div {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    align-self: flex-end;
+    height: 50%;
+}
+  
+.button_user_log {
+    width: 70%;
+    height: 17%;
+    margin: 2%;
+    margin-bottom: 5%;
+    padding: 0.5em;
+    color: rgb(48, 48, 48);
+    display: flex;
+    font-size: 150%;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px 5px 5px 5px;
+    justify-content: center;
+}*/
+  
+.button_game_log {
+    background-color: hsl(0, 0%, 44%);
+    padding: 0.5em;
+    display: flex;
+    font-weight: bolder;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 5px 5px 5px 5px;
+    justify-content: center;
+}
+  
+/*  ::placeholder {
+    color: rgba(0, 0, 0, 0.589);
+}
+  
+.button_login_log:hover {
+    scale: 1.1;
+}
+ */
