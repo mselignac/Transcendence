@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 services:
   database:
     image: postgres:13
@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: nest
     container_name: database-transcendence
+    networks:
+      - transcendence
     restart: unless-stopped
     env_file:
       - backend/.env
@@ -26,16 +28,40 @@ services:
     volumes:
       - ./backend:/app/
       - /app/node_modules
+    networks:
+      - transcendence
+    depends_on:
+      - database
     restart: unless-stopped
 
+  # front:
+  #   container_name: front
+  #   image: node:lts-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"
+  #   command: sh -c "apk add bash && npm install && npm run dev"
+  #   volumes:
+  #     - "./frontend:/app"
+  #   working_dir: /app
+
   frontend:
-    build: ./frontend
+    build: 
+      dockerfile: Dockerfile
+      context: ./frontend
     ports:
-      - 5173:5173
+      - 8080:8080
     container_name: frontend-transcendence
     env_file:
       - .env
     volumes:
-      - ./frontend:/usr/app/
-      - /usr/app/node_modules
+      - ./frontend:/app
+       - /app/node_modules
+    networks:
+      - transcendence
+    depends_on:
+      - backend
     restart: unless-stopped
+
+networks:
+  transcendence:

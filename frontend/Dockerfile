@@ -1,6 +1,6 @@
 FROM node:lts-alpine3.17
 
-WORKDIR /usr/app
+WORKDIR /app
 
 COPY *.json ./
 
@@ -9,6 +9,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5173
+# EXPOSE 8080
 
 CMD [ "npm", "run", "dev"]

@@ -1,0 +1,68 @@
+@import './base.css';
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        /* color: red; */
+    }
+/* 
+    50% {
+        color: green;
+    } */
+
+    100% {
+        opacity: 1;
+    }
+}
+
+#main_page {
+
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    font-weight: normal;
+    background: hsla(0, 0%, 10%, 0.192);
+}
+
+.play_main {
+    display: flex;
+    /* margin-top: 40%; */
+    justify-content: center;
+    align-items: center;
+    /* background-color: rgba(245, 245, 220, 0.151); */
+}
+
+.play_button {
+    display: flex;
+    animation: fadeIn 1s;
+    font-size: 1000%;
+    align-items: center;
+    border-color: transparent;
+    background-color: transparent;
+    /* background-color: red; */
+    color: rgba(0, 0, 0, 0.562);
+    font-weight: bolder;
+
+}
+
+.play_button:hover {
+    scale: 1.1;
+    background-color: transparent;
+}
+
+.friend {
+    color: black;
+    margin: 5%;
+    font-size: 230%;
+}
+
+.friend:hover {
+    scale: 1.1;
+    font-weight: bolder;
+    background-color: transparent;
+}
+
+.make_scale:hover {
+    scale: 1.1;
+}
