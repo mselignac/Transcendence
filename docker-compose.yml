@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   database:
     image: postgres:13
@@ -46,7 +46,7 @@ services:
   #   working_dir: /app
 
   frontend:
-    build: 
+    build:
       dockerfile: Dockerfile
       context: ./frontend
     ports:
