@@ -11,37 +11,32 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  login     String    @unique
-
+  id        Int       @id @default(autoincrement())
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
 
   email String @unique
   hash  String
 
-  nickName String
   firstName String?
   lastName  String?
 
-  accessToken String? @unique
-
-  // bookmarks Bookmark[]
+  bookmarks Bookmark[]
 
   @@map("users")
 }
 
-// model Bookmark {
-//   id        Int       @id @default(autoincrement())
-//   createAt  DateTime  @default(now())
-//   updateAT  DateTime  @default(now())
+model Bookmark {
+  id        Int       @id @default(autoincrement())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
 
-//   title       String
-//   description String?
-//   link        String
+  title       String
+  description String?
+  link        String
 
-//   userId  Int
-//   user User @relation(fields: [userId], references: [id])
+  userId  Int
+  user User @relation(fields: [userId], references: [id])
 
-  // @@map("bookmarks")
-// }
+  @@map("bookmarks")
+}

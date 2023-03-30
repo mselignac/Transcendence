@@ -5,7 +5,7 @@ COMPOSE	= docker-compose -p $(NAME)
 all: $(NAME)
 
 $(NAME):
-	$(COMPOSE) up --build -d
+	$(COMPOSE) up --build
 
 start:
 	$(COMPOSE) start
@@ -24,18 +24,6 @@ prune:
 	$(COMPOSE) down -v
 	docker system prune --volumes --force --all
 	docker image prune --all --force
-
-log-back:
-	docker logs backend-transcendence -f
-
-log-db:
-	docker logs database-transcendence -f
-
-log-front:
-	docker logs frontend-transcendence -f
-
-prisma-studio:
-	docker exec -it backend-transcendence sh -c 'npx prisma studio'
 
 clean: down
 
