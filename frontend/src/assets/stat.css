@@ -1,0 +1,70 @@
+@import './base.css';
+
+.stat_div {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 3fr;
+    border-radius: 20px 20px 20px 20px;
+}
+
+.stats_left {
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr 1fr 8fr;
+    grid-column: 1;
+    background-color: rgba(0, 0, 255, 0);
+    border-radius: 20px 0px 0px 20px;
+}
+
+.stats_right {
+    display: grid;
+    grid-column: 2;
+    grid-template-rows: 1fr 7fr;
+    background-color: rgba(32, 32, 32, 0.308);
+    border-radius: 0px 20px 20px 0px;
+}
+
+.stats_right_top {
+    display: flex;
+    grid-row: 1;
+    color: rgb(137, 170, 207);
+    justify-content: center;
+    align-items: center;
+    font-size: 200%;
+    background-color: rgb(34, 62, 114);
+    border-radius: 0px 20px 0px 0px;
+}
+
+.game_history_test {
+    display: flex;
+    grid-row: 2;
+    background-color: transparent;
+}
+
+.lvl_test {
+    display: flex;
+    grid-row: 3;
+    background-color: transparent;
+}
+
+.achievements_test {
+    display: flex;
+    grid-row: 4;
+    background-color: transparent;
+}
+
+.game_history_button_test {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 180%;
+    border-color: transparent;
+    color: rgba(154, 179, 212, 0.685);
+    background-color: transparent;
+}
+
+.game_history_button_test:hover {
+    background-color: rgb(28, 46, 73);
+}
