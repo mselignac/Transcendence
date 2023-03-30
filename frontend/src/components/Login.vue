@@ -25,9 +25,9 @@ export default {
     </div>
     <RouterView/>
     <!-- <button className="button_test">{{ msg }}</button> -->
-    
-    
-    
+
+
+
     <!-- <RouterLink to="/log" className="button_test">Login</RouterLink>
     <RouterView /> -->
   <!-- </div> -->
