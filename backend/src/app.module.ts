@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module } from 'aaaaa/@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { ConfigModule } from '@nestjs/config';
-import * as Joi from '@hapi/joi';
+import { ConfigModule } from 'aaaaa/@nestjs/config';
+import * as Joi from 'aaaaa/@types/hapi__joi';
 
 @Module({
   imports: [

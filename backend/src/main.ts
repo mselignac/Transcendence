@@ -1,6 +1,6 @@
 import "reflect-metadata"
-import { ValidationPipe } from '@nestjs/common/pipes';
-import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from 'aaaaa/@nestjs/common/pipes';
+import { NestFactory } from 'aaaaa/@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -9,6 +9,6 @@ async function bootstrap() {
     whitelist: true,
     }),
   );
-  await app.listen(3001);
+  await app.listen(3000);
 }
 bootstrap();

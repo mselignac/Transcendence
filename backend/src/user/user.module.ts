@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module } from 'aaaaa/@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
