@@ -37,17 +37,22 @@ export default {
                 <div className="logo_chat_test">
                     <font-awesome-icon icon="fa-regular fa-face-laugh-beam" />
                 </div>
-                <form @submit.prevent="send_msg">
-                    <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
-                </form>
+                <div className="type_msg">
+                    <form @submit.prevent="send_msg" className="type_msg_test">
+                        <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
+                    </form>
+                </div>
                 <!-- <input className="type_msg_test" v-model="text" placeholder='Type a message ...'> -->
             </div>
             <div className="chat_msg_div">
-                <ul>
-                    <li v-for="chat in msg" :key="chat.id" className="msg">
-                    <h1 className="msg_test">{{ chat.text }}</h1>
-                    </li>
-                </ul>
+                <!-- <div className="msg_me"> -->
+                    <ul>
+                        <li v-for="chat in msg" :key="chat.id" className="msg">
+                        <h1 className="msg_test">{{ chat.text }}</h1>
+                        </li>
+                    </ul>
+                <!-- </div> -->
+                <!-- <div className="msg_other"></div> -->
             </div>
         </div>
       </div>

@@ -153,7 +153,7 @@ export default {
         </div>
 
         <div className="border_middle_top_right">
-          <form @submit.prevent="search_users" >
+          <form @submit.prevent="search_users" className="placeholder_search">
             <input className="placeholder_search" v-model="search_user" placeholder='search'>
           </form>
         </div>

@@ -1,7 +1,7 @@
 import Axios from './caller.service'
 
 let login = (credentials) => {
-    return Axios.post('/auth/signin', credentials)
+    return Axios.post('/auth/login', credentials)
 }
 
 let usersMe = () => {

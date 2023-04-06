@@ -44,7 +44,7 @@ export default {
       <form @submit.prevent="login">
           <div class="formGroup">
               <label for="user_email">Email</label>
-              <input type="text" id="user_email" v-model="user.email"/>
+              <input type="text" id="user_email" v-model="user.login"/>
           </div>
           <div class="formGroup">
               <label for="user_password">Mot de passe</label>
@@ -65,7 +65,7 @@ export default {
   data(){
       return {
           user: {
-              email: '',
+              login: '',
               password: ''
           }
       }
