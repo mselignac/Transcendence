@@ -3,12 +3,21 @@ import Borders from './Borders.vue'
 </script>
 
 <script>
+
+let id = 0
+
 export default {
     data() {
         return {
-            msg: 'test log',
             text: '',
+            msg: [],
         }
+    },
+    methods: {
+      send_msg() {
+          this.msg.push({ id: id++, text: this.text }),
+          this.text = ''
+      },
     }
 }
 </script>
@@ -28,9 +37,41 @@ export default {
                 <div className="logo_chat_test">
                     <font-awesome-icon icon="fa-regular fa-face-laugh-beam" />
                 </div>
-                <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
+                <form @submit.prevent="send_msg">
+                    <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
+                </form>
+                <!-- <input className="type_msg_test" v-model="text" placeholder='Type a message ...'> -->
+            </div>
+            <div className="chat_msg_div">
+                <ul>
+                    <li v-for="chat in msg" :key="chat.id" className="msg">
+                    <h1 className="msg_test">{{ chat.text }}</h1>
+                    </li>
+                </ul>
             </div>
         </div>
       </div>
-  
   </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <script setup>
+    import { Chat } from "@chat-ui/vue3";
+    function handleMessage(message){
+        console.log(message)
+    }
+</script>
+<template>
+    <Chat :chat="[]" :onSend="handleMessage" />
+</template> -->
+<!-- https://vuejsexamples.com/fully-customizable-chat-ui-for-different-frameworks/ -->

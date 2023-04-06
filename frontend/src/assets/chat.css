@@ -10,9 +10,12 @@
     display: grid;
     width: 100%;
     height: 100%;
+    /* height: 100vh; */
     grid-template-rows: 1fr 13fr 1fr;
     border-radius: 20px 20px 20px 20px;
-    background-color: rgba(75, 82, 104, 0.377);
+    /* background-color: rgba(75, 82, 104, 0.377); */
+    /* background-color: red; */
+    overflow: hidden;
 }
 
 .chat_top_test {
@@ -24,6 +27,7 @@
     align-items: center;
     color: rgb(31, 31, 31);
     border-bottom: 2px solid rgba(186, 189, 216, 0.897);
+    overflow: hidden;
 }
 
 .chat_bottom_test {
@@ -33,6 +37,14 @@
     border-radius: 0px 0px 20px 20px;
     align-items: center;
     background-color: rgba(37, 53, 107, 0.452);
+    overflow: hidden;
+}
+
+.chat_msg_div {
+    display: flex;
+    grid-row: 2;
+    justify-content: flex-end;
+    overflow-y: scroll;
 }
 
 .logo_chat_profile_test {
@@ -75,3 +87,25 @@
     outline: 0px solid transparent;
 }
 
+.msg {
+    display: flex;
+    /* width: 80%; */
+    width: 100%;
+    font-size: 250%;
+    margin-top: 20px;
+    margin-right: 30px;
+
+    background-color: red;
+    justify-content: flex-end;
+    color: rgb(124, 160, 214);
+}
+
+.msg_test {
+    display: flex;
+    /* width: 80%; */
+    font-size: 130%;
+    margin: 10%;
+    background-color: rgb(26, 72, 172);
+    border-radius: 20px 20px 0px 20px;
+    justify-content: flex-end;
+}

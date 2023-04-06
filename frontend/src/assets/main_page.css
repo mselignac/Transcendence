@@ -12,13 +12,15 @@
 
 .main_div {
     display: flex;
-    height: 85%;
+    /* height: 85%; */
+    height: 85vh;
     background-color: rgba(54, 60, 68, 0.623);
     margin-top: 7%;
     margin-left: 10%;
     margin-right: 33%;
     margin-bottom: 5%;
     border-radius: 20px 20px 20px 20px;
+    /* background-color: red; */
 }
 
 .main_page_div {

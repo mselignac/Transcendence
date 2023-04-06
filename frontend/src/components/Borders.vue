@@ -1,16 +1,23 @@
 <script>
-import axios from 'axios'
-// import User from '../assets/user.webp'
+import { accountService } from '@/_services'
+
+let id = 0
 
 export default {
     data() {
         return {
-          text: '',
           search_user: '',
+          user_exist: false,
+          user_not_exist: false,
           friend: false,
           channel: false,
           channels_friends: true,
           users: [],
+          newFriend: '',
+          friends: [],
+          newChannel: '',
+          channels: [],
+          token: ''
         }
     },
     methods: {
@@ -28,19 +35,39 @@ export default {
         this.channel = false
         this.channels_friends = true
       },
-    },
+      addFriend() {
+          this.friends.push({ id: id++, text: this.newFriend }),
+          this.newFriend = ''
+      },
+      removeFriend(friends) {
+          this.friends = this.friends.filter((t) => t !== friends)
+      },
+      addChannel() {
+          this.channels.push({ id: id++, text: this.newChannel }),
+          this.newChannel = ''
+      },
+      removeChannel(channels) {
+          this.channels = this.channels.filter((t) => t !== channels)
+      },
+      search_users() {
+        if (this.search_user === this.users.username) {
+          this.user_exist = true,
+        this.user_not_exist = false }
+        else {
+            this.user_exist = false,
+            this.user_not_exist = true }
+        this.search_user = ''
+      },
     mounted() {
-    //   const headers = {
-    //       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZWxpc2FAZ21haWwuY29tIiwiaWF0IjoxNjgwMTk1MDkxLCJleHAiOjE2ODAxOTU5OTF9.szBy5hq5NDDX7a4nPJgJK_DmeatwEKX0nJni1EBgu6M',
-    //   };
-      axios
-        // .get('http://localhost:3000/users/me', { headers })
-        .get('https://jsonplaceholder.typicode.com/users/1')
-        .then((response) => {
-          this.users = response.data
-          console.log(this.users.username)
-        })
-    },
+      console.log("salut");
+      accountService.usersMe()
+          .then(res => {
+            console.log(res)
+            // this.$router.push('/main-page')
+          })
+          .catch(err => console.log(err))
+        }
+    }
 }
 </script>
 
@@ -64,21 +91,16 @@ export default {
 
 
 
-
-
   <div className="borders_div">
 
     <div className="borders_right">
-
       <div className="border_right_top">
         <div className="border_right_top_left">
-          <!-- <RouterLink to="profile" className="routers_profile">Username</RouterLink> -->
-          <RouterLink to="profile" className="routers_profile">{{ users.username }}</RouterLink>
+          <h1 className="routers_profile">{{ users.email }}</h1>
         </div>
         <div className="border_right_top_right">
-          <RouterLink to="profile" className="routers_profile"><font-awesome-icon icon="fa-solid fa-user" /></RouterLink>
+          <RouterLink to="profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>
         </div>
-
       </div>
 
 
@@ -92,24 +114,34 @@ export default {
           </div>
         </div>
         <div className="border_right_bottom_two">
-          <input v-if="channels_friends" className="placeholder_search_friends" v-model="text" placeholder='add friends'>
-          <input v-else className="placeholder_search_friends" v-model="text" placeholder='search channel'>
+          <form v-if="channels_friends" @submit.prevent="addFriend"  className="border_right_bottom_two">
+            <input className="placeholder_search_friends" v-model="newFriend" placeholder='add friends'>
+          </form>
+          <form v-else @submit.prevent="addChannel" className="border_right_bottom_two">
+            <input className="placeholder_search_friends" v-model="newChannel" placeholder='search channel'>
+          </form>
         </div>
         <div v-if="channels_friends" className="border_right_bottom_three">
-            <button @click="friend_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" /> friend</button>
-            <button @click="friend_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" /> friend</button>
-            <button @click="friend_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" /> friend</button>
-            <button @click="friend_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" /> friend</button>
+          <ul>
+            <h1 v-if="!friends.length" className="no_friends">you don't have any friends</h1>
+            <h1 v-if="!friends.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-sad-tear" /></h1>
+            <li v-for="friend in friends" :key="friend.id" className="friends_usernames">
+              <button @click="friend_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.text }}</button>
+              <button @click="removeFriend(friend)">X</button>
+            </li>
+          </ul>
         </div>
         <div v-else className="border_right_bottom_three">
-            <button @click="channel_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" /> channels</button>
-            <button @click="channel_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" /> channels</button>
-            <button @click="channel_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" /> channels</button>
-            <button @click="channel_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" /> channels</button>
+          <ul>
+            <h1 v-if="!channels.length" className="no_friends">you haven't joined channels</h1>
+            <h1 v-if="!channels.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-grimace" /></h1>
+            <li v-for="channel in channels" :key="channel.id" className="friends_usernames">
+              <button @click="channel_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" />{{ channel.text }}</button>
+              <button @click="removeChannel(channel)">X</button>
+            </li>
+          </ul>
         </div>
       </div>
-
-
     </div>
 
     <div className="borders_middle">
@@ -121,9 +153,14 @@ export default {
         </div>
 
         <div className="border_middle_top_right">
-          <input className="placeholder_search" v-model="search_user" placeholder='search'>
+          <form @submit.prevent="search_users" >
+            <input className="placeholder_search" v-model="search_user" placeholder='search'>
+          </form>
         </div>
-
+      </div>
+      <div className="border_middle_two">
+          <RouterLink to="profile" v-if="user_exist" className="msg_user_exist">user</RouterLink>
+          <h1 v-if="user_not_exist" className="msg_error_search_user">user doesn't exist</h1>
       </div>
 
     </div>
