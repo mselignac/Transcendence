@@ -6,29 +6,29 @@ import Page from './components/MainPage.vue'
 import Chat from './components/Chat.vue'
 import Profile from './components/Profile.vue'
 import Borders from './components/Borders.vue'
-</script>
 
-<script>
-export default {
-    data() {
-        return {
-            log: true
-        }
-    },
-    methods: {
-      toggle() {
-        this.log = !this.log
-      }
-    }
-}
 </script>
 
 <template>
-  <div className="app">
-    <div className="test_div">
-      <RouterLink to="/login" className="button_test" @click="toggle" v-if="log">Login</RouterLink>
-      <RouterView/>
-    </div>
+  <div id="app">
+    <Pong />
   </div>
-
 </template>
+
+<script>
+import Pong from './components/Pong.vue'
+
+export default {
+  name: 'app',
+  components: {
+    Pong
+  }
+}
+</script>
+
+
+<style>
+    body {
+        background-color: #ddd;
+    }
+</style>

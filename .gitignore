@@ -12,3 +12,5 @@ tsconfig.tsbuildinfo
 # vim utils
 *.swp
 *.vim
+
+test-brouillon/
