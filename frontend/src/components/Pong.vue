@@ -11,7 +11,11 @@
 </template>
 
 <script>
-    import io from "socket.io-client";
+
+    import { io } from "socket.io-client";
+
+    const socket = io("ws://localhost:3000");
+
     export default {
         name: 'Pong',
         data() {
@@ -24,12 +28,12 @@
                 }
             }
         },
-        created() { 
-            this.socket = io("http://localhost:3000");
-        },
+        // created() { 
+        //     this.socket = io("ws://localhost:3000");
+        // },
         mounted() {
                 this.context = this.$refs.game.getContext("2d");
-                this.socket.on("position", data => {
+                socket.on("position", data => {
                 this.position = data;
                 this.context.clearRect(0, 0, this.$refs.game.width, this.$refs.game.height);
                 this.context.fillStyle = "#FFFFFF";
@@ -39,7 +43,10 @@
             });
         },
         methods: {
-            move(direction) { this.socket.emit("move", direction); },
+            move(direction) { socket.emit("move", direction); 
+            socket.on('error', function (err) {
+                console.log(err);
+            });},
         }
     }
 </script>

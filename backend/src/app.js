@@ -7,9 +7,11 @@ var position = {
     y: 200
 };
 
-Socketio.on("connection", socket => {
+Socketio.on("connection", function(socket) {
+    console.log("connection to socket");
     socket.emit("position", position);
     socket.on("move", data => {
+        console.log("oskour");
         switch(data) {
             case "left":
                 position.x -= 5;

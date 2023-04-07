@@ -11,3 +11,6 @@ import { PongController } from './pong/pong.controller';
   controllers: [PongController],
 })
 export class AppModule {}
+
+
+// @CrossOrigin - > add to controller
