@@ -113,8 +113,8 @@
 
 .msg {
     display: flex;
-    /* width: 100%; */
-    grid-column: 2/4;
+    width: 100%;
+    /* grid-column: 2/4; */
     font-size: 250%;
     /* margin-top: 20px;
     margin-right: 30px; */
@@ -138,6 +138,7 @@
     display: flex;
     background-color: green;
     grid-column: 2/4;
+    justify-content: flex-end;
 }
 
 .msg_other {

@@ -30,6 +30,19 @@ export default {
             <div className="stats_right_top">
                 <h1>Achievements</h1>
             </div>
+            <div className="achievements_div">
+                <div className="achievement_div">
+                    <h1 className="achievement">premier achievement</h1>
+                    <h1 className="achievement">deuxieme achievement</h1>
+                    <h1 className="achievement">troisieme achievement</h1>
+                </div>
+                <div className="achievements_icon_div">
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                </div>
+            </div>
+            <h1>(a changer, c'etait juste pour voir le rendu vite fait)</h1>
         </div>
     </div>
   </div>

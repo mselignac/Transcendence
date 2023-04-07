@@ -45,18 +45,22 @@ export default {
                 <!-- <input className="type_msg_test" v-model="text" placeholder='Type a message ...'> -->
             </div>
             <div className="chat_msg_div">
-                <!-- <div className="msg_me"> -->
+                <div className="msg_me">
                     <ul>
                         <li v-for="chat in msg" :key="chat.id" className="msg">
                         <h1 className="msg_test">{{ chat.text }}</h1>
                         </li>
                     </ul>
-                <!-- </div> -->
+                </div>
                 <!-- <div className="msg_other"></div> -->
             </div>
         </div>
       </div>
   </template>
+
+
+
+
 
 
 
