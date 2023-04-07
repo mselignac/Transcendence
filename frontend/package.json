@@ -19,6 +19,7 @@
     "es6-promise": "^4.2.8",
     "save": "^2.9.0",
     "vue": "^3.2.47",
+    "vue-3-socket.io": "^1.0.5",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.1.6"
   },

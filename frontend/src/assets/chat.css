@@ -114,35 +114,96 @@
 .msg {
     display: flex;
     width: 100%;
-    /* grid-column: 2/4; */
     font-size: 250%;
-    /* margin-top: 20px;
-    margin-right: 30px; */
-
     background-color: red;
     justify-content: flex-end;
     color: rgb(124, 160, 214);
 }
 
+
 .msg_test {
     display: flex;
-    /* width: 80%; */
-    font-size: 130%;
-    margin: 10%;
+    font-size: 170%;
+    margin-top: 5px;
+    margin-right: 15px;
+    padding: 10px;
     background-color: rgb(26, 72, 172);
     border-radius: 20px 20px 0px 20px;
     justify-content: flex-end;
+    color: rgba(255, 255, 255, 0.904);
 }
 
 .msg_me {
     display: flex;
-    background-color: green;
+    width: 100%;
+    grid-row: 1;
+    /* background-color: green; */
     grid-column: 2/4;
-    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
 }
 
-.msg_other {
+.msg_user {
     display: flex;
-    background-color: rgb(0, 128, 122);
+    grid-row: 1;
+    /* background-color: rgb(0, 128, 122); */
     grid-column: 1/3;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.msg_user_test {
+    display: flex;
+    width: 95%;
+    font-size: 170%;
+    margin-top: 5px;
+    margin-left: 15px;
+    padding: 10px;
+    background-color: rgb(78, 83, 94);
+    border-radius: 20px 20px 20px 0px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    color: rgba(255, 255, 255, 0.904);
+}
+
+.msg_form {
+    display: flex;
+    /* background-color: green; */
+    grid-column: 1/5;
+    flex-direction: column;
+    /* justify-content: flex-start; */
+    align-items: flex-end;
+}
+
+.msg_me_test {
+    display: flex;
+    width: 100%;
+    grid-row: 1;
+    background-color: rgb(107, 0, 128);
+    grid-column: 1/3;
+    /* align-items: flex-end; */
+    flex-direction: column;
+    /* justify-content: flex-end; */
+}
+
+
+
+
+
+
+
+
+
+
+.test_msg {
+    display: flex;
+    width: 95%;
+    font-size: 170%;
+    margin-top: 5px;
+    margin-right: 15px;
+    padding: 10px;
+    background-color: rgb(26, 72, 172);
+    border-radius: 20px 20px 0px 20px;
+    justify-content: flex-end;
+    color: rgba(255, 255, 255, 0.904);
 }

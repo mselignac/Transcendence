@@ -10,13 +10,19 @@ export default {
     data() {
         return {
             text: '',
+            text_test: '',
             msg: [],
+            msg_test: [],
         }
     },
     methods: {
       send_msg() {
-          this.msg.push({ id: id++, text: this.text }),
+          this.msg.push({ id: id++, text: this.text, me: true}),
           this.text = ''
+      },
+      send_msg_test() {
+          this.msg.push({ id: id++, text: this.text_test, me: false }),
+          this.text_test = ''
       },
     }
 }
@@ -41,18 +47,45 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
+                    <form @submit.prevent="send_msg_test" className="type_msg_test">
+                        <input className="type_msg_test" v-model="text_test" placeholder='reponse'>
+                    </form>
                 </div>
                 <!-- <input className="type_msg_test" v-model="text" placeholder='Type a message ...'> -->
             </div>
             <div className="chat_msg_div">
-                <div className="msg_me">
-                    <ul>
-                        <li v-for="chat in msg" :key="chat.id" className="msg">
-                        <h1 className="msg_test">{{ chat.text }}</h1>
+                    <!-- <ul className="msg_me">
+                        <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                            <h1 className="msg_test">{{ chat.text }}</h1>
                         </li>
                     </ul>
-                </div>
-                <!-- <div className="msg_other"></div> -->
+                    <ul className="msg_user">
+                        <li v-for="chat_test in msg_test" :key="chat_test.id" className="msg_form">
+                            <h1 className="msg_user_test">{{ chat_test.text }}</h1>
+                        </li>
+                    </ul> -->
+                    <!-- <ul className="msg_me"> -->
+                        <!-- <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                            <div v-if="chat.me">
+                                <h1 className="msg_test">{{ chat.text }}</h1>
+                            </div>
+                            <div v-else>
+                                <h1 className="msg_user_test">{{ chat.text }}</h1>
+                            </div>
+                        </li> -->
+                    <!-- </ul> -->
+
+                    
+                    <!-- <ul className="msg_me"> -->
+                        <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                            <!-- <div v-if="chat.me"> -->
+                                <h1 v-if="chat.me" className="test_msg">{{ chat.text }}</h1>
+                                <h1 v-else className="msg_user_test">{{ chat.text }}</h1>
+                            <!-- </div>
+                            <div v-else> -->
+                            <!-- </div> -->
+                        </li>
+                    <!-- </ul> -->
             </div>
         </div>
       </div>
@@ -62,7 +95,7 @@ export default {
 
 
 
-
+<!-- className="msg_form" -->
 
 
 
