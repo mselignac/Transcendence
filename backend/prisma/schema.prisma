@@ -11,20 +11,23 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  login     String    @unique
-
+  id        String    @id @unique @default(uuid())
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
 
-  email String @unique
-  hash  String
+  checkID String @unique
 
-  nickName String
-  firstName String?
-  lastName  String?
+  login       String  @unique
+  fullName    String
+  avatarUrl   String
+  firstName   String
+  lastName    String
+  email       String  @unique
+  phonenumber String?
+  country     String?
 
-  accessToken String? @unique
+  twofactor                     Boolean @default(false)
+  twoFactorAuthenticationSecret String
 
   // bookmarks Bookmark[]
 

@@ -1,10 +1,11 @@
-import { Module } from 'aaaaa/@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { ConfigModule } from 'aaaaa/@nestjs/config';
-import * as Joi from 'aaaaa/@types/hapi__joi';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,9 +17,9 @@ import * as Joi from 'aaaaa/@types/hapi__joi';
           SECRET: Joi.string().required(),
       })
     }),
-    // ...
   ],
-  // ...
+  controllers: [],
+  providers: [JwtService],
 })
 
 export class AppModule {}

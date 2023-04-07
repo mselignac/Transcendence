@@ -1,5 +1,5 @@
-import { INestApplication, ValidationPipe } from 'aaaaa/@nestjs/common';
-import {Test} from 'aaaaa/@nestjs/testing'
+import { INestApplication, ValidationPipe } from '@nestjs/common';
+import {Test} from '@nestjs/testing'
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AppModule } from '../src/app.module';
 import * as pactum from 'pactum';

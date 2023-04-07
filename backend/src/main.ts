@@ -1,14 +1,15 @@
 import "reflect-metadata"
-import { ValidationPipe } from 'aaaaa/@nestjs/common/pipes';
-import { NestFactory } from 'aaaaa/@nestjs/core';
+import { ValidationPipe } from '@nestjs/common/pipes';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: { credentials: true, origin: "*" }},);
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
+    transform: true,
     }),
-  );
+    );
   await app.listen(3000);
 }
 bootstrap();

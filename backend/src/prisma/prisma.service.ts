@@ -1,6 +1,6 @@
-import { Injectable } from 'aaaaa/@nestjs/common';
-import { ConfigService } from 'aaaaa/@nestjs/config';
-import { PrismaClient } from 'aaaaa/@prisma/client';
+import { Injectable } from 'node_modules/@nestjs/common';
+import { ConfigService } from 'node_modules/@nestjs/config';
+import { PrismaClient } from 'node_modules/@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient {

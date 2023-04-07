@@ -1,4 +1,4 @@
-import { Module } from 'aaaaa/@nestjs/common';
+import { Module } from '@nestjs/common';
 
 @Module({})
 export class BookmarkModule {}
