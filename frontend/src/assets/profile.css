@@ -1,5 +1,5 @@
 @import './base.css';
-
+/* 
 #profile {
     display: flex;
     width: 100vw;
@@ -12,9 +12,10 @@
 .user_div {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    background-color: rgba(103, 107, 126, 0.247);
+    background-color: rgba(103, 107, 126, 0.308);
     margin: 3%;
     border-radius: 0px 20px 20px 0px;
+    background-color: #245a437c;
 }
 
 .user_left {
@@ -22,6 +23,7 @@
     grid-column: 1;
     grid-template-rows: 1fr 3fr;
     background-color: rgba(51, 62, 158, 0.541);
+    background-color: #295f4e;
 }
 
 .user_left_top {
@@ -33,6 +35,7 @@
     justify-content: center;
     color: rgb(38, 33, 75);
     border-bottom: 3px solid rgba(23, 16, 87, 0.226);
+    background-color: #3d6659;
 }
 
 .user_left_other {
@@ -40,24 +43,28 @@
 
     grid-template-rows: 1fr 1fr 1fr 1fr 5fr;
     background-color: rgba(144, 144, 158, 0.685);
+    background-color: #5e5e5e;
 }
 
 .game_history {
     display: flex;
     grid-row: 1;
     background-color: rgb(20, 41, 177);
+    background-color: transparent;
 }
 
 .lvl {
     display: flex;
     grid-row: 2;
     background-color: rgb(20, 41, 177);
+    background-color: transparent;
 }
 
 .achievements {
     display: flex;
     grid-row: 3;
     background-color: rgb(20, 41, 177);
+    background-color: transparent;
 }
 
 .game_history_button {
@@ -70,11 +77,13 @@
     background-color: rgba(159, 159, 180, 0.904);
     border-color: transparent;
     color: rgba(41, 40, 105, 0.685);
+    background-color: transparent;
 }
 
 .game_history_button:hover {
     font-weight: bolder;
     background-color: rgba(125, 125, 173, 0.904);
+    background-color: #6db1943b;
 }
 
 .user_right {
@@ -91,14 +100,16 @@
     background-color: rgba(30, 28, 124, 0.171);
     justify-content: center;
     align-items: center;
-    border-radius: 0px 20px 20px 0px;
+    border-radius: 0px 20px 0px 0px;
     font-size: 175%;
+    background-color: #295f4e4f;
 }
 
 .game_history_div {
     display: grid;
     grid-row: 2;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 8fr 1fr 8fr 1fr 8fr 1fr 8fr 1fr 8fr;
+    background-color: rgba(61, 43, 226, 0.151);
 }
 
 .player_left {
@@ -111,7 +122,6 @@
     display: flex;
     height: 15%;
     width: 100%;
-    background-color: rgba(61, 43, 226, 0.151);
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid rgba(17, 0, 255, 0.151);
@@ -119,25 +129,25 @@
 
 .game_history_vs {
     display: flex;
-    grid-column: 2;
+    grid-column: 3;
     flex-direction: column;
 }
 
 .player_right {
     display: flex;
-    grid-column: 3;
+    grid-column: 5;
     flex-direction: column;
 }
 
 .score {
     display: flex;
-    grid-column: 4;
+    grid-column: 7;
     flex-direction: column;
 }
 
 .victory {
     display: flex;
-    grid-column: 5;
+    grid-column: 9;
     flex-direction: column;
 }
 
@@ -145,10 +155,117 @@
     display: flex;
     height: 15%;
     width: 100%;
-    background-color: rgba(61, 43, 226, 0.151);
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid rgba(17, 0, 255, 0.151);
     font-weight: bolder;
     font-size: 300%;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.profile_div {
+    display: grid;
+    /* grid-template-rows: 2fr 1fr 3fr; */
+    grid-template-rows: 3fr 1fr 3fr 1fr;
+    width: 100%;
+    height: 100%;
+}
+
+.profile_picture {
+    display: flex;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    /* background-color: blue; */
+}
+
+.profile_username {
+    display: flex;
+    grid-row: 2;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: rgb(58, 56, 56); */
+}
+
+.profile_bottom {
+    display: flex;
+    grid-row: 3;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rgb(51, 42, 42); */
+}
+
+.profile_picture_button {
+    display: flex;
+    width: 30%;
+    /* height: 78%; */
+    justify-content: center;
+    align-items: center;
+    /* border-radius: 20px 20px 20px 20px; */
+    border-radius: 50%;
+    /* font-size: 1000%; */
+    color: rgb(128, 128, 128);
+    /* border: 2px solid rgb(97, 97, 97); */
+    /* box-shadow: inset 5px 0px 25px rgba(3, 22, 63, 0.705); */
+    border-color: transparent;
+    background-color: transparent;
+    /* background-color: rgba(10, 20, 116, 0.822); */
+
+}
+
+.profile_picture_button:hover {
+    scale: 1.02;
+}
+
+.profile_change_username {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+    /* margin-top: 3%; */
+    font-size: 180%;
+    background-color: rgba(35, 58, 100, 0.856);
+    /* border-color: rgb(90, 89, 89); */
+    border: 1px solid hsl(0, 0%, 13%);
+    border-radius: 8px 8px 8px 8px;
+}
+
+.profile_user {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 350%;
+    font-weight: bold;
+    color: rgb(27, 27, 27);
+}
+
+.img_profile {
+    width: 100%;
+    border-radius: 50%;
 }
