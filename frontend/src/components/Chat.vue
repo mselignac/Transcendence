@@ -54,57 +54,14 @@ export default {
                 <!-- <input className="type_msg_test" v-model="text" placeholder='Type a message ...'> -->
             </div>
             <div className="chat_msg_div">
-                    <!-- <ul className="msg_me">
-                        <li v-for="chat in msg" :key="chat.id" className="msg_form">
-                            <h1 className="msg_test">{{ chat.text }}</h1>
-                        </li>
-                    </ul>
-                    <ul className="msg_user">
-                        <li v-for="chat_test in msg_test" :key="chat_test.id" className="msg_form">
-                            <h1 className="msg_user_test">{{ chat_test.text }}</h1>
-                        </li>
-                    </ul> -->
-                    <!-- <ul className="msg_me"> -->
-                        <!-- <li v-for="chat in msg" :key="chat.id" className="msg_form">
-                            <div v-if="chat.me">
-                                <h1 className="msg_test">{{ chat.text }}</h1>
-                            </div>
-                            <div v-else>
-                                <h1 className="msg_user_test">{{ chat.text }}</h1>
-                            </div>
-                        </li> -->
-                    <!-- </ul> -->
-
-                    
-                    <!-- <ul className="msg_me"> -->
-                        <li v-for="chat in msg" :key="chat.id" className="msg_form">
-                            <!-- <div v-if="chat.me"> -->
-                                <h1 v-if="chat.me" className="test_msg">{{ chat.text }}</h1>
-                                <h1 v-else className="msg_user_test">{{ chat.text }}</h1>
-                            <!-- </div>
-                            <div v-else> -->
-                            <!-- </div> -->
-                        </li>
-                    <!-- </ul> -->
+                <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                    <h1 v-if="chat.me" className="test_msg">{{ chat.text }}</h1>
+                    <h1 v-else className="msg_user_test">{{ chat.text }}</h1>
+                </li>
             </div>
         </div>
       </div>
   </template>
-
-
-
-
-
-<!-- className="msg_form" -->
-
-
-
-
-
-
-
-
-
 
 
 <!-- <script setup>
