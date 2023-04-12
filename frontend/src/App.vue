@@ -16,7 +16,11 @@ import Borders from './components/Borders.vue'
 </template>
 
 <script>
+import { ref } from "vue";
 import Pong from './components/Pong.vue'
+import $socket from "./plugin/socket";
+
+let socket = ref($socket);
 
 export default {
   name: 'app',

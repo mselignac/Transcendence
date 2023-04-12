@@ -11,10 +11,12 @@
 </template>
 
 <script>
-
+    import $socket from '../plugin/socket'
     import { io } from "socket.io-client";
 
-    const socket = io("ws://localhost:3000");
+    let socket = $socket;
+
+    // const socket = io("ws://localhost:3001");
 
     export default {
         name: 'Pong',
@@ -29,9 +31,13 @@
             }
         },
         // created() { 
-        //     this.socket = io("ws://localhost:3000");
+        //     this.socket = io("ws://localhost:3001");
         // },
         mounted() {
+            console.log("ZBOUI");
+                socket.on("connect", () => {
+                    console.log("connect to backend");
+                })
                 this.context = this.$refs.game.getContext("2d");
                 socket.on("position", data => {
                 this.position = data;

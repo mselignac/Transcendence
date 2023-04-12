@@ -14,7 +14,7 @@ COPY . .
 # RUN yarn run build
 RUN npx prisma generate
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD [ "yarn", "run", "start:migrate:dev"]
 # FROM node:lts-alpine3.17
