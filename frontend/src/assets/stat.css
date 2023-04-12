@@ -194,6 +194,7 @@
     display: grid;
     height: 150px;
     grid-template-columns: 3fr 1fr;
+    border-bottom: 2px solid rgb(42, 42, 49);
     /* background-color: red; */
 }
 

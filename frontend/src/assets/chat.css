@@ -169,6 +169,7 @@
     border-radius: 20px 20px 20px 0px;
     /* justify-content: flex-start; */
     /* align-items: flex-start; */
+    flex-direction: column;
     margin-right: auto;
     color: rgba(255, 255, 255, 0.904);
 }
@@ -213,5 +214,16 @@
     border-radius: 20px 20px 0px 20px;
     justify-content: flex-end;
     justify-self: flex-start;
+    flex-direction: column;
     color: rgba(255, 255, 255, 0.904);
+}
+
+
+.username_msg {
+    display: flex;
+    font-size: 50%;
+    /* width: 55%; */
+    /* justify-self: flex-end;
+    justify-content: flex-end; */
+    /* background-color: red; */
 }

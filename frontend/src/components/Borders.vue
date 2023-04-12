@@ -73,7 +73,7 @@ export default {
 
 <template>
   <div className="friend_menu" v-if="friend">
-    <RouterLink to="profile" className="elements_menu" v-if="friend">Profile</RouterLink>
+    <RouterLink to="profile-user" className="elements_menu" v-if="friend">Profile</RouterLink>
     <button ref="button" className="elements_menu" v-if="friend">Remove to friend</button>
     <RouterLink to="chat" className="elements_menu" v-if="friend">Send a message</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
@@ -159,7 +159,7 @@ export default {
         </div>
       </div>
       <div className="border_middle_two">
-          <RouterLink to="profile" v-if="user_exist" className="msg_user_exist">user</RouterLink>
+          <RouterLink to="profile-user" v-if="user_exist" className="msg_user_exist">user</RouterLink>
           <h1 v-if="user_not_exist" className="msg_error_search_user">user doesn't exist</h1>
       </div>
 

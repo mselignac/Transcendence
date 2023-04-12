@@ -17,11 +17,11 @@ export default {
     },
     methods: {
       send_msg() {
-          this.msg.push({ id: id++, text: this.text, me: true}),
+          this.msg.push({ id: id++, text: this.text, me: true, username: 'me' }),
           this.text = ''
       },
       send_msg_test() {
-          this.msg.push({ id: id++, text: this.text_test, me: false }),
+          this.msg.push({ id: id++, text: this.text_test, me: false, username: 'user' }),
           this.text_test = ''
       },
     }
@@ -53,10 +53,22 @@ export default {
                 </div>
                 <!-- <input className="type_msg_test" v-model="text" placeholder='Type a message ...'> -->
             </div>
-            <div className="chat_msg_div">
+            <!-- <div className="chat_msg_div">
                 <li v-for="chat in msg" :key="chat.id" className="msg_form">
                     <h1 v-if="chat.me" className="test_msg">{{ chat.text }}</h1>
                     <h1 v-else className="msg_user_test">{{ chat.text }}</h1>
+                </li>
+            </div> -->
+            <div className="chat_msg_div">
+                <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                    <div v-if="chat.me" className="test_msg">
+                        <!-- <p className="username_msg">me</p> -->
+                        <h4>{{ chat.text }}</h4>
+                    </div>
+                    <div v-else className="msg_user_test">
+                        <h4>{{ chat.text }}</h4>
+                        <p className="username_msg">{{ chat.username }}</p>
+                    </div>
                 </li>
             </div>
         </div>
