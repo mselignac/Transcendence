@@ -121,6 +121,7 @@ import { userInfo } from "os";
 // 		await this.prisma.user.update({ where: { id: user.id }, data: { accessToken: null } });
 // 	}
 // }
+
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService) {}
@@ -153,36 +154,9 @@ export class AuthService {
       };
     }
 
-		const accessToken = await this.getAccessToken(login);
-		if (!accessToken) {
-		return null;
-		}
-
-		await this.prisma.user.update({ where: { id: user.id }, data: { accessToken } });
-		return user;
-	}
-
-	async getAccessToken(login: string): Promise<string | null> {
-		try {
-		const response = await axios.post(`${this.apiUrl}/oauth/token`, {
-			grant_type: 'password',
-			client_id: process.env.CLIENT_ID,
-			client_secret: process.env.CLIENT_SECRET,
-			username: login,
-		});
-		return response.data.access_token;
-		} catch (error) {
-		console.error(error);
-		return null;
-		}
-	}
-
-	async findUserByToken(token: string): Promise<User | null> {
-		const user = await this.prisma.user.findUnique({ where: { accessToken: token } });
-		return user ?? null;
-	}
-
-	async removeToken(user: User): Promise<void> {
-		await this.prisma.user.update({ where: { id: user.id }, data: { accessToken: null } });
-	}
+    const newUser = await this.prisma.user.create({
+      data,
+    });
+    return { ...newUser, firstLogin: true };
+  }
 }
