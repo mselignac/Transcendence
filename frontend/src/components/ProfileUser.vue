@@ -5,6 +5,7 @@ import axios from 'axios';
 
 <script>
 export default {
+    props: ['id'],
     data() {
         return {
             users: [],
@@ -12,6 +13,16 @@ export default {
             username: 'username'
         }
     },
+    // setup(props){
+    //     console.log(props)
+        // let roger = ref(false)
+        // watch(props, (value, old) => {
+        //     console.log(value.id)
+        //     roger.value = true
+        
+        // })
+        // return {roger}
+    // },
     methods: {
       change_username() {
         this.username = this.text,
@@ -54,7 +65,7 @@ export default {
           <!-- <h1 className="profile_user">{{ users.email }}</h1> -->
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
-          <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
+          <RouterLink to="stats-user" className="button_access_profile">stats</RouterLink>
           <RouterLink to="/chat" className="button_access_profile">chat</RouterLink>
       </div>
 

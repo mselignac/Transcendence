@@ -4,8 +4,10 @@ import { accountService } from '@/_services'
 let id = 0
 
 export default {
+    // props: ['id'],
     data() {
         return {
+          test: 'profile',
           search_user: '',
           user_exist: false,
           user_not_exist: false,
@@ -73,9 +75,10 @@ export default {
 
 <template>
   <div className="friend_menu" v-if="friend">
-    <RouterLink to="profile-user" className="elements_menu" v-if="friend">Profile</RouterLink>
+    <RouterLink :to="'/profile-user/' + this.test" className="elements_menu" v-if="friend">Profile</RouterLink>
+    <!-- <RouterLink :to="{ path: '/profile-user/', props: { id: this.test } }" className="elements_menu" v-if="friend">Profile</RouterLink> -->
     <button ref="button" className="elements_menu" v-if="friend">Remove to friend</button>
-    <RouterLink to="chat" className="elements_menu" v-if="friend">Send a message</RouterLink>
+    <RouterLink to="/chat" className="elements_menu" v-if="friend">Send a message</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button>
     <button className="elements_menu" v-if="friend">Block</button>
@@ -83,7 +86,7 @@ export default {
   </div>
 
   <div className="channel_menu" v-if="channel">
-    <RouterLink to="chat" className="elements_menu" v-if="channel">Chat</RouterLink>
+    <RouterLink to="/chat" className="elements_menu" v-if="channel">Chat</RouterLink>
     <button className="elements_menu" v-if="channel">Quit</button>
     <button className="elements_menu" v-if="channel">Infos</button>
     <button className="close_menu" v-if="channel" @click="channel_menu">close</button>
@@ -99,7 +102,7 @@ export default {
           <h1 className="routers_profile">{{ users.email }}</h1>
         </div>
         <div className="border_right_top_right">
-          <RouterLink to="profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>
+          <RouterLink to="/profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>
         </div>
       </div>
 
@@ -159,18 +162,18 @@ export default {
         </div>
       </div>
       <div className="border_middle_two">
-          <RouterLink to="profile-user" v-if="user_exist" className="msg_user_exist">user</RouterLink>
+          <RouterLink to="/profile-user" v-if="user_exist" className="msg_user_exist">user</RouterLink>
           <h1 v-if="user_not_exist" className="msg_error_search_user">user doesn't exist</h1>
       </div>
 
     </div>
 
     <div className="borders_left">
-      <RouterLink to="main-page" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-house" /></RouterLink>
-      <RouterLink to="game-mode" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gamepad" /></RouterLink>
-      <RouterLink to="stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
-      <RouterLink to="chat" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
-      <RouterLink to="profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
+      <RouterLink to="/main-page" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-house" /></RouterLink>
+      <RouterLink to="/game-mode" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gamepad" /></RouterLink>
+      <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
+      <RouterLink to="/chat" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
+      <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
     </div>
 
   </div>

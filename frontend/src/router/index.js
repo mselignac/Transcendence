@@ -13,6 +13,7 @@ import Ladder from '../components/Ladder.vue'
 import Achievements from '../components/Achievements.vue'
 import NotFound from '../components/NotFound.vue'
 import ProfileUser from '../components/ProfileUser.vue'
+import { authGuard } from '../_helper/auth-guard'
 
 
 const router = createRouter({
@@ -24,7 +25,14 @@ const router = createRouter({
     { path: '/game-mode', component: GameMode },
     { path: '/chat', component: Chat },
     { path: '/profile', component: Profile },
-    { path: '/profile-user', component: ProfileUser },
+    // { path: '/profile-user/:id/', component: ProfileUser , props: true, 
+    //     children: [
+    //       { path: 'stats', name: 'stats-user', component: Stats }
+    //     ]},
+    { path: '/profile-user/:id', component: ProfileUser },//, props: true },
+        // children: [
+        //   { path: 'stats', name: 'stats-user', component: Stats }
+        // ]},
     { path: '/stats', component: Stats },
     { path: '/mode', component: Mode },
     { path: '/game-history', component: GameHistory },
@@ -33,6 +41,13 @@ const router = createRouter({
     { path: '/:pathMatch(.*)*', component: NotFound },
     // { path: '/:pathMatch(.*)*', redirect: '/' },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.matched[0].name == '/login'){
+    authGuard()
+  }
+  next()
 })
 
 export default router
