@@ -10,19 +10,9 @@ export default {
         return {
             users: [],
             text: '',
-            username: 'username'
+            username: this.id
         }
     },
-    // setup(props){
-    //     console.log(props)
-        // let roger = ref(false)
-        // watch(props, (value, old) => {
-        //     console.log(value.id)
-        //     roger.value = true
-        
-        // })
-        // return {roger}
-    // },
     methods: {
       change_username() {
         this.username = this.text,
@@ -59,13 +49,13 @@ export default {
         <!-- <form @submit.prevent="change_username" className="border_right_bottom_two">
           <input className="profile_change_username" v-model="text" placeholder='change username'>
         </form> -->
-        <button>add friend</button>
+        <button className="button_add_friend">add friend</button>
       </div>
       <div className="profile_bottom">
           <!-- <h1 className="profile_user">{{ users.email }}</h1> -->
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
-          <RouterLink to="stats-user" className="button_access_profile">stats</RouterLink>
+          <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
           <RouterLink to="/chat" className="button_access_profile">chat</RouterLink>
       </div>
 

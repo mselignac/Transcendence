@@ -29,7 +29,7 @@ const router = createRouter({
     //     children: [
     //       { path: 'stats', name: 'stats-user', component: Stats }
     //     ]},
-    { path: '/profile-user/:id', component: ProfileUser },//, props: true },
+    { path: '/profile-user/:id', component: ProfileUser, props: true },
         // children: [
         //   { path: 'stats', name: 'stats-user', component: Stats }
         // ]},

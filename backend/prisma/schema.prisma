@@ -24,11 +24,48 @@ model User {
   firstName String?
   lastName  String?
 
+
+
+
+
+  pdp String
+  friends String[]
+  channels String[]
+  achievements String[]
+  games Game[]
+
+
+
+
+
   accessToken String? @unique
 
   // bookmarks Bookmark[]
 
   @@map("users")
+}
+
+model Channels {
+  id        Int       @id @default(autoincrement())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  channels String[]
+}
+
+model Game {
+  id        Int       @id @default(autoincrement())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  player_one String
+  player_two String
+  score String
+  
+  userId  String
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("games")
 }
 
 // model Bookmark {

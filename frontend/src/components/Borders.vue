@@ -4,10 +4,10 @@ import { accountService } from '@/_services'
 let id = 0
 
 export default {
-    // props: ['id'],
     data() {
         return {
-          test: 'profile',
+          test_friend: '',
+          test_channel: '',
           search_user: '',
           user_exist: false,
           user_not_exist: false,
@@ -23,10 +23,13 @@ export default {
         }
     },
     methods: {
-      friend_menu() {
-        this.friend = !this.friend
+      friend_menu(name) {
+        this.friend = !this.friend,
+        this.test_friend = name
+        console.log(this.test_friend)
       },
-      channel_menu() {
+      channel_menu(name) {
+        this.test_channel = name
         this.channel = !this.channel
       },
       show_channels() {
@@ -42,13 +45,15 @@ export default {
           this.newFriend = ''
       },
       removeFriend(friends) {
-          this.friends = this.friends.filter((t) => t !== friends)
+        this.friend = false
+        this.friends = this.friends.filter((t) => t !== friends)
       },
       addChannel() {
           this.channels.push({ id: id++, text: this.newChannel }),
           this.newChannel = ''
       },
       removeChannel(channels) {
+          this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
       search_users() {
@@ -75,9 +80,9 @@ export default {
 
 <template>
   <div className="friend_menu" v-if="friend">
-    <RouterLink :to="'/profile-user/' + this.test" className="elements_menu" v-if="friend">Profile</RouterLink>
+    <RouterLink :to="'/profile-user/' + this.test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
     <!-- <RouterLink :to="{ path: '/profile-user/', props: { id: this.test } }" className="elements_menu" v-if="friend">Profile</RouterLink> -->
-    <button ref="button" className="elements_menu" v-if="friend">Remove to friend</button>
+    <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(this.test_friend)">Remove to friend</button>
     <RouterLink to="/chat" className="elements_menu" v-if="friend">Send a message</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button>
@@ -87,12 +92,10 @@ export default {
 
   <div className="channel_menu" v-if="channel">
     <RouterLink to="/chat" className="elements_menu" v-if="channel">Chat</RouterLink>
-    <button className="elements_menu" v-if="channel">Quit</button>
+    <button className="elements_menu" v-if="channel" @click=removeChannel(this.test_channel)>Quit</button>
     <button className="elements_menu" v-if="channel">Infos</button>
     <button className="close_menu" v-if="channel" @click="channel_menu">close</button>
   </div>
-
-
 
   <div className="borders_div">
 
@@ -129,8 +132,7 @@ export default {
             <h1 v-if="!friends.length" className="no_friends">you don't have any friends</h1>
             <h1 v-if="!friends.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-sad-tear" /></h1>
             <li v-for="friend in friends" :key="friend.id" className="friends_usernames">
-              <button @click="friend_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.text }}</button>
-              <button @click="removeFriend(friend)">X</button>
+              <button @click="friend_menu(friend)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.text }}</button>
             </li>
           </ul>
         </div>
@@ -139,8 +141,8 @@ export default {
             <h1 v-if="!channels.length" className="no_friends">you haven't joined channels</h1>
             <h1 v-if="!channels.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-grimace" /></h1>
             <li v-for="channel in channels" :key="channel.id" className="friends_usernames">
-              <button @click="channel_menu" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" />{{ channel.text }}</button>
-              <button @click="removeChannel(channel)">X</button>
+              <button @click="channel_menu(channel)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" />{{ channel.text }}</button>
+              <!-- <button @click="removeChannel(channel)">X</button> -->
             </li>
           </ul>
         </div>
