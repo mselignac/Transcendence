@@ -31,23 +31,24 @@ export class PongService {
         this.socket.emit("position", this.position);
     }
 
-    move(data) {
+    move(data: any) {
         switch(data) {
             case "left":
                 this.position.x -= 5;
-                this.socket.emit("position", this.position);
+                console.log("kewk");
+                // return this.position;
                 break;
             case "right":
                 this.position.x += 5;
-                this.socket.emit("position", this.position);
+                // return this.position;
                 break;
             case "up":
                 this.position.y -= 5;
-                this.socket.emit("position", this.position);
+                // return this.position;
                 break;
             case "down":
                 this.position.y += 5;
-                this.socket.emit("position", this.position);
+                // return this.position;
                 break;
         }
     }    

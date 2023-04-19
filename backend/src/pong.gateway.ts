@@ -15,6 +15,19 @@ import { PongService } from './pong/pong.service'
 
 export class PongGateway
 {
-    constructor(private pong : PongService){};
-    @WebSocketServer() server: Server;
+  constructor(private pong : PongService){ console.log("Here"); };
+  @WebSocketServer() server: Server;
+
+  @SubscribeMessage('init')
+  connection() {
+    console.log("connected to frontend");
+    this.server.emit("position", this.pong.position);
+  }
+
+  @SubscribeMessage('move')
+  movePlayer(@MessageBody() data: string) {
+    console.log("moving");
+    this.pong.move(data);
+    this.server.emit("position", this.pong.position);
+  }
 }
