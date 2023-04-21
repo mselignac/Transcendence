@@ -83,7 +83,8 @@ export default {
     <RouterLink :to="'/profile-user/' + this.test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
     <!-- <RouterLink :to="{ path: '/profile-user/', props: { id: this.test } }" className="elements_menu" v-if="friend">Profile</RouterLink> -->
     <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(this.test_friend)">Remove to friend</button>
-    <RouterLink to="/chat" className="elements_menu" v-if="friend">Send a message</RouterLink>
+    <!-- <RouterLink to="/chat" className="elements_menu" v-if="friend">Send a message</RouterLink> -->
+    <RouterLink :to="'/chat/' + this.test_friend.text" className="elements_menu" v-if="friend">Send a message</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button>
     <button className="elements_menu" v-if="friend">Block</button>
@@ -91,7 +92,8 @@ export default {
   </div>
 
   <div className="channel_menu" v-if="channel">
-    <RouterLink to="/chat" className="elements_menu" v-if="channel">Chat</RouterLink>
+    <!-- <RouterLink to="/chat" className="elements_menu" v-if="channel">Chat</RouterLink> -->
+    <RouterLink :to="'/chat/' + this.test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
     <button className="elements_menu" v-if="channel" @click=removeChannel(this.test_channel)>Quit</button>
     <button className="elements_menu" v-if="channel">Infos</button>
     <button className="close_menu" v-if="channel" @click="channel_menu">close</button>
@@ -174,7 +176,7 @@ export default {
       <RouterLink to="/main-page" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-house" /></RouterLink>
       <RouterLink to="/game-mode" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gamepad" /></RouterLink>
       <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
-      <RouterLink to="/chat" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
+      <RouterLink :to="'/chat/' + 'jesaispasfautquejechange'" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
       <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
     </div>
 

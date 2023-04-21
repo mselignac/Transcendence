@@ -56,7 +56,7 @@ export default {
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
           <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
-          <RouterLink to="/chat" className="button_access_profile">chat</RouterLink>
+          <RouterLink :to="'/chat/' + this.id" className="button_access_profile">chat</RouterLink>
       </div>
 
     </div>

@@ -23,23 +23,15 @@ const router = createRouter({
     { path: '/login', component: Log },
     { path: '/main-page', component: MainPage },
     { path: '/game-mode', component: GameMode },
-    { path: '/chat', component: Chat },
+    { path: '/chat/:id', component: Chat, props: true },
     { path: '/profile', component: Profile },
-    // { path: '/profile-user/:id/', component: ProfileUser , props: true, 
-    //     children: [
-    //       { path: 'stats', name: 'stats-user', component: Stats }
-    //     ]},
     { path: '/profile-user/:id', component: ProfileUser, props: true },
-        // children: [
-        //   { path: 'stats', name: 'stats-user', component: Stats }
-        // ]},
     { path: '/stats', component: Stats },
     { path: '/mode', component: Mode },
     { path: '/game-history', component: GameHistory },
     { path: '/ladder', component: Ladder },
     { path: '/achievements', component: Achievements },
     { path: '/:pathMatch(.*)*', component: NotFound },
-    // { path: '/:pathMatch(.*)*', redirect: '/' },
   ]
 })
 
@@ -51,5 +43,3 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
-
-// /profile-user/:id

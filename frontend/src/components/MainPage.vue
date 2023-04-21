@@ -24,7 +24,7 @@ export default {
             <RouterLink to="/stats" className="main_page_stats">Stats</RouterLink>
           </div>
           <div className="main_page_top_right">
-            <RouterLink to="/chat" className="main_page_chat">Chat</RouterLink>
+            <RouterLink :to="'/chat/' + 'jesaispasfautquejechange'" className="main_page_chat">Chat</RouterLink>
           </div>
         </div>
         <div className="main_page_bottom">
