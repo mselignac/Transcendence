@@ -108,6 +108,9 @@
                 backImgSprite.y = PongApp.screen.height / 2;
                 backImgSprite.width = PongApp.renderer.height * 5 / 3;
                 backImgSprite.height = PongApp.renderer.height;
+
+                const heightRatio = backImgSprite.height / 1000;
+                const widthRatio = backImgSprite.width / 1000;
                 gameScene.addChild(backImgSprite);
 
                 //Paddles Setup
@@ -115,8 +118,8 @@
                 leftPaddle.anchor.set(0.5, 0.5);
                 leftPaddle.position.set(backImgSprite.x - ((leftPaddle.width / 2) + (backImgSprite.width / 2) * 0.87), backImgSprite.height / 2);
 
-                leftPaddle.scale.x = 1.4;
-                leftPaddle.scale.y = 1.4;
+                leftPaddle.scale.x = 2;
+                leftPaddle.scale.y = 2;
 
                 leftPaddle.vy = 0;
                 gameScene.addChild(leftPaddle);
@@ -125,8 +128,8 @@
                 rightPaddle.anchor.set(0.5, 0.5);
                 rightPaddle.position.set(backImgSprite.x + ((rightPaddle.width / 2) + (backImgSprite.width / 2) * 0.87), backImgSprite.height / 2);
                 
-                rightPaddle.scale.x = 1.4;
-                rightPaddle.scale.y = 1.4;
+                rightPaddle.scale.x = 2;
+                rightPaddle.scale.y = 2;
 
                 rightPaddle.vy = 0;
                 gameScene.addChild(rightPaddle);
@@ -135,6 +138,9 @@
                 ball.anchor.set(0.5, 0.5);
                 ball.x = backImgSprite.x;
                 ball.y = backImgSprite.y;
+
+                ball.scale.x = 2;
+                ball.scale.y = 2;
                 
                 ball.vx = 0;
                 ball.vy = 0;
@@ -147,21 +153,21 @@
 
                 //Up
                 up.press = () => {
-                    leftPaddle.vy = -5;
+                    leftPaddle.vy = -1;
                 };
                 up.release = () => {
                     if (!down.isDown) {
-                    leftPaddle.vy = 0;
+                        leftPaddle.vy = 0;
                     }
                 };
 
                 //Down
                 down.press = () => {
-                    leftPaddle.vy = 5;
+                    leftPaddle.vy = 1;
                 };
                 down.release = () => {
-                    if (!down.isDown) {
-                    leftPaddle.vy = 0;
+                    if (!up.isDown) {
+                        leftPaddle.vy = 0;
                     }
                 };
 
@@ -226,21 +232,20 @@
                 }
 
                 function play(delta) {
-                    leftPaddle.y += leftPaddle.vy;
+                    if (leftPaddle.vy < 0)
+                        socket.emit("move", 'upL');
+                    if (leftPaddle.vy > 0)
+                        socket.emit("move", 'downL');
+                    
                 }
+
+                socket.on('data', dataChariot => {
+                    leftPaddle.y = dataChariot.leftPlayerPosY * heightRatio;
+                    ball.x = dataChariot.ballPosX;
+                    ball.y = dataChariot.ballPosY;
+                })
             },
 
-        },
-
-        computed: {
-            keymap() {
-                return {
-                    'w': {keydown: this.move(up),},
-                    'a': {keydown: this.move(left),},
-                    's': {keydown: this.move(down),},
-                    'd': {keydown: this.move(right),},
-                }
-            }
         },
     }
 </script>

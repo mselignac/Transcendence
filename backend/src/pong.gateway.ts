@@ -21,13 +21,12 @@ export class PongGateway
   @SubscribeMessage('init')
   connection() {
     console.log("connected to frontend");
-    this.server.emit("position", this.pong.position);
+    this.server.emit("data", this.pong.dataChariot);
   }
 
   @SubscribeMessage('move')
   movePlayer(@MessageBody() data: string) {
-    console.log("moving");
     this.pong.move(data);
-    this.server.emit("position", this.pong.position);
+    this.server.emit("data", this.pong.dataChariot);
   }
 }
