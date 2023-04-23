@@ -8,6 +8,8 @@ import {
 
 const VERTICAL_BOUNDS = 87;
 const PADDLE_SIZE = 110;
+const BALLSPEED = 10;
+const MAXBOUNCEANGLE = 5 * Math.PI / 12;
 
 @Injectable()
 export class PongService {
@@ -23,66 +25,140 @@ export class PongService {
         height: this.globalheight,
     };
     dataChariot = {
-        leftPlayerPosY: this.board.height / 2,
-        rightPlayerPosY: this.board.height / 2,
 
-        ballPosX: this.board.width / 2,
-        ballPosY: this.board.height / 2,
+        leftPlayer: {
+            x: 50,
+            y: this.board.height / 2,
+            width: 0,
+            height: PADDLE_SIZE,
+        },
+
+        rightPlayer: {
+            x: 50,
+            y: this.board.height / 2,
+            width: 0,
+            height: PADDLE_SIZE,
+        },
+
+        ball: {
+            x: this.board.width / 2,
+            y: this.board.height / 2,
+            vx: 0,
+            vy: 0,
+            width: 0,
+            height: 0,
+        },
     }
 
-    socket: Server;
+    server: Server;
 
     connection() {
         console.log("connected to frontend");
-        this.socket.emit("data", this.dataChariot);
+        this.server.emit("data", this.dataChariot);
     }
 
     move(data: any) {
         switch(data) {
             case "upL":
-                if (this.dataChariot.leftPlayerPosY > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
-                    this.dataChariot.leftPlayerPosY -= 5;
+                if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
+                    this.dataChariot.leftPlayer.y -= 5;
                 // return this.position;
                 break;
             case "downL":
-                if (this.dataChariot.leftPlayerPosY < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
-                this.dataChariot.leftPlayerPosY += 5;
+                if (this.dataChariot.leftPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
+                this.dataChariot.leftPlayer.y += 5;
                 // return this.position;
                 break;
             case "upL":
-                this.dataChariot.rightPlayerPosY -= 5;
+                this.dataChariot.rightPlayer.y -= 5;
                 // return this.position;
                 break;
             case "downL":
-                this.dataChariot.rightPlayerPosY += 5;
+                this.dataChariot.rightPlayer.y += 5;
                 // return this.position;
                 break;
         }
     }
+    
 
-    updateBall() {
-
+    gamePlaying(server: Server) {
+        this.server = server;
+        console.log("bonjour 3");
+        this.updateBall();
+        this.server.to('1').emit("data", this.dataChariot);
+        setTimeout(this.gamePlaying.bind(this), 10);
     }
 
+    updateBall() {
+        if (this.checkIfScored()) {
+            this.dataChariot.ball.vx *= -1;
+            this.dataChariot.ball.x = this.globalwidth / 2;
+            this.dataChariot.ball.y = this.globalheight / 2;
+        }
+
+        this.dataChariot.ball.x += this.dataChariot.ball.vx;
+        this.dataChariot.ball.y += this.dataChariot.ball.vy;
+
+        this.calculateCollision(this.dataChariot.ball, this.dataChariot.leftPlayer);
+        this.calculateCollision(this.dataChariot.ball, this.dataChariot.rightPlayer);
+
+        this.checkWallCollision(this.dataChariot.ball);
+    }
+
+    //Tests if two objects are colliding
+    calculateCollision(object1, object2) {
+        //Define the variables we'll need to calculate
+        let combinedHalfWidths, combinedHalfHeights, vx, vy;
+
+        //Calculate the distance vector between the sprites
+        vx = object1.x - object2.x;
+        vy = object1.y - object2.y;
+
+        //Figure out the combined half-widths and half-heights
+        combinedHalfWidths = object1.width / 2 + object2.width / 2;
+        combinedHalfHeights = object1.height / 2 + object2.height / 2;
+
+        //Check for a collision on the x axis
+        if (Math.abs(vx) < combinedHalfWidths) {
+            //A collision might be occuring. Check for a collision on the y axis
+            if (Math.abs(vy) < combinedHalfHeights) {
+                //There's definitely a collision happening
+                this.calculateBounceAngle(object2);
+            }
+        }
+    }
+
+
     checkWallCollision(b) {
-        if(b.y + b.height / 2 >= PADDING + SCREENHEIGHT){
+        if(b.y + b.height / 2 >= VERTICAL_BOUNDS + this.globalheight){
             b.vy *= -1;
-        } else if (b.y - b.height / 2 <= PADDING) {
+        } 
+        else if (b.y - b.height / 2 <= VERTICAL_BOUNDS) {
             b.vy *= -1;
         }
     }
 
     calculateBounceAngle(paddle) {
-        let relativeIntersectY = paddle.y - ball.y;
+        let relativeIntersectY = paddle.y - this.dataChariot.ball.y;
     
-        let normalizedRelativeIntersectionY = (relativeIntersectY / (paddleRight.height / 2));
+        let normalizedRelativeIntersectionY = (relativeIntersectY / (PADDLE_SIZE / 2));
         let bounceAngle = normalizedRelativeIntersectionY * MAXBOUNCEANGLE;
-        if (ball.vx > 0) {
-            ball.vx = BALLSPEED * -Math.cos(bounceAngle);
-        } else {
-            ball.vx = BALLSPEED * Math.cos(bounceAngle);
+        if (this.dataChariot.ball.vx > 0) {
+            this.dataChariot.ball.vx = BALLSPEED * -Math.cos(bounceAngle);
+        } 
+        else {
+            this.dataChariot.ball.vx = BALLSPEED * Math.cos(bounceAngle);
         }
-        ball.vy = BALLSPEED * -Math.sin(bounceAngle);
-        adjustAI();
+        this.dataChariot.ball.vy = BALLSPEED * -Math.sin(bounceAngle);
+    }
+
+    checkIfScored() {
+        if (this.dataChariot.ball.x <= this.dataChariot.leftPlayer.x) {
+            return true;
+        } 
+        else if (this.dataChariot.ball.x >= this.dataChariot.rightPlayer.x) {
+            return true;
+        }
+        return false;
     }
 }

@@ -1,18 +1,9 @@
 <template>
     <div class="connections">
         <canvas id="pixi"></canvas>
-        <!-- <canvas ref="game" width="640" height="480" style="border: 1px solid black;"></canvas>
         <p>
-            <button @keydown.enter= "handleEnter()"> </button>
-            <input @keydown.w="move('up')" />
-            <input @keydown.s="move('down')" />
-            <input @keydown.a="move('left')" />
-            <input @keydown.d="move('right')" />
-            <button v-on:click="move('right')">Right</button>
-            <button v-on:click="move('left')">Left</button>
-            <button v-on:click="move('up')">Up</button>
-            <button v-on:click="move('down')">Down</button>
-        </p> -->
+            <button v-on:click="play()">Play</button>
+        </p>
     </div>
 </template>
 
@@ -64,6 +55,7 @@
             // });
             if (this.active == true) {
                 console.log(document.querySelector("my-canvas-wrapper"));
+                socket.emit("init");
                 this.Game();
             }
         },
@@ -73,8 +65,9 @@
                 console.log(err);
             });},
 
-            handleEnter() {
-                console.log("Pressed Enter");
+            play() {
+                console.log("bonjour");
+                socket.emit("play");
             },
 
             Game() {
@@ -240,9 +233,9 @@
                 }
 
                 socket.on('data', dataChariot => {
-                    leftPaddle.y = dataChariot.leftPlayerPosY * heightRatio;
-                    ball.x = dataChariot.ballPosX;
-                    ball.y = dataChariot.ballPosY;
+                    leftPaddle.y = dataChariot.leftPlayer.y * heightRatio;
+                    ball.x = dataChariot.ball.x;
+                    ball.y = dataChariot.ball.y * heightRatio;
                 })
             },
 
