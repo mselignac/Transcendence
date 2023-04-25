@@ -4,6 +4,8 @@ import MainPage from '../components/MainPage.vue'
 import GameMode from '../components/GameMode.vue'
 import Chat from '../components/Chat.vue'
 import Profile from '../components/Profile.vue'
+import App from '../App.vue'
+import Pong from '../components/Pong.vue'
 import Login from '../components/Login.vue'
 import Mode from '../components/ModeTest.vue'
 import Stats from '../components/Stats.vue'
@@ -33,6 +35,7 @@ const router = createRouter({
     { path: '/achievements', component: Achievements },
     { path: '/infos/:id', component: Infos , props: true},
     { path: '/:pathMatch(.*)*', component: NotFound },
+    { path: '/pong', component: Pong },
   ]
 })
 
