@@ -1,6 +1,7 @@
 <script setup>
 import Borders from './Borders.vue'
 import axios from 'axios';
+import Cookies from 'js-cookie';
 </script>
 
 <script>
@@ -17,10 +18,27 @@ export default {
         this.username = this.text,
         this.text = ''
       },
+      logout() {
+      const cookieValue = Cookies.get('jwt');
+      console.log("cookieValue: ", cookieValue);
+      const headers = {
+            'Authorization': 'Bearer ' + cookieValue,
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      };
+      axios
+        .delete('http://localhost:3000/auth/42/logout', { headers })
+        .then((response) => {
+          this.users = response.data
+          console.log(cookieValue);
+        })
+        .catch(error => console.log(error))
+      }
     },
     mounted() {
+      const cookieValue = Cookies.get('jwt');
       const headers = {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZWxpc2FAZ21haWwuY29tIiwiaWF0IjoxNjgwNzgxOTE5LCJleHAiOjE2ODA3ODI4MTl9.SyjNGx3OhuU9Q6EeufdmFXEFkpmoPG2LjeAPzP8xmq4',
+            'Authorization': 'Bearer ' + cookieValue,
             'Access-Control-Allow-Origin': "*",
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
       };
@@ -53,6 +71,7 @@ export default {
       </div>
       <div className="profile_bottom">
           <h1 className="profile_user">{{ users.email }}</h1>
+          <button @click="logout">logout</button>
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
       </div>
