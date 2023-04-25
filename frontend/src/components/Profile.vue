@@ -1,6 +1,7 @@
 <script setup>
 import Borders from './Borders.vue'
 import axios from 'axios';
+import Cookies from 'js-cookie';
 </script>
 
 <script>
@@ -17,6 +18,22 @@ export default {
         this.username = this.text,
         this.text = ''
       },
+      logout() {
+      const cookieValue = Cookies.get('jwt');
+      console.log("cookieValue: ", cookieValue);
+      const headers = {
+            'Authorization': 'Bearer ' + cookieValue,
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      };
+      axios
+        .delete('http://localhost:3000/auth/42/logout', { headers })
+        .then((response) => {
+          this.users = response.data
+          console.log(cookieValue);
+        })
+        .catch(error => console.log(error))
+      }
     },
     // mounted() {
     //   const headers = {
@@ -32,6 +49,22 @@ export default {
     //     })
     //     .catch(error => console.log(error))
     // },
+    mounted() {
+      const cookieValue = Cookies.get('jwt');
+      const headers = {
+            'Authorization': 'Bearer ' + cookieValue,
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      };
+      axios
+        // .get('https://jsonplaceholder.typicode.com/users/1')
+        .get('http://localhost:3000/users/me', { headers })
+        .then((response) => {
+          this.users = response.data
+          console.log(this.users.email);
+        })
+        .catch(error => console.log(error))
+    },
 }
 </script>
 
@@ -51,7 +84,8 @@ export default {
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
       </div>
       <div className="profile_bottom">
-          <!-- <h1 className="profile_user">{{ users.email }}</h1> -->
+          <h1 className="profile_user">{{ users.email }}</h1>
+          <button @click="logout">logout</button>
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
           <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>

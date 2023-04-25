@@ -11,37 +11,21 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  login     String    @unique
-
+  id        String    @id @unique @default(uuid())
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
-
-  email String @unique
-  hash  String
-
-  nickName String
-  firstName String?
-  lastName  String?
-
-
-
-
-
-  pdp String
-  friends String[]
-  channels String[]
-  achievements String[]
-  games Game[]
-
-
-
-
-
-  accessToken String? @unique
-
+  checkID String @unique
+  login       String  @unique
+  fullName    String
+  avatarUrl   String
+  firstName   String
+  lastName    String
+  email       String  @unique
+  phonenumber String?
+  country     String?
+  twofactor                     Boolean @default(false)
+  twoFactorAuthenticationSecret String
   // bookmarks Bookmark[]
-
   @@map("users")
 }
 

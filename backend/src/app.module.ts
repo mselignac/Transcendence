@@ -6,21 +6,17 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { ChatGateway } from './chat.gateway';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     AuthModule, UserModule, BookmarkModule, PrismaModule,
       ConfigModule.forRoot({
         isGlobal: true,
-        validationSchema: Joi.object({
-          UID: Joi.string().required(),
-          SECRET: Joi.string().required(),
-      })
     }),
-    // ...
   ],
-  providers: [ChatGateway],
   // ...
+  controllers: [],
+  providers: [JwtService, ChatGateway],
 })
-
 export class AppModule {}

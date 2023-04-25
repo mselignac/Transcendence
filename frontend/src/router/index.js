@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from '../../node_modules/vue-router'
-import Log from '../components/Log.vue'
+import Login42 from '../components/Login42.vue'
 import MainPage from '../components/MainPage.vue'
 import GameMode from '../components/GameMode.vue'
 import Chat from '../components/Chat.vue'
@@ -20,7 +20,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: Login },
-    { path: '/login', component: Log },
+    { path: '/login', component: Login42 },
     { path: '/main-page', component: MainPage },
     { path: '/game-mode', component: GameMode },
     { path: '/chat/:id', component: Chat, props: true },
