@@ -99,7 +99,7 @@ export class PongService {
         this.dataChariot.ball.x += this.dataChariot.ball.vx;
         this.dataChariot.ball.y += this.dataChariot.ball.vy;
 
-        this.calculateCollision(this.dataChariot.ball, this.dataChariot.leftPlayer);
+        this.calculateCollision(this.dataChariot.ball, this.dataChariot.leftPlayer); 
         this.calculateCollision(this.dataChariot.ball, this.dataChariot.rightPlayer);
 
         this.checkWallCollision(this.dataChariot.ball);
@@ -107,20 +107,18 @@ export class PongService {
 
     //Tests if two objects are colliding
     calculateCollision(object1, object2) {
-        //Define the variables we'll need to calculate
         let combinedHalfWidths, combinedHalfHeights, vx, vy;
 
         //Calculate the distance vector between the sprites
         vx = object1.x - object2.x;
         vy = object1.y - object2.y;
 
-        //Figure out the combined half-widths and half-heights
         combinedHalfWidths = object1.width / 2 + object2.width / 2;
         combinedHalfHeights = object1.height / 2 + object2.height / 2;
 
-        //Check for a collision on the x axis
+        //Check for a collision on the hor axis
         if (Math.abs(vx) < combinedHalfWidths) {
-            //A collision might be occuring. Check for a collision on the y axis
+            //A collision might be occuring. Check for a collision on the vert axis
             if (Math.abs(vy) < combinedHalfHeights) {
                 //There's definitely a collision happening
                 this.calculateBounceAngle(object2);
