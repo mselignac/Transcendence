@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faUserSecret, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faCircle } from '@fortawesome/free-solid-svg-icons'
+import { faFaceLaughBeam, faCircleUser, faFaceSadTear, faFaceGrimace} from '@fortawesome/free-regular-svg-icons'
 import router from './router'
-
-// import Login from './components/Login.vue'
-// import Log from './components/Log.vue'
-// import GameMode from './components/GameMode.vue'
-// import Page from './components/MainPage.vue'
-// import Chat from './components/Chat.vue'
-// import Profile from './components/Profile.vue'
+import App from './App.vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import { io } from 'socket.io-client'
 
 import './assets/main.css'
 import './assets/login.css'
@@ -16,17 +16,16 @@ import './assets/gamemode.css'
 import './assets/main_page.css'
 import './assets/chat.css'
 import './assets/profile.css'
+import './assets/border.css'
+import './assets/stats.css'
+import './assets/stat.css'
+import './assets/infos.css'
+
+/* add each imported icon to the library */
+library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faFaceSadTear, faFaceGrimace, faCircle)
 
 const app = createApp(App)
-app.use(router)
-router.isReady().then(() => {
-    app.mount('#app')
-})
-
-// createApp(App).mount('#app')
-// createApp(Login).mount('#login')
-// createApp(Log).mount('#log')
-// createApp(GameMode).mount('#game_mode')
-// createApp(Page).mount('#main_page')
-// createApp(Chat).mount('#chat')
-// createApp(Profile).mount('#profile')
+// app.config.globalProperties.axios=axios
+app.use(router, VueAxios, axios, io)
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.mount('#app')

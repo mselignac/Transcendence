@@ -15,16 +15,22 @@ export default {
 </script>
 
 <template>
-  <div className="game_div">
+
     <Borders/>
-    <!-- <div className="top">
-      <button className="top_button">Home</button>
-      <RouterLink to="/game-mode" className="top_button">Game Mode</RouterLink>
-    </div> -->
-    <div className="play_main">
-      <RouterLink to="/game-mode" className="play_button">PLAY</RouterLink>
-      <!-- <button className="play_button">PLAY</button> -->
+    <div className="main_div">
+      <div className="main_page_div">
+        <div className="main_page_top">
+          <div className="main_page_top_left">
+            <RouterLink to="/stats" className="main_page_stats">Stats</RouterLink>
+          </div>
+          <div className="main_page_top_right">
+            <RouterLink :to="'/chat/' + 'jesaispasfautquejechange'" className="main_page_chat">Chat</RouterLink>
+          </div>
+        </div>
+        <div className="main_page_bottom">
+          <RouterLink to="/game-mode" className="main_page_play">PLAY</RouterLink>
+        </div>
+      </div>
     </div>
-  </div>
 
 </template>

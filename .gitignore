@@ -1,4 +1,4 @@
-.env.private
+.env
 
 # npm modules (dependencies)
 node_modules/
@@ -12,5 +12,3 @@ tsconfig.tsbuildinfo
 # vim utils
 *.swp
 *.vim
-
-test-brouillon/

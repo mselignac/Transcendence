@@ -1,67 +1,235 @@
 @import './base.css';
 
-#chat {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    font-weight: normal;
-    background: hsla(0, 0%, 10%, 0.192);
-}
-
-.bold_only {
-    font-weight: bolder;
-}
-
-.chat_div {
-    display: grid;
-    grid-template-rows: 1fr 15fr 1fr;
-    background-color: rgba(175, 107, 107, 0.377);
-    grid-column: 2;
-    grid-row: 2;
-    margin: 5%;
-    border-radius: 20px 20px 20px 20px;
-    /* justify-content: center; */
-    /* align-items: center; */
-}
-
-.chat_top {
-    display: grid;
-    grid-row: 1;
-    grid-template-columns: 1fr 15fr;
-    background-color: hsla(0, 40%, 33%, 0.041);
-    border-radius: 20px 20px 0px 0px;
-    align-items: center;
-    color: rgba(59, 58, 58, 0.829);
-    border-bottom: 2px solid rgba(216, 186, 191, 0.897);
-}
-
 .chat_name {
     display: flex;
     grid-column: 2;
     font-weight: bolder;
 }
 
-.chat_bottom {
+.chat_div_test {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    /* height: 100vh; */
+    grid-template-rows: 1fr 13fr 1fr;
+    border-radius: 20px 20px 20px 20px;
+    /* background-color: rgba(75, 82, 104, 0.377); */
+    /* background-color: red; */
+    overflow: hidden;
+}
+
+.chat_top_test {
+    display: grid;
+    grid-row: 1;
+    grid-template-columns: 1fr 12fr;
+    background-color: rgba(37, 53, 107, 0.452);
+    border-radius: 20px 20px 0px 0px;
+    align-items: center;
+    color: rgb(31, 31, 31);
+    border-bottom: 2px solid rgba(186, 189, 216, 0.897);
+    overflow: hidden;
+}
+
+.chat_bottom_test {
     display: grid;
     grid-row: 3;
-    grid-template-columns: 1fr 15fr;
-    background-color: hsla(0, 40%, 33%, 0.192);
+    grid-template-columns: 1fr 12fr;
     border-radius: 0px 0px 20px 20px;
     align-items: center;
-    color: rgba(105, 105, 105, 0.829);
+    background-color: rgba(37, 53, 107, 0.452);
+    overflow: hidden;
+    /* background-color: blue; */
+}
+
+.chat_msg_div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    grid-row: 2;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* grid-template-columns: 1fr 1fr 1fr; */
+    /* justify-content: flex-end; */
+    overflow-y: scroll;
+    flex-direction: column;
+
+    /* background-color: blue; */
+}
+
+.logo_chat_profile_test {
+    display:flex;
+    grid-column: 1;
+    margin-left: 20%;
+    width: 50px;
+    font-size: 250%;
+    background-color: transparent;
+    border-color: transparent;
+    font-weight: bolder;
+    justify-self: center;
+    color: rgb(31, 31, 31);
+}
+
+.logo_chat_test {
+    display:flex;
+    grid-column: 1;
+    margin-left: 25%;
+    width: 50px;
+    font-size: 250%;
+    background-color: transparent;
+    border-color: transparent;
+    font-weight: bolder;
+    justify-self: center;
+    color: rgb(31, 31, 31);
+}
+
+.type_msg_test {
+    display:flex;
+    /* grid-column: 2; */
+    font-size: 150%;
+    /* width: 100%; */
+    /* height: 100%; */
+    background-color: transparent;
+    border-color: transparent;
+    font-weight: bolder;
+    color: rgb(31, 31, 31);
+    /* justify-self: flex-start; */
+    /* background-color: red; */
+    justify-content: flex-start;
+    justify-self: flex-start;
 }
 
 .type_msg {
     display:flex;
+    height: 100%;
+    width: 100%;
     grid-column: 2;
-    font-size: 200%;
-    background-color: transparent;
-    border-color: transparent;
-    font-weight: bolder;
-    color: rgba(49, 47, 47, 0.829);
+    /* font-size: 100%; */
+    /* background-color: transparent; */
+    /* border-color: transparent; */
+    /* font-weight: bolder; */
+    /* color: rgb(31, 31, 31); */
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: green; */
 }
 
-.type_msg:focus {
+.type_msg_test:focus {
     outline: 0px solid transparent;
+}
+
+.msg {
+    display: flex;
+    width: 100%;
+    font-size: 250%;
+    background-color: red;
+    justify-content: flex-end;
+    color: rgb(124, 160, 214);
+}
+
+
+.msg_test {
+    display: flex;
+    font-size: 170%;
+    margin-top: 5px;
+    margin-right: 15px;
+    padding: 10px;
+    background-color: rgb(26, 72, 172);
+    border-radius: 20px 20px 0px 20px;
+    justify-content: flex-end;
+    color: rgba(255, 255, 255, 0.904);
+}
+
+.msg_me {
+    display: flex;
+    width: 100%;
+    grid-row: 1;
+    /* background-color: green; */
+    grid-column: 2/4;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.msg_user {
+    display: flex;
+    grid-row: 1;
+    /* background-color: rgb(0, 128, 122); */
+    grid-column: 1/3;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.msg_user_test {
+    display: flex;
+    font-size: 170%;
+    margin-top: 5px;
+    margin-left: 15px;
+    /* padding: 10px; */
+    /* background-color: rgb(78, 83, 94); */
+    border-radius: 20px 20px 20px 0px;
+    flex-direction: column;
+    margin-right: auto;
+    color: rgba(255, 255, 255, 0.904);
+    /* background-color: red; */
+}
+
+.msg_user_testt {
+    background-color: rgb(78, 83, 94);
+    border-radius: 20px 20px 20px 0px;
+    padding: 10px;
+}
+
+.msg_form {
+    display: flex;
+    width: 100%;
+    /* background-color: green; */
+    /* height: 60px; */
+    /* grid-column: 1/5; */
+    flex-direction: column;
+    /* justify-content: flex-start; */
+    /* align-items: flex-end; */
+}
+
+.msg_me_test {
+    display: flex;
+    width: 100%;
+    grid-row: 1;
+    background-color: rgb(107, 0, 128);
+    grid-column: 1/3;
+    /* align-items: flex-end; */
+    flex-direction: column;
+    /* justify-content: flex-end; */
+}
+
+
+
+
+
+
+
+.test_msg {
+    display: flex;
+    /* width: 95%; */
+    font-size: 170%;
+    margin-top: 5px;
+    margin-right: 15px;
+    margin-left: auto;
+    padding: 10px;
+    background-color: rgb(26, 72, 172);
+    border-radius: 20px 20px 0px 20px;
+    justify-content: flex-end;
+    justify-self: flex-start;
+    flex-direction: column;
+    color: rgba(255, 255, 255, 0.904);
+}
+
+
+.username_msg {
+    display: flex;
+    font-size: 65%;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.568);
+    /* width: 55%; */
+    /* justify-self: flex-end;
+    justify-content: flex-end; */
+    /* background-color: red; */
 }

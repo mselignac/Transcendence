@@ -11,32 +11,58 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @unique @default(uuid())
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
-
-  email String @unique
-  hash  String
-
-  firstName String?
-  lastName  String?
-
-  bookmarks Bookmark[]
-
+  checkID String @unique
+  login       String  @unique
+  fullName    String
+  avatarUrl   String
+  firstName   String
+  lastName    String
+  email       String  @unique
+  phonenumber String?
+  country     String?
+  twofactor                     Boolean @default(false)
+  twoFactorAuthenticationSecret String
+  // bookmarks Bookmark[]
   @@map("users")
 }
 
-model Bookmark {
-  id        Int       @id @default(autoincrement())
-  createAt  DateTime  @default(now())
-  updateAT  DateTime  @default(now())
+// model Channels {
+//   id        Int       @id @default(autoincrement())
+//   createAt  DateTime  @default(now())
+//   updateAT  DateTime  @default(now())
 
-  title       String
-  description String?
-  link        String
+//   channels String[]
+// }
 
-  userId  Int
-  user User @relation(fields: [userId], references: [id])
+// model Game {
+//   id        Int       @id @default(autoincrement())
+//   createAt  DateTime  @default(now())
+//   updateAT  DateTime  @default(now())
 
-  @@map("bookmarks")
-}
+//   player_one String
+//   player_two String
+//   score String
+  
+//   userId  String
+//   user User @relation(fields: [userId], references: [id])
+
+//   @@map("games")
+// }
+
+// model Bookmark {
+//   id        Int       @id @default(autoincrement())
+//   createAt  DateTime  @default(now())
+//   updateAT  DateTime  @default(now())
+
+//   title       String
+//   description String?
+//   link        String
+
+//   userId  Int
+//   user User @relation(fields: [userId], references: [id])
+
+  // @@map("bookmarks")
+// }
