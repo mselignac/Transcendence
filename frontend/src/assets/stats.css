@@ -1,0 +1,59 @@
+@import './base.css';
+
+.stats_div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.stats_one_div {
+    display: flex;
+    width: 50%;
+    height: 7%;
+    margin: 3%;
+    border-radius: 8px 8px 8px 8px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(37, 53, 107);
+}
+
+.stats_two_div {
+    display: flex;
+    width: 50%;
+    height: 7%;
+    margin: 3%;
+    border-radius: 8px 8px 8px 8px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(37, 53, 107);
+}
+
+.stats_three_div {
+    display: flex;
+    width: 50%;
+    height: 7%;
+    margin: 3%;
+    border-radius: 8px 8px 8px 8px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(37, 53, 107);
+}
+
+.stats_routers {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 250%;
+    color: rgb(150, 150, 150);
+}
+
+.stats_routers:hover {
+    scale: 1.1;
+    background-color: transparent;
+    font-weight: bold;
+}

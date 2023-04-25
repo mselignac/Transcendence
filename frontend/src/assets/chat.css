@@ -1,67 +1,148 @@
 @import './base.css';
 
-#chat {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    font-weight: normal;
-    background: hsla(0, 0%, 10%, 0.192);
-}
-
-.bold_only {
-    font-weight: bolder;
-}
-
-.chat_div {
-    display: grid;
-    grid-template-rows: 1fr 15fr 1fr;
-    background-color: rgba(175, 107, 107, 0.377);
-    grid-column: 2;
-    grid-row: 2;
-    margin: 5%;
-    border-radius: 20px 20px 20px 20px;
-    /* justify-content: center; */
-    /* align-items: center; */
-}
-
-.chat_top {
-    display: grid;
-    grid-row: 1;
-    grid-template-columns: 1fr 15fr;
-    background-color: hsla(0, 40%, 33%, 0.041);
-    border-radius: 20px 20px 0px 0px;
-    align-items: center;
-    color: rgba(59, 58, 58, 0.829);
-    border-bottom: 2px solid rgba(216, 186, 191, 0.897);
-}
-
 .chat_name {
     display: flex;
     grid-column: 2;
     font-weight: bolder;
 }
 
-.chat_bottom {
+.chat_div_test {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    /* height: 100vh; */
+    grid-template-rows: 1fr 13fr 1fr;
+    border-radius: 20px 20px 20px 20px;
+    /* background-color: rgba(75, 82, 104, 0.377); */
+    /* background-color: red; */
+    overflow: hidden;
+}
+
+.chat_top_test {
+    display: grid;
+    grid-row: 1;
+    grid-template-columns: 1fr 12fr;
+    background-color: rgba(37, 53, 107, 0.452);
+    border-radius: 20px 20px 0px 0px;
+    align-items: center;
+    color: rgb(31, 31, 31);
+    border-bottom: 2px solid rgba(186, 189, 216, 0.897);
+    overflow: hidden;
+}
+
+.chat_bottom_test {
     display: grid;
     grid-row: 3;
-    grid-template-columns: 1fr 15fr;
-    background-color: hsla(0, 40%, 33%, 0.192);
+    grid-template-columns: 1fr 12fr;
     border-radius: 0px 0px 20px 20px;
     align-items: center;
-    color: rgba(105, 105, 105, 0.829);
+    background-color: rgba(37, 53, 107, 0.452);
+    overflow: hidden;
+    /* background-color: blue; */
+}
+
+.chat_msg_div {
+    display: grid;
+    grid-row: 2;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* justify-content: flex-end; */
+    overflow-y: scroll;
+    /* background-color: blue; */
+}
+
+.logo_chat_profile_test {
+    display:flex;
+    grid-column: 1;
+    margin-left: 20%;
+    width: 50px;
+    font-size: 250%;
+    background-color: transparent;
+    border-color: transparent;
+    font-weight: bolder;
+    justify-self: center;
+    color: rgb(31, 31, 31);
+}
+
+.logo_chat_test {
+    display:flex;
+    grid-column: 1;
+    margin-left: 25%;
+    width: 50px;
+    font-size: 250%;
+    background-color: transparent;
+    border-color: transparent;
+    font-weight: bolder;
+    justify-self: center;
+    color: rgb(31, 31, 31);
+}
+
+.type_msg_test {
+    display:flex;
+    /* grid-column: 2; */
+    font-size: 150%;
+    /* width: 100%; */
+    /* height: 100%; */
+    background-color: transparent;
+    border-color: transparent;
+    font-weight: bolder;
+    color: rgb(31, 31, 31);
+    /* justify-self: flex-start; */
+    /* background-color: red; */
+    justify-content: flex-start;
+    justify-self: flex-start;
 }
 
 .type_msg {
     display:flex;
+    height: 100%;
+    width: 100%;
     grid-column: 2;
-    font-size: 200%;
-    background-color: transparent;
-    border-color: transparent;
-    font-weight: bolder;
-    color: rgba(49, 47, 47, 0.829);
+    /* font-size: 100%; */
+    /* background-color: transparent; */
+    /* border-color: transparent; */
+    /* font-weight: bolder; */
+    /* color: rgb(31, 31, 31); */
+    justify-content: flex-start;
+    align-items: center;
+    /* background-color: green; */
 }
 
-.type_msg:focus {
+.type_msg_test:focus {
     outline: 0px solid transparent;
+}
+
+.msg {
+    display: flex;
+    width: 100%;
+    /* grid-column: 2/4; */
+    font-size: 250%;
+    /* margin-top: 20px;
+    margin-right: 30px; */
+
+    background-color: red;
+    justify-content: flex-end;
+    color: rgb(124, 160, 214);
+}
+
+.msg_test {
+    display: flex;
+    /* width: 80%; */
+    font-size: 130%;
+    margin: 10%;
+    background-color: rgb(26, 72, 172);
+    border-radius: 20px 20px 0px 20px;
+    justify-content: flex-end;
+}
+
+.msg_me {
+    display: flex;
+    background-color: green;
+    grid-column: 2/4;
+    justify-content: flex-end;
+}
+
+.msg_other {
+    display: flex;
+    background-color: rgb(0, 128, 122);
+    grid-column: 1/3;
 }

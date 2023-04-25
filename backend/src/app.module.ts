@@ -4,8 +4,16 @@ import { UserModule } from './user/user.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [AuthModule, UserModule, BookmarkModule, PrismaModule, ConfigModule.forRoot({isGlobal: true})],
+  imports: [
+    AuthModule, UserModule, BookmarkModule, PrismaModule,
+      ConfigModule.forRoot({
+        isGlobal: true,
+    }),
+  ],
+  controllers: [],
+  providers: [JwtService],
 })
 export class AppModule {}

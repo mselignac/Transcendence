@@ -6,29 +6,21 @@ import Page from './components/MainPage.vue'
 import Chat from './components/Chat.vue'
 import Profile from './components/Profile.vue'
 import Borders from './components/Borders.vue'
+import axios from 'axios'
 </script>
 
 <script>
 export default {
-    data() {
-        return {
-            log: true
-        }
-    },
-    methods: {
-      toggle() {
-        this.log = !this.log
-      }
-    }
+  data() {
+    return {}
+  },
 }
 </script>
 
+
 <template>
   <div className="app">
-    <div className="test_div">
-      <RouterLink to="/login" className="button_test" @click="toggle" v-if="log">Login</RouterLink>
       <RouterView/>
-    </div>
   </div>
 
 </template>

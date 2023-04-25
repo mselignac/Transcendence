@@ -1,5 +1,6 @@
 @import './base.css';
 
+    /* border: 3px solid hsla(167, 68%, 45%, 0.226); */
 
 #log {
     display: flex;
@@ -7,21 +8,17 @@
     height: 100vh;
     margin: 0;
     font-weight: normal;
-    /* background: linear-gradient(60deg, hsla(160, 100%, 40%, 0.3),  hsla(10, 100%, 37%, 0.22) 75%); */
     background: hsla(0, 0%, 10%, 0.562);
 }
 
 .log_div {
-    /* background-color: aquamarine; */
     display: flex;
     margin: 20em;
     width: 50%;
     justify-content: space-between;
     align-items: flex-start;
-    /* border: 3px solid hsla(167, 68%, 45%, 0.226); */
     border: 3px solid hsla(0, 0%, 27%, 0.226);
     border-radius: 20px 20px 20px 20px;
-    /* background-color:  hsla(167, 68%, 45%, 0.178); */
     background-color:  hsla(0, 0%, 87%, 0.397);
   
     height: 50%;

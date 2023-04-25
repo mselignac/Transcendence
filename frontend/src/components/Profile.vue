@@ -1,85 +1,81 @@
 <script setup>
 import Borders from './Borders.vue'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 </script>
 
 <script>
 export default {
     data() {
         return {
-            msg: 'test log',
-            count: 0,
-            titleClass: 'title',
+            users: [],
+            text: '',
+            username: 'username'
         }
-    }
+    },
+    methods: {
+      change_username() {
+        this.username = this.text,
+        this.text = ''
+      },
+      logout() {
+      const cookieValue = Cookies.get('jwt');
+      console.log("cookieValue: ", cookieValue);
+      const headers = {
+            'Authorization': 'Bearer ' + cookieValue,
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      };
+      axios
+        .delete('http://localhost:3000/auth/42/logout', { headers })
+        .then((response) => {
+          this.users = response.data
+          console.log(cookieValue);
+        })
+        .catch(error => console.log(error))
+      }
+    },
+    mounted() {
+      const cookieValue = Cookies.get('jwt');
+      const headers = {
+            'Authorization': 'Bearer ' + cookieValue,
+            'Access-Control-Allow-Origin': "*",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      };
+      axios
+        // .get('https://jsonplaceholder.typicode.com/users/1')
+        .get('http://localhost:3000/users/me', { headers })
+        .then((response) => {
+          this.users = response.data
+          console.log(this.users.email);
+        })
+        .catch(error => console.log(error))
+    },
 }
 </script>
 
 <template>
-  <div className="game_div">
-    <Borders/>
-    <div className="user_div">
-        <div className="user_left">
-            <div className="user_left_top">
-                <h1>Username</h1>
-                <h1>+</h1>
-                <h1>photo profile</h1>
-            </div>
-            <div className="user_left_other">
-                <div className="game_history">
-                    <button className="game_history_button">Game history</button>
-                </div>
-                <div className="lvl">
-                    <button className="game_history_button">Ladder lvl X</button>
-                </div>
-                <div className="achievements">
-                    <button className="game_history_button">Achievements</button>
-                </div>
-            </div>
-        </div>
-        <div className="user_right">
-            <div className="user_right_title">
-                <h1 className="bold_only">Game history</h1>
-            </div>
-            <div className="game_history_div">
-              <div className="player_left">
-                <h1 className="players">username</h1>
-                <h1 className="players">username</h1>
-                <h1 className="players">username</h1>
-                <h1 className="players">username</h1>
-              </div>
-              <div className="game_history_vs">
-                <h1 className="vs">vs</h1>
-                <h1 className="vs">vs</h1>
-                <h1 className="vs">vs</h1>
-                <h1 className="vs">vs</h1>
-              </div>
-              <div className="player_right">
-                <h1 className="players">username</h1>
-                <h1 className="players">username</h1>
-                <h1 className="players">username</h1>
-                <h1 className="players">username</h1>
-              </div>
-              <div className="score">
-                <h1 className="players">score</h1>
-                <h1 className="players">score</h1>
-                <h1 className="players">score</h1>
-                <h1 className="players">score</h1>
-              </div>
-              <div className="victory">
-                <h1 className="players">victoire/defaite</h1>
-                <h1 className="players">victoire/defaite</h1>
-                <h1 className="players">victoire/defaite</h1>
-                <h1 className="players">victoire/defaite</h1>
-              </div>
-            </div>
-        </div>
-        <!-- <div className="chat_top">
-            <h1 className="chat_name">Nom du User ou du Channel</h1>
-        </div>
-        <div className="chat_bottom">
-            <input className="type_msg" v-model="text" placeholder='Type a message ...'>
-        </div> -->
+  <Borders/>
+  <div className="main_div">
+    <div className="profile_div">
+      <div className="profile_picture">
+        <button className="profile_picture_button"><img className="img_profile" src="../assets/icon.webp" /></button>
+        <h1 className="profile_user">{{ this.username }}</h1>
+      </div>
+      <div className="profile_username">
+        <form @submit.prevent="change_username" className="border_right_bottom_two">
+          <input className="profile_change_username" v-model="text" placeholder='change username'>
+        </form>
+        <!-- <h1>{{ this.username }}</h1> -->
+        <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
+      </div>
+      <div className="profile_bottom">
+          <h1 className="profile_user">{{ users.email }}</h1>
+          <button @click="logout">logout</button>
+          <!-- <h1 className="profile_user">{{ users.name }}</h1>
+          <h1 className="profile_user">{{ users.phone }}</h1> -->
+      </div>
+
     </div>
   </div>
-
 </template>
