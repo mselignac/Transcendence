@@ -19,7 +19,8 @@ export default {
           friends: [],
           newChannel: '',
           channels: [],
-          token: ''
+          token: '',
+          connected: false
         }
     },
     methods: {
@@ -41,39 +42,48 @@ export default {
         this.channels_friends = true
       },
       addFriend() {
+        if (this.validateInput(this.newFriend)) {
           this.friends.push({ id: id++, text: this.newFriend }),
           this.newFriend = ''
+        }
       },
       removeFriend(friends) {
         this.friend = false
         this.friends = this.friends.filter((t) => t !== friends)
       },
       addChannel() {
+        if (this.validateInput(this.newChannel)) {
           this.channels.push({ id: id++, text: this.newChannel }),
           this.newChannel = ''
+        }
       },
       removeChannel(channels) {
           this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
       search_users() {
-        if (this.search_user === this.users.username) {
-          this.user_exist = true,
-        this.user_not_exist = false }
-        else {
-            this.user_exist = false,
-            this.user_not_exist = true }
-        this.search_user = ''
-      },
-    mounted() {
-      console.log("salut");
-      accountService.usersMe()
-          .then(res => {
-            console.log(res)
-            // this.$router.push('/main-page')
-          })
-          .catch(err => console.log(err))
+        if (this.validateInput(this.search_user)) {
+          if (this.search_user === this.users.username) {
+            this.user_exist = true,
+          this.user_not_exist = false }
+          else {
+              this.user_exist = false,
+              this.user_not_exist = true }
+          this.search_user = ''
         }
+      },
+      validateInput(text) {
+        return text.length > 0
+      },
+    // mounted() {
+    //   console.log("salut");
+    //   accountService.usersMe()
+    //       .then(res => {
+    //         console.log(res)
+    //         // this.$router.push('/main-page')
+    //       })
+    //       .catch(err => console.log(err))
+    //     }
     }
 }
 </script>
@@ -81,9 +91,7 @@ export default {
 <template>
   <div className="friend_menu" v-if="friend">
     <RouterLink :to="'/profile-user/' + this.test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
-    <!-- <RouterLink :to="{ path: '/profile-user/', props: { id: this.test } }" className="elements_menu" v-if="friend">Profile</RouterLink> -->
     <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(this.test_friend)">Remove to friend</button>
-    <!-- <RouterLink to="/chat" className="elements_menu" v-if="friend">Send a message</RouterLink> -->
     <RouterLink :to="'/chat/' + this.test_friend.text" className="elements_menu" v-if="friend">Send a message</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button>
@@ -92,10 +100,9 @@ export default {
   </div>
 
   <div className="channel_menu" v-if="channel">
-    <!-- <RouterLink to="/chat" className="elements_menu" v-if="channel">Chat</RouterLink> -->
     <RouterLink :to="'/chat/' + this.test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
     <button className="elements_menu" v-if="channel" @click=removeChannel(this.test_channel)>Quit</button>
-    <button className="elements_menu" v-if="channel">Infos</button>
+    <RouterLink :to="'/infos/' + this.test_channel.text" className="elements_menu" v-if="channel">Infos</RouterLink>
     <button className="close_menu" v-if="channel" @click="channel_menu">close</button>
   </div>
 
@@ -135,6 +142,8 @@ export default {
             <h1 v-if="!friends.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-sad-tear" /></h1>
             <li v-for="friend in friends" :key="friend.id" className="friends_usernames">
               <button @click="friend_menu(friend)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.text }}</button>
+              <h1 className="connected" v-if="connected"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
+              <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
             </li>
           </ul>
         </div>

@@ -5,6 +5,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
+import { ChatGateway } from './chat.gateway';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import * as Joi from '@hapi/joi';
     }),
     // ...
   ],
+  providers: [ChatGateway],
   // ...
 })
 

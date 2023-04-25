@@ -6,7 +6,6 @@ import Chat from '../components/Chat.vue'
 import Profile from '../components/Profile.vue'
 import Login from '../components/Login.vue'
 import Mode from '../components/ModeTest.vue'
-import App from '../App.vue'
 import Stats from '../components/Stats.vue'
 import GameHistory from '../components/GameHistory.vue'
 import Ladder from '../components/Ladder.vue'
@@ -14,6 +13,7 @@ import Achievements from '../components/Achievements.vue'
 import NotFound from '../components/NotFound.vue'
 import ProfileUser from '../components/ProfileUser.vue'
 import { authGuard } from '../_helper/auth-guard'
+import Infos from '../components/InfosChannel.vue'
 
 
 const router = createRouter({
@@ -31,6 +31,7 @@ const router = createRouter({
     { path: '/game-history', component: GameHistory },
     { path: '/ladder', component: Ladder },
     { path: '/achievements', component: Achievements },
+    { path: '/infos/:id', component: Infos , props: true},
     { path: '/:pathMatch(.*)*', component: NotFound },
   ]
 })

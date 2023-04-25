@@ -18,13 +18,20 @@ export default {
     },
     methods: {
       send_msg() {
+        if (this.validateInput(this.text)) {
           this.msg.push({ id: id++, text: this.text, me: true, username: 'me' }),
           this.text = ''
+        }
       },
       send_msg_test() {
+        if (this.validateInput(this.text_test)) {
           this.msg.push({ id: id++, text: this.text_test, me: false, username: 'user' }),
           this.text_test = ''
+        }
       },
+      validateInput(text) {
+        return text.length > 0
+      }
     }
 }
 </script>
@@ -38,7 +45,6 @@ export default {
                 <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
                 </div>
-                <!-- <h1 className="chat_name">Nom du User ou du Channel</h1> -->
                 <h1 className="chat_name">{{ this.id }}</h1>
             </div>
             <div className="chat_bottom_test">

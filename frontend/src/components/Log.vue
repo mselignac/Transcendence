@@ -84,16 +84,16 @@ export default {
       //         })
       // }
       login() {
-          accountService.usersMe()
-              .then(res => {
-                console.log(res.data)
-                // accountService.saveToken(res.data.access_token)
+      //     accountService.usersMe()
+      //         .then(res => {
+      //           console.log(res.data)
+      //           // accountService.saveToken(res.data.access_token)
+      //           this.$router.push( { path: '/main-page' })
+      //         })
+      //         .catch(err => {
+      //           console.log(err)
                 this.$router.push( { path: '/main-page' })
-              })
-              .catch(err => {
-                console.log(err)
-                this.$router.push( { path: '/main-page' })
-              })
+      //         })
       }
   }
 }

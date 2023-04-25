@@ -42,19 +42,14 @@ export default {
     <div className="profile_div">
       <div className="profile_picture">
         <button className="profile_picture_button"><img className="img_profile" src="../assets/icon.webp" /></button>
-        <!-- <img className="img_profile" src="../assets/icon.webp" /> -->
         <h1 className="profile_user">{{ this.username }}</h1>
       </div>
       <div className="profile_username">
-        <!-- <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username'>
-        </form> -->
         <button className="button_add_friend">add friend</button>
+        <button className="button_add_friend">remove friend</button>
+        <button className="button_block_friend">block</button>
       </div>
       <div className="profile_bottom">
-          <!-- <h1 className="profile_user">{{ users.email }}</h1> -->
-          <!-- <h1 className="profile_user">{{ users.name }}</h1>
-          <h1 className="profile_user">{{ users.phone }}</h1> -->
           <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
           <RouterLink :to="'/chat/' + this.id" className="button_access_profile">chat</RouterLink>
       </div>
