@@ -14,9 +14,7 @@ model User {
   id        String    @id @unique @default(uuid())
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
-
   checkID String @unique
-
   login       String  @unique
   fullName    String
   avatarUrl   String
@@ -25,26 +23,23 @@ model User {
   email       String  @unique
   phonenumber String?
   country     String?
-
   twofactor                     Boolean @default(false)
   twoFactorAuthenticationSecret String
-
   // bookmarks Bookmark[]
-
   @@map("users")
 }
 
-model Bookmark {
-  id        Int       @id @default(autoincrement())
-  createAt  DateTime  @default(now())
-  updateAT  DateTime  @default(now())
+// model Bookmark {
+//   id        Int       @id @default(autoincrement())
+//   createAt  DateTime  @default(now())
+//   updateAT  DateTime  @default(now())
 
-  title       String
-  description String?
-  link        String
+//   title       String
+//   description String?
+//   link        String
 
-  userId  Int
-  user User @relation(fields: [userId], references: [id])
+//   userId  Int
+//   user User @relation(fields: [userId], references: [id])
 
-  @@map("bookmarks")
-}
+  // @@map("bookmarks")
+// }
