@@ -35,6 +35,20 @@ export default {
         .catch(error => console.log(error))
       }
     },
+    // mounted() {
+    //   const headers = {
+    //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZWxpc2FAZ21haWwuY29tIiwiaWF0IjoxNjgwNzgxOTE5LCJleHAiOjE2ODA3ODI4MTl9.SyjNGx3OhuU9Q6EeufdmFXEFkpmoPG2LjeAPzP8xmq4',
+    //         'Access-Control-Allow-Origin': "*",
+    //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    //   };
+    //   axios
+    //     .get('http://localhost:3001/users/me', { headers })
+    //     .then((response) => {
+    //       this.users = response.data
+    //       console.log(this.users.email);
+    //     })
+    //     .catch(error => console.log(error))
+    // },
     mounted() {
       const cookieValue = Cookies.get('jwt');
       const headers = {
@@ -74,6 +88,8 @@ export default {
           <button @click="logout">logout</button>
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
+          <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
+          <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
       </div>
 
     </div>

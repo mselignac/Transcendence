@@ -20,8 +20,15 @@
     margin-right: 33%;
     /* margin-bottom: 5%; */
     border-radius: 20px 20px 20px 20px;
+    /* overflow: hidden;
+    overflow-y: scroll; */
+    /* overflow-y: hidden; */
     /* background-color: red; */
 }
+
+/* .main_div::-webkit-scrollbar {
+    display: none;
+} */
 
 .main_page_div {
     display: grid;

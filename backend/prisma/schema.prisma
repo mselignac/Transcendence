@@ -29,6 +29,29 @@ model User {
   @@map("users")
 }
 
+model Channels {
+  id        Int       @id @default(autoincrement())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  channels String[]
+}
+
+model Game {
+  id        Int       @id @default(autoincrement())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  player_one String
+  player_two String
+  score String
+  
+  userId  String
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("games")
+}
+
 // model Bookmark {
 //   id        Int       @id @default(autoincrement())
 //   createAt  DateTime  @default(now())

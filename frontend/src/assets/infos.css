@@ -1,0 +1,15 @@
+@import './base.css';
+
+.infos {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* background-color: red; */
+    color: black;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.infos::-webkit-scrollbar {
+    display: none;
+}

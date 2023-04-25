@@ -388,3 +388,20 @@
 }
 
 /* background-color: #272727; */
+
+
+.connected {
+    display: flex;
+    color: green;
+    font-size: 70%;
+    margin-top: 7%;
+    margin-left: 10px;
+}
+
+.not_connected {
+    display: flex;
+    color: red;
+    font-size: 70%;
+    margin-top: 7%;
+    margin-left: 10px;
+}

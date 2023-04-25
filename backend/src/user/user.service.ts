@@ -11,7 +11,7 @@ export class UserService {
 		private jwt: JwtService,
 		private config: ConfigService) {}
 
-	async editUser(userId: number, dto: EditUserDto) {
+	async editUser(userId: string, dto: EditUserDto) {
 		const user = await this.prisma.user.update({
 			where: {
 				id: userId,

@@ -30,16 +30,54 @@ export default {
             <div className="stats_right_top">
                 <h1>Achievements</h1>
             </div>
-            <div className="achievements_div">
+            <!-- <div className="achievements_div">
                 <div className="achievement_div">
-                    <h1 className="achievement">premier achievement</h1>
-                    <h1 className="achievement">deuxieme achievement</h1>
-                    <h1 className="achievement">troisieme achievement</h1>
+                    <h1 className="achievement">gagner une partie</h1>
+                    <h1 className="achievement">gagner 10 parties</h1>
+                    <h1 className="achievement">gagner 50 parties</h1>
+                    <h1 className="achievement">changer de username</h1>
+                    <h1 className="achievement">changer de pdp</h1>
+                    <h1 className="achievement">ajouter un ami</h1>
+                    <h1 className="achievement">rejoindre un channel</h1>
                 </div>
                 <div className="achievements_icon_div">
                     <img className="achievement_icon" src="../assets/icon.webp" />
                     <img className="achievement_icon" src="../assets/icon.webp" />
                     <img className="achievement_icon" src="../assets/icon.webp" />
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                    <img className="achievement_icon" src="../assets/icon.webp" />
+                </div>
+            </div> -->
+            <div className="achiev_div">
+                <div className="achiev_test">
+                    <h1 className="ach_div">gagner une partie</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
+                </div>
+                <div className="achiev_test">
+                    <h1 className="ach_div">gagner 10 parties</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
+                </div>
+                <div className="achiev_test">
+                    <h1 className="ach_div">gagner 50 parties</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
+                </div>
+                <div className="achiev_test">
+                    <h1 className="ach_div">changer de username</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
+                </div>
+                <div className="achiev_test">
+                    <h1 className="ach_div">changer de pdp</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
+                </div>
+                <div className="achiev_test">
+                    <h1 className="ach_div">ajouter un ami</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
+                </div>
+                <div className="achiev_test">
+                    <h1 className="ach_div">rejoindre un channel</h1>
+                    <img className="ach_icon_div" src="../assets/icon.webp" />
                 </div>
             </div>
             <h1>(a changer, c'etait juste pour voir le rendu vite fait)</h1>

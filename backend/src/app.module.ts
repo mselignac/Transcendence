@@ -4,6 +4,8 @@ import { UserModule } from './user/user.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from '@hapi/joi';
+import { ChatGateway } from './chat.gateway';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
@@ -13,7 +15,8 @@ import { JwtService } from '@nestjs/jwt';
         isGlobal: true,
     }),
   ],
+  // ...
   controllers: [],
-  providers: [JwtService],
+  providers: [JwtService, ChatGateway],
 })
 export class AppModule {}
