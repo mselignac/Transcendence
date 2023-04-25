@@ -84,7 +84,7 @@
 
                 PongApp.stage.addChild(gameScene);
 
-                const backImgTex = PIXI.Texture.from('/ZIZIPONG.png');
+                const backImgTex = PIXI.Texture.from('/pong_bg.png');
                 const paddleTex = PIXI.Texture.from('/paddle.png');
                 const ballTex = PIXI.Texture.from('/ball.png');
 
