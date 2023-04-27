@@ -1,12 +1,27 @@
 import router from '@/router'
 
 export function authGuard(to){
-    let token = localStorage.getItem('token')
-    // token = true
+    // let token = localStorage.getItem('token')
+
+    // let token = Cookies.isKey('jwt')
+    // let token = Cookies.get('jwt')   
+
+
+    console.log('authguard')
+
+
+
+    // A CHANGER////////////////////////////
+    ////////////////////////////////////////
+    let token = true
+    ////////////////////////////////////////
+    ////////////////////////////////////////
+
+
 
     if(token){
         return true
     }
 
-    router.push('/main-page')
+    router.push('/')
 }

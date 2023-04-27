@@ -8,6 +8,10 @@ let usersMe = () => {
     return Axios.get('/users/me')
 }
 
+// let getCookie  = () => {
+//     return Axios.get('auth/cookiejwt')
+// }
+
 let logout = () => {
     localStorage.removeItem('token')
 }
@@ -31,5 +35,6 @@ export const accountService = {
     saveToken,
     getToken,
     isLogged,
-    usersMe
+    usersMe,
+    // getCookie
 }

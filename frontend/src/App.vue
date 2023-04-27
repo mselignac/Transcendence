@@ -1,14 +1,3 @@
-<script>
-
-import { state } from "@/socket";
-
-export default {
-  data() {
-    return {}
-  },
-}
-</script>
-
 <template>
   <div className="app">
       <RouterView/>
@@ -45,16 +34,20 @@ export default {
 
 
 
+<!-- 
 
+<template>
+  <div>
+    <form @submit.prevent="sendMessage" className="border_right_bottom_two">
+      <input className="placeholder_search_friends" v-model="text" placeholder='send'>
+    </form>
+  </div>
+</template>
 
+<script>
 
+import io from "socket.io-client";
 
-
-
-
-
-
-<!-- <script>
 export default {
   data() {
     return {
@@ -80,22 +73,23 @@ export default {
         this.messages.push(message)
     },
     validateInput() {
-        return this.name.length > 0 && this.text.length > 0
+        return this.text.length > 0
     }
   },
   created() {
     this.socket = io('http://localhost:3000')
     this.socket.on('msgToClient', (message) => {
+      console.log(message),
         this.receivedMessage(message)
     })
   }
 }
-</script> -->
+</script>
 
 
 
 
-
+ -->
 
 
 

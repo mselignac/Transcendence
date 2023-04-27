@@ -21,26 +21,41 @@ import Infos from '../components/InfosChannel.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', component: Login },
+    { path: '/', name: 'test', component: Login },
     { path: '/login', component: Login42 },
-    { path: '/main-page', component: MainPage },
-    { path: '/game-mode', component: GameMode },
-    { path: '/chat/:id', component: Chat, props: true },
-    { path: '/profile', component: Profile },
-    { path: '/profile-user/:id', component: ProfileUser, props: true },
-    { path: '/stats', component: Stats },
-    { path: '/mode', component: Mode },
-    { path: '/game-history', component: GameHistory },
-    { path: '/ladder', component: Ladder },
-    { path: '/achievements', component: Achievements },
-    { path: '/infos/:id', component: Infos , props: true},
-    { path: '/:pathMatch(.*)*', component: NotFound },
-    { path: '/pong', component: Pong },
+    { path: '/main-page', name: 'main-page', component: MainPage },
+    { path: '/game-mode', name: 'game-mode',component: GameMode },
+    { path: '/chat/:id', name: 'chat',component: Chat, props: true },
+    { path: '/profile', name: 'profile',component: Profile },
+    { path: '/profile-user/:id', name: 'profile-user',component: ProfileUser, props: true },
+    { path: '/stats', name: 'stats',component: Stats },
+    { path: '/mode', name: 'mode',component: Mode },
+    { path: '/game-history', name: 'game-history',component: GameHistory },
+    { path: '/ladder', name: 'ladder',component: Ladder },
+    { path: '/achievements', name: 'achievements',component: Achievements },
+    { path: '/infos/:id', name: 'infos',component: Infos , props: true},
+    { path: '/:pathMatch(.*)*', name: 'error',component: NotFound },
+    { path: '/pong', name: 'pong',component: Pong },
   ]
 })
 
+
+
 router.beforeEach((to, from, next) => {
-  if(to.matched[0].name == '/login'){
+  console.log(to.matched[0].name)
+  if(to.matched[0].name != 'test' && to.matched[0] != 'login'
+
+      // to.matched[0].name ==  'main-page' ||
+      // to.matched[0].name == 'game-mode' ||
+      // to.matched[0].name == 'chat' ||
+      // to.matched[0].name == 'profile' ||
+      // to.matched[0].name == 'profile-user' ||
+      // to.matched[0].name == 'stats' ||
+      // to.matched[0].name == 'mode' ||
+      // to.matched[0].name == 'game-history' ||
+      // to.matched[0].name == 'ladder' ||
+      // to.matched[0].name == 'pong'
+      ){
     authGuard()
   }
   next()

@@ -1,29 +1,54 @@
-import { reactive } from "vue";
-import { io } from "socket.io-client";
+// import { reactive } from "vue";
+// import { io } from "socket.io-client";
 
-export const state = reactive({
-  connected: false,
-  fooEvents: [],
-  barEvents: []
-});
+// export const state = reactive({
+//   connected: false,
+//   fooEvents: [],
+//   barEvents: []
+// });
 
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
+// const URL = process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
 
-export const socket = io(URL);
+// export const socket = io(URL);
 
-socket.on("connect", () => {
-  state.connected = true;
-});
+// socket.on("connect", () => {
+//   console.log('connect socket'),
+//   state.connected = true;
+// });
 
-socket.on("disconnect", () => {
-  state.connected = false;
-});
+// socket.on("disconnect", () => {
+//   console.log('disconnect socket'),
+//   state.connected = false;
+// });
 
-socket.on("foo", (...args) => {
-  state.fooEvents.push(args);
-});
 
-socket.on("bar", (...args) => {
-  state.barEvents.push(args);
-});
+// socket.on('msgToClient', (message) => {
+//   console.log('lalalala')
+//   console.log(message),
+//     receivedMessage(message)
+// })
+
+// socket.on("foo", (...args) => {
+//   state.fooEvents.push(args);
+// });
+
+// socket.on("bar", (...args) => {
+//   state.barEvents.push(args);
+// });
+
+
+
+
+
+
+
+
+import io, { Socket } from 'socket.io-client'
+
+let url = 'ws://localhost:3000';
+
+let $socket_chat = io(url);
+
+
+export default $socket_chat

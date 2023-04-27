@@ -74,17 +74,17 @@ export default {
       },
       validateInput(text) {
         return text.length > 0
-      },
+      }
+    },
     // mounted() {
     //   console.log("salut");
-    //   accountService.usersMe()
+    //   accountService.getCookie()
     //       .then(res => {
     //         console.log(res)
     //         // this.$router.push('/main-page')
     //       })
     //       .catch(err => console.log(err))
-    //     }
-    }
+    // },
 }
 </script>
 
@@ -92,7 +92,7 @@ export default {
   <div className="friend_menu" v-if="friend">
     <RouterLink :to="'/profile-user/' + this.test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
     <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(this.test_friend)">Remove to friend</button>
-    <RouterLink :to="'/chat/' + this.test_friend.text" className="elements_menu" v-if="friend">Send a message</RouterLink>
+    <RouterLink :to="'/chat/' + this.test_friend.text" className="elements_menu" v-if="friend">Chat</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button>
     <button className="elements_menu" v-if="friend">Block</button>

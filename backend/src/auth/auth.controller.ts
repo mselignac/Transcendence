@@ -56,4 +56,12 @@ export class AuthController {
 	  req.res.redirect(this.config.get('route_frontend_login'));
 	  return;
 	}
+
+	// @Get('cookiejwt')     
+	// async handleCookie(@Req() req: Request) {         
+	// 	const cookie = await this.userservice.signToken(req.user['id']);        
+	// 	return cookie;     
+	// }
+
+
 }

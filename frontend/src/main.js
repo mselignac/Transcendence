@@ -7,7 +7,6 @@ import router from './router'
 import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import { io } from 'socket.io-client'
 
 import './assets/main.css'
 import './assets/login.css'
@@ -25,7 +24,6 @@ import './assets/infos.css'
 library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faFaceSadTear, faFaceGrimace, faCircle)
 
 const app = createApp(App)
-// app.config.globalProperties.axios=axios
-app.use(router, VueAxios, axios, io)
+app.use(router, VueAxios, axios)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
