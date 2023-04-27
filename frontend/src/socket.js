@@ -7,8 +7,11 @@ export const state = reactive({
   barEvents: []
 });
 
+const port = import.meta.env.VITE_APP_BACKEND_PORT;
+const host = import.meta.env.VITE_APP_HOST;
+
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = process.env.NODE_ENV === "production" ? undefined : "http://localhost:3000";
+const URL = process.env.NODE_ENV === "production" ? undefined : `http://${host}:${port}`;
 
 export const socket = io(URL);
 

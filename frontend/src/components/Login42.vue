@@ -1,8 +1,9 @@
-
 <script>
 export default {
 	mounted() {
-		window.location.href = 'http://localhost:3000/auth/42/login';
+		const port = import.meta.env.VITE_APP_BACKEND_PORT;
+		const host = import.meta.env.VITE_APP_HOST;
+		window.location.href = `http://${host}:${port}/auth/42/login`;
 	}
 }
 </script>

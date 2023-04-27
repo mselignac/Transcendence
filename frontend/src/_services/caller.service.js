@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { accountService } from './account.service'
 
+const port = import.meta.env.VITE_APP_BACKEND_PORT;
+const host = import.meta.env.VITE_APP_HOST;
+
 const Axios = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: `http://${host}:${port}`
 })
 
 Axios.interceptors.request.use(request => {
@@ -18,4 +21,4 @@ Axios.interceptors.request.use(request => {
     return request
 })
 
-export default Axios
+export default {Axios}
