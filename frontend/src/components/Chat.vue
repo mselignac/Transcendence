@@ -194,6 +194,7 @@ import io from "socket.io-client"
 
 let id = 0
 
+let $socket_chat = io('ws://localhost:3000/chat');
 export default {
     props: ['id'],
     data() {
@@ -201,41 +202,40 @@ export default {
             text: '',
             text_test: '',
             msg: [],
-            // socket: null
         }
     },
     methods: {
       send_msg() {
         if (this.validateInput(this.text)) {
-            //   const message = {
-            //       id: id++,
-            //       text: this.text,
-            //       me: true,
-            //       username: 'me',
-            //   }
-            //   this.socket.emit('msgToServer', message)
+              const message = {
+                  id: id++,
+                  text: this.text,
+                  me: true,
+                  username: 'me',
+              }
+              $socket_chat.emit('msgToServer', message)
               this.text = ''
         }
       },
       send_msg_test() {
         if (this.validateInput(this.text_test)) {
-            //   const message = {
-            //       id: id++,
-            //       text: this.text_test,
-            //       me: false,
-            //       username: 'user',
-            //   }
-            //   this.socket.emit('msgToServer', message)
+              const message = {
+                  id: id++,
+                  text: this.text_test,
+                  me: false,
+                  username: 'user',
+              }
+              $socket_chat.emit('msgToServer', message)
               this.text_test = ''
         }
       },
       sendMessage() {
           if(this.validateInput()) {
-            //   const message = {
-            //       name: 'username',
-            //       text: this.text
-            //   }
-            //   this.socket.emit('msgToServer', message)
+              const message = {
+                  name: 'username',
+                  text: this.text
+              }
+              $socket_chat.emit('msgToServer', message)
               this.text = ''
           }
       },
@@ -246,14 +246,25 @@ export default {
           return text.length > 0
       }
     },
-    // created() {
+    created() {
     //   this.socket = io('http://localhost:3000')
     //   this.socket.on('msgToClient', (message) => {
     //     console.log('lalalala')
     //     console.log(message),
     //       this.receivedMessage(message)
     //   })
-    // }
+
+
+    $socket_chat.on('connect', () => {
+        console.log("test");
+    })
+        $socket_chat.on('msgToClient', (message) => {
+            console.log('lalalala')
+            console.log(message)
+            this.receivedMessage(message)
+        })
+
+    }
 }
 </script>
 

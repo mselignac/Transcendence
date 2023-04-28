@@ -44,11 +44,23 @@
 
 
 
-import io, { Socket } from 'socket.io-client'
+// import io, { Socket } from 'socket.io-client'
 
-let url = 'ws://localhost:3000';
+// let url = 'ws://localhost:3000/chat';
 
-let $socket_chat = io(url);
+// let $socket_chat = io(url);
 
+// $socket_chat.on('connect', () => {
+//     console.log("test");
+// })
+//       $socket_chat.on('msgToClient', (message) => {
+//         console.log('lalalala')
+//         console.log(message)
+//       })
 
-export default $socket_chat
+// // $socket_chat.on("connect", () => {
+// //   console.log('connect socket')
+// // //   state.connected = true;
+// // });
+
+// export default $socket_chat

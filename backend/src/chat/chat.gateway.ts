@@ -8,11 +8,13 @@ import {
   } from '@nestjs/websockets';
   import { Logger } from '@nestjs/common';
   import { Socket, Server } from 'socket.io';
-  import { ChatService } from './chat/chat.service'
+  import { ChatService } from './chat.service'
   
   @WebSocketGateway({
+    namespace: '/chat',
     cors: {
       origin: '*',
+      credentials: true,
     },
   })
   export class ChatGateway
