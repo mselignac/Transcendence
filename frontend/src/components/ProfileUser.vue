@@ -26,7 +26,7 @@ export default {
     //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
     //   };
     //   axios
-    //     .get('http://localhost:3001/users/me', { headers })
+    //     .get('http://10.11.8.8:3001/users/me', { headers })
     //     .then((response) => {
     //       this.users = response.data
     //       console.log(this.users.email);

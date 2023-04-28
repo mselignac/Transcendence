@@ -12,8 +12,4 @@ export class ChatService {
 
     server: Server;
 
-    // connection() {
-    //     console.log("connected to frontend");
-    //     this.server.emit("data", this.dataChariot);
-    // }
 }

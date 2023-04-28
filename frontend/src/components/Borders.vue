@@ -20,7 +20,8 @@ export default {
           newChannel: '',
           channels: [],
           token: '',
-          connected: false
+          connected: false,
+          create_channel: false
         }
     },
     methods: {
@@ -55,6 +56,7 @@ export default {
         if (this.validateInput(this.newChannel)) {
           this.channels.push({ id: id++, text: this.newChannel }),
           this.newChannel = ''
+          this.create_channel = false
         }
       },
       removeChannel(channels) {
@@ -71,6 +73,14 @@ export default {
               this.user_not_exist = true }
           this.search_user = ''
         }
+      },
+      create_channel_close() {
+        this.create_channel = false,
+        this.newChannel = ''
+      },
+      createChannel() {
+        console.log(this.create_channel)
+        this.create_channel = true
       },
       validateInput(text) {
         return text.length > 0
@@ -132,9 +142,19 @@ export default {
           <form v-if="channels_friends" @submit.prevent="addFriend"  className="border_right_bottom_two">
             <input className="placeholder_search_friends" v-model="newFriend" placeholder='add friends'>
           </form>
-          <form v-else @submit.prevent="addChannel" className="border_right_bottom_two">
+          <form v-else @submit.prevent="createChannel" className="border_right_bottom_two">
             <input className="placeholder_search_friends" v-model="newChannel" placeholder='search channel'>
           </form>
+
+        <div v-if="create_channel" className="create_channel">
+          <h1>This channel doesn't exist</h1>
+          <h1>Do you want to create it?</h1>
+          <div className="yes_no">
+            <button @click="create_channel_close" className="button_no">no</button>
+            <button @click="addChannel" className="button_yes">yes</button>
+          </div>
+        </div>
+
         </div>
         <div v-if="channels_friends" className="border_right_bottom_three">
           <ul>
@@ -153,7 +173,6 @@ export default {
             <h1 v-if="!channels.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-grimace" /></h1>
             <li v-for="channel in channels" :key="channel.id" className="friends_usernames">
               <button @click="channel_menu(channel)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" />{{ channel.text }}</button>
-              <!-- <button @click="removeChannel(channel)">X</button> -->
             </li>
           </ul>
         </div>

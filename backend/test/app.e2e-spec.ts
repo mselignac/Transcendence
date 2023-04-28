@@ -23,7 +23,7 @@ describe('App e2e', () => {
 
     prisma = app.get(PrismaService);
     await prisma.cleanDb();
-    pactum.request.setBaseUrl('http://localhost:3333');
+    pactum.request.setBaseUrl('http://10.11.8.8:3333');
   });
   afterAll(() => {
     app.close;

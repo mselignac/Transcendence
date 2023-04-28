@@ -27,7 +27,7 @@ export default {
             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
       };
       axios
-        .delete('http://localhost:3000/auth/42/logout', { headers })
+        .delete('http://10.11.8.8:3000/auth/42/logout', { headers })
         .then((response) => {
           this.users = response.data
           console.log(cookieValue);
@@ -42,7 +42,7 @@ export default {
     //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
     //   };
     //   axios
-    //     .get('http://localhost:3001/users/me', { headers })
+    //     .get('http://10.11.8.8:3001/users/me', { headers })
     //     .then((response) => {
     //       this.users = response.data
     //       console.log(this.users.email);
@@ -58,7 +58,7 @@ export default {
       };
       axios
         // .get('https://jsonplaceholder.typicode.com/users/1')
-        .get('http://localhost:3000/users/me', { headers })
+        .get('http://10.11.8.8:3000/users/me', { headers })
         .then((response) => {
           this.users = response.data
           console.log(this.users.email);

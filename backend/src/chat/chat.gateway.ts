@@ -44,5 +44,6 @@ import {
     handleConnection(client: Socket, ...args: any[]) {
       this.logger.log(`Client connected: ${client.id}`);
       console.log('cest connecte');
+      // client.join(arg;
     }
   }
