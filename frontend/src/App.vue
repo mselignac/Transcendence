@@ -77,7 +77,7 @@ export default {
     }
   },
   created() {
-    this.socket = io('http://10.11.8.8:3000')
+    this.socket = io('http://localhost:3000')
     this.socket.on('msgToClient', (message) => {
       console.log(message),
         this.receivedMessage(message)

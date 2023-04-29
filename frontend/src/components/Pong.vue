@@ -14,7 +14,7 @@
 
     let socket = $socket;
 
-    // const socket = io("ws://10.11.8.8:3001");
+    // const socket = io("ws://localhost:3001");
 
     export default {
         watch: {
@@ -36,7 +36,7 @@
         },
 
         // created() { 
-        //     this.socket = io("ws://10.11.8.8:3001");
+        //     this.socket = io("ws://localhost:3001");
         // },
         mounted() {
             // console.log("ZBOUI");

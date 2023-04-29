@@ -110,7 +110,7 @@ export default {
   </div>
 
   <div className="channel_menu" v-if="channel">
-    <RouterLink :to="'/chat/' + this.test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
+    <RouterLink :to="'/channel/' + this.test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
     <button className="elements_menu" v-if="channel" @click=removeChannel(this.test_channel)>Quit</button>
     <RouterLink :to="'/infos/' + this.test_channel.text" className="elements_menu" v-if="channel">Infos</RouterLink>
     <button className="close_menu" v-if="channel" @click="channel_menu">close</button>

@@ -16,6 +16,7 @@ import NotFound from '../components/NotFound.vue'
 import ProfileUser from '../components/ProfileUser.vue'
 import { authGuard } from '../_helper/auth-guard'
 import Infos from '../components/InfosChannel.vue'
+import Channel from '../components/Channel.vue'
 
 
 const router = createRouter({
@@ -36,6 +37,7 @@ const router = createRouter({
     { path: '/infos/:id', name: 'infos',component: Infos , props: true},
     { path: '/:pathMatch(.*)*', name: 'error',component: NotFound },
     { path: '/pong', name: 'pong',component: Pong },
+    { path: '/channel/:id', name: 'channel', component: Channel, props: true }
   ]
 })
 

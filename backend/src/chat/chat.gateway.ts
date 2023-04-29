@@ -37,13 +37,13 @@ import {
     }
   
     handleDisconnect(client: Socket) {
-      this.logger.log(`Client disconnected: ${client.id}`);
-      console.log('cest deconnecte')
+      // this.logger.log(`Client disconnected: ${client.id}`);
+      // console.log('cest deconnecte')
     }
   
     handleConnection(client: Socket, ...args: any[]) {
-      this.logger.log(`Client connected: ${client.id}`);
-      console.log('cest connecte');
-      // client.join(arg;
+      // this.logger.log(`Client connected: ${client.id}`);
+      // console.log('cest connecte');
+      // client.join('room');
     }
   }

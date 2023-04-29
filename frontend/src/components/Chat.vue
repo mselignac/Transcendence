@@ -19,7 +19,13 @@ import io from "socket.io-client"
 <script>
 
 let id = 0
-let $socket_chat = io('ws://10.11.8.8:3000/chat');
+let $socket_chat = io('ws://localhost:3000/chat',
+{ 
+    transports: ["websocket"],
+    forceNew: true,
+    upgrade: false,
+}
+);
 
 export default {
     props: ['id'],
@@ -66,7 +72,7 @@ export default {
     },
     created() {
         $socket_chat.on('connect', () => {
-            console.log("test");
+            console.log("testrtdfygyhu");
         })
         $socket_chat.on('msgToClient', (message) => {
             console.log(message)
@@ -86,7 +92,8 @@ export default {
                 <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
                 </div>
-                <h1 className="chat_name">{{ this.id }}</h1>
+                <!-- <h1 className="chat_name">{{ this.id }}</h1> -->
+                <RouterLink :to="'/profile-user/' + this.id" className="chat_name">{{ this.id }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">
@@ -174,7 +181,7 @@ import io from "socket.io-client"
 <script>
 
 let id = 0
-let $socket_chat = io('ws://10.11.8.8:3000/chat');
+let $socket_chat = io('ws://localhost:3000/chat');
 
 export default {
     props: ['id'],
@@ -221,7 +228,7 @@ export default {
       }
     },
     created() {
-    //   this.socket = io('http://10.11.8.8:3000')
+    //   this.socket = io('http://localhost:3000')
     //   this.socket.on('msgToClient', (message) => {
     //     console.log('lalalala')
     //     console.log(message),
