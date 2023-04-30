@@ -34,7 +34,7 @@ export default {
             text: '',
             text_test: '',
             msg: [],
-            my_username: ''
+            my_username: '',
         }
     },
     methods: {

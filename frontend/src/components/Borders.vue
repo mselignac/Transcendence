@@ -1,5 +1,11 @@
 <script>
 import { accountService } from '@/_services'
+// import { ref } from 'vue';
+// const componentKey = ref(0);
+
+// const forceRerender = () => {
+//   componentKey.value += 1;
+// };
 
 let id = 0
 
@@ -21,7 +27,7 @@ export default {
           channels: [],
           token: '',
           connected: false,
-          create_channel: false
+          create_channel: false,
         }
     },
     methods: {
