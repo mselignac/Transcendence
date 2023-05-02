@@ -1,6 +1,7 @@
 import {
     WebSocketGateway,
     WebSocketServer,
+    OnGatewayInit,
     OnGatewayConnection,
     OnGatewayDisconnect,
     ConnectedSocket,
@@ -14,6 +15,7 @@ import { PongService } from './pong/pong.service'
 @WebSocketGateway({cors: true})
 
 export class PongGateway
+implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect 
 {
   constructor(private pong : PongService){ 
     console.log("Here");
@@ -26,7 +28,7 @@ export class PongGateway
   @SubscribeMessage('init')
   connection(client: Socket): void {
     console.log("connected to frontend");
-    client.join('1');
+    client.join("1");
     client.broadcast.emit("data", this.pong.dataChariot);
   }
 
@@ -39,6 +41,18 @@ export class PongGateway
   @SubscribeMessage('play')
   play(client: Socket): void {
     console.log("bonjour 2");
-    this.room.gamePlaying(this.server);
+    return(this.room.gamePlaying(this.server));
+  }
+
+  afterInit(server: Server) {
+    console.log('Init');
+  }
+
+  handleDisconnect(client: Socket) {
+    console.log(`Client disconnected: ${client.id}`);
+  }
+
+  handleConnection(client: Socket, ...args: any[]) {
+    console.log(`Client connected: ${client.id}`);
   }
 }

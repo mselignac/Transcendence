@@ -82,10 +82,10 @@ export class PongService {
     
 
     gamePlaying(server: Server) {
-        this.server = server;
+        // this.server = server;
         console.log("bonjour 3");
         this.updateBall();
-        this.server.to('1').emit("data", this.dataChariot);
+        server.to("1").emit("data", this.dataChariot);
         setTimeout(this.gamePlaying.bind(this), 10);
     }
 
