@@ -11,7 +11,7 @@ import Mode from '../components/ModeTest.vue'
 import Stats from '../components/Stats.vue'
 import GameHistory from '../components/GameHistory.vue'
 import Ladder from '../components/Ladder.vue'
-import Achievements from '../components/Achievements.vue'
+// import Achievements from '../components/Achievements.vue'
 import NotFound from '../components/NotFound.vue'
 import ProfileUser from '../components/ProfileUser.vue'
 import { authGuard } from '../_helper/auth-guard'
@@ -33,7 +33,7 @@ const router = createRouter({
     { path: '/mode', name: 'mode',component: Mode },
     { path: '/game-history', name: 'game-history',component: GameHistory },
     { path: '/ladder', name: 'ladder',component: Ladder },
-    { path: '/achievements', name: 'achievements',component: Achievements },
+    // { path: '/achievements', name: 'achievements',component: Achievements },
     { path: '/infos/:id', name: 'infos',component: Infos , props: true},
     { path: '/:pathMatch(.*)*', name: 'error',component: NotFound },
     { path: '/pong', name: 'pong',component: Pong },
@@ -45,7 +45,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   console.log(to.matched[0].name)
-  if(to.matched[0].name != 'test' && to.matched[0] != 'login'
+  if(to.matched[0].name != 'test' && to.matched[0] != 'login' && to.matched[0] != 'error'
 
       // to.matched[0].name ==  'main-page' ||
       // to.matched[0].name == 'game-mode' ||

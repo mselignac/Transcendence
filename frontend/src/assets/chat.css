@@ -211,6 +211,7 @@
 .msg_form {
     display: flex;
     width: 100%;
+    /* width: 90%; */
     /* background-color: green; */
     /* height: 60px; */
     /* grid-column: 1/5; */
@@ -218,6 +219,7 @@
     /* transform: rotate(180deg) */
     /* justify-content: flex-start; */
     /* align-items: flex-end; */
+    word-break: break-all;
 }
 
 .msg_me_test {
@@ -244,6 +246,7 @@
     font-size: 170%;
     margin-top: 5px;
     margin-right: 15px;
+    /* margin-left: auto; */
     margin-left: auto;
     padding: 10px;
     background-color: rgb(26, 72, 172);
@@ -251,6 +254,7 @@
     justify-content: flex-end;
     justify-self: flex-start;
     flex-direction: column;
+    align-items: flex-end;
     color: rgba(255, 255, 255, 0.904);
 }
 

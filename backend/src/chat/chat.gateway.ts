@@ -46,13 +46,13 @@ import {
 
     @SubscribeMessage('joinRoom')
     joinRoom(client: Socket, payload: string): void {
-      console.log(payload);
+      // console.log(payload);
       client.join(payload);
     }
 
     @SubscribeMessage('joinRoomChat')
     joinRoomChat(client: Socket, payload: string): void {
-      console.log(payload);
+      // console.log(payload);
       client.join(payload);
     }
 

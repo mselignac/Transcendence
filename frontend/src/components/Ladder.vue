@@ -24,9 +24,9 @@ export default {
             <div className="game_history_test">
                 <RouterLink to="game-history" className="game_history_button_test">Game history</RouterLink>
             </div>
-            <div className="lvl_test">
+            <!-- <div className="lvl_test">
                 <RouterLink to="achievements" className="game_history_button_test">Achievements</RouterLink>
-            </div>
+            </div> -->
         </div>
         <div className="stats_right">
             <div className="stats_right_top">
@@ -37,3 +37,4 @@ export default {
   </div>
 
 </template>
+                                                                                                                                                                                                                                                                                          
