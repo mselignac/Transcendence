@@ -53,7 +53,7 @@ export default {
                   username: this.my_username,
                   socketid: $socket_chat.id
               }
-              $socket_chat.emit('msgToServer', message)
+              $socket_chat.emit('msgToServer', "room_chat",message)
               this.text = ''
         }
       },
@@ -71,9 +71,9 @@ export default {
       }
     },
     created() {
-        $socket_chat.on('connect', () => {
-            console.log("testrtdfygyhu");
-        })
+        // $socket_chat.on('connect', () => {
+        //     console.log("testrtdfygyhu");
+        // })
         $socket_chat.on('msgToClient', (message) => {
             console.log(message)
             console.log($socket_chat.id)

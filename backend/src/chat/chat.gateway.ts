@@ -25,35 +25,42 @@ import {
     @WebSocketServer() server: Server;
   
     private logger: Logger = new Logger('ChatGateway');
-  
+
+
+
+    //////////////////////////////////////////////////////////
+    //////////               SEND MSG               //////////
+    //////////////////////////////////////////////////////////
+
     @SubscribeMessage('msgToServer')
-    handleMessage(client: Socket, payload: string): void {
-      // console.log(payload);
-      // this.server.emit('msgToClient', payload);
-      this.server.to('room_chat').emit('msgToClient', payload);
+    handleMessage(client: Socket, payload: String): void {
+      // console.log(payload[0]);
+      this.server.to(payload[0]).emit('msgToClient', payload[1]);
     }
 
-    @SubscribeMessage('msgToServerRoom')
-    handleMessageRoom(client: Socket, payload: String): void {
-      console.log(payload);
-      this.server.to('room_channel').emit('msgToClient', payload);
-    }
+
+
+    //////////////////////////////////////////////////////////
+    //////////               JOIN ROOM              //////////
+    //////////////////////////////////////////////////////////
 
     @SubscribeMessage('joinRoom')
     joinRoom(client: Socket, payload: string): void {
       console.log(payload);
       client.join(payload);
-      // client.join('room_channel')
-      // this.server.to('room_channel').emit('msgToClient', 'join the room');
     }
 
     @SubscribeMessage('joinRoomChat')
     joinRoomChat(client: Socket, payload: string): void {
       console.log(payload);
       client.join(payload);
-      // client.join('room_chat')
-      // this.server.to('room_chat').emit('msgToClient', 'join the room');
     }
+
+
+
+    //////////////////////////////////////////////////////////
+    //////////                 INIT                 //////////
+    //////////////////////////////////////////////////////////
 
     afterInit(server: Server) {
       this.logger.log('Init');
@@ -67,11 +74,5 @@ import {
     handleConnection(client: Socket, ...args: any[]) {
       // this.logger.log(`Client connected: ${client.id}`);
       // console.log('cest connecte');
-      // client.join('room');
     }
   }
-
-
-
-
-

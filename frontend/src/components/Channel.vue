@@ -41,7 +41,7 @@ export default {
                   socketid: $socket_chat.id,
                   room: 'room_channel'
               }
-              $socket_chat.emit('msgToServerRoom', message)
+              $socket_chat.emit('msgToServer', "room_channel", message)
               this.text = ''
         }
       },
@@ -59,10 +59,9 @@ export default {
       }
     },
     created() {
-        $socket_chat.on('connect', () => {
-            console.log($socket_chat.id);
-            // $socket_chat.join('room_channel')
-        })
+        // $socket_chat.on('connect', () => {
+        //     console.log($socket_chat.id);
+        // })
         $socket_chat.on('msgToClient', (message) => {
             console.log(message)
             console.log($socket_chat.id)
