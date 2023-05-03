@@ -29,23 +29,25 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   connection(client: Socket): void {
     console.log("connected to frontend");
     client.join("1");
-    client.broadcast.emit("data", this.pong.dataChariot);
+    client.broadcast.emit("data", this.room.dataChariot);
   }
 
   @SubscribeMessage('move')
   movePlayer(@MessageBody() data: string): void {
-    this.pong.move(data);
-    this.server.emit("data", this.pong.dataChariot);
+    this.room.move(data);
+    this.server.to("1").emit("data", this.room.dataChariot);
   }
 
   @SubscribeMessage('play')
   play(client: Socket): void {
     console.log("bonjour 2");
+    // console.log("server 1", this.server);
+    
     return(this.room.gamePlaying(this.server));
   }
 
   afterInit(server: Server) {
-    console.log('Init');
+    console.log('Server initialized', server);
   }
 
   handleDisconnect(client: Socket) {

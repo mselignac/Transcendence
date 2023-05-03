@@ -69,27 +69,35 @@ export class PongService {
                 this.dataChariot.leftPlayer.y += 5;
                 // return this.position;
                 break;
-            case "upL":
-                this.dataChariot.rightPlayer.y -= 5;
+            case "upR":
+                if (this.dataChariot.rightPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
+                    this.dataChariot.rightPlayer.y -= 5;
                 // return this.position;
                 break;
-            case "downL":
-                this.dataChariot.rightPlayer.y += 5;
+            case "downR":
+                if (this.dataChariot.rightPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
+                    this.dataChariot.rightPlayer.y += 5;
                 // return this.position;
                 break;
         }
     }
     
+    loop() {
+        this.updateBall();
+        this.server.to("1").emit("data", this.dataChariot);
+        setTimeout(this.loop.bind(this), 10);
+    }
 
     gamePlaying(server: Server) {
-        // this.server = server;
-        console.log("bonjour 3");
-        this.updateBall();
-        server.to("1").emit("data", this.dataChariot);
-        setTimeout(this.gamePlaying.bind(this), 10);
+        // console.log("server hbvzreghzzierhzibhzerbizhbzbzihrbzireiebvzirb", server);
+        this.server = server;
+        this.loop();
+        // server.to("1").emit("data", this.dataChariot);
+        // setTimeout(this.gamePlaying.bind(this), 10);
     }
 
     updateBall() {
+        // console.log("Is scored :", this.checkIfScored());
         if (this.checkIfScored()) {
             this.dataChariot.ball.vx *= -1;
             this.dataChariot.ball.x = this.globalwidth / 2;
