@@ -38,9 +38,10 @@ export default {
                   id: id++,
                   text: this.text,
                   username: this.my_username,
-                  socketid: $socket_chat.id
+                  socketid: $socket_chat.id,
+                  room: 'room_channel'
               }
-              $socket_chat.emit('msgToServer', message)
+              $socket_chat.emit('msgToServerRoom', message)
               this.text = ''
         }
       },
@@ -59,7 +60,8 @@ export default {
     },
     created() {
         $socket_chat.on('connect', () => {
-            console.log("testrtdfygyhu");
+            console.log($socket_chat.id);
+            // $socket_chat.join('room_channel')
         })
         $socket_chat.on('msgToClient', (message) => {
             console.log(message)
@@ -67,6 +69,24 @@ export default {
             console.log(message.socketid)
             this.receivedMessage(message)
         })
+        $socket_chat.emit('joinRoom', 'room_channel')
+
+
+
+
+        // io.emit("hello", 1, "2", { "3": 4 }, Buffer.from([5]));
+
+
+//         socket.on("hello", (arg1, arg2, arg3, arg4) => {
+        //   console.log(arg1); // 1
+        //   console.log(arg2); // "2"
+        //   console.log(arg3); // { "3": 4 }
+        //   console.log(arg4); // ArrayBuffer or Buffer, depending on the platform
+        // });
+
+
+
+
     }
 }
 </script>

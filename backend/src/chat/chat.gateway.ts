@@ -28,10 +28,33 @@ import {
   
     @SubscribeMessage('msgToServer')
     handleMessage(client: Socket, payload: string): void {
-      console.log(payload);
-      this.server.emit('msgToClient', payload);
+      // console.log(payload);
+      // this.server.emit('msgToClient', payload);
+      this.server.to('room_chat').emit('msgToClient', payload);
     }
-  
+
+    @SubscribeMessage('msgToServerRoom')
+    handleMessageRoom(client: Socket, payload: String): void {
+      console.log(payload);
+      this.server.to('room_channel').emit('msgToClient', payload);
+    }
+
+    @SubscribeMessage('joinRoom')
+    joinRoom(client: Socket, payload: string): void {
+      console.log(payload);
+      client.join(payload);
+      // client.join('room_channel')
+      // this.server.to('room_channel').emit('msgToClient', 'join the room');
+    }
+
+    @SubscribeMessage('joinRoomChat')
+    joinRoomChat(client: Socket, payload: string): void {
+      console.log(payload);
+      client.join(payload);
+      // client.join('room_chat')
+      // this.server.to('room_chat').emit('msgToClient', 'join the room');
+    }
+
     afterInit(server: Server) {
       this.logger.log('Init');
     }
@@ -47,3 +70,8 @@ import {
       // client.join('room');
     }
   }
+
+
+
+
+

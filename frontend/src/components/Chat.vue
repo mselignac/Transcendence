@@ -80,6 +80,7 @@ export default {
             console.log(message.socketid)
             this.receivedMessage(message)
         })
+        $socket_chat.emit('joinRoomChat', 'room_chat')
     }
 }
 </script>
