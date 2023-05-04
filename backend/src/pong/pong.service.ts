@@ -29,14 +29,14 @@ export class PongService {
         leftPlayer: {
             x: 50,
             y: this.board.height / 2,
-            width: 0,
+            width: 10,
             height: PADDLE_SIZE,
         },
 
         rightPlayer: {
-            x: 50,
+            x: this.board.width - 50,
             y: this.board.height / 2,
-            width: 0,
+            width: 10,
             height: PADDLE_SIZE,
         },
 
@@ -61,22 +61,22 @@ export class PongService {
         switch(data) {
             case "upL":
                 if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
-                    this.dataChariot.leftPlayer.y -= 5;
+                    this.dataChariot.leftPlayer.y -= 10;
                 // return this.position;
                 break;
             case "downL":
                 if (this.dataChariot.leftPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
-                this.dataChariot.leftPlayer.y += 5;
+                this.dataChariot.leftPlayer.y += 10;
                 // return this.position;
                 break;
             case "upR":
                 if (this.dataChariot.rightPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
-                    this.dataChariot.rightPlayer.y -= 5;
+                    this.dataChariot.rightPlayer.y -= 10;
                 // return this.position;
                 break;
             case "downR":
                 if (this.dataChariot.rightPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
-                    this.dataChariot.rightPlayer.y += 5;
+                    this.dataChariot.rightPlayer.y += 10;
                 // return this.position;
                 break;
         }
@@ -84,6 +84,7 @@ export class PongService {
     
     loop() {
         this.updateBall();
+        // console.log("vx, vy: ", this.dataChariot.ball.vx, this.dataChariot.ball.vy);
         this.server.to("1").emit("data", this.dataChariot);
         setTimeout(this.loop.bind(this), 10);
     }
@@ -91,6 +92,7 @@ export class PongService {
     gamePlaying(server: Server) {
         // console.log("server hbvzreghzzierhzibhzerbizhbzbzihrbzireiebvzirb", server);
         this.server = server;
+        this.calculateBounceAngle(this.dataChariot.leftPlayer);
         this.loop();
         // server.to("1").emit("data", this.dataChariot);
         // setTimeout(this.gamePlaying.bind(this), 10);
@@ -159,6 +161,9 @@ export class PongService {
     }
 
     checkIfScored() {
+        // console.log("Ball X: ", this.dataChariot.ball.x);
+        // console.log("Left X: ", this.dataChariot.leftPlayer.x);
+        // console.log("Right X: ", this.dataChariot.rightPlayer.x);
         if (this.dataChariot.ball.x <= this.dataChariot.leftPlayer.x) {
             return true;
         } 
