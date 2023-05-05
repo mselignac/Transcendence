@@ -103,7 +103,7 @@
                 backImgSprite.height = PongApp.renderer.height;
 
                 const heightRatio = backImgSprite.height / 1000;
-                const widthRatio = backImgSprite.width / 1000;
+                const widthRatio = backImgSprite.width / (1000 * 5 / 3);
                 gameScene.addChild(backImgSprite);
 
                 //Paddles Setup
@@ -234,7 +234,7 @@
 
                 socket.on('data', dataChariot => {
                     leftPaddle.y = dataChariot.leftPlayer.y * heightRatio;
-                    ball.x = dataChariot.ball.x;
+                    ball.x = dataChariot.ball.x * widthRatio;
                     ball.y = dataChariot.ball.y * heightRatio;
                 })
             },
