@@ -7,6 +7,7 @@ import router from './router'
 import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+// import VueChatScroll from 'vue-chat-scroll';
 
 import './assets/main.css'
 import './assets/login.css'
@@ -24,6 +25,6 @@ import './assets/infos.css'
 library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faFaceSadTear, faFaceGrimace, faCircle)
 
 const app = createApp(App)
-app.use(router, VueAxios, axios)
+app.use(router, VueAxios, axios)//, VueChatScroll)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')

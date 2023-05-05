@@ -1,6 +1,8 @@
 <script setup>
 import Borders from './Borders.vue'
 import io from "socket.io-client"
+// import VueChatScroll from 'vue-chat-scroll'
+// import 
 </script>
 
 <script>

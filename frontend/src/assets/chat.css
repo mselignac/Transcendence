@@ -25,7 +25,7 @@
     border-radius: 20px 20px 20px 20px;
     /* background-color: rgba(75, 82, 104, 0.377); */
     /* background-color: red; */
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .chat_top_test {
@@ -63,17 +63,24 @@
 
 
     justify-content: flex-start;
+
+
+
+
+
+    /* ca marche presque */
     /* justify-content: flex-end; */
+    /* transform: rotate(180deg) */
+    /* flex-direction: column-reverse; */
     
     
     
     
-    align-items: flex-start;
+    /* align-items: flex-start; */
     /* grid-template-columns: 1fr 1fr 1fr; */
     /* justify-content: flex-end; */
     overflow-y: scroll;
     flex-direction: column;
-    /* transform: rotate(180deg) */
     /* transform: rotate(180deg); */
 
     /* background-color: blue; */
@@ -185,13 +192,21 @@
     display: flex;
     font-size: 170%;
     margin-top: 5px;
-    margin-left: 15px;
+    /* margin-left: 15px; */
     /* padding: 10px; */
     /* background-color: rgb(78, 83, 94); */
     border-radius: 20px 20px 20px 0px;
     flex-direction: column;
     margin-right: auto;
     color: rgba(255, 255, 255, 0.904);
+
+
+
+
+    /* ca marche presque */
+    /* transform: rotate(180deg); */
+    /* margin-left: auto; */
+
     /* background-color: red; */
 }
 
@@ -210,30 +225,20 @@
 
 .msg_form {
     display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
     width: 100%;
     /* width: 90%; */
     /* background-color: green; */
     /* height: 60px; */
     /* grid-column: 1/5; */
     flex-direction: column;
-    /* transform: rotate(180deg) */
+    /* transform: rotate(180deg); */
     /* justify-content: flex-start; */
     /* align-items: flex-end; */
     word-break: break-all;
+    /* justify-self: flex-end; */
 }
-
-.msg_me_test {
-    display: flex;
-    width: 100%;
-    grid-row: 1;
-    background-color: rgb(107, 0, 128);
-    grid-column: 1/3;
-    /* align-items: flex-end; */
-    flex-direction: column;
-    /* justify-content: flex-end; */
-    /* transform: rotate(-180deg); */
-}
-
 
 
 
@@ -245,17 +250,25 @@
     /* width: 95%; */
     font-size: 170%;
     margin-top: 5px;
-    margin-right: 15px;
+    /* margin-right: 15px; */
+    /* margin-left: 15px; */
     /* margin-left: auto; */
     margin-left: auto;
     padding: 10px;
+    /* padding-left: 150px; */
     background-color: rgb(26, 72, 172);
     border-radius: 20px 20px 0px 20px;
-    justify-content: flex-end;
-    justify-self: flex-start;
-    flex-direction: column;
-    align-items: flex-end;
+    /* justify-content: flex-end; */
+    /* justify-self: flex-start; */
+    /* flex-direction: column; */
+    /* align-items: flex-end; */
     color: rgba(255, 255, 255, 0.904);
+
+
+
+    /* ca marche presque */
+    /* transform: rotate(180deg); */
+    /* margin-right: auto; */
 }
 
 .test_msg:hover {
@@ -263,7 +276,7 @@
     /* width: 95%; */
     font-size: 170%;
     margin-top: 5px;
-    margin-right: 15px;
+    /* margin-right: 15px; */
     margin-left: auto;
     padding: 10px;
     background-color: rgb(26, 72, 172);

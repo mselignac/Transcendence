@@ -32,18 +32,18 @@ model User {
 
 
 
-// model Room {
-//   id        String    @id @unique @default(uuid())
-//   createAt  DateTime  @default(now())
-//   updateAT  DateTime  @default(now())
+model Room {
+  id        String    @id @unique @default(uuid())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
 
-//   name      String
-//   channel   Boolean
-//   users     User[]
-//   messages  String[]
+  name      String
+  channel   Boolean
+  users     User[]
+  messages  String[]
 
-  // @@map("users")
-// }
+  @@map("users")
+}
 
 
 

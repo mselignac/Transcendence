@@ -78,7 +78,7 @@ export default {
       </div>
       <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username'>
+          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9">
         </form>
         <!-- <h1>{{ this.username }}</h1> -->
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
