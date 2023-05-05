@@ -13,7 +13,10 @@ pour afficher comme il faut les messages
 
 <script setup>
 import Borders from './Borders.vue'
+// import { RoomDto } from '../../../backend/src/chat/room.dto.ts'
 import io from "socket.io-client"
+import { accountService } from '../_services/account.service';
+// import { RoomDto } from '../_services/room.dto';
 </script>
 
 <script>
@@ -35,11 +38,21 @@ export default {
             text_test: '',
             msg: [],
             my_username: '',
+            // dto: RoomDto
         }
     },
     methods: {
+      test() {
+        console.log('ici')
+        let dto = { name: '1', user_one: this.my_username, user_two: this.id }
+        // this.dto.name = '1'
+        // this.dto.user_one = 'fds'
+        // this.dto.user_two = 'fsd'
+        accountService.createRoom(dto)
+      },
       check_username(username) {
         console.log(this.my_username)
+        this.test()
         return (username == this.my_username)
       },
       check_invite(text) {

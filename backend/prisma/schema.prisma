@@ -38,11 +38,13 @@ model Room {
   updateAT  DateTime  @default(now())
 
   name      String
-  channel   Boolean
-  users     User[]
+//  channel   Boolean
+  user_one  String
+  user_two  String
+//  users     String[]
   messages  String[]
 
-  @@map("users")
+  @@map("maps")
 }
 
 

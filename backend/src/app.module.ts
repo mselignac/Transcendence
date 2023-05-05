@@ -10,10 +10,11 @@ import { PongGateway } from './pong.gateway';
 import { PongService } from './pong/pong.service';
 import { ChatGateway } from './chat/chat.gateway';
 import { JwtService } from '@nestjs/jwt';
+import { ChatModule } from './chat/chat.module';
 
 
 @Module({
-  imports: [PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule, 
+  imports: [ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     })],
