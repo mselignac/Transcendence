@@ -22,7 +22,7 @@ export class ChatController {
 	createRoom(@Body() dto: RoomDto) {
 		console.log(typeof(dto));
 		// let tmp = JSON.stringify(dto);
-		console.log(dto); 
+		console.log({dto}); 
         // console.log(dto)
         // console.log('iciii')
 	  return this.chatService.createRoom(dto) ;

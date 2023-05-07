@@ -18,7 +18,7 @@ let createRoom = (dto: RoomDto) => {
     // let tmp: RoomDto {
     //     name: dto.name
     // }
-    return Axios.post('/chat/createroom', dto )
+    return Axios.post('/chat/createroom', {name: dto.name, user_one: dto.user_one, user_two: dto.user_two} )
     // return Axios.post('/chat/createroom', { params: dto })
     // return Axios.post('/chat/createroom',  { headers: {
     //     name: '1',
