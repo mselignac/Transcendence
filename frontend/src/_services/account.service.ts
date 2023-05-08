@@ -11,27 +11,11 @@ let usersMe = () => {
 }
 
 let createRoom = (dto: RoomDto) => {
-    console.log("dto = ")
-    console.log(dto)
-    console.log(typeof(dto))
+    return Axios.post('/chat/createroom', dto)
+}
 
-    // let tmp: RoomDto {
-    //     name: dto.name
-    // }
-    return Axios.post('/chat/createroom', {name: dto.name, user_one: dto.user_one, user_two: dto.user_two} )
-    // return Axios.post('/chat/createroom', { params: dto })
-    // return Axios.post('/chat/createroom',  { headers: {
-    //     name: '1',
-    //     user_one: 'salut',
-    //     user_two: 'camarchepas'
-    //   }})
-    // return Axios.post('/chat/createroom', JSON.stringify(dto))
-    // return Axios.post('/chat/createroom', JSON.stringify(tmp), {
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // });
-
+let findRoom = (dto: RoomDto) => {
+    return Axios.post('/chat/findroom', dto)
 }
 
 // let getCookie  = () => {
@@ -46,7 +30,7 @@ let getToken = () => {
     return localStorage.getItem('token')
 }
 
-let saveToken = (token) => {
+let saveToken = (token: string) => {
     localStorage.setItem('token', token)
 }
 
@@ -63,5 +47,6 @@ export const accountService = {
     isLogged,
     usersMe,
     createRoom,
+    findRoom
     // getCookie
 }

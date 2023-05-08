@@ -2,6 +2,8 @@ import { ChatService } from './chat.service';
 import { Body, Controller, Get, Patch, Req , Post } from '@nestjs/common';
 import { RoomDto } from './room.dto';
 
+// let id = 0
+
 @Controller('chat')
 export class ChatController {
 	constructor(private chatService: ChatService) {}
@@ -11,30 +13,23 @@ export class ChatController {
 	// 	return user;
 	// }
 
-	@Get('me')
-	getMe(@Req() req) {
-	  return {
-		id: req.user.id,
-	  };
-	}
+	// @Get('me')
+	// getMe(@Req() req) {
+	//   return {
+	// 	id: req.user.id,
+	//   };
+	// }
+
 
 	@Post('createroom')
-	createRoom(@Body() dto: RoomDto) {
-		console.log(typeof(dto));
-		// let tmp = JSON.stringify(dto);
-		console.log({dto}); 
-        // console.log(dto)
-        // console.log('iciii')
+	createRoom(@Body() dto: object) {
 	  return this.chatService.createRoom(dto) ;
 	}
 
-	// @Post('createroom')
-	// createRoom(@Body() dto: string) {
-    //     console.log('iciii')
-    //     console.log(dto)
-    //     console.log('iciii')
-	//   return this.chatService.createRoom(dto) ;
-	// }
+	@Post('findroom')
+	findRoom(@Body() dto: object) {
+	  return this.chatService.findRoom(dto) ;
+	}
 
 
 	// @Patch()
@@ -42,34 +37,3 @@ export class ChatController {
 	// 	return this.chatService.editRoom(userId, dto);
 	// }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Controller, Post, Body, HttpCode, HttpStatus} from "@nestjs/common";
-// import { AuthService } from "./auth.service";
-// import { AuthDto } from "./dto";
-
-// @Controller('auth')
-// export class AuthControler {
-// 	constructor(private authService: AuthService) {}
-
-// 	@Post('signup')
-// 	signup(@Body() dto: AuthDto) {return this.authService.signup(dto)};
-
-// 	@HttpCode(HttpStatus.OK)
-// 	@Post('signin')
-// 	signin(@Body() dto: AuthDto) {
-// 		return this.authService.signin(dto)
-// 	};
-
-// }

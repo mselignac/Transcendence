@@ -26,7 +26,7 @@ const router = createRouter({
     { path: '/login', component: Login42 },
     { path: '/main-page', name: 'main-page', component: MainPage },
     { path: '/game-mode', name: 'game-mode',component: GameMode },
-    { path: '/chat/:id', name: 'chat',component: Chat, props: true },
+    { path: '/chat/:idchat', name: 'chat',component: Chat, props: true },
     { path: '/profile', name: 'profile',component: Profile },
     { path: '/profile-user/:id', name: 'profile-user',component: ProfileUser, props: true },
     { path: '/stats', name: 'stats',component: Stats },
@@ -34,10 +34,10 @@ const router = createRouter({
     { path: '/game-history', name: 'game-history',component: GameHistory },
     { path: '/ladder', name: 'ladder',component: Ladder },
     // { path: '/achievements', name: 'achievements',component: Achievements },
-    { path: '/infos/:id', name: 'infos',component: Infos , props: true},
+    { path: '/infos/:idchannel', name: 'infos',component: Infos , props: true},
     { path: '/:pathMatch(.*)*', name: 'error',component: NotFound },
     { path: '/pong', name: 'pong',component: Pong },
-    { path: '/channel/:id', name: 'channel', component: Channel, props: true }
+    { path: '/channel/:idchannel', name: 'channel', component: Channel, props: true }
   ]
 })
 

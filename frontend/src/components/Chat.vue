@@ -16,7 +16,7 @@ import Borders from './Borders.vue'
 // import { RoomDto } from '../../../backend/src/chat/room.dto.ts'
 import io from "socket.io-client"
 import { accountService } from '../_services/account.service';
-// import { RoomDto } from '../_services/room.dto';
+import { RoomDto } from '../_services/room.dto';
 </script>
 
 <script lang="ts">
@@ -38,29 +38,27 @@ export type message_type = {
 }
 
 export default {
-    props: ['id'],
+    props: ['idchat'],
     data() {
         return {
             text: '',
             text_test: '',
             msg : [] as message_type[],
             my_username: '',
+            room: ''
+            // room: accountService.findRoom({user_one: 'elisa', user_two: 'liena'})
             // dto: RoomDto
         }
     },
     methods: {
-      test() {
-        // console.log('ici')
-        // let text: string
-        // let dto = { name: '1', user_one: this.my_username, user_two: this.id }
-        // this.dto.name = '1'
-        // this.dto.user_one = 'fds'
-        // this.dto.user_two = 'fsd'
-        // accountService.createRoom(dto)
-      },
+    //   test() {
+    //     console.log('ici')
+    //     let dto: RoomDto = { name: '1', user_one: this.my_username, user_two: this.idchat }
+    //     accountService.createRoom(dto)
+    //   },
       check_username(username: string) {
         // console.log(this.my_username)
-        this.test()
+        // this.test()
         return (username == this.my_username)
       },
       check_invite(text: string) {
@@ -104,6 +102,8 @@ export default {
             this.receivedMessage(message)
         })
         $socket_chat.emit('joinRoomChat', 'room_chat')
+        // let dto: RoomDto
+        // this.room = accountService.findRoom({user_one: 'elisa', user_two: 'liena'})
     }
 }
 </script>
@@ -117,7 +117,7 @@ export default {
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
                 </div>
                 <!-- <h1 className="chat_name">{{ this.id }}</h1> -->
-                <RouterLink :to="'/profile-user/' + id" className="chat_name">{{ id }}</RouterLink>
+                <RouterLink :to="'/profile-user/' + idchat" className="chat_name">{{ idchat }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">

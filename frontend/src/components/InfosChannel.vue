@@ -7,7 +7,7 @@ import Borders from './Borders.vue'
 let id = 0;
 
 export default {
-    props: ['id'],
+    props: ['idchannel'],
     data() {
         return {
             users: [{id: id++, name: 'user', admin: true },
@@ -38,7 +38,7 @@ export default {
       <Borders/>
       <div className="main_div">
         <div className="infos">
-            <h1 className="channel_name_infos">{{ id }}</h1>
+            <h1 className="channel_name_infos">{{ idchannel }}</h1>
 
             <div className="user_list_infos">
                 <li v-for="user in users" :key="user.id">

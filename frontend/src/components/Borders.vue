@@ -1,5 +1,6 @@
 <script lang="ts">
 import { accountService } from '@/_services'
+import { RoomDto } from '@/_services/room.dto'
 // import { ref } from 'vue';
 // const componentKey = ref(0);
 
@@ -8,6 +9,7 @@ import { accountService } from '@/_services'
 // };
 
 let id = 0
+let idRoom = 0
 
 export type friend_type = {
     id: number,
@@ -21,22 +23,21 @@ export type users_type = {
 
 export default {
     data() {
+
         let test_friend: friend_type = {id: id++, text: ''}
         let test_channel: friend_type = {id: id++, text: ''}
         let users: users_type = {username: ''}
+
         return {
           users: users,
           test_friend: test_friend,
           test_channel: test_channel,
-          // test_friend: '',
-          // test_channel: '',
           search_user: '',
           user_exist: false,
           user_not_exist: false,
           friend: false,
           channel: false,
           channels_friends: true,
-          // users: [] as users_type[],
           newFriend: '',
           friends: [] as friend_type[],
           newChannel: '',
@@ -44,9 +45,11 @@ export default {
           token: '',
           connected: false,
           create_channel: false,
+          my_username: 'elisa'
         }
     },
     methods: {
+
       change_friend() {
         this.friend = !this.friend
       },
@@ -72,7 +75,10 @@ export default {
       },
       addFriend() {
         if (this.validateInput(this.newFriend)) {
-          this.friends.push({ id: id++, text: this.newFriend }),
+          this.friends.push({ id: id++, text: this.newFriend })
+          let dto: RoomDto = { name: idRoom.toString(), user_one: this.my_username, user_two: this.newFriend }
+          idRoom++
+          accountService.createRoom(dto)
           this.newFriend = ''
         }
       },

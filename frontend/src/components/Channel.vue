@@ -26,7 +26,7 @@ export type message_type = {
 // let msg: message_type[]
 
 export default {
-    props: ['id'],
+    props: ['idchannel'],
     // props: {
     // id:{
     //   readonly:true,
@@ -115,7 +115,7 @@ export default {
                 <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-solid fa-users" />
                 </div>
-                <RouterLink :to="'/infos/' + id" className="chat_name">{{ id }}</RouterLink>
+                <RouterLink :to="'/infos/' + idchannel" className="chat_name">{{ idchannel }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">
