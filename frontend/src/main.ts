@@ -25,6 +25,8 @@ import './assets/infos.css'
 library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faFaceSadTear, faFaceGrimace, faCircle)
 
 const app = createApp(App)
-app.use(router, VueAxios, axios)//, VueChatScroll)
+app.use(router)
+app.use(VueAxios, axios)
+// app.use(axios)//, VueChatScroll)
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')

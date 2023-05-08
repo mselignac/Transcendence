@@ -1,6 +1,6 @@
 import router from '@/router'
 
-export function authGuard(to){
+export function authGuard(){
     // let token = localStorage.getItem('token')
 
     // let token = Cookies.isKey('jwt')

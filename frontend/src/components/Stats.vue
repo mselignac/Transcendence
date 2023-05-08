@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 </script>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {

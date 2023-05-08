@@ -1,5 +1,5 @@
 
-<script>
+<script lang="ts">
 
 import { accountService } from '@/_services'
 

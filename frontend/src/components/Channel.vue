@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 import io from "socket.io-client"
 // import VueChatScroll from 'vue-chat-scroll'
 // import 
 </script>
 
-<script>
+<script lang="ts">
 
 let id = 0
 let $socket_chat = io('ws://localhost:3000/chat',
@@ -16,22 +16,37 @@ let $socket_chat = io('ws://localhost:3000/chat',
 }
 );
 
+export type message_type = {
+    id: number,
+    text: string,
+    username: string,
+    socketid: string
+}
+
+// let msg: message_type[]
+
 export default {
     props: ['id'],
+    // props: {
+    // id:{
+    //   readonly:true,
+    // //   default: 'John doe',
+    //   type:String
+    // }},
     data() {
         return {
             text: '',
             text_test: '',
-            msg: [],
-            my_username: ''
+            msg: [] as message_type[],
+            my_username: '',
         }
     },
     methods: {
-      check_username(username) {
-        console.log(this.my_username)
+      check_username(username: string) {
+        // console.log(this.my_username)
         return (username == this.my_username)
       },
-      check_invite(text) {
+      check_invite(text: string) {
         return (text == 'invite')
       },
       send_msg() {
@@ -53,10 +68,10 @@ export default {
               this.text_test = ''
         }
       },
-      receivedMessage(message) {
+      receivedMessage(message: message_type) {
           this.msg.push(message)
       },
-      validateInput(text) {
+      validateInput(text: string) {
           return text.length > 0
       }
     },
@@ -64,7 +79,7 @@ export default {
         // $socket_chat.on('connect', () => {
         //     console.log($socket_chat.id);
         // })
-        $socket_chat.on('msgToClient', (message) => {
+        $socket_chat.on('msgToClient', (message: message_type) => {
             console.log(message)
             console.log($socket_chat.id)
             console.log(message.socketid)
@@ -100,7 +115,7 @@ export default {
                 <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-solid fa-users" />
                 </div>
-                <RouterLink :to="'/infos/' + this.id" className="chat_name">{{ this.id }}</RouterLink>
+                <RouterLink :to="'/infos/' + id" className="chat_name">{{ id }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">

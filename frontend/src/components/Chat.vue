@@ -11,7 +11,7 @@ pour afficher comme il faut les messages
 
 
 
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 // import { RoomDto } from '../../../backend/src/chat/room.dto.ts'
 import io from "socket.io-client"
@@ -19,7 +19,7 @@ import { accountService } from '../_services/account.service';
 // import { RoomDto } from '../_services/room.dto';
 </script>
 
-<script>
+<script lang="ts">
 
 let id = 0
 let $socket_chat = io('ws://localhost:3000/chat',
@@ -30,37 +30,45 @@ let $socket_chat = io('ws://localhost:3000/chat',
 }
 );
 
+export type message_type = {
+    id: number,
+    text: string,
+    username: string,
+    socketid: string
+}
+
 export default {
     props: ['id'],
     data() {
         return {
             text: '',
             text_test: '',
-            msg: [],
+            msg : [] as message_type[],
             my_username: '',
             // dto: RoomDto
         }
     },
     methods: {
       test() {
-        console.log('ici')
-        let dto = { name: '1', user_one: this.my_username, user_two: this.id }
+        // console.log('ici')
+        // let text: string
+        // let dto = { name: '1', user_one: this.my_username, user_two: this.id }
         // this.dto.name = '1'
         // this.dto.user_one = 'fds'
         // this.dto.user_two = 'fsd'
-        accountService.createRoom(dto)
+        // accountService.createRoom(dto)
       },
-      check_username(username) {
-        console.log(this.my_username)
+      check_username(username: string) {
+        // console.log(this.my_username)
         this.test()
         return (username == this.my_username)
       },
-      check_invite(text) {
+      check_invite(text: string) {
         return (text == 'invite')
       },
       send_msg() {
         if (this.validateInput(this.text)) {
-              const message = {
+              const message: message_type = {
                   id: id++,
                   text: this.text,
                   username: this.my_username,
@@ -76,10 +84,12 @@ export default {
               this.text_test = ''
         }
       },
-      receivedMessage(message) {
+      receivedMessage(message: message_type) {
+        console.log("test message", message)
+          console.log(this.msg)
           this.msg.push(message)
       },
-      validateInput(text) {
+      validateInput(text: string) {
           return text.length > 0
       }
     },
@@ -87,7 +97,7 @@ export default {
         // $socket_chat.on('connect', () => {
         //     console.log("testrtdfygyhu");
         // })
-        $socket_chat.on('msgToClient', (message) => {
+        $socket_chat.on('msgToClient', (message: message_type) => {
             console.log(message)
             console.log($socket_chat.id)
             console.log(message.socketid)
@@ -107,7 +117,7 @@ export default {
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
                 </div>
                 <!-- <h1 className="chat_name">{{ this.id }}</h1> -->
-                <RouterLink :to="'/profile-user/' + this.id" className="chat_name">{{ this.id }}</RouterLink>
+                <RouterLink :to="'/profile-user/' + id" className="chat_name">{{ id }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">

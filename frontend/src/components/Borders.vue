@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { accountService } from '@/_services'
 // import { ref } from 'vue';
 // const componentKey = ref(0);
@@ -9,34 +9,56 @@ import { accountService } from '@/_services'
 
 let id = 0
 
+export type friend_type = {
+    id: number,
+    text: string
+}
+
+export type users_type = {
+  username: string
+}
+
+
 export default {
     data() {
+        let test_friend: friend_type = {id: id++, text: ''}
+        let test_channel: friend_type = {id: id++, text: ''}
+        let users: users_type = {username: ''}
         return {
-          test_friend: '',
-          test_channel: '',
+          users: users,
+          test_friend: test_friend,
+          test_channel: test_channel,
+          // test_friend: '',
+          // test_channel: '',
           search_user: '',
           user_exist: false,
           user_not_exist: false,
           friend: false,
           channel: false,
           channels_friends: true,
-          users: [],
+          // users: [] as users_type[],
           newFriend: '',
-          friends: [],
+          friends: [] as friend_type[],
           newChannel: '',
-          channels: [],
+          channels: [] as friend_type[],
           token: '',
           connected: false,
           create_channel: false,
         }
     },
     methods: {
-      friend_menu(name) {
+      change_friend() {
+        this.friend = !this.friend
+      },
+      change_channel() {
+        this.channel = !this.channel
+      },
+      friend_menu(name: friend_type) {
         this.friend = !this.friend,
         this.test_friend = name
         console.log(this.test_friend)
       },
-      channel_menu(name) {
+      channel_menu(name: friend_type) {
         this.test_channel = name
         this.channel = !this.channel
       },
@@ -54,7 +76,7 @@ export default {
           this.newFriend = ''
         }
       },
-      removeFriend(friends) {
+      removeFriend(friends: friend_type) {
         this.friend = false
         this.friends = this.friends.filter((t) => t !== friends)
       },
@@ -65,7 +87,7 @@ export default {
           this.create_channel = false
         }
       },
-      removeChannel(channels) {
+      removeChannel(channels: friend_type) {
           this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
@@ -88,7 +110,7 @@ export default {
         console.log(this.create_channel)
         this.create_channel = true
       },
-      validateInput(text) {
+      validateInput(text: string) {
         return text.length > 0
       }
     },
@@ -106,20 +128,22 @@ export default {
 
 <template>
   <div className="friend_menu" v-if="friend">
-    <RouterLink :to="'/profile-user/' + this.test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
-    <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(this.test_friend)">Remove to friend</button>
-    <RouterLink :to="'/chat/' + this.test_friend.text" className="elements_menu" v-if="friend">Chat</RouterLink>
+    <RouterLink :to="'/profile-user/' + test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
+    <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(test_friend)">Remove to friend</button>
+    <RouterLink :to="'/chat/' + test_friend.text" className="elements_menu" v-if="friend">Chat</RouterLink>
     <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button>
     <button className="elements_menu" v-if="friend">Block</button>
-    <button className="close_menu" v-if="friend" @click="friend_menu">close</button>
+    <button className="close_menu" v-if="friend" @click="change_friend">close</button>
+    <!-- <button className="close_menu" v-if="friend" @click="friend_menu">close</button> -->
   </div>
 
   <div className="channel_menu" v-if="channel">
-    <RouterLink :to="'/channel/' + this.test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
-    <button className="elements_menu" v-if="channel" @click=removeChannel(this.test_channel)>Quit</button>
-    <RouterLink :to="'/infos/' + this.test_channel.text" className="elements_menu" v-if="channel">Infos</RouterLink>
-    <button className="close_menu" v-if="channel" @click="channel_menu">close</button>
+    <RouterLink :to="'/channel/' + test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
+    <button className="elements_menu" v-if="channel" @click=removeChannel(test_channel)>Quit</button>
+    <RouterLink :to="'/infos/' + test_channel.text" className="elements_menu" v-if="channel">Infos</RouterLink>
+    <button className="close_menu" v-if="channel" @click="change_channel">close</button>
+    <!-- <button className="close_menu" v-if="channel" @click="channel_menu">close</button> -->
   </div>
 
   <div className="borders_div">
@@ -127,7 +151,9 @@ export default {
     <div className="borders_right">
       <div className="border_right_top">
         <div className="border_right_top_left">
-          <h1 className="routers_profile">{{ users.email }}</h1>
+          <!-- <h1 className="routers_profile">{{ users.email }}</h1> -->
+          <!-- <h1 className="routers_profile">{{ users.username }}</h1> -->
+          <h1 className="routers_profile">username</h1>
         </div>
         <div className="border_right_top_right">
           <RouterLink to="/profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>

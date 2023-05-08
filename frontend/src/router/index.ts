@@ -45,7 +45,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   console.log(to.matched[0].name)
-  if(to.matched[0].name != 'test' && to.matched[0] != 'login' && to.matched[0] != 'error'
+  // const teeee: tamere = to.matched[0]
+  if(to.matched[0].name != 'test' && to.matched[0].name != 'login' && to.matched[0].name != 'error'
 
       // to.matched[0].name ==  'main-page' ||
       // to.matched[0].name == 'game-mode' ||
@@ -64,3 +65,6 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+
+
+// (\\d+)?       -> props

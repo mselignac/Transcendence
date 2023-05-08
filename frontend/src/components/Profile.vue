@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 import axios from 'axios';
 import Cookies from 'js-cookie';
 </script>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -61,7 +61,7 @@ export default {
         .get('http://localhost:3000/users/me', { headers })
         .then((response) => {
           this.users = response.data
-          console.log(this.users.email);
+          // console.log(this.users.email);
         })
         .catch(error => console.log(error))
     },
@@ -74,7 +74,7 @@ export default {
     <div className="profile_div">
       <div className="profile_picture">
         <button className="profile_picture_button"><img className="img_profile" src="../assets/icon.webp" /></button>
-        <h1 className="profile_user">{{ this.username }}</h1>
+        <h1 className="profile_user">username</h1>
       </div>
       <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
@@ -84,7 +84,7 @@ export default {
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
       </div>
       <div className="profile_bottom">
-          <h1 className="profile_user">{{ users.email }}</h1>
+          <!-- <h1 className="profile_user">{{ users.email }}</h1> -->
           <button @click="logout">logout</button>
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->

@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 </script>
 
-<script>
+<script lang="ts">
 
 let id = 0;
 
@@ -38,7 +38,7 @@ export default {
       <Borders/>
       <div className="main_div">
         <div className="infos">
-            <h1 className="channel_name_infos">{{ this.id }}</h1>
+            <h1 className="channel_name_infos">{{ id }}</h1>
 
             <div className="user_list_infos">
                 <li v-for="user in users" :key="user.id">
