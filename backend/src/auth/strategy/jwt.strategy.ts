@@ -29,11 +29,15 @@ import { Request } from 'express';
           //   });
           // }
 
-          jwtFromRequest: ExtractJwt.fromExtractors([
-              (request: Request) => {
-                  return request?.cookies?.Authentication;
-          }]),
-          secretOrKey: config.get('JWT_SECRET')});
+          // jwtFromRequest: ExtractJwt.fromExtractors([
+          //     (request: Request) => {
+          //         return request?.cookies?.Authentication;
+          // }]),
+          // secretOrKey: config.get('JWT_SECRET')});
+          jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+          ignoreExpiration: false,
+          secretOrKey: config.get('JWT_SECRET')
+      })
       }
 
           async validate(payload: { sub: string }) {

@@ -17,34 +17,33 @@ export default {
             username: 'username'
         }
     },
-    mounted: {
+    methods: {
       change_username() {
         this.username = this.text,
         this.text = ''
       },
 
-    logout() {
-      Cookies.remove('jwt');
-      accountService.logout();
-      router.push('/');
+      logout() {
+        Cookies.remove('jwt');
+        accountService.logout();
+        router.push('/');
+      },
     },
-  },
-  // mounted() {
-  //   console.log(`${Cookies.get('jwt')}`)
-  //   const headers = {
-  //     Cookie: `jwt=${Cookies.get('jwt')}`,
-  //     'Access-Control-Allow-Origin': "*",
-  //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-  //   };
-  //     axios
-  //       .get('http://10.11.13.1:3000/users/me', { headers })
-  //       .then((response) => {
-  //         this.users = response.data
-  //         console.log(this.users.email);
-  //       })
-  //       .catch(error => console.log(error))
-  //   },
-  }
+  mounted() {
+    const headers = {
+      'Authorization': `bearer ${Cookies.get('jwt')}`,
+      'Access-Control-Allow-Origin': "*",
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    };
+      axios
+        .get('http://localhost:3000/users/me', { headers })
+        .then((response) => {
+          this.users = response.data
+          console.log(this.users.email);
+        })
+        .catch(error => console.log(error))
+    },
+}
 
 </script>
 
