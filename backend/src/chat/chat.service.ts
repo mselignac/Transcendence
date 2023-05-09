@@ -136,7 +136,23 @@ export class ChatService {
 
 
 
+
+// const jsp = await this.prisma.roomChannel.update({
+//   where: {
+//     name: 'test'
+//   },
+//   data: {
+//     users: {
+//       push: data.users
+//     }
+//   },
+// });
+// console.log('jenaimarre')
+
+
+
     async createRoomChannel(dto: object) {
+      console.log(dto)
       type ObjectKey = keyof typeof dto;
 
       let data: RoomChannelDto = dto as ObjectKey
@@ -154,6 +170,18 @@ export class ChatService {
         });
         return user;
       }
+      // console.log('jesaispas')
+      // const jsp = await this.prisma.roomChannel.update({
+      //   where: {
+      //     name: 'test'
+      //   },
+      //   data: {
+      //     users: {
+      //       push: data.users
+      //     }
+      //   },
+      // });
+      // console.log('jenaimarre')
 
     }
 
@@ -162,11 +190,9 @@ export class ChatService {
 
       let data: RoomChannelDto = dto as ObjectKey
 
-      let room = await this.prisma.roomChannel.findMany({
+      let room = await this.prisma.roomChannel.findUnique({
           where: {
-            name: {
-              contains: data.name
-            }
+            name: data.name
       },})
 
       return room;
@@ -174,12 +200,42 @@ export class ChatService {
 
 
 
+    // async editRoom(dto: object) {
+    //   // const user = await this.prisma.room.update({
+    //   //   where: {
+    //   //     name: userId,
+    //   //   },
+    //   //   data: {
+    //   //     users.push(dto.users),
+    //   //     // users: {
+    //   //     //   push: dto.users
+    //   //     // }
+    //   //   },
+    //   // });
+
+    //   // return user;
 
 
 
 
+    //   type ObjectKey = keyof typeof dto;
 
+    //   let dataa: RoomChannelDto = dto as ObjectKey
 
+    //   let room = await this.prisma.roomChannel.findUnique({
+    //       where: {
+    //         name: dataa.name
+    //       },
+    //       // data: {
+    //       //   dataa
+    //       //   // users: {
+    //       //   //   push: dataa.users
+    //       //   // }
+    //       // },
+    //     })
+
+    //   return room;
+    // }
 
 
 }

@@ -52,7 +52,7 @@ model RoomChannel {
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
 
-  name      String
+  name      String  @unique
   users     String[]
   messages  String[]
 

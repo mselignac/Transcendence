@@ -72,8 +72,8 @@ export default {
         accountService.findRoomChannel(dto) 
             .then(res => {
                 console.log('ca marcheeeee')
-                console.log(res.data[0])
-                this.room = res.data[0].name
+                console.log(res.data.name)
+                this.room = res.data.name
                 console.log('room = ', this.room)
 
 
@@ -87,14 +87,6 @@ export default {
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))
-
-        // $socket_chat.on('msgToClient', (message: message_type) => {
-        //     console.log(message)
-        //     console.log($socket_chat.id)
-        //     console.log(message.socketid)
-        //     this.receivedMessage(message)
-        // })
-        // $socket_chat.emit('joinRoom', 'room_channel')
     }
 }
 </script>
