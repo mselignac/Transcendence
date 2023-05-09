@@ -2,6 +2,7 @@
 import Borders from './Borders.vue'
 import { accountService } from '@/_services';
 import io from "socket.io-client"
+import { RoomChannelDto }  from '@/_services/room.channel.dto'
 </script>
 
 <script lang="ts">
@@ -68,7 +69,7 @@ export default {
       }
     },
     created() {
-        let dto: RoomChannelDto = { name: this.idchannel, user_one: 'elisa' }
+        let dto: RoomChannelDto = { name: this.idchannel, users: ['elisa'] }
         accountService.findRoomChannel(dto) 
             .then(res => {
                 console.log('ca marcheeeee')

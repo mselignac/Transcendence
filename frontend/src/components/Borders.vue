@@ -1,6 +1,7 @@
 <script lang="ts">
 import { accountService } from '@/_services'
-import { RoomDto } from '@/_services/room.dto'
+import { RoomDto} from '@/_services/room.dto'
+import { RoomChannelDto }  from '@/_services/room.channel.dto'
 // import { ref } from 'vue';
 // const componentKey = ref(0);
 
@@ -89,7 +90,7 @@ export default {
       addChannel() {
         if (this.validateInput(this.newChannel)) {
           this.channels.push({ id: id++, text: this.newChannel })
-          let dto: RoomDto = { name: this.newChannel, users: this.my_username }
+          let dto: RoomChannelDto = { name: this.newChannel, users: [ this.my_username ] }
           accountService.createRoomChannel(dto)
           this.newChannel = ''
           this.create_channel = false
