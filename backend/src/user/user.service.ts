@@ -34,5 +34,5 @@ export class UserService {
 		  secret: this.config.get('JWT_SECRET'),
 		});
 		return token;
-	  }
+	}
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards, Req, Res } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
@@ -34,7 +34,7 @@ export class UserController {
 		twoFactor: req.user.twofactor,
 		createdAt: req.user.createdAt,
 		updatedAt: req.user.updatedAt,
-	  };
+		};
 	}
 
 	@Patch()
