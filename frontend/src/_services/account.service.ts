@@ -30,6 +30,10 @@ let findRoomChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/findroomchannel', dto)
 }
 
+let editChannel = (dto: RoomChannelDto) => {
+    console.log('edit', dto)
+    return Axios.post('/chat/editchannel', dto)
+}
 
 // let getCookie  = () => {
 //     return Axios.get('auth/cookiejwt')
@@ -62,6 +66,7 @@ export const accountService = {
     createRoom,
     findRoom,
     createRoomChannel,
-    findRoomChannel
+    findRoomChannel,
+    editChannel
     // getCookie
 }

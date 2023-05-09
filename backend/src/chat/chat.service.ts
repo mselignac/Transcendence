@@ -200,42 +200,48 @@ export class ChatService {
 
 
 
-    // async editRoom(dto: object) {
-    //   // const user = await this.prisma.room.update({
-    //   //   where: {
-    //   //     name: userId,
-    //   //   },
-    //   //   data: {
-    //   //     users.push(dto.users),
-    //   //     // users: {
-    //   //     //   push: dto.users
-    //   //     // }
-    //   //   },
-    //   // });
+    async editRoom(dto: object) {
+      // const user = await this.prisma.room.update({
+      //   where: {
+      //     name: userId,
+      //   },
+      //   data: {
+      //     users.push(dto.users),
+      //     // users: {
+      //     //   push: dto.users
+      //     // }
+      //   },
+      // });
 
-    //   // return user;
-
-
+      // return user;
 
 
-    //   type ObjectKey = keyof typeof dto;
 
-    //   let dataa: RoomChannelDto = dto as ObjectKey
+      console.log(dto)
 
-    //   let room = await this.prisma.roomChannel.findUnique({
-    //       where: {
-    //         name: dataa.name
-    //       },
-    //       // data: {
-    //       //   dataa
-    //       //   // users: {
-    //       //   //   push: dataa.users
-    //       //   // }
-    //       // },
-    //     })
+      type ObjectKey = keyof typeof dto;
 
-    //   return room;
-    // }
+      let dataa: RoomChannelDto = dto as ObjectKey
+
+      dataa.users.push('test')
+
+      let room = await this.prisma.roomChannel.update({
+          where: {
+            name: dataa.name
+          },
+          data: {
+            ...dataa
+            // users: {
+              // create: 'test'
+              // connect: {
+              //   users: 'elisa',
+              // }
+            // } 
+          },
+        })
+
+      return room;
+    }
 
 
 }

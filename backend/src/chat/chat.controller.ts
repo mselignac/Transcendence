@@ -47,6 +47,11 @@ export class ChatController {
 	  return this.chatService.findRoomChannel(dto) ;
 	}
 
+	@Post('editchannel')
+    editRoom(@Body() dto: object) {
+		return this.chatService.editRoom(dto)
+	}
+
 
 	// @Patch()
 	// editUser(@GetUser('id') userId: string, @Body() dto: RoomDto) {

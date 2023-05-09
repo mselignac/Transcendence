@@ -49,17 +49,24 @@ model Room {
 
 model RoomChannel {
   id        String    @id @unique @default(uuid())
+  // idtest        Int @id @default(autoincrement())
   createAt  DateTime  @default(now())
   updateAT  DateTime  @default(now())
 
   name      String  @unique
   users     String[]
-  messages  String[]
+  messages  String[] 
 
   @@map("channels")
 }
 
-
+// model Message {
+//  user RoomChannel @relation(fields: [id], references: [idtest])
+//  id        Int @id @default(autoincrement())
+//  text      String
+//  username  String
+  // @@map("messages)
+// }
 
 
 
