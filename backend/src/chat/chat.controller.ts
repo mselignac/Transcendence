@@ -34,6 +34,19 @@ export class ChatController {
 	  return this.chatService.findRoom(dto) ;
 	}
 
+	@Post('createroomchannel')
+	createRoomChannel(@Body() dto: object) {
+	  return this.chatService.createRoomChannel(dto) ;
+	}
+
+	@Post('findroomchannel')
+	findRoomChannel(@Body() dto: object) {
+		// console.log('=============')
+		// console.log(typeof(dto))
+		// console.log({dto})
+	  return this.chatService.findRoomChannel(dto) ;
+	}
+
 
 	// @Patch()
 	// editUser(@GetUser('id') userId: string, @Body() dto: RoomDto) {

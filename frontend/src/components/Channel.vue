@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import Borders from './Borders.vue'
+import { accountService } from '@/_services';
 import io from "socket.io-client"
-// import VueChatScroll from 'vue-chat-scroll'
-// import 
 </script>
 
 <script lang="ts">
@@ -23,27 +22,20 @@ export type message_type = {
     socketid: string
 }
 
-// let msg: message_type[]
-
 export default {
     props: ['idchannel'],
-    // props: {
-    // id:{
-    //   readonly:true,
-    // //   default: 'John doe',
-    //   type:String
-    // }},
     data() {
+        let room: string = ''
         return {
             text: '',
             text_test: '',
             msg: [] as message_type[],
             my_username: '',
+            room: room,
         }
     },
     methods: {
       check_username(username: string) {
-        // console.log(this.my_username)
         return (username == this.my_username)
       },
       check_invite(text: string) {
@@ -58,7 +50,7 @@ export default {
                   socketid: $socket_chat.id,
                   room: 'room_channel'
               }
-              $socket_chat.emit('msgToServer', "room_channel", message)
+              $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
       },
@@ -76,33 +68,33 @@ export default {
       }
     },
     created() {
-        // $socket_chat.on('connect', () => {
-        //     console.log($socket_chat.id);
+        let dto: RoomChannelDto = { name: this.idchannel, user_one: 'elisa' }
+        accountService.findRoomChannel(dto) 
+            .then(res => {
+                console.log('ca marcheeeee')
+                console.log(res.data[0])
+                this.room = res.data[0].name
+                console.log('room = ', this.room)
+
+
+                $socket_chat.on('msgToClient', (message: message_type) => {
+                    console.log(message)
+                    console.log($socket_chat.id)
+                    console.log(message.socketid)
+                    this.receivedMessage(message)
+                })
+                console.log(this.room)
+                $socket_chat.emit('joinRoomChat', this.room)
+            })
+            .catch(err => console.log(err))
+
+        // $socket_chat.on('msgToClient', (message: message_type) => {
+        //     console.log(message)
+        //     console.log($socket_chat.id)
+        //     console.log(message.socketid)
+        //     this.receivedMessage(message)
         // })
-        $socket_chat.on('msgToClient', (message: message_type) => {
-            console.log(message)
-            console.log($socket_chat.id)
-            console.log(message.socketid)
-            this.receivedMessage(message)
-        })
-        $socket_chat.emit('joinRoom', 'room_channel')
-
-
-
-
-        // io.emit("hello", 1, "2", { "3": 4 }, Buffer.from([5]));
-
-
-//         socket.on("hello", (arg1, arg2, arg3, arg4) => {
-        //   console.log(arg1); // 1
-        //   console.log(arg2); // "2"
-        //   console.log(arg3); // { "3": 4 }
-        //   console.log(arg4); // ArrayBuffer or Buffer, depending on the platform
-        // });
-
-
-
-
+        // $socket_chat.emit('joinRoom', 'room_channel')
     }
 }
 </script>

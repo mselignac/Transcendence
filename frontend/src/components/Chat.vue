@@ -13,7 +13,6 @@ pour afficher comme il faut les messages
 
 <script setup lang="ts">
 import Borders from './Borders.vue'
-// import { RoomDto } from '../../../backend/src/chat/room.dto.ts'
 import io from "socket.io-client"
 import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
@@ -37,8 +36,6 @@ export type message_type = {
     socketid: string
 }
 
-// let room: string
-
 export default {
     props: ['idchat'],
     data() {
@@ -49,19 +46,10 @@ export default {
             msg : [] as message_type[],
             my_username: '',
             room: room,
-            // room: accountService.findRoom({user_one: 'elisa', user_two: 'liena'})
-            // dto: RoomDto
         }
     },
     methods: {
-    //   test() {
-    //     console.log('ici')
-    //     let dto: RoomDto = { name: '1', user_one: this.my_username, user_two: this.idchat }
-    //     accountService.createRoom(dto)
-    //   },
       check_username(username: string) {
-        // console.log(this.my_username)
-        // this.test()
         return (username == this.my_username)
       },
       check_invite(text: string) {
@@ -114,21 +102,6 @@ export default {
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))
-        // $socket_chat.on('connect', () => {
-        //     console.log("testrtdfygyhu");
-        // })
-
-
-
-
-        // $socket_chat.on('msgToClient', (message: message_type) => {
-        //     console.log(message)
-        //     console.log($socket_chat.id)
-        //     console.log(message.socketid)
-        //     this.receivedMessage(message)
-        // })
-        // console.log(this.room)
-        // $socket_chat.emit('joinRoomChat', this.room)
 
     }
 }

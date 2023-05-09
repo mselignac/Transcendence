@@ -88,7 +88,9 @@ export default {
       },
       addChannel() {
         if (this.validateInput(this.newChannel)) {
-          this.channels.push({ id: id++, text: this.newChannel }),
+          this.channels.push({ id: id++, text: this.newChannel })
+          let dto: RoomDto = { name: this.newChannel, users: this.my_username }
+          accountService.createRoomChannel(dto)
           this.newChannel = ''
           this.create_channel = false
         }

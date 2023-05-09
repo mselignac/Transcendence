@@ -34,6 +34,7 @@ import {
 
     @SubscribeMessage('msgToServer')
     handleMessage(client: Socket, payload: String): void {
+      // console.log('payload[0] = ', payload[0])
       this.server.to(payload[0]).emit('msgToClient', payload[1]);
     }
 
@@ -50,7 +51,7 @@ import {
 
     @SubscribeMessage('joinRoomChat')
     joinRoomChat(client: Socket, payload: string): void {
-      console.log('payload', payload)
+      // console.log(payload)
       client.join(payload);
     }
 

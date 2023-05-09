@@ -20,6 +20,17 @@ let findRoom = (dto: RoomDto) => {
     return Axios.post('/chat/findroom', dto)
 }
 
+let createRoomChannel = (dto: RoomChannelDto) => {
+    return Axios.post('/chat/createroomchannel', dto)
+}
+
+let findRoomChannel = (dto: RoomChannelDto) => {
+    console.log('findroom')
+    console.log(dto)
+    return Axios.post('/chat/findroomchannel', dto)
+}
+
+
 // let getCookie  = () => {
 //     return Axios.get('auth/cookiejwt')
 // }
@@ -49,6 +60,8 @@ export const accountService = {
     isLogged,
     usersMe,
     createRoom,
-    findRoom
+    findRoom,
+    createRoomChannel,
+    findRoomChannel
     // getCookie
 }

@@ -6,6 +6,7 @@ import {
     OnGatewayInit
   } from '@nestjs/websockets';
 import { RoomDto } from './room.dto';
+import { RoomChannelDto } from './roomChannel.dto';
 import { PrismaService } from "../prisma/prisma.service";
 
 // let id = 0
@@ -18,27 +19,43 @@ export class ChatService {
 
 
 
-    async editRoom(userId: string, dto: RoomDto) {
-      const user = await this.prisma.room.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          ...dto,
-        },
-      });
+    // async editRoom(userId: string, dto: RoomDto) {
+    //   const user = await this.prisma.room.update({
+    //     where: {
+    //       id: userId,
+    //     },
+    //     data: {
+    //       ...dto,
+    //     },
+    //   });
 
-      return user;
-    }
+    //   return user;
+    // }
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+//                                      CHAT/MP                                         //
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+//     RoomDto {
+//       name -> string
+//       user_one -> string
+//       user_two -> string
+//     }
+
+
 
     async createRoom(dto: object) {
       type ObjectKey = keyof typeof dto;
 
       let data: RoomDto = dto as ObjectKey
-
-
-
-
 
       let room = await this.prisma.room.findMany({
         where: {
@@ -50,7 +67,6 @@ export class ChatService {
           }
       },})
       if (room[0] === undefined) {
-        console.log('here')
         room = await this.prisma.room.findMany({
         where: {
           user_one: {
@@ -63,11 +79,7 @@ export class ChatService {
       }
 
 
-
-
-      // let room = this.findRoom(dto)
       if (room[0] === undefined) {
-        console.log('ca doit pas passer la')
         const user = await this.prisma.room.create({
             data,
         });
@@ -77,7 +89,6 @@ export class ChatService {
     }
 
     async findRoom(dto: object) {
-      // console.log('here debut fonction')
       type ObjectKey = keyof typeof dto;
 
       let data: RoomDto = dto as ObjectKey
@@ -92,11 +103,7 @@ export class ChatService {
             }
       },})
 
-      // console.log('room = ', room)
-      // console.log('room[0]', room[0])
-      // console.log('room[1]', room[1])
       if (room[0] === undefined) {
-        console.log('here')
         room = await this.prisma.room.findMany({
         where: {
           user_one: {
@@ -105,12 +112,8 @@ export class ChatService {
           user_two: {
             contains: data.user_one
           }
-      },})
-    }
-
-    // console.log('room = ', room)
-    // console.log('room[0]', room[0])
-    // console.log('room[1]', room[1])
+        },})
+      }
 
       return room;
     }
@@ -120,50 +123,63 @@ export class ChatService {
 
 
 
-//     // All posts that contain the words 'cat' or 'dog'.
-// const result = await prisma.posts.findMany({
-//   where: {
-//     body: {
-//       search: 'cat | dog',
-//     },
-//   },
-// })
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+//                                      CHANNEL                                         //
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
-// // All drafts that contain the words 'cat' and 'dog'.
-// const result = await prisma.posts.findMany({
-//   where: {
-//     status: 'Draft',
-//     body: {
-//       search: 'cat & dog',
-//     },
-//   },
-// })
+//      RoomChannelDto {
+//        name -> string
+//        users -> string[]
+//      }
 
 
 
-    // async editUser(userId: string, dto: EditUserDto) {
-    //   const user = await this.prisma.room.update({
-    //     where: {
-    //       id: userId,
-    //     },
-    //     data: {
-    //       ...dto,
-    //     },
-    //   });
-    //   // delete user.hash;
+    async createRoomChannel(dto: object) {
+      type ObjectKey = keyof typeof dto;
 
-    //   return user;
+      let data: RoomChannelDto = dto as ObjectKey
+
+      let room = await this.prisma.roomChannel.findMany({
+        where: {
+          name: {
+            contains: data.name
+          }
+      },})
+
+      if (room[0] === undefined) {
+        const user = await this.prisma.roomChannel.create({
+            data,
+        });
+        return user;
+      }
+
+    }
+
+    async findRoomChannel(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: RoomChannelDto = dto as ObjectKey
+
+      let room = await this.prisma.roomChannel.findMany({
+          where: {
+            name: {
+              contains: data.name
+            }
+      },})
+
+      return room;
+    }
 
 
 
-    // async signToken(id: string) {
-    //   const payload = {
-    //     sub: id,
-    //   };
-    //   const token = await this.jwt.signAsync(payload, {
-    //     expiresIn: this.config.get('jwt_expiresIn'),
-    //     secret: this.config.get('JWT_SECRET'),
-    //   });
-    //   return token;
-    //   }
+
+
+
+
+
+
+
+
 }

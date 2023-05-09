@@ -47,6 +47,18 @@ model Room {
   @@map("maps")
 }
 
+model RoomChannel {
+  id        String    @id @unique @default(uuid())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  name      String
+  users     String[]
+  messages  String[]
+
+  @@map("channels")
+}
+
 
 
 
