@@ -24,8 +24,8 @@ import './assets/infos.css'
 /* add each imported icon to the library */
 library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faFaceSadTear, faFaceGrimace, faCircle)
 
-const app = createApp(App)
+const app = createApp(App).use(router, VueAxios, axios, io)
+.component('font-awesome-icon', FontAwesomeIcon).mount('#app')
 // app.config.globalProperties.axios=axios
-app.use(router, VueAxios, axios, io)
-app.component('font-awesome-icon', FontAwesomeIcon)
-app.mount('#app')
+// app.component('font-awesome-icon', FontAwesomeIcon)
+// app.mount('#app')
