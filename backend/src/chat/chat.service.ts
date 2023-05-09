@@ -36,39 +36,83 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
-      console.log('>>>>>>', data)
 
-      const user = await this.prisma.room.create({
-          data,
-      });
 
-      return user;
-    }
 
-    async findRoom(dto: object) {
+
       let room = await this.prisma.room.findMany({
-          where: {
-            user_one: {
-              search: dto['user_one'],
-            },
-            user_two: {
-              search: dto['user_two']
-            },
-          },})
-        
-      if (room === false) {
+        where: {
+          user_two: {
+            contains: data.user_two
+          },
+          user_one: {
+            contains: data.user_one
+          }
+      },})
+      if (room[0] === undefined) {
+        console.log('here')
         room = await this.prisma.room.findMany({
         where: {
           user_one: {
-            search: dto['user_two'],
+            contains: data.user_two
           },
           user_two: {
-            search: dto['user_one']
-          },
+            contains: data.user_one
+          }
         },})
       }
 
-      return room.name;
+
+
+
+      // let room = this.findRoom(dto)
+      if (room[0] === undefined) {
+        console.log('ca doit pas passer la')
+        const user = await this.prisma.room.create({
+            data,
+        });
+        return user;
+      }
+
+    }
+
+    async findRoom(dto: object) {
+      // console.log('here debut fonction')
+      type ObjectKey = keyof typeof dto;
+
+      let data: RoomDto = dto as ObjectKey
+
+      let room = await this.prisma.room.findMany({
+          where: {
+            user_two: {
+              contains: data.user_two
+            },
+            user_one: {
+              contains: data.user_one
+            }
+      },})
+
+      // console.log('room = ', room)
+      // console.log('room[0]', room[0])
+      // console.log('room[1]', room[1])
+      if (room[0] === undefined) {
+        console.log('here')
+        room = await this.prisma.room.findMany({
+        where: {
+          user_one: {
+            contains: data.user_two
+          },
+          user_two: {
+            contains: data.user_one
+          }
+      },})
+    }
+
+    // console.log('room = ', room)
+    // console.log('room[0]', room[0])
+    // console.log('room[1]', room[1])
+
+      return room;
     }
 
 

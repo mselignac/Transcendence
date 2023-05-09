@@ -37,15 +37,18 @@ export type message_type = {
     socketid: string
 }
 
+// let room: string
+
 export default {
     props: ['idchat'],
     data() {
+        let room: string = ''
         return {
             text: '',
             text_test: '',
             msg : [] as message_type[],
             my_username: '',
-            room: ''
+            room: room,
             // room: accountService.findRoom({user_one: 'elisa', user_two: 'liena'})
             // dto: RoomDto
         }
@@ -72,7 +75,7 @@ export default {
                   username: this.my_username,
                   socketid: $socket_chat.id
               }
-              $socket_chat.emit('msgToServer', "room_chat",message)
+              $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
       },
@@ -92,18 +95,41 @@ export default {
       }
     },
     created() {
+        let dto: RoomDto = { name: 'test', user_one: 'elisa', user_two: this.idchat }
+        accountService.findRoom(dto) 
+            .then(res => {
+                console.log('ca marcheeeee')
+                console.log(res.data[0])
+                this.room = res.data[0].name
+                console.log('room = ', this.room)
+
+
+                $socket_chat.on('msgToClient', (message: message_type) => {
+                    console.log(message)
+                    console.log($socket_chat.id)
+                    console.log(message.socketid)
+                    this.receivedMessage(message)
+                })
+                console.log(this.room)
+                $socket_chat.emit('joinRoomChat', this.room)
+            })
+            .catch(err => console.log(err))
         // $socket_chat.on('connect', () => {
         //     console.log("testrtdfygyhu");
         // })
-        $socket_chat.on('msgToClient', (message: message_type) => {
-            console.log(message)
-            console.log($socket_chat.id)
-            console.log(message.socketid)
-            this.receivedMessage(message)
-        })
-        $socket_chat.emit('joinRoomChat', 'room_chat')
-        // let dto: RoomDto
-        // this.room = accountService.findRoom({user_one: 'elisa', user_two: 'liena'})
+
+
+
+
+        // $socket_chat.on('msgToClient', (message: message_type) => {
+        //     console.log(message)
+        //     console.log($socket_chat.id)
+        //     console.log(message.socketid)
+        //     this.receivedMessage(message)
+        // })
+        // console.log(this.room)
+        // $socket_chat.emit('joinRoomChat', this.room)
+
     }
 }
 </script>

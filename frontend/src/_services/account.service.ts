@@ -15,6 +15,8 @@ let createRoom = (dto: RoomDto) => {
 }
 
 let findRoom = (dto: RoomDto) => {
+    console.log('findroom')
+    console.log(dto)
     return Axios.post('/chat/findroom', dto)
 }
 

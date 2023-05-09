@@ -28,6 +28,9 @@ export class ChatController {
 
 	@Post('findroom')
 	findRoom(@Body() dto: object) {
+		// console.log('=============')
+		// console.log(typeof(dto))
+		// console.log({dto})
 	  return this.chatService.findRoom(dto) ;
 	}
 

@@ -50,6 +50,7 @@ import {
 
     @SubscribeMessage('joinRoomChat')
     joinRoomChat(client: Socket, payload: string): void {
+      console.log('payload', payload)
       client.join(payload);
     }
 
