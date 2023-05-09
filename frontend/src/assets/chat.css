@@ -2,8 +2,18 @@
 
 .chat_name {
     display: flex;
+    width: 20%;
+    /* background-color: red; */
+    margin-left: 20px;
     grid-column: 2;
     font-weight: bolder;
+    font-size: 250%;
+    color: rgb(29, 29, 29);
+}
+
+.chat_name:hover {
+    scale: 1.1;
+    background-color: transparent;
 }
 
 .chat_div_test {
@@ -15,14 +25,15 @@
     border-radius: 20px 20px 20px 20px;
     /* background-color: rgba(75, 82, 104, 0.377); */
     /* background-color: red; */
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .chat_top_test {
     display: grid;
     grid-row: 1;
     grid-template-columns: 1fr 12fr;
-    background-color: rgba(37, 53, 107, 0.452);
+    /* background-color: rgba(37, 53, 107, 0.452); */
+    background-color: rgba(20, 51, 153, 0.596);
     border-radius: 20px 20px 0px 0px;
     align-items: center;
     color: rgb(31, 31, 31);
@@ -36,7 +47,8 @@
     grid-template-columns: 1fr 12fr;
     border-radius: 0px 0px 20px 20px;
     align-items: center;
-    background-color: rgba(37, 53, 107, 0.452);
+    /* background-color: rgba(37, 53, 107, 0.452); */
+    background-color: rgba(20, 51, 153, 0.596);
     overflow: hidden;
     /* background-color: blue; */
 }
@@ -46,12 +58,30 @@
     width: 100%;
     height: 100%;
     grid-row: 2;
+
+
+
+
     justify-content: flex-start;
-    align-items: flex-start;
+
+
+
+
+
+    /* ca marche presque */
+    /* justify-content: flex-end; */
+    /* transform: rotate(180deg) */
+    /* flex-direction: column-reverse; */
+    
+    
+    
+    
+    /* align-items: flex-start; */
     /* grid-template-columns: 1fr 1fr 1fr; */
     /* justify-content: flex-end; */
     overflow-y: scroll;
     flex-direction: column;
+    /* transform: rotate(180deg); */
 
     /* background-color: blue; */
 }
@@ -162,13 +192,21 @@
     display: flex;
     font-size: 170%;
     margin-top: 5px;
-    margin-left: 15px;
+    /* margin-left: 15px; */
     /* padding: 10px; */
     /* background-color: rgb(78, 83, 94); */
     border-radius: 20px 20px 20px 0px;
     flex-direction: column;
     margin-right: auto;
     color: rgba(255, 255, 255, 0.904);
+
+
+
+
+    /* ca marche presque */
+    /* transform: rotate(180deg); */
+    /* margin-left: auto; */
+
     /* background-color: red; */
 }
 
@@ -176,30 +214,31 @@
     background-color: rgb(78, 83, 94);
     border-radius: 20px 20px 20px 0px;
     padding: 10px;
+    
+}
+
+.msg_user_testt:hover {
+    background-color: rgb(78, 83, 94);
+    border-radius: 20px 20px 20px 0px;
+    padding: 10px;
 }
 
 .msg_form {
     display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
     width: 100%;
+    /* width: 90%; */
     /* background-color: green; */
     /* height: 60px; */
     /* grid-column: 1/5; */
     flex-direction: column;
+    /* transform: rotate(180deg); */
     /* justify-content: flex-start; */
     /* align-items: flex-end; */
+    word-break: break-all;
+    /* justify-self: flex-end; */
 }
-
-.msg_me_test {
-    display: flex;
-    width: 100%;
-    grid-row: 1;
-    background-color: rgb(107, 0, 128);
-    grid-column: 1/3;
-    /* align-items: flex-end; */
-    flex-direction: column;
-    /* justify-content: flex-end; */
-}
-
 
 
 
@@ -211,7 +250,33 @@
     /* width: 95%; */
     font-size: 170%;
     margin-top: 5px;
-    margin-right: 15px;
+    /* margin-right: 15px; */
+    /* margin-left: 15px; */
+    /* margin-left: auto; */
+    margin-left: auto;
+    padding: 10px;
+    /* padding-left: 150px; */
+    background-color: rgb(26, 72, 172);
+    border-radius: 20px 20px 0px 20px;
+    /* justify-content: flex-end; */
+    /* justify-self: flex-start; */
+    /* flex-direction: column; */
+    /* align-items: flex-end; */
+    color: rgba(255, 255, 255, 0.904);
+
+
+
+    /* ca marche presque */
+    /* transform: rotate(180deg); */
+    /* margin-right: auto; */
+}
+
+.test_msg:hover {
+    display: flex;
+    /* width: 95%; */
+    font-size: 170%;
+    margin-top: 5px;
+    /* margin-right: 15px; */
     margin-left: auto;
     padding: 10px;
     background-color: rgb(26, 72, 172);
@@ -221,7 +286,6 @@
     flex-direction: column;
     color: rgba(255, 255, 255, 0.904);
 }
-
 
 .username_msg {
     display: flex;
@@ -233,3 +297,9 @@
     justify-content: flex-end; */
     /* background-color: red; */
 }
+
+/* .channel_name {
+    display: flex;
+    grid-column: 2;
+    font-weight: bolder;
+} */

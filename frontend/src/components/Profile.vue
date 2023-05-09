@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 import Cookies from 'js-cookie';
 import { accountService } from '@/_services'
@@ -7,8 +7,7 @@ import axios from 'axios';
 import router from '../router';
 </script>
 
-<script>
-
+<script lang="ts">
 export default {
   data() {
         return {
@@ -39,7 +38,7 @@ export default {
         .get('http://localhost:3000/users/me', { headers })
         .then((response) => {
           this.users = response.data
-          console.log(this.users.email);
+          // console.log(this.users.email);
         })
         .catch(error => console.log(error))
     },
@@ -53,11 +52,11 @@ export default {
     <div className="profile_div">
       <div className="profile_picture">
         <button className="profile_picture_button"><img className="img_profile" src="../assets/icon.webp" /></button>
-        <h1 className="profile_user">{{ this.username }}</h1>
+        <h1 className="profile_user">{{ users.username }}</h1>
       </div>
       <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username'>
+          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9">
         </form>
         <!-- <h1>{{ this.username }}</h1> -->
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->

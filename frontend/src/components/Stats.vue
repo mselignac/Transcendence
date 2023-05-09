@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import Borders from './Borders.vue'
 </script>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -26,9 +26,9 @@ export default {
             <div className="stats_two_div">
                 <RouterLink to="ladder" className="stats_routers">Ladder lvl X</RouterLink>
             </div>
-            <div className="stats_three_div">
+            <!-- <div className="stats_three_div">
                 <RouterLink to="achievements" className="stats_routers">Achievements</RouterLink>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

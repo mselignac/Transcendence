@@ -1,6 +1,41 @@
-<script>
+<!-- <template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+</template>
 
-import { state } from "@/socket";
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import HelloWorld from './components/HelloWorld.vue';
+
+@Options({
+  components: {
+    HelloWorld,
+  },
+})
+export default class App extends Vue {}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style> -->
+
+
+
+
+
+
+
+
+<script lang="ts">
+
+// import { state } from "@/socket";
 
 export default {
   data() {
@@ -17,142 +52,3 @@ export default {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <!-- TEST SOCKETS -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <script>
-export default {
-  data() {
-    return {
-      title: 'Nestjs Websockets Chat',
-      name: '',
-      text: '',
-      messages: [],
-      socket: null
-    }
-  },
-  methods: {
-    sendMessage() {
-        if(this.validateInput()) {
-            const message = {
-                name: this.name,
-                text: this.text
-            }
-            this.socket.emit('msgToServer', message)
-            this.text = ''
-        }
-    },
-    receivedMessage(message) {
-        this.messages.push(message)
-    },
-    validateInput() {
-        return this.name.length > 0 && this.text.length > 0
-    }
-  },
-  created() {
-    this.socket = io('http://localhost:3000')
-    this.socket.on('msgToClient', (message) => {
-        this.receivedMessage(message)
-    })
-  }
-}
-</script> -->
-
-
-
-
-
-
-
-
-
-<!-- <template>
-  <p>State: {{ connected }}</p>
-</template>
-
-<script>
-import { state } from "@/socket";
-
-export default {
-  name: "ConnectionState",
-
-  computed: {
-    connected() {
-      return state.connected;
-    }
-  }
-}
-</script> -->
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <template>
-  <button @click="connect()">Connect</button>
-  <button @click="disconnect()">Disconnect</button>
-  <p>State: {{ connected }}</p>
-</template>
-
-<script>
-import { socket } from "@/socket";
-import { state } from "@/socket";
-
-export default {
-  name: "ConnectionManager",
-  computed: {
-    connected() {
-      return state.connected;
-    }
-  },
-  methods: {
-    connect() {
-      socket.connect();
-    },
-    disconnect() {
-      socket.disconnect();
-    }
-  }
-}
-</script> -->

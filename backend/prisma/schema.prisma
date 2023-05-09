@@ -29,6 +29,43 @@ model User {
   @@map("users")
 }
 
+
+
+
+model Room {
+  id        String    @id @unique @default(uuid())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  name      String
+//  channel   Boolean
+  user_one  String
+  user_two  String
+//  users     String[]
+  messages  String[]
+
+  @@map("maps")
+}
+
+model RoomChannel {
+  id        String    @id @unique @default(uuid())
+  createAt  DateTime  @default(now())
+  updateAT  DateTime  @default(now())
+
+  name      String  @unique
+  users     String[]
+  messages  String[]
+
+  @@map("channels")
+}
+
+
+
+
+
+
+
+
 // model Channels {
 //   id        Int       @id @default(autoincrement())
 //   createAt  DateTime  @default(now())
