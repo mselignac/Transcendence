@@ -1,71 +1,51 @@
 <script setup>
 import Borders from './Borders.vue'
-import axios from 'axios';
 import Cookies from 'js-cookie';
+import { accountService } from '@/_services'
+import axios from 'axios';
+
+import router from '../router';
 </script>
 
 <script>
+
 export default {
-    data() {
+  data() {
         return {
             users: [],
             text: '',
             username: 'username'
         }
     },
-    methods: {
+    mounted: {
       change_username() {
         this.username = this.text,
         this.text = ''
       },
-      logout() {
-      const cookieValue = Cookies.get('jwt');
-      console.log("cookieValue: ", cookieValue);
-      const headers = {
-            'Authorization': 'Bearer ' + cookieValue,
-            'Access-Control-Allow-Origin': "*",
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-      };
-      axios
-        .delete('http://localhost:3000/auth/42/logout', { headers })
-        .then((response) => {
-          this.users = response.data
-          console.log(cookieValue);
-        })
-        .catch(error => console.log(error))
-      }
+
+    logout() {
+      Cookies.remove('jwt');
+      accountService.logout();
+      router.push('/');
     },
-    // mounted() {
-    //   const headers = {
-    //         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiZWxpc2FAZ21haWwuY29tIiwiaWF0IjoxNjgwNzgxOTE5LCJleHAiOjE2ODA3ODI4MTl9.SyjNGx3OhuU9Q6EeufdmFXEFkpmoPG2LjeAPzP8xmq4',
-    //         'Access-Control-Allow-Origin': "*",
-    //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-    //   };
-    //   axios
-    //     .get('http://localhost:3001/users/me', { headers })
-    //     .then((response) => {
-    //       this.users = response.data
-    //       console.log(this.users.email);
-    //     })
-    //     .catch(error => console.log(error))
-    // },
-    mounted() {
-      const cookieValue = Cookies.get('jwt');
-      const headers = {
-            'Authorization': 'Bearer ' + cookieValue,
-            'Access-Control-Allow-Origin': "*",
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-      };
-      axios
-        // .get('https://jsonplaceholder.typicode.com/users/1')
-        .get('http://localhost:3000/users/me', { headers })
-        .then((response) => {
-          this.users = response.data
-          console.log(this.users.email);
-        })
-        .catch(error => console.log(error))
-    },
-}
+  },
+  // mounted() {
+  //   console.log(`${Cookies.get('jwt')}`)
+  //   const headers = {
+  //     Cookie: `jwt=${Cookies.get('jwt')}`,
+  //     'Access-Control-Allow-Origin': "*",
+  //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+  //   };
+  //     axios
+  //       .get('http://10.11.13.1:3000/users/me', { headers })
+  //       .then((response) => {
+  //         this.users = response.data
+  //         console.log(this.users.email);
+  //       })
+  //       .catch(error => console.log(error))
+  //   },
+  }
+
 </script>
 
 <template>
@@ -85,7 +65,7 @@ export default {
       </div>
       <div className="profile_bottom">
           <h1 className="profile_user">{{ users.email }}</h1>
-          <button @click="logout">logout</button>
+          <button @click="logout">log out</button>
           <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
           <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>

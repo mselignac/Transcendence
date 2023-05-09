@@ -19,6 +19,7 @@ services:
     build: ./backend
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - 5555:5555
     env_file:
       - .env
     container_name: backend-transcendence
@@ -38,6 +39,8 @@ services:
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     container_name: frontend-transcendence
+    # environment:
+      # - VITE_ENV_APP:${fdsfds}
     env_file:
       - .env
     volumes:

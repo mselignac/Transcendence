@@ -3,13 +3,14 @@ import { Controller,
 	Get,
 	UseFilters,
 	Req,
+	Res,
 	Delete
 } from "@nestjs/common";
 import { FortyTwoGuard } from "./guard";
 import { UserService } from "src/user/user.service";
 import { ConfigService } from "@nestjs/config";
 import { AuthGuard } from "@nestjs/passport";
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { HttpExceptionFilter } from "./strategy";
 
 @Controller('auth')
@@ -19,14 +20,14 @@ export class AuthController {
     private config: ConfigService,
   ) {}
 
-  //Route:  "http://localhost:8000/auth/42/login" to login with 42
+  //Route: "http://localhost:8080/auth/42/login" to login with 42
   @UseGuards(FortyTwoGuard)
   @Get('/42/login')
   handleLogin() {
     return;
   }
 
-//   Route: "http://localhost:8000/auth/42/redirect" 42-passport redirect from login to this route, then it will redirect to the frontend
+//Route: "http://localhost:8080/auth/42/redirect" 42-passport redirect from login to this route, then it will redirect to the frontend
   @UseFilters(new HttpExceptionFilter())
   @UseGuards(FortyTwoGuard)
   @Get('42/redirect')
@@ -37,7 +38,8 @@ export class AuthController {
 		//   req.res.redirect(this.config.get('route_qrcode'));
 		} else {
 			const cookie = await this.userservice.signToken(req.user['id']);
-			req.res.cookie('jwt', cookie, { path: '/', httpOnly: true });
+			var expiryDate = new Date(Number(new Date()) + 900000);
+			req.res.cookie('jwt', cookie, { expires: expiryDate, path: '/'});
 			if (req.user['firstLogin'] == true) {
 				req.res.redirect(this.config.get('route_frontend'));
 				// req.res.redirect(this.config.get('route_frontend_updateusername'));
@@ -48,12 +50,19 @@ export class AuthController {
 		return;
 	}
 
-	// Route: "http://localhost:8000/auth/42/logout" to logout and redirect to the frontend
-	@UseGuards(AuthGuard('jwt'))
+	// Route: "http://localhost:8080/auth/42/logout" to logout and redirect to the frontend
+	// @UseGuards(AuthGuard('jwt'))
 	@Delete('42/logout')
 	async handleLogout(@Req() req: Request) {
 	  req.res.cookie('jwt', '', { path: '/', httpOnly: false });
 	  req.res.redirect(this.config.get('route_frontend_login'));
 	  return;
 	}
+
+	// // Route: "http://localhost:8080/auth/42/check" to check if the user is logged in
+	// @UseGuards(AuthGuard('jwt'))
+	// @Get('42/check')
+	// async handleCheck(@Req() req: Request) {
+	//   return req.user;
+	// }
 }

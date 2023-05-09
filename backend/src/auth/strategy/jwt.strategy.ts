@@ -10,24 +10,31 @@ import { Request } from 'express';
         constructor(config: ConfigService, private prisma: PrismaService,
             private readonly configService: ConfigService,) {
         super({
-            jwtFromRequest: ExtractJwt.fromExtractors([
-                (request: Request) => {
-                  // This is a hack to get the token from the cookie
-                  let data = request?.headers.cookie;
-                  if (data) {
-                    let token = data.split('; ').find((row) => row.startsWith('jwt='));
-                    if (token) {
-                      token = token.split('=')[1];
-                      return token;
-                    }
-                  } else {
-                    return null;
-                  }
-                },
-              ]),
-              secretOrKey: config.get('JWT_SECRET'),
-            });
-          }
+          //   jwtFromRequest: ExtractJwt.fromExtractors([
+          //       (request: Request) => {
+          //         // This is a hack to get the token from the cookie
+          //         let data = request?.headers.cookie;
+          //         if (data) {
+          //           let token = data.split('; ').find((row) => row.startsWith('jwt='));
+          //           if (token) {
+          //             token = token.split('=')[1];
+          //             return token;
+          //           }
+          //         } else {
+          //           return null;
+          //         }
+          //       },
+          //     ]),
+          //     secretOrKey: config.get('JWT_SECRET'),
+          //   });
+          // }
+
+          jwtFromRequest: ExtractJwt.fromExtractors([
+              (request: Request) => {
+                  return request?.cookies?.Authentication;
+          }]),
+          secretOrKey: config.get('JWT_SECRET')});
+      }
 
           async validate(payload: { sub: string }) {
             return this.prisma.user.findUnique({
@@ -44,12 +51,6 @@ import { Request } from 'express';
 
 
 
-//             jwtFromRequest: ExtractJwt.fromExtractors([
-//                 (request: Request) => {
-//                     return request?.cookies?.Authentication;
-//             }]),
-//             secretOrKey: configService.get('JWT_SECRET')});
-//         }
 
 //         async validate(payload: { sub: string }) {
 //           return this.prisma.user.findUnique({
