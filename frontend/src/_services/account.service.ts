@@ -54,10 +54,18 @@ let addMessage = (dto: MessageDto) => {
 }
 
 let getMsg = (room: String) => {
-    console.log('oiuji -> ', room)
     // return Axios.get('/chat/getmsg', room)
     return Axios.get('/chat/getmsg', { params: { room } })
-    // { params: { answer: 42 } }
+}
+
+let addMessageChannel = (dto: MessageDto) => {
+    console.log(dto)
+    return Axios.post('/chat/addmsgchannel', dto)
+}
+
+let getMsgChannel = (room: String) => {
+    // return Axios.get('/chat/getmsg', room)
+    return Axios.get('/chat/getmsgchannel', { params: { room } })
 }
 
 let logout = () => {
@@ -92,5 +100,7 @@ export const accountService = {
     addFriend,
     addChannel,
     addMessage,
-    getMsg
+    getMsg,
+    addMessageChannel,
+    getMsgChannel
 }

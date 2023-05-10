@@ -40,4 +40,14 @@ export class ChatController {
 		return this.chatService.getMsg(req.query)
 	}
 
+	@Post('addmsgchannel')
+	addMsgChannel(@Body() dto: object) {
+		return this.chatService.addMsgChannel(dto)
+	}
+
+	@Get('getmsgchannel')
+	getMsgChannel(@Req() req) {
+		return this.chatService.getMsgChannel(req.query)
+	}
+
 }

@@ -3,6 +3,7 @@ import Borders from './Borders.vue'
 import { accountService } from '@/_services';
 import io from "socket.io-client"
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
+import { MessageDto } from '../_services/messages.dto'
 </script>
 
 <script lang="ts">
@@ -20,7 +21,7 @@ export type message_type = {
     id: number,
     text: string,
     username: string,
-    socketid: string
+    // socketid: string
 }
 
 export default {
@@ -42,35 +43,16 @@ export default {
       check_invite(text: string) {
         return (text == 'invite')
       },
-      send_msg() {
-        
-        
-        
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        // let dto: RoomChannelDto = { name: this.idchannel, users: [ this.my_username ] }
-        // accountService.editChannel(dto) 
-        //     .then(res => {
-        //         console.log(res)
-        //     })
-        //     .catch(err => console.log(err))
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
+      async send_msg() {
         if (this.validateInput(this.text)) {
               const message = {
                   id: id++,
                   text: this.text,
                   username: this.my_username,
-                  socketid: $socket_chat.id,
-                  room: 'room_channel'
               }
+              let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
+              console.log('msg -> ', msg)
+              await accountService.addMessageChannel(msg)
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
@@ -82,7 +64,14 @@ export default {
         }
       },
       receivedMessage(message: message_type) {
-          this.msg.push(message)
+          accountService.getMsgChannel(this.room) 
+            .then(res => {
+                this.msg = res.data
+                console.log(res.data)
+            })
+            .catch(err => console.log (err))
+
+        //   this.msg.push(message)
       },
       validateInput(text: string) {
           return text.length > 0
@@ -92,16 +81,15 @@ export default {
         let dto: RoomChannelDto = { name: this.idchannel, users: ['elisa'] }
         accountService.findRoomChannel(dto) 
             .then(res => {
-                console.log('ca marcheeeee')
-                console.log(res.data.name)
                 this.room = res.data.name
-                console.log('room = ', this.room)
 
+                accountService.getMsgChannel(this.room) 
+                    .then(res => {
+                        this.msg = res.data
+                    })
+                    .catch(err => console.log(err))
 
                 $socket_chat.on('msgToClient', (message: message_type) => {
-                    console.log(message)
-                    console.log($socket_chat.id)
-                    console.log(message.socketid)
                     this.receivedMessage(message)
                 })
                 console.log(this.room)

@@ -56,7 +56,7 @@ export default {
       check_invite(text: string) {
         return (text == 'invite')
       },
-      send_msg() {
+      async send_msg() {
         if (this.validateInput(this.text)) {
               const message: message_type = {
                   id: id++,
@@ -65,7 +65,7 @@ export default {
               }
               let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
               console.log('msg -> ', msg)
-              accountService.addMessage(msg)
+              await accountService.addMessage(msg)
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
@@ -82,9 +82,9 @@ export default {
                 this.msg = res.data
                 console.log(res.data)
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log (err))
 
-          this.msg.push(message)
+        //   this.msg.push(message)
       },
       validateInput(text: string) {
           return text.length > 0

@@ -113,7 +113,6 @@ export default {
         this.newChannel = ''
       },
       createChannel() {
-        console.log(this.create_channel)
         this.create_channel = true
       },
       validateInput(text: string) {
@@ -169,10 +168,10 @@ export default {
         </div>
         <div className="border_right_bottom_two">
           <form v-if="channels_friends" @submit.prevent="addFriend"  className="border_right_bottom_two">
-            <input className="placeholder_search_friends" v-model="newFriend" placeholder='add friends' :maxlength="9">
+            <input className="placeholder_search_friends" pattern="[a-zA-Z]+" title="only letters accepted" v-model="newFriend" placeholder='add friends' :maxlength="9">
           </form>
           <form v-else @submit.prevent="createChannel" className="border_right_bottom_two">
-            <input className="placeholder_search_friends" v-model="newChannel" placeholder='search channel' :maxlength="9">
+            <input className="placeholder_search_friends" pattern="[a-zA-Z]+" title="only letters accepted" v-model="newChannel" placeholder='search channel' :maxlength="9">
           </form>
 
         <div v-if="create_channel" className="create_channel">
@@ -218,7 +217,7 @@ export default {
 
         <div className="border_middle_top_right">
           <form @submit.prevent="search_users" className="placeholder_search">
-            <input className="placeholder_search" v-model="search_user" placeholder='search' :maxlength="9">
+            <input className="placeholder_search" v-model="search_user" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='search' :maxlength="9">
           </form>
         </div>
       </div>

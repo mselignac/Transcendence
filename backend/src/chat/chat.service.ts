@@ -10,7 +10,7 @@ import { RoomChannelDto } from './roomChannel.dto';
 import { PrismaService } from "../prisma/prisma.service";
 import { MessageDto } from './messages.dto';
 
-// let id = 0
+let id = 0
 
 @Injectable()
 export class ChatService {
@@ -58,8 +58,9 @@ export class ChatService {
         },})
       }
 
-
       if (room[0] === undefined) {
+        data.name = id.toString()
+        id++
         const user = await this.prisma.room.create({
             data,
         });
@@ -122,7 +123,7 @@ export class ChatService {
     }
 
     async getMsg(dto: object) {
-      console.log(dto)
+      // console.log(dto)
       type ObjectKey = keyof typeof dto;
 
       let data: MessageDto = dto as ObjectKey
@@ -211,5 +212,51 @@ export class ChatService {
 
       return room;
     }
+
+    async addMsgChannel(dto: object) {
+
+      type ObjectKey = keyof typeof dto;
+
+      let dataa: MessageDto = dto as ObjectKey
+
+      await this.prisma.roomChannel.update({
+        where: {
+          name: dataa.room
+        },
+        data: {
+          messages: {
+            create: [
+              {
+                text: dataa.text,
+                username: dataa.username
+              }
+            ]
+          }
+        }
+      })
+    }
+
+    async getMsgChannel(dto: object) {
+      // console.log(dto)
+      type ObjectKey = keyof typeof dto;
+
+      let data: MessageDto = dto as ObjectKey
+
+      let room = await this.prisma.roomChannel.findUnique({
+        where: {
+          name: data.room
+        }
+      })
+
+      let msg = await this.prisma.message.findMany({
+        where: {
+          roomChannelId: room.id
+        }
+      })
+
+      return msg
+    }
+
+
 
 }
