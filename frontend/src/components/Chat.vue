@@ -34,7 +34,7 @@ export type message_type = {
     id: number,
     text: string,
     username: string,
-    socketid: string
+    // socketid: string
 }
 
 export default {
@@ -79,7 +79,7 @@ export default {
       receivedMessage(message: message_type) {
           accountService.getMsg(this.room) 
             .then(res => {
-                // this.room = res.data[0].name
+                this.msg = res.data
                 console.log(res.data)
             })
             .catch(err => console.log(err))
@@ -96,13 +96,19 @@ export default {
             .then(res => {
                 this.room = res.data[0].name
 
-                $socket_chat.on('msgToClient', (message: message_type) => {
+                accountService.getMsg(this.room) 
+                    .then(res => {
+                        this.msg = res.data
+                    })
+                    .catch(err => console.log(err))
+
+                    $socket_chat.on('msgToClient', (message: message_type) => {
+                    console.log('create')
                     this.receivedMessage(message)
                 })
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))
-
     }
 }
 </script>

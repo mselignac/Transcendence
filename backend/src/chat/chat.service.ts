@@ -18,27 +18,6 @@ export class ChatService {
 
     server: Server;
 
-
-
-    // async editRoom(userId: string, dto: RoomDto) {
-    //   const user = await this.prisma.room.update({
-    //     where: {
-    //       id: userId,
-    //     },
-    //     data: {
-    //       ...dto,
-    //     },
-    //   });
-
-    //   return user;
-    // }
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                      CHAT/MP                                         //
@@ -154,7 +133,13 @@ export class ChatService {
         }
       })
 
-      return room
+      let msg = await this.prisma.message.findMany({
+        where: {
+          roomId: room.id
+        }
+      })
+
+      return msg
     }
 
 

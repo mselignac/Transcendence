@@ -1,25 +1,9 @@
 import { ChatService } from './chat.service';
 import { Body, Controller, Get, Patch, Req , Post } from '@nestjs/common';
-import { RoomDto } from './room.dto';
-
-// let id = 0
 
 @Controller('chat')
 export class ChatController {
 	constructor(private chatService: ChatService) {}
-
-	// @Get('me')
-	// getMe(@GetUser() user: User) {dv
-	// 	return user;
-	// }
-
-	// @Get('me')
-	// getMe(@Req() req) {
-	//   return {
-	// 	id: req.user.id,
-	//   };
-	// }
-
 
 	@Post('createroom')
 	createRoom(@Body() dto: object) {
@@ -28,9 +12,6 @@ export class ChatController {
 
 	@Post('findroom')
 	findRoom(@Body() dto: object) {
-		// console.log('=============')
-		// console.log(typeof(dto))
-		// console.log({dto})
 	  return this.chatService.findRoom(dto) ;
 	}
 
@@ -41,9 +22,6 @@ export class ChatController {
 
 	@Post('findroomchannel')
 	findRoomChannel(@Body() dto: object) {
-		// console.log('=============')
-		// console.log(typeof(dto))
-		// console.log({dto})
 	  return this.chatService.findRoomChannel(dto) ;
 	}
 
@@ -59,12 +37,7 @@ export class ChatController {
 
 	@Get('getmsg')
 	getMsg(@Req() req) {
-		// console.log(req.query)
 		return this.chatService.getMsg(req.query)
 	}
 
-	// @Patch()
-	// editUser(@GetUser('id') userId: string, @Body() dto: RoomDto) {
-	// 	return this.chatService.editRoom(userId, dto);
-	// }
 }
