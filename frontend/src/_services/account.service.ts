@@ -1,6 +1,7 @@
 import Axios from './caller.service'
-// import { RoomDto } from '../../../backend/src/chat/room.dto'
+import { RoomChannelDto } from './room.channel.dto';
 import { RoomDto } from './room.dto';
+import { MessageDto } from './messages.dto';
 
 let login = () => {
     return Axios.get('/auth/42/login')
@@ -35,9 +36,29 @@ let editChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/editchannel', dto)
 }
 
-// let getCookie  = () => {
-//     return Axios.get('auth/cookiejwt')
-// }
+let addFriend = (dto: RoomChannelDto) => {
+    console.log(dto)
+    console.log('ca marche add friend')
+    return Axios.post('/users/addfriend', dto)
+}
+
+let addChannel = (dto: RoomChannelDto) => {
+    console.log(dto)
+    console.log('ca marche add friend')
+    return Axios.post('/users/addchannel', dto)
+}
+
+let addMessage = (dto: MessageDto) => {
+    console.log(dto)
+    return Axios.post('/chat/addmessage', dto)
+}
+
+let getMsg = (room: String) => {
+    console.log('oiuji -> ', room)
+    // return Axios.get('/chat/getmsg', room)
+    return Axios.get('/chat/getmsg', { params: { room } })
+    // { params: { answer: 42 } }
+}
 
 let logout = () => {
     localStorage.removeItem('token')
@@ -67,6 +88,9 @@ export const accountService = {
     findRoom,
     createRoomChannel,
     findRoomChannel,
-    editChannel
-    // getCookie
+    editChannel,
+    addFriend,
+    addChannel,
+    addMessage,
+    getMsg
 }

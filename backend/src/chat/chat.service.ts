@@ -8,6 +8,7 @@ import {
 import { RoomDto } from './room.dto';
 import { RoomChannelDto } from './roomChannel.dto';
 import { PrismaService } from "../prisma/prisma.service";
+import { MessageDto } from './messages.dto';
 
 // let id = 0
 
@@ -118,6 +119,43 @@ export class ChatService {
       return room;
     }
 
+    async addMessage(dto: object) {
+
+      type ObjectKey = keyof typeof dto;
+
+      let dataa: MessageDto = dto as ObjectKey
+
+      await this.prisma.room.update({
+        where: {
+          name: dataa.room
+        },
+        data: {
+          messages: {
+            create: [
+              {
+                text: dataa.text,
+                username: dataa.username
+              }
+            ]
+          }
+        }
+      })
+    }
+
+    async getMsg(dto: object) {
+      console.log(dto)
+      type ObjectKey = keyof typeof dto;
+
+      let data: MessageDto = dto as ObjectKey
+
+      let room = await this.prisma.room.findUnique({
+        where: {
+          name: data.room
+        }
+      })
+
+      return room
+    }
 
 
 
@@ -133,21 +171,6 @@ export class ChatService {
 //        name -> string
 //        users -> string[]
 //      }
-
-
-
-
-// const jsp = await this.prisma.roomChannel.update({
-//   where: {
-//     name: 'test'
-//   },
-//   data: {
-//     users: {
-//       push: data.users
-//     }
-//   },
-// });
-// console.log('jenaimarre')
 
 
 
@@ -170,19 +193,6 @@ export class ChatService {
         });
         return user;
       }
-      // console.log('jesaispas')
-      // const jsp = await this.prisma.roomChannel.update({
-      //   where: {
-      //     name: 'test'
-      //   },
-      //   data: {
-      //     users: {
-      //       push: data.users
-      //     }
-      //   },
-      // });
-      // console.log('jenaimarre')
-
     }
 
     async findRoomChannel(dto: object) {
@@ -198,50 +208,23 @@ export class ChatService {
       return room;
     }
 
-
-
     async editRoom(dto: object) {
-      // const user = await this.prisma.room.update({
-      //   where: {
-      //     name: userId,
-      //   },
-      //   data: {
-      //     users.push(dto.users),
-      //     // users: {
-      //     //   push: dto.users
-      //     // }
-      //   },
-      // });
-
-      // return user;
-
-
-
-      console.log(dto)
-
       type ObjectKey = keyof typeof dto;
 
       let dataa: RoomChannelDto = dto as ObjectKey
-
-      dataa.users.push('test')
 
       let room = await this.prisma.roomChannel.update({
           where: {
             name: dataa.name
           },
           data: {
-            ...dataa
-            // users: {
-              // create: 'test'
-              // connect: {
-              //   users: 'elisa',
-              // }
-            // } 
+            users: {
+              push: dataa.users[0]
+            }
           },
         })
 
       return room;
     }
-
 
 }

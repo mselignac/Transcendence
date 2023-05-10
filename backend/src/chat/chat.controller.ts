@@ -52,6 +52,16 @@ export class ChatController {
 		return this.chatService.editRoom(dto)
 	}
 
+	@Post('addmessage')
+	addMessage(@Body() dto: object) {
+		return this.chatService.addMessage(dto)
+	}
+
+	@Get('getmsg')
+	getMsg(@Req() req) {
+		// console.log(req.query)
+		return this.chatService.getMsg(req.query)
+	}
 
 	// @Patch()
 	// editUser(@GetUser('id') userId: string, @Body() dto: RoomDto) {

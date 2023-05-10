@@ -49,14 +49,12 @@ export default {
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
-        
-        let dto: RoomChannelDto = { name: this.idchannel, users: [''] }
-        accountService.editChannel(dto) 
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => console.log(err))
-
+        // let dto: RoomChannelDto = { name: this.idchannel, users: [ this.my_username ] }
+        // accountService.editChannel(dto) 
+        //     .then(res => {
+        //         console.log(res)
+        //     })
+        //     .catch(err => console.log(err))
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
 

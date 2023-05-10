@@ -87,6 +87,7 @@ import ProfileUser from '../components/ProfileUser.vue'
 import { authGuard, authGuardTest } from '../_helper/auth-guard'
 import Infos from '../components/InfosChannel.vue'
 import Channel from '../components/Channel.vue'
+import List from '../components/ListChannels.vue'
 
 
 const router = createRouter({
@@ -106,6 +107,7 @@ const router = createRouter({
     { path: '/infos/:idchannel', component: Infos , props: true},
     { path: '/:pathMatch(.*)*', name: 'error', component: NotFound },
     { path: '/pong', component: Pong },
+    { path: '/list-channels', component: List },
     { path: '/channel/:idchannel', name: 'channel', component: Channel, props: true }
   ]
 })

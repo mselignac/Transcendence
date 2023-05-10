@@ -16,6 +16,7 @@ import Borders from './Borders.vue'
 import io from "socket.io-client"
 import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
+import { MessageDto } from '../_services/messages.dto'
 </script>
 
 <script lang="ts">
@@ -61,8 +62,10 @@ export default {
                   id: id++,
                   text: this.text,
                   username: this.my_username,
-                  socketid: $socket_chat.id
               }
+              let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
+              console.log('msg -> ', msg)
+              accountService.addMessage(msg)
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
@@ -74,8 +77,13 @@ export default {
         }
       },
       receivedMessage(message: message_type) {
-        console.log("test message", message)
-          console.log(this.msg)
+          accountService.getMsg(this.room) 
+            .then(res => {
+                // this.room = res.data[0].name
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
+
           this.msg.push(message)
       },
       validateInput(text: string) {
@@ -86,19 +94,11 @@ export default {
         let dto: RoomDto = { name: 'test', user_one: 'elisa', user_two: this.idchat }
         accountService.findRoom(dto) 
             .then(res => {
-                console.log('ca marcheeeee')
-                console.log(res.data[0])
                 this.room = res.data[0].name
-                console.log('room = ', this.room)
-
 
                 $socket_chat.on('msgToClient', (message: message_type) => {
-                    console.log(message)
-                    console.log($socket_chat.id)
-                    console.log(message.socketid)
                     this.receivedMessage(message)
                 })
-                console.log(this.room)
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))

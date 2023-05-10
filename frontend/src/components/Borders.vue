@@ -2,12 +2,6 @@
 import { accountService } from '@/_services'
 import { RoomDto} from '@/_services/room.dto'
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
-// import { ref } from 'vue';
-// const componentKey = ref(0);
-
-// const forceRerender = () => {
-//   componentKey.value += 1;
-// };
 
 let id = 0
 let idRoom = 0
@@ -20,7 +14,6 @@ export type friend_type = {
 export type users_type = {
   username: string
 }
-
 
 export default {
     data() {
@@ -80,6 +73,8 @@ export default {
           let dto: RoomDto = { name: idRoom.toString(), user_one: this.my_username, user_two: this.newFriend }
           idRoom++
           accountService.createRoom(dto)
+          let dtoo: RoomChannelDto = { name: 'ejahan', users: [ this.newFriend ] }
+          accountService.addFriend(dtoo)
           this.newFriend = ''
         }
       },
@@ -92,6 +87,8 @@ export default {
           this.channels.push({ id: id++, text: this.newChannel })
           let dto: RoomChannelDto = { name: this.newChannel, users: [ this.my_username ] }
           accountService.createRoomChannel(dto)
+          let dtoo: RoomChannelDto = { name: 'ejahan', users: [ this.newChannel ] }
+          accountService.addChannel(dtoo)
           this.newChannel = ''
           this.create_channel = false
         }
@@ -123,15 +120,6 @@ export default {
         return text.length > 0
       }
     },
-    // mounted() {
-    //   console.log("salut");
-    //   accountService.getCookie()
-    //       .then(res => {
-    //         console.log(res)
-    //         // this.$router.push('/main-page')
-    //       })
-    //       .catch(err => console.log(err))
-    // },
 }
 </script>
 
@@ -245,7 +233,7 @@ export default {
       <RouterLink to="/main-page" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-house" /></RouterLink>
       <RouterLink to="/game-mode" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gamepad" /></RouterLink>
       <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
-      <RouterLink :to="'/chat/' + 'jesaispasfautquejechange'" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
+      <RouterLink to="/list-channels" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
       <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
     </div>
 

@@ -11,75 +11,62 @@ datasource db {
 }
 
 model User {
-  id        String    @id @unique @default(uuid())
-  createAt  DateTime  @default(now())
-  updateAT  DateTime  @default(now())
-  checkID String @unique
-  login       String  @unique
-  fullName    String
-  avatarUrl   String
-  firstName   String
-  lastName    String
-  email       String  @unique
-  phonenumber String?
-  country     String?
-  twofactor                     Boolean @default(false)
+  id                            String   @id @unique @default(uuid())
+  createAt                      DateTime @default(now())
+  updateAT                      DateTime @default(now())
+  checkID                       String   @unique
+  login                         String   @unique
+  fullName                      String
+  avatarUrl                     String
+  firstName                     String
+  lastName                      String
+  email                         String   @unique
+  phonenumber                   String?
+  country                       String?
+  twofactor                     Boolean  @default(false)
   twoFactorAuthenticationSecret String
+
+  channels String[]
+  friends  String[]
+
   // bookmarks Bookmark[]
   @@map("users")
 }
 
-
-
-
 model Room {
-  id        String    @id @unique @default(uuid())
-  createAt  DateTime  @default(now())
-  updateAT  DateTime  @default(now())
+  id       String   @id @unique @default(uuid())
+  createAt DateTime @default(now())
+  updateAT DateTime @default(now())
 
-  name      String
-//  channel   Boolean
-  user_one  String
-  user_two  String
-//  users     String[]
-  messages  String[]
+  name     String   @unique
+  user_one String
+  user_two String
+  messages Message[]
 
   @@map("maps")
 }
 
 model RoomChannel {
-  id        String    @id @unique @default(uuid())
-  // idtest        Int @id @default(autoincrement())
-  createAt  DateTime  @default(now())
-  updateAT  DateTime  @default(now())
+  id       String   @id @unique @default(uuid())
+  createAt DateTime @default(now())
+  updateAT DateTime @default(now())
 
-  name      String  @unique
-  users     String[]
-  messages  String[] 
+  name     String    @unique
+  users    String[]
+  messages Message[]
 
   @@map("channels")
 }
 
-// model Message {
-//  user RoomChannel @relation(fields: [id], references: [idtest])
-//  id        Int @id @default(autoincrement())
-//  text      String
-//  username  String
-  // @@map("messages)
-// }
-
-
-
-
-
-
-// model Channels {
-//   id        Int       @id @default(autoincrement())
-//   createAt  DateTime  @default(now())
-//   updateAT  DateTime  @default(now())
-
-//   channels String[]
-// }
+model Message {
+  id            Int          @id @default(autoincrement())
+  text          String
+  username      String
+  RoomChannel   RoomChannel? @relation(fields: [roomChannelId], references: [id])
+  roomChannelId String?
+  Room          Room?        @relation(fields: [roomId], references: [id])
+  roomId        String?
+}
 
 // model Game {
 //   id        Int       @id @default(autoincrement())
@@ -89,7 +76,7 @@ model RoomChannel {
 //   player_one String
 //   player_two String
 //   score String
-  
+
 //   userId  String
 //   user User @relation(fields: [userId], references: [id])
 
@@ -108,5 +95,5 @@ model RoomChannel {
 //   userId  Int
 //   user User @relation(fields: [userId], references: [id])
 
-  // @@map("bookmarks")
+// @@map("bookmarks")
 // }

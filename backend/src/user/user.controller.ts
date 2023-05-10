@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, UseGuards, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards, Req, Res, Post } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
@@ -40,5 +40,15 @@ export class UserController {
 	@Patch()
 	editUser(@GetUser('id') userId: string, @Body() dto: EditUserDto) {
 		return this.userService.editUser(userId, dto);
+	}
+	
+	@Post('addfriend')
+	addFriend(@Body() dto: object) {
+		return this.userService.addFriend(dto) ;
+	}
+
+	@Post('addchannel')
+	addChannel(@Body() dto: object) {
+		return this.userService.addChannel(dto) ;
 	}
 }
