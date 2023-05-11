@@ -34,7 +34,6 @@ export type message_type = {
     id: number,
     text: string,
     username: string,
-    // socketid: string
 }
 
 export default {
@@ -84,7 +83,6 @@ export default {
             })
             .catch(err => console.log (err))
 
-        //   this.msg.push(message)
       },
       validateInput(text: string) {
           return text.length > 0
@@ -109,7 +107,7 @@ export default {
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))
-    }
+    },
 }
 </script>
 

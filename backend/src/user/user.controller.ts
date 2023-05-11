@@ -34,6 +34,9 @@ export class UserController {
 		twoFactor: req.user.twofactor,
 		createdAt: req.user.createdAt,
 		updatedAt: req.user.updatedAt,
+
+		friends: req.user.friends,
+		channels: req.user.channels
 		};
 	}
 

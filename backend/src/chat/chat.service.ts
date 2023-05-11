@@ -61,6 +61,7 @@ export class ChatService {
       if (room[0] === undefined) {
         data.name = id.toString()
         id++
+        console.log(id)
         const user = await this.prisma.room.create({
             data,
         });
@@ -123,7 +124,6 @@ export class ChatService {
     }
 
     async getMsg(dto: object) {
-      // console.log(dto)
       type ObjectKey = keyof typeof dto;
 
       let data: MessageDto = dto as ObjectKey
@@ -237,7 +237,6 @@ export class ChatService {
     }
 
     async getMsgChannel(dto: object) {
-      // console.log(dto)
       type ObjectKey = keyof typeof dto;
 
       let data: MessageDto = dto as ObjectKey
