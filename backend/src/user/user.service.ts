@@ -58,6 +58,7 @@ export class UserService {
 
 		let dataa: RoomChannelDto = dto as ObjectKey
 
+		console.log(dataa)
 		await this.prisma.user.update({
 			where: {
 			  login: dataa.name

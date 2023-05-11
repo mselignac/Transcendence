@@ -77,8 +77,10 @@ export default {
           return text.length > 0
       }
     },
-    created() {
-        let dto: RoomChannelDto = { name: this.idchannel, users: ['elisa'] }
+    async created() {
+        await accountService.usersMe()
+        .then((response) => { this.my_username = response.data.login })
+        let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
         accountService.findRoomChannel(dto) 
             .then(res => {
                 this.room = res.data.name

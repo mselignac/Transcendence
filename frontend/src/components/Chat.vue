@@ -4,6 +4,7 @@ import io from "socket.io-client"
 import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
 import { MessageDto } from '../_services/messages.dto'
+import router from '@/router';
 </script>
 
 <script lang="ts">
@@ -62,7 +63,7 @@ export default {
               this.text_test = ''
         }
       },
-      receivedMessage(message: message_type) {
+      receivedMessage(message: message_type) {      // ajouter async/await? (bug si pas en localhost)
           accountService.getMsg(this.room) 
             .then(res => {
                 this.msg = res.data
@@ -75,8 +76,14 @@ export default {
           return text.length > 0
       }
     },
-    created() {
-        let dto: RoomDto = { name: 'test', user_one: 'ejahan', user_two: this.idchat }
+    async created() {
+        // router.go()
+        await accountService.usersMe()
+        .then((response) => { console.log('response -> ', response)
+        this.my_username = response.data.login })
+        console.log('my username', this.my_username)
+        let dto: RoomDto = { name: 'test', user_one: this.my_username, user_two: this.idchat }
+        console.log(dto)
         accountService.findRoom(dto) 
             .then(res => {
                 console.log(res)

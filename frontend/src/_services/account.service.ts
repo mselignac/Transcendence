@@ -89,6 +89,10 @@ let isLogged = () => {
     return !!token  //transforme une variable (ici: string) en booleen (si vide -> false, sinon true)
 }
 
+let findUser = (dto: RoomDto) => {
+    return Axios.get('/chat/finduser', { params: { dto }})
+}
+
 export const accountService = {
     login,
     logout,
@@ -107,6 +111,7 @@ export const accountService = {
     getMsg,
     addMessageChannel,
     getMsgChannel,
-    updateUsername
+    updateUsername,
+    findUser
     // getCookie
 }

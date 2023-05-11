@@ -50,4 +50,10 @@ export class ChatController {
 		return this.chatService.getMsgChannel(req.query)
 	}
 
+	@Get('finduser')
+	findUser(@Req() req) {
+		console.log(req.query.dto)
+		return this.chatService.findUser(req.query.dto)
+	}
+
 }

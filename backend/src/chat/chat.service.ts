@@ -31,6 +31,39 @@ export class ChatService {
 //     }
 
 
+    async findUser(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: RoomDto = dto as ObjectKey
+
+      console.log('====================')
+      console.log(data)
+      console.log('====================')
+      let room = await this.prisma.user.findUnique({
+        where: {
+          login: data.name
+        }
+      })
+      console.log(room)
+      if (room)
+        return (room)
+
+
+
+
+
+
+
+      // try {
+      //   let room = await this.prisma.user.findUnique({
+      //   where: {
+      //     login: data.name
+      //   }
+      // })
+      // } catch (e) {
+      //   console.log('ca passe ici', e)
+      // }
+    }
 
     async createRoom(dto: object) {
       type ObjectKey = keyof typeof dto;
