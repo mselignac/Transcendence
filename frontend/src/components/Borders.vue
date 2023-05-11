@@ -46,11 +46,10 @@ export default {
           token: '',
           connected: false,
           create_channel: false,
-          my_username: 'elisa'
+          my_username: ''
         }
     },
     methods: {
-
       change_friend() {
         this.friend = !this.friend
       },
@@ -123,15 +122,13 @@ export default {
         return text.length > 0
       }
     },
-    // mounted() {
-    //   console.log("salut");
-    //   accountService.getCookie()
-    //       .then(res => {
-    //         console.log(res)
-    //         // this.$router.push('/main-page')
-    //       })
-    //       .catch(err => console.log(err))
-    // },
+    mounted() {
+      accountService.usersMe()
+      .then((response) => {
+        this.users = response.data
+        this.my_username = this.users.login
+      })
+    },
 }
 </script>
 
@@ -162,7 +159,7 @@ export default {
         <div className="border_right_top_left">
           <!-- <h1 className="routers_profile">{{ users.email }}</h1> -->
           <!-- <h1 className="routers_profile">{{ users.username }}</h1> -->
-          <h1 className="routers_profile">username</h1>
+          <h1 className="routers_profile">{{ this.my_username }}</h1>
         </div>
         <div className="border_right_top_right">
           <RouterLink to="/profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>

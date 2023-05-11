@@ -20,25 +20,31 @@ export class UserController {
 	@UseGuards(AuthGuard('jwt'))
 	@Get('me')
 	getMe(@Req() req) {
-	  return {
-		id: req.user.id,
-		losses: req.user.Losses,
-		wins: req.user.Wins,
-		avatar: req.user.avatarUrl,
-		country: req.user.country,
-		email: req.user.email,
-		fullName: req.user.fullName,
-		username: req.user.login,
-		phoneNumber: req.user.phonenumber,
-		score: req.user.score,
-		twoFactor: req.user.twofactor,
-		createdAt: req.user.createdAt,
-		updatedAt: req.user.updatedAt,
+		return {
+			id: req.user.id,
+			losses: req.user.Losses,
+			wins: req.user.Wins,
+			avatar: req.user.avatarUrl,
+			country: req.user.country,
+			email: req.user.email,
+			fullName: req.user.fullName,
+			login: req.user.login,
+			phoneNumber: req.user.phonenumber,
+			score: req.user.score,
+			twoFactor: req.user.twofactor,
+			createdAt: req.user.createdAt,
+			updatedAt: req.user.updatedAt,
 		};
 	}
 
 	@Patch()
-	editUser(@GetUser('id') userId: string, @Body() dto: EditUserDto) {
-		return this.userService.editUser(userId, dto);
+	editUser(@Req() req, @Body() dto: EditUserDto) {
+		return this.userService.editUser(req.user.id, dto);
+	}
+
+	//Update user username
+	@Patch('username')
+	editUsername(@Req() req, @Body() dto: EditUserDto) {
+		return this.userService.editUsername(req.user.id, dto.username);
 	}
 }
