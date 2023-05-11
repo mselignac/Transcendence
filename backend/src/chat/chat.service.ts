@@ -8,35 +8,15 @@ import {
 import { RoomDto } from './room.dto';
 import { RoomChannelDto } from './roomChannel.dto';
 import { PrismaService } from "../prisma/prisma.service";
+import { MessageDto } from './messages.dto';
 
-// let id = 0
+let id = 0
 
 @Injectable()
 export class ChatService {
     constructor(private prisma: PrismaService) {}
 
     server: Server;
-
-
-
-    // async editRoom(userId: string, dto: RoomDto) {
-    //   const user = await this.prisma.room.update({
-    //     where: {
-    //       id: userId,
-    //     },
-    //     data: {
-    //       ...dto,
-    //     },
-    //   });
-
-    //   return user;
-    // }
-
-
-
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -78,8 +58,10 @@ export class ChatService {
         },})
       }
 
-
       if (room[0] === undefined) {
+        data.name = id.toString()
+        id++
+        console.log(id)
         const user = await this.prisma.room.create({
             data,
         });
@@ -93,6 +75,8 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
+
+      console.log('data => ', data)
       let room = await this.prisma.room.findMany({
           where: {
             user_two: {
@@ -104,6 +88,7 @@ export class ChatService {
       },})
 
       if (room[0] === undefined) {
+        console.log('ici')
         room = await this.prisma.room.findMany({
         where: {
           user_one: {
@@ -118,6 +103,49 @@ export class ChatService {
       return room;
     }
 
+    async addMessage(dto: object) {
+
+      type ObjectKey = keyof typeof dto;
+
+      let dataa: MessageDto = dto as ObjectKey
+      console.log(dataa)
+
+      await this.prisma.room.update({
+        where: {
+          name: dataa.room
+        },
+        data: {
+          messages: {
+            create: [
+              {
+                text: dataa.text,
+                username: dataa.username
+              }
+            ]
+          }
+        }
+      })
+    }
+
+    async getMsg(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: MessageDto = dto as ObjectKey
+
+      let room = await this.prisma.room.findUnique({
+        where: {
+          name: data.room
+        }
+      })
+
+      let msg = await this.prisma.message.findMany({
+        where: {
+          roomId: room.id
+        }
+      })
+
+      return msg
+    }
 
 
 
@@ -133,21 +161,6 @@ export class ChatService {
 //        name -> string
 //        users -> string[]
 //      }
-
-
-
-
-// const jsp = await this.prisma.roomChannel.update({
-//   where: {
-//     name: 'test'
-//   },
-//   data: {
-//     users: {
-//       push: data.users
-//     }
-//   },
-// });
-// console.log('jenaimarre')
 
 
 
@@ -170,19 +183,6 @@ export class ChatService {
         });
         return user;
       }
-      // console.log('jesaispas')
-      // const jsp = await this.prisma.roomChannel.update({
-      //   where: {
-      //     name: 'test'
-      //   },
-      //   data: {
-      //     users: {
-      //       push: data.users
-      //     }
-      //   },
-      // });
-      // console.log('jenaimarre')
-
     }
 
     async findRoomChannel(dto: object) {
@@ -198,44 +198,68 @@ export class ChatService {
       return room;
     }
 
+    async editRoom(dto: object) {
+      type ObjectKey = keyof typeof dto;
 
+      let dataa: RoomChannelDto = dto as ObjectKey
 
-    // async editRoom(dto: object) {
-    //   // const user = await this.prisma.room.update({
-    //   //   where: {
-    //   //     name: userId,
-    //   //   },
-    //   //   data: {
-    //   //     users.push(dto.users),
-    //   //     // users: {
-    //   //     //   push: dto.users
-    //   //     // }
-    //   //   },
-    //   // });
+      let room = await this.prisma.roomChannel.update({
+          where: {
+            name: dataa.name
+          },
+          data: {
+            users: {
+              push: dataa.users[0]
+            }
+          },
+        })
 
-    //   // return user;
+      return room;
+    }
 
+    async addMsgChannel(dto: object) {
 
+      type ObjectKey = keyof typeof dto;
 
+      let dataa: MessageDto = dto as ObjectKey
 
-    //   type ObjectKey = keyof typeof dto;
+      await this.prisma.roomChannel.update({
+        where: {
+          name: dataa.room
+        },
+        data: {
+          messages: {
+            create: [
+              {
+                text: dataa.text,
+                username: dataa.username
+              }
+            ]
+          }
+        }
+      })
+    }
 
-    //   let dataa: RoomChannelDto = dto as ObjectKey
+    async getMsgChannel(dto: object) {
+      type ObjectKey = keyof typeof dto;
 
-    //   let room = await this.prisma.roomChannel.findUnique({
-    //       where: {
-    //         name: dataa.name
-    //       },
-    //       // data: {
-    //       //   dataa
-    //       //   // users: {
-    //       //   //   push: dataa.users
-    //       //   // }
-    //       // },
-    //     })
+      let data: MessageDto = dto as ObjectKey
 
-    //   return room;
-    // }
+      let room = await this.prisma.roomChannel.findUnique({
+        where: {
+          name: data.room
+        }
+      })
+
+      let msg = await this.prisma.message.findMany({
+        where: {
+          roomChannelId: room.id
+        }
+      })
+
+      return msg
+    }
+
 
 
 }

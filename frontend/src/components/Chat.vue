@@ -1,21 +1,9 @@
-<!-- /////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-
-pour afficher comme il faut les messages
-    -> enlever 'me: true/false'
-    -> quand j'envoie un message: 'username: my_username'
-    -> quand j'affiche: check_username >> return (username == my_username)
-
-//////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////// -->
-
-
-
 <script setup lang="ts">
 import Borders from './Borders.vue'
 import io from "socket.io-client"
 import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
+import { MessageDto } from '../_services/messages.dto'
 </script>
 
 <script lang="ts">
@@ -33,7 +21,6 @@ export type message_type = {
     id: number,
     text: string,
     username: string,
-    socketid: string
 }
 
 export default {
@@ -55,14 +42,16 @@ export default {
       check_invite(text: string) {
         return (text == 'invite')
       },
-      send_msg() {
+      async send_msg() {
         if (this.validateInput(this.text)) {
               const message: message_type = {
                   id: id++,
                   text: this.text,
                   username: this.my_username,
-                  socketid: $socket_chat.id
               }
+              let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
+              console.log('msg -> ', msg)
+              await accountService.addMessage(msg)
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
@@ -74,36 +63,42 @@ export default {
         }
       },
       receivedMessage(message: message_type) {
-        console.log("test message", message)
-          console.log(this.msg)
-          this.msg.push(message)
+          accountService.getMsg(this.room) 
+            .then(res => {
+                this.msg = res.data
+                console.log(res.data)
+            })
+            .catch(err => console.log (err))
+
       },
       validateInput(text: string) {
           return text.length > 0
       }
     },
     created() {
-        let dto: RoomDto = { name: 'test', user_one: 'elisa', user_two: this.idchat }
+        let dto: RoomDto = { name: 'test', user_one: 'ejahan', user_two: this.idchat }
         accountService.findRoom(dto) 
             .then(res => {
-                console.log('ca marcheeeee')
-                console.log(res.data[0])
+                console.log(res)
                 this.room = res.data[0].name
-                console.log('room = ', this.room)
+                console.log(this.room)
 
+                accountService.getMsg(this.room) 
+                    .then(res => {
+                        this.msg = res.data
+                    })
+                    .catch(err => console.log(err))
 
-                $socket_chat.on('msgToClient', (message: message_type) => {
-                    console.log(message)
-                    console.log($socket_chat.id)
-                    console.log(message.socketid)
+                    $socket_chat.on('msgToClient', (message: message_type) => {
+                    console.log('create')
                     this.receivedMessage(message)
                 })
-                console.log(this.room)
                 $socket_chat.emit('joinRoomChat', this.room)
             })
-            .catch(err => console.log(err))
-
-    }
+            .catch(err => {
+                console.log(err)
+            })
+    },
 }
 </script>
 

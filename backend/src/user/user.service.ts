@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { EditUserDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { RoomChannelDto } from 'src/chat';
 
 @Injectable()
 export class UserService {
@@ -33,6 +34,40 @@ export class UserService {
 		});
 		return token;
 	}
+
+	async addFriend(dto: object) {
+
+		type ObjectKey = keyof typeof dto;
+
+		let dataa: RoomChannelDto = dto as ObjectKey
+
+		await this.prisma.user.update({
+			where: {
+			  login: dataa.name
+			},
+			data: {
+			  friends: {
+				push: dataa.users[0]
+			  }
+  
+	}})}
+
+	async addChannel(dto: object) {
+
+		type ObjectKey = keyof typeof dto;
+
+		let dataa: RoomChannelDto = dto as ObjectKey
+
+		await this.prisma.user.update({
+			where: {
+			  login: dataa.name
+			},
+			data: {
+			  channels: {
+				push: dataa.users[0]
+			  }
+  
+	}})}
 
 	//Update user username
 	async editUsername(id: string, username: string) {

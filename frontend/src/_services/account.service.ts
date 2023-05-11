@@ -1,6 +1,7 @@
 import Axios from './caller.service'
-// import { RoomDto } from '../../../backend/src/chat/room.dto'
+import { RoomChannelDto } from './room.channel.dto';
 import { RoomDto } from './room.dto';
+import { MessageDto } from './messages.dto';
 
 let login = () => {
     return Axios.get('/auth/42/login')
@@ -34,10 +35,42 @@ let findRoomChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/findroomchannel', dto)
 }
 
+let editChannel = (dto: RoomChannelDto) => {
+    console.log('edit', dto)
+    return Axios.post('/chat/editchannel', dto)
+}
 
-// let getCookie  = () => {
-//     return Axios.get('auth/cookiejwt')
-// }
+let addFriend = (dto: RoomChannelDto) => {
+    console.log(dto)
+    console.log('ca marche add friend')
+    return Axios.post('/users/addfriend', dto)
+}
+
+let addChannel = (dto: RoomChannelDto) => {
+    console.log(dto)
+    console.log('ca marche add friend')
+    return Axios.post('/users/addchannel', dto)
+}
+
+let addMessage = (dto: MessageDto) => {
+    console.log(dto)
+    return Axios.post('/chat/addmessage', dto)
+}
+
+let getMsg = (room: String) => {
+    // return Axios.get('/chat/getmsg', room)
+    return Axios.get('/chat/getmsg', { params: { room } })
+}
+
+let addMessageChannel = (dto: MessageDto) => {
+    console.log(dto)
+    return Axios.post('/chat/addmsgchannel', dto)
+}
+
+let getMsgChannel = (room: String) => {
+    // return Axios.get('/chat/getmsg', room)
+    return Axios.get('/chat/getmsgchannel', { params: { room } })
+}
 
 let logout = () => {
     localStorage.removeItem('token')
@@ -67,6 +100,13 @@ export const accountService = {
     findRoom,
     createRoomChannel,
     findRoomChannel,
+    editChannel,
+    addFriend,
+    addChannel,
+    addMessage,
+    getMsg,
+    addMessageChannel,
+    getMsgChannel,
     updateUsername
     // getCookie
 }
