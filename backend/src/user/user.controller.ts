@@ -28,7 +28,7 @@ export class UserController {
 		country: req.user.country,
 		email: req.user.email,
 		fullName: req.user.fullName,
-		username: req.user.login,
+		login: req.user.login,
 		phoneNumber: req.user.phonenumber,
 		score: req.user.score,
 		twoFactor: req.user.twofactor,
@@ -37,12 +37,18 @@ export class UserController {
 
 		friends: req.user.friends,
 		channels: req.user.channels
-		};
+	  }
 	}
 
 	@Patch()
-	editUser(@GetUser('id') userId: string, @Body() dto: EditUserDto) {
-		return this.userService.editUser(userId, dto);
+	editUser(@Req() req, @Body() dto: EditUserDto) {
+		return this.userService.editUser(req.user.id, dto);
+	}
+
+	//Update user username
+	@Patch('username')
+	editUsername(@Req() req, @Body() dto: EditUserDto) {
+		return this.userService.editUsername(req.user.id, dto.username);
 	}
 	
 	@Post('addfriend')

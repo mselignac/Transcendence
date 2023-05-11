@@ -1,16 +1,3 @@
-<!-- /////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-
-pour afficher comme il faut les messages
-    -> enlever 'me: true/false'
-    -> quand j'envoie un message: 'username: my_username'
-    -> quand j'affiche: check_username >> return (username == my_username)
-
-//////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////// -->
-
-
-
 <script setup lang="ts">
 import Borders from './Borders.vue'
 import io from "socket.io-client"
@@ -89,10 +76,12 @@ export default {
       }
     },
     created() {
-        let dto: RoomDto = { name: 'test', user_one: 'elisa', user_two: this.idchat }
+        let dto: RoomDto = { name: 'test', user_one: 'ejahan', user_two: this.idchat }
         accountService.findRoom(dto) 
             .then(res => {
+                console.log(res)
                 this.room = res.data[0].name
+                console.log(this.room)
 
                 accountService.getMsg(this.room) 
                     .then(res => {
@@ -106,7 +95,9 @@ export default {
                 })
                 $socket_chat.emit('joinRoomChat', this.room)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+            })
     },
 }
 </script>

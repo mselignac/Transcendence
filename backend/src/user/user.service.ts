@@ -21,8 +21,6 @@ export class UserService {
 				...dto,
 			},
 		});
-		// delete user.hash;
-
 		return user;
 	}
 
@@ -71,4 +69,20 @@ export class UserService {
   
 	}})}
 
+	//Update user username
+	async editUsername(id: string, username: string) {
+		const user = await this.prisma.user.findUnique({
+			where: { login: username },
+		});
+		if (!user) {
+			const user = await this.prisma.user.update({
+				where: { id },
+				data: { login: username, },
+			});
+			return user;
+		}
+		else {
+			throw new Error('Username already exists');
+		}
+	}
 }

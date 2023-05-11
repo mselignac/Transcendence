@@ -75,6 +75,8 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
+
+      console.log('data => ', data)
       let room = await this.prisma.room.findMany({
           where: {
             user_two: {
@@ -86,6 +88,7 @@ export class ChatService {
       },})
 
       if (room[0] === undefined) {
+        console.log('ici')
         room = await this.prisma.room.findMany({
         where: {
           user_one: {
@@ -105,6 +108,7 @@ export class ChatService {
       type ObjectKey = keyof typeof dto;
 
       let dataa: MessageDto = dto as ObjectKey
+      console.log(dataa)
 
       await this.prisma.room.update({
         where: {

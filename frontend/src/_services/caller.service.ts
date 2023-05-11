@@ -12,7 +12,6 @@ Axios.interceptors.request.use(request => {
 
     let token = accountService.getToken()
 
-    // request.headers.Access_Control_Allow_Origin = 'http://localhost:8080'
     if (token) {
         request.headers.Authorization = 'Bearer ' + token
     }

@@ -45,12 +45,11 @@ export default {
           token: '',
           connected: false,
           create_channel: false,
-          my_username: 'elisa',
-          user_test: ''
+          user_test: '',
+          my_username: ''
         }
     },
     methods: {
-
       change_friend() {
         this.friend = !this.friend
       },
@@ -132,25 +131,22 @@ export default {
         return text.length > 0
       }
     },
-    created() {
-      console.log('salut')
-      const headers = {
-        'Authorization': `bearer ${Cookies.get('jwt')}`,
-        'Access-Control-Allow-Origin': "*",
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-      };
-        axios
-          .get('http://localhost:3000/users/me', { headers })
-          .then((response) => {
-            this.user_test = response.data
-            this.friends = response.data.friends
-            this.channels = response.data.channels
-            console.log(response.data.friends)
-            console.log(this.friends)
-            console.log(this.user_test);
-          })
-          .catch(error => console.log('error => ', error))
-      },
+    // created() {
+    //   console.log('salut')
+    //   const headers = {
+    //     'Authorization': `bearer ${Cookies.get('jwt')}`,
+    //     'Access-Control-Allow-Origin': "*",
+    //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+    //   };
+    //     axios
+    //       .get('http://localhost:3000/users/me', { headers })
+    //       .then((response) => {
+    //         console.log(response.data.friends)
+    //         console.log(this.friends)
+    //         console.log(this.user_test);
+    //       })
+    //       .catch(error => console.log('error => ', error))
+    //   },
       // updated() {
         
       //   console.log('salut')
@@ -171,6 +167,16 @@ export default {
         //     })
         //     .catch(error => console.log('error => ', error))
         // }
+    mounted() {
+      accountService.usersMe()
+      .then((response) => {
+        this.user_test = response.data
+        this.friends = response.data.friends
+        this.channels = response.data.channels
+        this.users = response.data
+        this.my_username = this.users.login
+      })
+    },
 }
 </script>
 
@@ -212,7 +218,9 @@ export default {
     <div className="borders_right">
       <div className="border_right_top">
         <div className="border_right_top_left">
-          <h1 className="routers_profile">{{ this.user_test.username }}</h1>
+          <!-- <h1 className="routers_profile">{{ users.email }}</h1> -->
+          <!-- <h1 className="routers_profile">{{ users.username }}</h1> -->
+          <h1 className="routers_profile">{{ this.my_username }}</h1>
         </div>
         <div className="border_right_top_right">
           <RouterLink to="/profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>

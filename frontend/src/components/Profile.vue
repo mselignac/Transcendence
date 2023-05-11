@@ -2,7 +2,6 @@
 import Borders from './Borders.vue'
 import Cookies from 'js-cookie';
 import { accountService } from '@/_services'
-import axios from 'axios';
 
 import router from '../router';
 </script>
@@ -16,9 +15,12 @@ export default {
             username: 'username'
         }
     },
-    methods: {
-      change_username() {
-        this.username = this.text,
+  methods: {
+    change_username() {
+        accountService.updateUsername(this.text)
+        .then((response) => {
+          this.username = response.data.login
+        })
         this.text = ''
       },
 
@@ -28,22 +30,14 @@ export default {
         router.push('/');
       },
     },
-  mounted() {
-    const headers = {
-      'Authorization': `bearer ${Cookies.get('jwt')}`,
-      'Access-Control-Allow-Origin': "*",
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-    };
-      axios
-        .get('http://localhost:3000/users/me', { headers })
-        .then((response) => {
-          this.users = response.data
-          // console.log(this.users.email);
-        })
-        .catch(error => console.log(error))
+    mounted() {
+      accountService.usersMe()
+      .then((response) => {
+        this.users = response.data,
+        this.username = response.data.login
+      })
     },
 }
-
 </script>
 
 <template>
@@ -51,8 +45,8 @@ export default {
   <div className="main_div">
     <div className="profile_div">
       <div className="profile_picture">
-        <button className="profile_picture_button"><img className="img_profile" src="../assets/icon.webp" /></button>
-        <h1 className="profile_user">{{ users.username }}</h1>
+        <button className="profile_picture_button"><img className="" src=""/></button>
+        <h1 className="profile_user">{{ this.username }}</h1>
       </div>
       <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">

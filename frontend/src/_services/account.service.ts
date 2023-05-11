@@ -11,6 +11,10 @@ let usersMe = () => {
     return Axios.get('/users/me')
 }
 
+let updateUsername = (username: string) => {
+    return Axios.patch('/users/username', { username })
+}
+
 let createRoom = (dto: RoomDto) => {
     return Axios.post('/chat/createroom', dto)
 }
@@ -102,5 +106,7 @@ export const accountService = {
     addMessage,
     getMsg,
     addMessageChannel,
-    getMsgChannel
+    getMsgChannel,
+    updateUsername
+    // getCookie
 }

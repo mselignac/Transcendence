@@ -38,7 +38,7 @@ export class AuthController {
 		//   req.res.redirect(this.config.get('route_qrcode'));
 		} else {
 			const cookie = await this.userservice.signToken(req.user['id']);
-			var expiryDate = new Date(Number(new Date()) + 900000);
+			var expiryDate = new Date(Number(new Date()) + ((60 * 60000) * 24) * 15);
 			req.res.cookie('jwt', cookie, { expires: expiryDate, path: '/'});
 			if (req.user['firstLogin'] == true) {
 				req.res.redirect(this.config.get('route_frontend'));
