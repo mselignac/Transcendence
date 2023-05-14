@@ -40,74 +40,95 @@ export default {
           user_test: '',
           my_username: '',
           exist: '',
-          user_save: ''
+          user_save: '',
+          channel_exist: ''
         }
     },
     methods: {
       change_friend() {
         this.friend = !this.friend
       },
+
       change_channel() {
         this.channel = !this.channel
       },
+
       friend_menu(name: string) {
         this.friend = !this.friend,
         this.test_friend = name
-        console.log(this.test_friend)
       },
+
       channel_menu(name: string) {
         this.test_channel = name
         this.channel = !this.channel
       },
+
       show_channels() {
         this.friend = false
         this.channels_friends = false
       },
+
       show_friends() {
         this.channel = false
         this.channels_friends = true
       },
+
       async addFriend() {
         if (this.validateInput(this.newFriend)) {
 
-
-          let testuser: object = { name: this.newFriend , user_one: this.my_username, user_two: this.newFriend }
-          
-          await accountService.findUser(testuser)
+          let user: object = { login: this.newFriend }
+          await accountService.findUser(user)
             .then(res => { this.exist = res.data })
+            .catch(res => console.log(res))
 
           if (this.exist) {
-            let dto: RoomDto = { name: idRoom.toString(), user_one: this.my_username, user_two: this.newFriend }
-            idRoom++
-            this.friends.push( this.newFriend )
-            accountService.createRoom(dto)
-            let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newFriend ] }
-            accountService.addFriend(dtoo)
+            // let dto: RoomDto = { name: idRoom.toString(), user_one: this.user_test.login, user_two: this.exist.login }
+            // idRoom++
+            // this.friends.push( this.newFriend )
+            // accountService.createRoom(dto)
+            //   .catch(res => console.log(res))
+
+            // let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newFriend ] }
+            // accountService.addFriend(dtoo)
+            // .catch(res => console.log(res))
+
+            accountService.sendFriendRequest({ name: this.newFriend, user_one: this.my_username })
+              .catch(res => console.log(res))
           }
           this.newFriend = ''
         }
       },
+
       removeFriend(friends: friend_type) {
+
+        let friend: object = { name: this.my_username, user_one: friends }
+        accountService.removeFriend(friend)
+          .catch(res => console.log(res))
+
         this.friend = false
         this.friends = this.friends.filter((t) => t !== friends)
       },
+
       addChannel() {
         if (this.validateInput(this.newChannel)) {
           let dto: RoomChannelDto = { name: this.newChannel, users: [ this.my_username ] }
           this.channels.push( this.newChannel )
           accountService.createRoomChannel(dto)
-            .then (res => {
-            })
+            .catch (res => console.log(res))
           let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
           accountService.addChannel(dtoo)
           this.newChannel = ''
           this.create_channel = false
         }
       },
+
       removeChannel(channels: friend_type) {
+          let channel: object = { name: this.my_username, user_one: channels }
+          accountService.removeChannel(channel)
           this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
+
       async search_users() {
         if (this.validateInput(this.search_user)) {
 
@@ -125,40 +146,53 @@ export default {
             this.user_exist = false,
             this.user_not_exist = true
           }
-
-          // if (this.search_user === this.users.username) {
-          //   this.user_exist = true,
-          // this.user_not_exist = false }
-          // else {
-          //     this.user_exist = false,
-          //     this.user_not_exist = true }
         }
         this.search_user = ''
       },
+
       create_channel_close() {
         this.create_channel = false,
         this.newChannel = ''
       },
-      createChannel() {
-        this.create_channel = true
+
+      async createChannel() {
+        console.log('new channel = ', this.newChannel)
+        await accountService.findRoomChannel({ name: this.newChannel })
+          .then(res => this.channel_exist = res.data )
+          .catch(res => console.log(res))
+          if (this.channel_exist == '')
+            this.create_channel = true
+          else 
+          {
+            this.create_channel = false
+            this.channels.push( this.newChannel )
+            accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
+            let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
+            accountService.addChannel(dtoo)
+            this.newChannel = ''
+          }
       },
+
       validateInput(text: string) {
         return text.length > 0
       },
+
       async go_to(route: string) {
         await router.push('/chat/' + route)
         router.go()
       },
+
       async go_to_channel(route: string) {
         await router.push('/channel/' + route)
         router.go()
       },
+
       async go_to_profile(route: string) {
         await router.push('/profile-user/' + route)
         router.go()
       }
     },
-    mounted() {
+    created() {
       accountService.usersMe()
       .then((response) => {
         this.user_test = response.data
@@ -286,6 +320,7 @@ export default {
       <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
       <RouterLink to="/list-channels" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
       <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
+      <RouterLink to="/friend-request" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
     </div>
 
   </div>

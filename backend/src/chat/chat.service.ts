@@ -9,6 +9,7 @@ import { RoomDto } from './room.dto';
 import { RoomChannelDto } from './roomChannel.dto';
 import { PrismaService } from "../prisma/prisma.service";
 import { MessageDto } from './messages.dto';
+import { userDto } from './user.dto';
 
 let id = 0
 
@@ -34,35 +35,15 @@ export class ChatService {
     async findUser(dto: object) {
       type ObjectKey = keyof typeof dto;
 
-      let data: RoomDto = dto as ObjectKey
+      let data: userDto = dto as ObjectKey
 
-      console.log('====================')
-      console.log(data)
-      console.log('====================')
-      let room = await this.prisma.user.findUnique({
+      let user = await this.prisma.user.findUnique({
         where: {
-          login: data.name
+          login: data.login
         }
       })
-      console.log(room)
-      if (room)
-        return (room)
-
-
-
-
-
-
-
-      // try {
-      //   let room = await this.prisma.user.findUnique({
-      //   where: {
-      //     login: data.name
-      //   }
-      // })
-      // } catch (e) {
-      //   console.log('ca passe ici', e)
-      // }
+      if (user)
+        return (user)
     }
 
     async createRoom(dto: object) {
@@ -70,6 +51,7 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
+      console.log(data)
       let room = await this.prisma.room.findMany({
         where: {
           user_two: {
@@ -94,7 +76,6 @@ export class ChatService {
       if (room[0] === undefined) {
         data.name = id.toString()
         id++
-        console.log(id)
         const user = await this.prisma.room.create({
             data,
         });
@@ -108,8 +89,6 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
-
-      console.log('data => ', data)
       let room = await this.prisma.room.findMany({
           where: {
             user_two: {
@@ -121,7 +100,6 @@ export class ChatService {
       },})
 
       if (room[0] === undefined) {
-        console.log('ici')
         room = await this.prisma.room.findMany({
         where: {
           user_one: {
@@ -141,7 +119,6 @@ export class ChatService {
       type ObjectKey = keyof typeof dto;
 
       let dataa: MessageDto = dto as ObjectKey
-      console.log(dataa)
 
       await this.prisma.room.update({
         where: {
@@ -180,9 +157,47 @@ export class ChatService {
       return msg
     }
 
+    async sendFriendRequest(dto: object) {
+      type ObjectKey = keyof typeof dto;
 
+      let data: RoomDto = dto as ObjectKey
 
+      await this.prisma.user.update({
+        where: {
+          login: data.name
+        },
+        data: {
+          requests: {
+            push: data.user_one
+          }
+        }
+      })
+    }
 
+    async removeRequest(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: RoomDto = dto as ObjectKey
+
+      const { requests } = await this.prisma.user.findUnique({
+        where: {
+          login: data.name
+        },
+        select: {
+          requests: true
+        },
+      });
+      await this.prisma.user.update({
+        where: {
+          login: data.name
+        },
+        data: {
+          requests: {
+            set: requests.filter((id) => id !== data.user_one),
+          }
+        }
+      })
+    }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -198,7 +213,6 @@ export class ChatService {
 
 
     async createRoomChannel(dto: object) {
-      console.log(dto)
       type ObjectKey = keyof typeof dto;
 
       let data: RoomChannelDto = dto as ObjectKey
@@ -214,6 +228,17 @@ export class ChatService {
         const user = await this.prisma.roomChannel.create({
             data,
         });
+        await this.prisma.roomChannel.update({
+          where: {
+            name: data.name
+          },
+          data: {
+            owner: data.users[0],
+            admin: {
+              push: data.users[0]
+            }
+          },
+        })
         return user;
       }
     }
@@ -293,6 +318,13 @@ export class ChatService {
       return msg
     }
 
+    async publicsChannels() {
+      let channels = await this.prisma.roomChannel.findMany({
+        where: {
+          private: false
+        }
+      })
 
-
+      return channels
+    }
 }

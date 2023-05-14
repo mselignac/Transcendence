@@ -14,6 +14,12 @@ export default {
             .then(res => {
                 this.list = res.data.channels
             })
+
+        // accountService.publicsChannels()
+        //     .then(res => {
+        //         console.log(res.data)
+        //         this.list = res.data
+        //     })
     } 
 }
 </script>

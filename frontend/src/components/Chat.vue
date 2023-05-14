@@ -34,6 +34,8 @@ export default {
             msg : [] as message_type[],
             my_username: '',
             room: room,
+            me: '',
+            user: ''
         }
     },
     methods: {
@@ -51,23 +53,15 @@ export default {
                   username: this.my_username,
               }
               let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
-              console.log('msg -> ', msg)
               await accountService.addMessage(msg)
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
       },
-      send_msg_test() {
-        if (this.validateInput(this.text_test)) {
-              this.my_username = this.text_test,
-              this.text_test = ''
-        }
-      },
-      receivedMessage(message: message_type) {      // ajouter async/await? (bug si pas en localhost)
+      receivedMessage(message: message_type) {      // ajouter async/await? (bug si pas en localhost) ou router.go mais cest tres tres moche
           accountService.getMsg(this.room) 
             .then(res => {
                 this.msg = res.data
-                console.log(res.data)
             })
             .catch(err => console.log (err))
 
@@ -77,18 +71,21 @@ export default {
       }
     },
     async created() {
-        // router.go()
         await accountService.usersMe()
-        .then((response) => { console.log('response -> ', response)
-        this.my_username = response.data.login })
-        console.log('my username', this.my_username)
-        let dto: RoomDto = { name: 'test', user_one: this.my_username, user_two: this.idchat }
-        console.log(dto)
+            .then((response) => { 
+                this.my_username = response.data.login
+                this.me = response.data })
+
+        // let user: object = { login: this.idchat }
+        // await accountService.findUser(user)
+        //     .then(res => this.user = res.data)
+        //     .catch(res => console.log(res))
+        console.log(this.me.id)
+        let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
         accountService.findRoom(dto) 
             .then(res => {
                 console.log(res)
                 this.room = res.data[0].name
-                console.log(this.room)
 
                 accountService.getMsg(this.room) 
                     .then(res => {

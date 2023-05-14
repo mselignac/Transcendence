@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { EditUserDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { RoomChannelDto } from 'src/chat';
+import { RoomChannelDto, RoomDto } from 'src/chat';
 
 @Injectable()
 export class UserService {
@@ -52,13 +52,38 @@ export class UserService {
   
 	}})}
 
+	async removeFriend(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+
+		const { friends } = await this.prisma.user.findUnique({
+			where: {
+			  login: data.name
+			},
+			select: {
+			  friends: true
+			},
+		  });
+		  
+		  await this.prisma.user.update({
+			where: {
+				login: data.name
+			},
+			data: {
+			  friends: {
+				set: friends.filter((id) => id !== data.user_one),
+			  },
+			},
+		  });
+	}
+
 	async addChannel(dto: object) {
 
 		type ObjectKey = keyof typeof dto;
 
 		let dataa: RoomChannelDto = dto as ObjectKey
 
-		console.log(dataa)
 		await this.prisma.user.update({
 			where: {
 			  login: dataa.name
@@ -69,6 +94,33 @@ export class UserService {
 			  }
   
 	}})}
+
+	async removeChannel(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+
+		console.log(data)
+		const { channels } = await this.prisma.user.findUnique({
+			where: {
+			  login: data.name
+			},
+			select: {
+			  channels: true
+			},
+		  });
+		  
+		  await this.prisma.user.update({
+			where: {
+				login: data.name
+			},
+			data: {
+			  channels: {
+				set: channels.filter((id) => id !== data.user_one),
+			  },
+			},
+		  });
+	}
 
 	//Update user username
 	async editUsername(id: string, username: string) {
