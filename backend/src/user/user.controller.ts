@@ -36,7 +36,8 @@ export class UserController {
 		updatedAt: req.user.updatedAt,
 
 		friends: req.user.friends,
-		channels: req.user.channels
+		channels: req.user.channels,
+		requests: req.user.requests
 	  }
 	}
 
@@ -56,8 +57,19 @@ export class UserController {
 		return this.userService.addFriend(dto) ;
 	}
 
+	@Post('removefriend')
+	removeFriend(@Body() dto: object) {
+		return this.userService.removeFriend(dto) ;
+	}
+
 	@Post('addchannel')
 	addChannel(@Body() dto: object) {
 		return this.userService.addChannel(dto) ;
 	}
+
+	@Post('removechannel')
+	removeChannel(@Body() dto: object) {
+		return this.userService.removeChannel(dto) ;
+	}
+
 }

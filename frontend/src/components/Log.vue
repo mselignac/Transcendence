@@ -71,29 +71,8 @@ export default {
       }
   },
   methods: {
-      // login(){
-      //     accountService.login(this.user)
-      //         .then(res => {
-      //           console.log(res.data)
-      //           accountService.saveToken(res.data.access_token)
-      //           this.$router.push( { path: '/main-page' })
-      //         })
-      //         .catch(err => {
-      //           console.log(err)
-      //           this.$router.push( { path: '/main-page' })
-      //         })
-      // }
       login() {
-      //     accountService.usersMe()
-      //         .then(res => {
-      //           console.log(res.data)
-      //           // accountService.saveToken(res.data.access_token)
-      //           this.$router.push( { path: '/main-page' })
-      //         })
-      //         .catch(err => {
-      //           console.log(err)
-                this.$router.push( { path: '/main-page' })
-      //         })
+        this.$router.push( { path: '/main-page' })
       }
   }
 }

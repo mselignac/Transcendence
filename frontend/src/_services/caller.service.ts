@@ -8,7 +8,6 @@ const Axios = axios.create({
 })
 
 Axios.interceptors.request.use(request => {
-    // console.log(request)
 
     let token = accountService.getToken()
 
