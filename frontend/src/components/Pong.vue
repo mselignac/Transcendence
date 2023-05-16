@@ -74,7 +74,7 @@
                 var canvas = document.getElementById('pixi') 
                 const PongApp = new PIXI.Application({background: '#000000',
                     // width: window.innerWidth,
-                    // height: window.innerHeight-300,
+                    // height: window.innerHeight - 300,
                     resizeTo: window,
                     view: canvas});
                 // document.body.appendChild(PongApp.view);
@@ -92,24 +92,23 @@
                 leftPaddle = new PIXI.Sprite(paddleTex);
                 rightPaddle = new PIXI.Sprite(paddleTex);
                 ball = new PIXI.Sprite(ballTex);
-                // backImgSprite.scale.x = PongApp.view.width / 1000;
-                // backImgSprite.scale.y = backImgSprite.scale.x;
                 
                 //Background Setup
+                // backImgSprite.scale.x = PongApp.view.width / 1000;
+                // backImgSprite.scale.y = backImgSprite.scale.x;
+
                 backImgSprite.anchor.set(0.5, 0.5);
-                backImgSprite.x = PongApp.screen.width / 2;
-                backImgSprite.y = PongApp.screen.height / 2;
+                backImgSprite.position.x = PongApp.screen.width / 2;
+                backImgSprite.position.y = PongApp.screen.height / 2;
                 backImgSprite.width = PongApp.renderer.height * 5 / 3;
                 backImgSprite.height = PongApp.renderer.height;
 
-                const heightRatio = backImgSprite.height / 1000;
-                const widthRatio = backImgSprite.width / (1000 * 5 / 3);
                 gameScene.addChild(backImgSprite);
 
                 //Paddles Setup
                 //Left
                 leftPaddle.anchor.set(0.5, 0.5);
-                leftPaddle.position.set(backImgSprite.x - ((leftPaddle.width / 2) + (backImgSprite.width / 2) * 0.87), backImgSprite.height / 2);
+                leftPaddle.position.set(backImgSprite.x - (backImgSprite.width * 0.45), backImgSprite.height / 2);
 
                 leftPaddle.scale.x = 2;
                 leftPaddle.scale.y = 2;
@@ -119,7 +118,7 @@
 
                 //Right
                 rightPaddle.anchor.set(0.5, 0.5);
-                rightPaddle.position.set(backImgSprite.x + ((rightPaddle.width / 2) + (backImgSprite.width / 2) * 0.87), backImgSprite.height / 2);
+                rightPaddle.position.set(backImgSprite.x + (backImgSprite.width * 0.45), backImgSprite.height / 2);
                 
                 rightPaddle.scale.x = 2;
                 rightPaddle.scale.y = 2;
@@ -129,8 +128,8 @@
 
                 //Ball Setup
                 ball.anchor.set(0.5, 0.5);
-                ball.x = backImgSprite.x;
-                ball.y = backImgSprite.y;
+                ball.position.x = PongApp.screen.width / 2;
+                ball.position.y = PongApp.screen.height / 2;
 
                 ball.scale.x = 2;
                 ball.scale.y = 2;
@@ -142,7 +141,9 @@
 
                 //Key listener
                 const   up = keyboard("ArrowUp"),
-                        down = keyboard("ArrowDown");
+                        down = keyboard("ArrowDown"),
+                        upR = keyboard("ArrowLeft"),
+                        downR = keyboard("ArrowRight");
 
                 //Up
                 up.press = () => {
@@ -161,6 +162,25 @@
                 down.release = () => {
                     if (!up.isDown) {
                         leftPaddle.vy = 0;
+                    }
+                };
+
+                upR.press = () => {
+                    rightPaddle.vy = -1;
+                };
+                upR.release = () => {
+                    if (!downR.isDown) {
+                        rightPaddle.vy = 0;
+                    }
+                };
+
+                //Down
+                downR.press = () => {
+                    rightPaddle.vy = 1;
+                };
+                downR.release = () => {
+                    if (!upR.isDown) {
+                        rightPaddle.vy = 0;
                     }
                 };
 
@@ -229,13 +249,18 @@
                         socket.emit("move", 'upL');
                     if (leftPaddle.vy > 0)
                         socket.emit("move", 'downL');
+                    if (rightPaddle.vy < 0)
+                        socket.emit("move", 'upR');
+                    if (rightPaddle.vy > 0)
+                        socket.emit("move", 'downR');
                     
                 }
 
                 socket.on('data', dataChariot => {
-                    leftPaddle.y = dataChariot.leftPlayer.y * heightRatio;
-                    ball.x = dataChariot.ball.x * widthRatio;
-                    ball.y = dataChariot.ball.y * heightRatio;
+                    leftPaddle.y = (dataChariot.leftPlayer.y / 1000) * backImgSprite.height;
+                    rightPaddle.y = (dataChariot.rightPlayer.y / 1000) * backImgSprite.height;
+                    ball.x = PongApp.renderer.width * dataChariot.ball.x / (1000 * 5 / 3);
+                    ball.y = (dataChariot.ball.y / 1000) * backImgSprite.height;
                 })
             },
 

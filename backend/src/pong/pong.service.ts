@@ -6,9 +6,9 @@ import {
     OnGatewayInit
   } from '@nestjs/websockets';
 
-const VERTICAL_BOUNDS = 87;
+const VERTICAL_BOUNDS = 1000 * (1 / 20.5);
 const PADDLE_SIZE = 110;
-const BALLSPEED = 10;
+const BALLSPEED = 5;
 const MAXBOUNCEANGLE = 5 * Math.PI / 12;
 
 @Injectable()
@@ -27,14 +27,14 @@ export class PongService {
     dataChariot = {
 
         leftPlayer: {
-            x: 50,
+            x: this.board.width / 20,
             y: this.board.height / 2,
             width: 10,
             height: PADDLE_SIZE,
         },
 
         rightPlayer: {
-            x: this.board.width - 50,
+            x: this.board.width - (this.board.width / 20),
             y: this.board.height / 2,
             width: 10,
             height: PADDLE_SIZE,
@@ -106,6 +106,8 @@ export class PongService {
             this.dataChariot.ball.y = this.globalheight / 2;
         }
 
+        console.log("Ball X ", this.dataChariot.ball.x);
+
         this.dataChariot.ball.x += this.dataChariot.ball.vx;
         this.dataChariot.ball.y += this.dataChariot.ball.vy;
 
@@ -138,7 +140,7 @@ export class PongService {
 
 
     checkWallCollision(b) {
-        if(b.y + b.height / 2 >= VERTICAL_BOUNDS + this.globalheight){
+        if(b.y + b.height / 2 >= this.globalheight - VERTICAL_BOUNDS){
             b.vy *= -1;
         } 
         else if (b.y - b.height / 2 <= VERTICAL_BOUNDS) {
