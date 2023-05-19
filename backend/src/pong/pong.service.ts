@@ -6,15 +6,17 @@ import {
     OnGatewayInit
   } from '@nestjs/websockets';
 
-const VERTICAL_BOUNDS = 1000 * (1 / 20.5);
-const PADDLE_SIZE = 110;
-const BALLSPEED = 5;
+const VERTICAL_BOUNDS = 1000 / 20.5;
+const PADDLE_SIZE = 1000 / 4.2;
+const BALLSPEED = 8;
 const MAXBOUNCEANGLE = 5 * Math.PI / 12;
 
 @Injectable()
 export class PongService {
     constructor() {}
 
+    id: number;
+    isPlaying: boolean = false;
     readonly globalheight: number = 1000;
     readonly globalwidth: number = this.globalheight * 5 / 3;
     readonly board: {
@@ -29,15 +31,19 @@ export class PongService {
         leftPlayer: {
             x: this.board.width / 20,
             y: this.board.height / 2,
-            width: 10,
+            width: 20,
             height: PADDLE_SIZE,
+            nickname: "",
+            score: 0,
         },
 
         rightPlayer: {
             x: this.board.width - (this.board.width / 20),
             y: this.board.height / 2,
-            width: 10,
+            width: 20,
             height: PADDLE_SIZE,
+            nickname: "",
+            score: 0,
         },
 
         ball: {
@@ -54,11 +60,11 @@ export class PongService {
 
     connection() {
         console.log("connected to frontend");
-        this.server.emit("data", this.dataChariot);
+        this.server.to(this.id.toString()).emit("data", this.dataChariot);
     }
 
     move(data: any) {
-        switch(data) {
+        switch(data.direction) {
             case "upL":
                 if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
                     this.dataChariot.leftPlayer.y -= 10;
@@ -85,13 +91,14 @@ export class PongService {
     loop() {
         this.updateBall();
         // console.log("vx, vy: ", this.dataChariot.ball.vx, this.dataChariot.ball.vy);
-        this.server.to("1").emit("data", this.dataChariot);
+        this.server.to(this.id.toString()).emit("data", this.dataChariot);
         setTimeout(this.loop.bind(this), 10);
     }
 
     gamePlaying(server: Server) {
         // console.log("server hbvzreghzzierhzibhzerbizhbzbzihrbzireiebvzirb", server);
         this.server = server;
+        this.isPlaying = true;
         this.calculateBounceAngle(this.dataChariot.leftPlayer);
         this.loop();
         // server.to("1").emit("data", this.dataChariot);
@@ -167,9 +174,11 @@ export class PongService {
         // console.log("Left X: ", this.dataChariot.leftPlayer.x);
         // console.log("Right X: ", this.dataChariot.rightPlayer.x);
         if (this.dataChariot.ball.x <= this.dataChariot.leftPlayer.x) {
+            this.dataChariot.leftPlayer.score++;
             return true;
         } 
         else if (this.dataChariot.ball.x >= this.dataChariot.rightPlayer.x) {
+            this.dataChariot.rightPlayer.score++;
             return true;
         }
         return false;

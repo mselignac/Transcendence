@@ -3,6 +3,7 @@
         <canvas id="pixi"></canvas>
         <p>
             <button v-on:click="play()">Play</button>
+            <button v-on:click="playRequest()">Play Request</button>
         </p>
     </div>
 </template>
@@ -10,9 +11,14 @@
 <script>
     import $socket from '../plugin/socket';
     import * as PIXI from 'pixi.js';
+    import {ref} from 'vue';
     import { io } from "socket.io-client";
 
     let socket = $socket;
+    let leftUsername = ref(false);
+    let rightUsername = ref(false);
+    let tRoomId = ref(null);
+    let side = ref(false);
 
     // const socket = io("ws://localhost:3001");
 
@@ -65,9 +71,13 @@
                 console.log(err);
             });},
 
+            playRequest() {
+                socket.emit("playRequest", {username: undefined});
+            },
+
             play() {
                 console.log("bonjour");
-                socket.emit("play");
+                socket.emit("play", {roomId: tRoomId.value});
             },
 
             Game() {
@@ -97,39 +107,68 @@
                 // backImgSprite.scale.x = PongApp.view.width / 1000;
                 // backImgSprite.scale.y = backImgSprite.scale.x;
 
-                backImgSprite.anchor.set(0.5, 0.5);
-                backImgSprite.position.x = PongApp.screen.width / 2;
-                backImgSprite.position.y = PongApp.screen.height / 2;
+                gameScene.width = PongApp.renderer.height * 5 / 3;
+                gameScene.height = PongApp.renderer.height;
+
+                // backImgSprite.anchor.set(0.5, 0.5);
                 backImgSprite.width = PongApp.renderer.height * 5 / 3;
                 backImgSprite.height = PongApp.renderer.height;
 
                 gameScene.addChild(backImgSprite);
 
+                // Username display
+                const leftUserText = new PIXI.Text("T");
+                const rightUserText = new PIXI.Text("T");
+
+                gameScene.addChild(leftUserText);
+                gameScene.addChild(rightUserText);
+                
+                leftUserText.anchor.set(0.5, 0.5);
+                leftUserText.position.set(backImgSprite.width / 4, backImgSprite.height / 15);
+
+                rightUserText.anchor.set(0.5, 0.5);
+                rightUserText.position.set(backImgSprite.width - (backImgSprite.width / 4), backImgSprite.height / 15);
+
+                const leftScoreText = new PIXI.Text("0");
+                const rightScoreText = new PIXI.Text("0");
+
+                gameScene.addChild(leftScoreText);
+                gameScene.addChild(rightScoreText);
+
+                leftScoreText.anchor.set(0.5, 0.5);
+                leftScoreText.position.set(backImgSprite.width / 1.8, backImgSprite.height / 15);
+
+                rightScoreText.anchor.set(0.5, 0.5);
+                rightScoreText.position.set(backImgSprite.width - (backImgSprite.width / 1.8), backImgSprite.height / 15);
                 //Paddles Setup
                 //Left
                 leftPaddle.anchor.set(0.5, 0.5);
-                leftPaddle.position.set(backImgSprite.x - (backImgSprite.width * 0.45), backImgSprite.height / 2);
+                leftPaddle.position.set((backImgSprite.width / 2) - (backImgSprite.width * 0.45), backImgSprite.height / 2);
 
                 leftPaddle.scale.x = 2;
-                leftPaddle.scale.y = 2;
+                // leftPaddle.scale.y = 2;
+
+                leftPaddle.height = backImgSprite.height / 3.5; 
 
                 leftPaddle.vy = 0;
                 gameScene.addChild(leftPaddle);
 
                 //Right
                 rightPaddle.anchor.set(0.5, 0.5);
-                rightPaddle.position.set(backImgSprite.x + (backImgSprite.width * 0.45), backImgSprite.height / 2);
+                rightPaddle.position.set((backImgSprite.width / 2) + (backImgSprite.width * 0.45), backImgSprite.height / 2);
                 
                 rightPaddle.scale.x = 2;
-                rightPaddle.scale.y = 2;
+                // rightPaddle.scale.y = 2;
+
+                rightPaddle.height = backImgSprite.height / 3.5; 
 
                 rightPaddle.vy = 0;
                 gameScene.addChild(rightPaddle);
 
                 //Ball Setup
                 ball.anchor.set(0.5, 0.5);
-                ball.position.x = PongApp.screen.width / 2;
-                ball.position.y = PongApp.screen.height / 2;
+                ball.position.x = backImgSprite.width / 2;
+                ball.position.y = backImgSprite.height / 2;
 
                 ball.scale.x = 2;
                 ball.scale.y = 2;
@@ -245,22 +284,45 @@
                 }
 
                 function play(delta) {
-                    if (leftPaddle.vy < 0)
-                        socket.emit("move", 'upL');
-                    if (leftPaddle.vy > 0)
-                        socket.emit("move", 'downL');
-                    if (rightPaddle.vy < 0)
-                        socket.emit("move", 'upR');
-                    if (rightPaddle.vy > 0)
-                        socket.emit("move", 'downR');
+                    if (leftPaddle.vy < 0 && side.value === "left")
+                        socket.emit("move", {roomId: tRoomId.value, direction: 'upL'});
+                    if (leftPaddle.vy > 0 && side.value === "left")
+                        socket.emit("move", {roomId: tRoomId.value, direction: 'downL'});
+                
+                    if (leftPaddle.vy < 0 && side.value === "right")
+                        socket.emit("move", {roomId: tRoomId.value, direction: 'upR'});
+                    if (leftPaddle.vy > 0 && side.value === "right")
+                        socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});
+                    // if (rightPaddle.vy < 0)
+                    //     socket.emit("move", 'upR');
+                    // if (rightPaddle.vy > 0)
+                    //     socket.emit("move", 'downR');
                     
                 }
 
                 socket.on('data', dataChariot => {
                     leftPaddle.y = (dataChariot.leftPlayer.y / 1000) * backImgSprite.height;
                     rightPaddle.y = (dataChariot.rightPlayer.y / 1000) * backImgSprite.height;
-                    ball.x = PongApp.renderer.width * dataChariot.ball.x / (1000 * 5 / 3);
-                    ball.y = (dataChariot.ball.y / 1000) * backImgSprite.height;
+                    // ball.x = backImgSprite.width * dataChariot.ball.x / (1000 * 5 / 3);
+                    ball.position.x = dataChariot.ball.x * backImgSprite.width / (1000 * 5 / 3);
+                    ball.position.y = (dataChariot.ball.y / 1000) * backImgSprite.height;
+
+                    leftScoreText.text = String(dataChariot.leftPlayer.score);
+                    rightScoreText.text = String(dataChariot.rightPlayer.score);
+                })
+
+                socket.on('roomAssigned', (data) => {
+                    leftUsername.value = data.leftUsername;
+                    rightUsername.value = data.rightUsername;
+
+                    leftUserText.text = data.leftUsername;
+                    rightUserText.text = data.rightUsername;
+                    tRoomId.value = data.roomId;
+
+                    if (data.isLeft)
+                        side.value = "left";
+                    else
+                        side.value = "right";
                 })
             },
 

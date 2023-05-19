@@ -12,6 +12,11 @@ import { Socket, Server } from 'socket.io';
 import { PongService } from './pong/pong.service'
 // import { emit } from process;
 
+type waitingRoom = {
+  client: Socket;
+  username?: string;
+};
+
 @WebSocketGateway({cors: true})
 
 export class PongGateway
@@ -23,27 +28,65 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   room = new PongService();
 
+  private gameRoomList: Array<PongService> = new Array<PongService>();
+  private waitingRoomList: Array<waitingRoom> = [];
+  private roomCount: number = 0;
+
   @WebSocketServer() server: Server;
 
   @SubscribeMessage('init')
   connection(client: Socket): void {
     console.log("connected to frontend");
-    client.join("1");
-    client.broadcast.emit("data", this.room.dataChariot);
+    // client.join("1");
+    // client.broadcast.emit("data", this.room.dataChariot);
   }
 
   @SubscribeMessage('move')
-  movePlayer(@MessageBody() data: string): void {
-    this.room.move(data);
-    this.server.to("1").emit("data", this.room.dataChariot);
+  movePlayer(client: Socket, data: any): void {
+    this.gameRoomList[data.roomId].move(data);
+    // this.server.to(data.roomId.toString()).emit("data", this.room.dataChariot);
   }
 
   @SubscribeMessage('play')
-  play(client: Socket): void {
-    console.log("bonjour 2");
+  play(client: Socket, data: any): void {
+    console.log("bonjour :", data.roomId);
     // console.log("server 1", this.server);
-    
-    return(this.room.gamePlaying(this.server));
+    //if (!this.gameRoomList[data.roomId].isPlaying)
+      return(this.gameRoomList[data.roomId].gamePlaying(this.server));
+  }
+
+  @SubscribeMessage('playRequest')
+  playRequest(client: Socket, data: any): void {
+    const newWaitingRoom: waitingRoom = {
+      client: client,
+      username: data.username,
+    };
+
+    this.waitingRoomList.push(newWaitingRoom);
+    if (this.waitingRoomList.length >= 2)
+      this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1]);
+  }
+
+  gameInit(leftPlayer: waitingRoom, rightPlayer: waitingRoom) {
+    this.gameRoomList.push(new PongService());
+    this.gameRoomList.slice(-1)[0].id = this.roomCount;
+
+  
+    if (leftPlayer.username == undefined)
+      leftPlayer.username = "Ceci est";
+    if (rightPlayer.username == undefined)
+      rightPlayer.username = "une pre-alpha";
+
+    leftPlayer.client.join(this.gameRoomList.slice(-1)[0].id.toString());
+    rightPlayer.client.join(this.gameRoomList.slice(-1)[0].id.toString());
+
+    this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname = leftPlayer.username;
+    this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname = rightPlayer.username;
+    this.waitingRoomList.splice(0, 2);
+
+    leftPlayer.client.emit('roomAssigned', {roomId: this.roomCount, leftUsername: leftPlayer.username, rightUsername: rightPlayer.username, isLeft: true});
+    rightPlayer.client.emit('roomAssigned', {roomId: this.roomCount, leftUsername: leftPlayer.username, rightUsername: rightPlayer.username, isLeft: false});
+    this.roomCount++;
   }
 
   afterInit(server: Server) {
