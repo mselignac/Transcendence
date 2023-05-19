@@ -8,7 +8,6 @@ import {
 
 const VERTICAL_BOUNDS = 1000 / 20.5;
 const PADDLE_SIZE = 1000 / 4.2;
-const BALLSPEED = 8;
 const MAXBOUNCEANGLE = 5 * Math.PI / 12;
 
 @Injectable()
@@ -16,6 +15,10 @@ export class PongService {
     constructor() {}
 
     id: number;
+    ballSpeed: number = 7;
+    bounce: number = 0;
+    leftReady: boolean = false;
+    rightReady: boolean = false;
     isPlaying: boolean = false;
     readonly globalheight: number = 1000;
     readonly globalwidth: number = this.globalheight * 5 / 3;
@@ -59,29 +62,29 @@ export class PongService {
     server: Server;
 
     connection() {
-        console.log("connected to frontend");
+        console.log("User connected to room ", this.id);
         this.server.to(this.id.toString()).emit("data", this.dataChariot);
     }
 
     move(data: any) {
         switch(data.direction) {
             case "upL":
-                if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
+                if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE / 2)) - 10)
                     this.dataChariot.leftPlayer.y -= 10;
                 // return this.position;
                 break;
             case "downL":
-                if (this.dataChariot.leftPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
+                if (this.dataChariot.leftPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE / 2)) + 10)
                 this.dataChariot.leftPlayer.y += 10;
                 // return this.position;
                 break;
             case "upR":
-                if (this.dataChariot.rightPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE /2)))
+                if (this.dataChariot.rightPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE / 2)) - 10)
                     this.dataChariot.rightPlayer.y -= 10;
                 // return this.position;
                 break;
             case "downR":
-                if (this.dataChariot.rightPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE/2)))
+                if (this.dataChariot.rightPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE / 2)) + 10)
                     this.dataChariot.rightPlayer.y += 10;
                 // return this.position;
                 break;
@@ -91,8 +94,18 @@ export class PongService {
     loop() {
         this.updateBall();
         // console.log("vx, vy: ", this.dataChariot.ball.vx, this.dataChariot.ball.vy);
-        this.server.to(this.id.toString()).emit("data", this.dataChariot);
-        setTimeout(this.loop.bind(this), 10);
+        if (this.dataChariot.leftPlayer.score == 10) {
+            this.server.to(this.id.toString()).emit("endGame", {winner: this.dataChariot.rightPlayer.nickname});
+            setTimeout(this.endGame.bind(this), 5000);
+        }
+        else if (this.dataChariot.rightPlayer.score == 10) {
+            this.server.to(this.id.toString()).emit("endGame", {winner: this.dataChariot.leftPlayer.nickname});
+            setTimeout(this.endGame.bind(this), 5000);
+        }
+        if (this.dataChariot.leftPlayer.score < 10 && this.dataChariot.rightPlayer.score < 10) {
+            this.server.to(this.id.toString()).emit("data", this.dataChariot);
+            setTimeout(this.loop.bind(this), 10);
+        }
     }
 
     gamePlaying(server: Server) {
@@ -103,6 +116,10 @@ export class PongService {
         this.loop();
         // server.to("1").emit("data", this.dataChariot);
         // setTimeout(this.gamePlaying.bind(this), 10);
+    }
+
+    endGame() {
+        this.server.socketsLeave(this.id.toString());
     }
 
     updateBall() {
@@ -161,24 +178,35 @@ export class PongService {
         let normalizedRelativeIntersectionY = (relativeIntersectY / (PADDLE_SIZE / 2));
         let bounceAngle = normalizedRelativeIntersectionY * MAXBOUNCEANGLE;
         if (this.dataChariot.ball.vx > 0) {
-            this.dataChariot.ball.vx = BALLSPEED * -Math.cos(bounceAngle);
+            this.dataChariot.ball.vx = this.ballSpeed * -Math.cos(bounceAngle);
         } 
         else {
-            this.dataChariot.ball.vx = BALLSPEED * Math.cos(bounceAngle);
+            this.dataChariot.ball.vx = this.ballSpeed * Math.cos(bounceAngle);
         }
-        this.dataChariot.ball.vy = BALLSPEED * -Math.sin(bounceAngle);
+        this.dataChariot.ball.vy = this.ballSpeed * -Math.sin(bounceAngle);
+        this.bounce++;
+        if (!(this.bounce % 4))
+            this.ballSpeed += 0.5;
     }
 
     checkIfScored() {
         // console.log("Ball X: ", this.dataChariot.ball.x);
         // console.log("Left X: ", this.dataChariot.leftPlayer.x);
         // console.log("Right X: ", this.dataChariot.rightPlayer.x);
-        if (this.dataChariot.ball.x <= this.dataChariot.leftPlayer.x) {
+        if (this.dataChariot.ball.x <= this.globalwidth / 30) {
             this.dataChariot.leftPlayer.score++;
+            this.bounce = 0;
+            this.ballSpeed = 7;
+            this.dataChariot.ball.vx = this.ballSpeed * Math.cos(0);
+            this.dataChariot.ball.vy = this.ballSpeed * -Math.sin(0);
             return true;
         } 
-        else if (this.dataChariot.ball.x >= this.dataChariot.rightPlayer.x) {
+        else if (this.dataChariot.ball.x >= this.globalwidth - (this.globalwidth / 30)) {
             this.dataChariot.rightPlayer.score++;
+            this.bounce = 0;
+            this.ballSpeed = 7;
+            this.dataChariot.ball.vx = this.ballSpeed * -Math.cos(0);
+            this.dataChariot.ball.vy = this.ballSpeed * -Math.sin(0);
             return true;
         }
         return false;

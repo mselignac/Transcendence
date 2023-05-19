@@ -58,7 +58,7 @@ export default {
       };
       axios
         // .get('https://jsonplaceholder.typicode.com/users/1')
-        .get('http://localhost:3000/users/me', { headers })
+        .get('http://25.7.177.95:3000/users/me', { headers })
         .then((response) => {
           this.users = response.data
           console.log(this.users.email);

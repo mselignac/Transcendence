@@ -49,14 +49,24 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('play')
   play(client: Socket, data: any): void {
-    console.log("bonjour :", data.roomId);
-    // console.log("server 1", this.server);
-    //if (!this.gameRoomList[data.roomId].isPlaying)
+    if (data.side === "left"){ 
+      this.gameRoomList[data.roomId].leftReady = true;
+      this.server.to(data.roomId.toString()).emit("readyMsg", {side: "left"});
+    }
+    if (data.side === "right"){
+      this.gameRoomList[data.roomId].rightReady = true;
+      this.server.to(data.roomId.toString()).emit("readyMsg", {side: "right"});
+    }
+
+    if (!this.gameRoomList[data.roomId].isPlaying
+        && this.gameRoomList[data.roomId].leftReady
+        && this.gameRoomList[data.roomId].rightReady)
       return(this.gameRoomList[data.roomId].gamePlaying(this.server));
   }
 
   @SubscribeMessage('playRequest')
   playRequest(client: Socket, data: any): void {
+    console.log("Request arrived from: ", data.username);
     const newWaitingRoom: waitingRoom = {
       client: client,
       username: data.username,
@@ -87,6 +97,11 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
     leftPlayer.client.emit('roomAssigned', {roomId: this.roomCount, leftUsername: leftPlayer.username, rightUsername: rightPlayer.username, isLeft: true});
     rightPlayer.client.emit('roomAssigned', {roomId: this.roomCount, leftUsername: leftPlayer.username, rightUsername: rightPlayer.username, isLeft: false});
     this.roomCount++;
+  }
+
+  @SubscribeMessage('gameEnded')
+  gameEnded(client: Socket, data: any): void {
+    delete this.gameRoomList[data.id];
   }
 
   afterInit(server: Server) {

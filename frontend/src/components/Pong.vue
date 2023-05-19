@@ -4,6 +4,8 @@
         <p>
             <button v-on:click="play()">Play</button>
             <button v-on:click="playRequest()">Play Request</button>
+            <input type="text" v-model="newUsername" placeholder="Modifier pseudonyme">
+            <button @click="confirmUsername">OK</button>
         </p>
     </div>
 </template>
@@ -15,10 +17,13 @@
     import { io } from "socket.io-client";
 
     let socket = $socket;
+    let actualUsername = ref(false);
     let leftUsername = ref(false);
     let rightUsername = ref(false);
     let tRoomId = ref(null);
     let side = ref(false);
+    let leftReady = ref(false);
+    let rightReady = ref(false);
 
     // const socket = io("ws://localhost:3001");
 
@@ -72,12 +77,17 @@
             });},
 
             playRequest() {
-                socket.emit("playRequest", {username: undefined});
+                socket.emit("playRequest", {username: actualUsername.value});
             },
 
             play() {
                 console.log("bonjour");
-                socket.emit("play", {roomId: tRoomId.value});
+                socket.emit("play", {roomId: tRoomId.value, side: side.value});
+            },
+
+            confirmUsername() {
+                console.log("Here : ", this.newUsername);
+                actualUsername.value = this.newUsername;
             },
 
             Game() {
@@ -90,13 +100,15 @@
                 // document.body.appendChild(PongApp.view);
                 
                 const gameScene = new PIXI.Container();
-                let leftPaddle, rightPaddle, ball, state;
+                let leftPaddle, rightPaddle, ball, state, leftCross, leftCheck, rightCross, rightCheck;
 
                 PongApp.stage.addChild(gameScene);
 
                 const backImgTex = PIXI.Texture.from('/pong_bg.png');
                 const paddleTex = PIXI.Texture.from('/paddle.png');
                 const ballTex = PIXI.Texture.from('/ball.png');
+                const crossTex = PIXI.Texture.from('/cross.png');
+                const checkTex = PIXI.Texture.from('/check.png');
 
                 const backImgSprite = new PIXI.Sprite(backImgTex);
                 leftPaddle = new PIXI.Sprite(paddleTex);
@@ -117,35 +129,83 @@
                 gameScene.addChild(backImgSprite);
 
                 // Username display
-                const leftUserText = new PIXI.Text("T");
-                const rightUserText = new PIXI.Text("T");
+                const leftUserText = new PIXI.Text("");
+                const rightUserText = new PIXI.Text("");
 
                 gameScene.addChild(leftUserText);
                 gameScene.addChild(rightUserText);
                 
                 leftUserText.anchor.set(0.5, 0.5);
                 leftUserText.position.set(backImgSprite.width / 4, backImgSprite.height / 15);
+                leftUserText.style.fontSize = backImgSprite.width / 60;
 
                 rightUserText.anchor.set(0.5, 0.5);
                 rightUserText.position.set(backImgSprite.width - (backImgSprite.width / 4), backImgSprite.height / 15);
+                rightUserText.style.fontSize = backImgSprite.width / 60;
 
+                //Score display
                 const leftScoreText = new PIXI.Text("0");
                 const rightScoreText = new PIXI.Text("0");
 
                 gameScene.addChild(leftScoreText);
                 gameScene.addChild(rightScoreText);
 
-                leftScoreText.anchor.set(0.5, 0.5);
+                leftScoreText.anchor.set(1, 0);
                 leftScoreText.position.set(backImgSprite.width / 1.8, backImgSprite.height / 15);
+                leftScoreText.style.fontSize = backImgSprite.width / 30;
 
-                rightScoreText.anchor.set(0.5, 0.5);
+                rightScoreText.anchor.set(0, 0);
                 rightScoreText.position.set(backImgSprite.width - (backImgSprite.width / 1.8), backImgSprite.height / 15);
+                rightScoreText.style.fontSize = backImgSprite.width / 30;
+
+                //End Text
+                const endText = new PIXI.Text("");
+
+                gameScene.addChild(endText);
+
+                endText.anchor.set(0.5, 0.5);
+                endText.position.set(backImgSprite.width / 2, backImgSprite.height / 2);
+                endText.style.fontSize = backImgSprite.width / 10;
+                endText.visible = false;
+
+                //Waiting Sprites display
+                leftCross = new PIXI.Sprite(crossTex);
+                leftCheck = new PIXI.Sprite(checkTex);
+
+                rightCross = new PIXI.Sprite(crossTex);
+                rightCheck = new PIXI.Sprite(checkTex);
+                
+                gameScene.addChild(leftCross, leftCheck, rightCross, rightCheck);
+
+                leftCross.width = backImgSprite.width / 30;
+                leftCheck.width = backImgSprite.width / 30;
+                rightCross.width = backImgSprite.width / 30;
+                rightCheck.width = backImgSprite.width / 30;
+                leftCross.height = leftCross.width
+                leftCheck.height = leftCross.width
+                rightCross.height = leftCross.width
+                rightCheck.height = leftCross.width
+
+
+                leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+                leftCheck.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+
+                rightCross.anchor.set(1, 0);
+                rightCheck.anchor.set(1, 0);
+                rightCross.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+                rightCheck.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+
+                leftCross.visible = false;
+                leftCheck.visible = false;
+                rightCross.visible = false;
+                rightCheck.visible = false;
+
                 //Paddles Setup
                 //Left
                 leftPaddle.anchor.set(0.5, 0.5);
                 leftPaddle.position.set((backImgSprite.width / 2) - (backImgSprite.width * 0.45), backImgSprite.height / 2);
 
-                leftPaddle.scale.x = 2;
+                leftPaddle.width = backImgSprite.width / 19;
                 // leftPaddle.scale.y = 2;
 
                 leftPaddle.height = backImgSprite.height / 3.5; 
@@ -157,7 +217,7 @@
                 rightPaddle.anchor.set(0.5, 0.5);
                 rightPaddle.position.set((backImgSprite.width / 2) + (backImgSprite.width * 0.45), backImgSprite.height / 2);
                 
-                rightPaddle.scale.x = 2;
+                rightPaddle.width = backImgSprite.width / 19;
                 // rightPaddle.scale.y = 2;
 
                 rightPaddle.height = backImgSprite.height / 3.5; 
@@ -170,8 +230,8 @@
                 ball.position.x = backImgSprite.width / 2;
                 ball.position.y = backImgSprite.height / 2;
 
-                ball.scale.x = 2;
-                ball.scale.y = 2;
+                ball.width = backImgSprite.width / 20;
+                ball.height = ball.width;
                 
                 ball.vx = 0;
                 ball.vy = 0;
@@ -292,12 +352,7 @@
                     if (leftPaddle.vy < 0 && side.value === "right")
                         socket.emit("move", {roomId: tRoomId.value, direction: 'upR'});
                     if (leftPaddle.vy > 0 && side.value === "right")
-                        socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});
-                    // if (rightPaddle.vy < 0)
-                    //     socket.emit("move", 'upR');
-                    // if (rightPaddle.vy > 0)
-                    //     socket.emit("move", 'downR');
-                    
+                        socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});                    
                 }
 
                 socket.on('data', dataChariot => {
@@ -323,6 +378,42 @@
                         side.value = "left";
                     else
                         side.value = "right";
+                    
+                        leftCross.visible = true;
+                        rightCross.visible = true;
+                })
+
+                socket.on('readyMsg', (data) => {
+                    if (data.side == "left"){
+                        leftReady.value = true;
+                        leftCross.visible = false;
+                        leftCheck.visible = true;
+                    }
+                    else{
+                        rightReady.value = true;
+                        rightCross.visible = false;
+                        rightCheck.visible = true;
+                    }
+
+                    if (leftReady.value && rightReady.value){
+                        leftCheck.visible = false;
+                        rightCheck.visible = false;
+                    }
+                })
+                socket.on('endGame', (data) => {
+                    endText.text = data.winner + " has won !";
+                    endText.visible = true;
+                    leftScoreText.text = "0";
+                    rightScoreText.text = "0";
+                    leftUserText.text = "";
+                    rightUserText.text = "";
+                    socket.emit("gameEnded", {id: tRoomId.value});
+                    leftUsername = false;
+                    rightUsername = false;
+                    tRoomId = null;
+                    side = false;
+                    leftReady = false;
+                    rightReady = false;
                 })
             },
 
