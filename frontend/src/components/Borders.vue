@@ -2,8 +2,6 @@
 import { accountService } from '@/_services'
 import { RoomDto} from '@/_services/room.dto'
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import router from '@/router';
 
 let id = 0
@@ -133,7 +131,7 @@ export default {
         if (this.validateInput(this.search_user)) {
 
           let find: object = { name: this.search_user , user_one: this.my_username, user_two: this.newFriend }
-          
+
           await accountService.findUser(find)
             .then(res => { this.exist = res.data })
 
@@ -162,7 +160,7 @@ export default {
           .catch(res => console.log(res))
           if (this.channel_exist == '')
             this.create_channel = true
-          else 
+          else
           {
             this.create_channel = false
             this.channels.push( this.newChannel )

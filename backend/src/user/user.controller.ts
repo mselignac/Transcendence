@@ -12,38 +12,36 @@ import { AuthGuard } from '@nestjs/passport';
 export class UserController {
 	constructor(private userService: UserService) {}
 
-	// @Get('me')
-	// getMe(@GetUser() user: User) {
-	// 	return user;
-	// }
-
-	@UseGuards(AuthGuard('jwt'))
 	@Get('me')
-	getMe(@Req() req) {
-	  return {
-		id: req.user.id,
-		losses: req.user.Losses,
-		wins: req.user.Wins,
-		avatar: req.user.avatarUrl,
-		country: req.user.country,
-		email: req.user.email,
-		fullName: req.user.fullName,
-		login: req.user.login,
-		phoneNumber: req.user.phonenumber,
-		score: req.user.score,
-		twoFactor: req.user.twofactor,
-		createdAt: req.user.createdAt,
-		updatedAt: req.user.updatedAt,
-
-		friends: req.user.friends,
-		channels: req.user.channels,
-		requests: req.user.requests
-	  }
+	getMe(@GetUser() user: User) {
+		return user;
 	}
+
+	// getMe(@Req() req) {
+	//   return {
+	// 	id: req.user.id,
+	// 	losses: req.user.Losses,
+	// 	wins: req.user.Wins,
+	// 	avatar: req.user.avatarUrl,
+	// 	country: req.user.country,
+	// 	email: req.user.email,
+	// 	fullName: req.user.fullName,
+	// 	login: req.user.login,
+	// 	phoneNumber: req.user.phonenumber,
+	// 	score: req.user.score,
+	// 	twoFactor: req.user.twofactor,
+	// 	createdAt: req.user.createdAt,
+	// 	updatedAt: req.user.updatedAt,
+
+	// 	friends: req.user.friends,
+	// 	channels: req.user.channels,
+	// 	requests: req.user.requests
+	//   }
+	// }
 
 	@Patch()
 	editUser(@Req() req, @Body() dto: EditUserDto) {
-		return this.userService.editUser(req.user.id, dto);
+		return this.userService.editUser(req.user.login, dto);
 	}
 
 	//Update user username
@@ -51,7 +49,7 @@ export class UserController {
 	editUsername(@Req() req, @Body() dto: EditUserDto) {
 		return this.userService.editUsername(req.user.id, dto.username);
 	}
-	
+
 	@Post('addfriend')
 	addFriend(@Body() dto: object) {
 		return this.userService.addFriend(dto) ;
@@ -71,5 +69,4 @@ export class UserController {
 	removeChannel(@Body() dto: object) {
 		return this.userService.removeChannel(dto) ;
 	}
-
 }

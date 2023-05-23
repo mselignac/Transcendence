@@ -119,7 +119,7 @@ router.beforeEach((to, from, next) => {
     && to.matched[0].name != 'error') {
     authGuard()
   }
-  if (to.matched[0].name == 'home')
+  if (to.matched[0].name == 'home' && to.matched[0].name == 'choose-username')
     authGuardTest()
   next()
 })

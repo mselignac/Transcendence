@@ -49,7 +49,6 @@ export class UserService {
 			  friends: {
 				push: dataa.users[0]
 			  }
-  
 	}})}
 
 	async removeFriend(dto: object) {
@@ -65,7 +64,7 @@ export class UserService {
 			  friends: true
 			},
 		  });
-		  
+
 		  await this.prisma.user.update({
 			where: {
 				login: data.name
@@ -92,7 +91,6 @@ export class UserService {
 			  channels: {
 				push: dataa.users[0]
 			  }
-  
 	}})}
 
 	async removeChannel(dto: object) {
@@ -109,7 +107,7 @@ export class UserService {
 			  channels: true
 			},
 		  });
-		  
+
 		  await this.prisma.user.update({
 			where: {
 				login: data.name

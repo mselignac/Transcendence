@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
-import { Request, Response } from 'express';
 import { Strategy, Profile } from 'passport-42';
 import { AuthService } from '../auth.service';
 
@@ -23,7 +22,7 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, '42') {
   ) {
     const user = await this.authService.validateUser({
       id: profile.id,
-      username: profile.username,
+      login: profile.login,
       displayName: profile.displayName,
       lastName: profile.name.familyName,
       firstName: profile.name.givenName,
