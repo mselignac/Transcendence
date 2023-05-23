@@ -15,7 +15,7 @@ model User {
   createAt                      DateTime @default(now())
   updateAT                      DateTime @default(now())
   checkID                       String   @unique
-  login                         String   @unique
+  login                         String?   @unique
   fullName                      String
   avatarUrl                     String
   firstName                     String

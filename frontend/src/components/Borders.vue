@@ -2,8 +2,6 @@
 import { accountService } from '@/_services'
 import { RoomDto} from '@/_services/room.dto'
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
-import axios from 'axios';
-import Cookies from 'js-cookie';
 
 let id = 0
 let idRoom = 0
@@ -148,7 +146,7 @@ export default {
     //       .catch(error => console.log('error => ', error))
     //   },
       // updated() {
-        
+
       //   console.log('salut')
         // const headers = {
         //   'Authorization': `bearer ${Cookies.get('jwt')}`,

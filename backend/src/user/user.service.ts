@@ -49,7 +49,6 @@ export class UserService {
 			  friends: {
 				push: dataa.users[0]
 			  }
-  
 	}})}
 
 	async addChannel(dto: object) {
@@ -66,10 +65,8 @@ export class UserService {
 			  channels: {
 				push: dataa.users[0]
 			  }
-  
 	}})}
 
-	//Update user username
 	async editUsername(id: string, username: string) {
 		const user = await this.prisma.user.findUnique({
 			where: { login: username },

@@ -10,7 +10,7 @@ export default {
 		accountService.saveToken(Cookies.get('jwt'));
 	}
 }
-</script>           
+</script>
 
 <template>
 </template>
