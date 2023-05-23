@@ -34,7 +34,6 @@ import {
 
     @SubscribeMessage('msgToServer')
     handleMessage(client: Socket, payload: String): void {
-      // console.log('payload[0] = ', payload[0])
       this.server.to(payload[0]).emit('msgToClient', payload[1]);
     }
 
@@ -51,7 +50,6 @@ import {
 
     @SubscribeMessage('joinRoomChat')
     joinRoomChat(client: Socket, payload: string): void {
-      // console.log(payload)
       client.join(payload);
     }
 
@@ -73,11 +71,5 @@ import {
     handleConnection(client: Socket, ...args: any[]) {
       // this.logger.log(`Client connected: ${client.id}`);
       // console.log('cest connecte');
-
-
-
-      // appeler une fonction qui trouve la bonne room
-      // emit la bonne room
-      // peut etre le faire autrement? (dans created dans le front)
     }
   }

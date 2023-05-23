@@ -51,7 +51,6 @@ export default {
                   username: this.my_username,
               }
               let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
-              console.log('msg -> ', msg)
               await accountService.addMessageChannel(msg)
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
@@ -67,7 +66,6 @@ export default {
           accountService.getMsgChannel(this.room) 
             .then(res => {
                 this.msg = res.data
-                console.log(res.data)
             })
             .catch(err => console.log (err))
 
@@ -77,8 +75,10 @@ export default {
           return text.length > 0
       }
     },
-    created() {
-        let dto: RoomChannelDto = { name: this.idchannel, users: ['elisa'] }
+    async created() {
+        await accountService.usersMe()
+        .then((response) => { this.my_username = response.data.login })
+        let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
         accountService.findRoomChannel(dto) 
             .then(res => {
                 this.room = res.data.name
@@ -92,7 +92,6 @@ export default {
                 $socket_chat.on('msgToClient', (message: message_type) => {
                     this.receivedMessage(message)
                 })
-                console.log(this.room)
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))

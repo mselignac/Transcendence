@@ -2,12 +2,9 @@
 import Borders from './Borders.vue';
 import { accountService } from '@/_services';
 
-// export type list_type = 
-
 export default {
     data() {
         return {
-            // list: ''
           list: [] as string[],
         };
     },
@@ -16,22 +13,24 @@ export default {
         accountService.usersMe()
             .then(res => {
                 this.list = res.data.channels
-                console.log('list => ', this.list)
-                console.log(res.data.channels)
             })
+
+        // accountService.publicsChannels()
+        //     .then(res => {
+        //         console.log(res.data)
+        //         this.list = res.data
+        //     })
     } 
 }
 </script>
 
 <template>
     <Borders/>
-    <div className="main_div">
-        <!-- <h1>hello</h1> -->
-        <li v-for="channel in this.list" className="friends_usernames">
-            <button className="friends_usernames">{{ channel }}</button>
+    <div className="main_public_channel">
+        <h1 className="no_public_channel" v-if="!this.list.length">no public channel yet</h1>
+        <h1 className="no_public_channel" v-else>publics channels:</h1>
+        <li v-for="channel in this.list" className="list_channels">
+            <RouterLink :to="'/channel/' + channel" className="channel_public">{{ channel }}</RouterLink>
         </li>
     </div>
 </template>
-
-
-

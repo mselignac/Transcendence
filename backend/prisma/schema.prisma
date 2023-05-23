@@ -26,9 +26,10 @@ model User {
   twofactor                     Boolean  @default(false)
   twoFactorAuthenticationSecret String
 
+  requests  String[]
   channels String[]
   friends  String[]
-
+  blocked   String[]
   // bookmarks Bookmark[]
   @@map("users")
 }
@@ -53,6 +54,13 @@ model RoomChannel {
 
   name     String    @unique
   users    String[]
+  admin     String[]
+  owner     String?
+  users_ban String[]
+
+  private   Boolean @default(false)
+  is_password  Boolean @default(false)
+  password      String?
   messages Message[]
 
   @@map("channels")

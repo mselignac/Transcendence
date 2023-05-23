@@ -3,6 +3,9 @@ import { RoomChannelDto } from './room.channel.dto';
 import { RoomDto } from './room.dto';
 import { MessageDto } from './messages.dto';
 
+////////////////////////////////////////////////////////
+//                        USERS                       //
+////////////////////////////////////////////////////////
 let login = () => {
     return Axios.get('/auth/42/login')
 }
@@ -15,13 +18,24 @@ let updateUsername = (username: string) => {
     return Axios.patch('/users/username', { username })
 }
 
+let findUser = (dto: RoomDto) => {
+    return Axios.get('/chat/finduser', { params: { dto }})
+}
+
+let getUserId = (dto: object) => {
+    return Axios.get('/chat/getuserid', { params: { dto }})
+}
+
+
+
+////////////////////////////////////////////////////////
+//                        ROOMS                       //
+////////////////////////////////////////////////////////
 let createRoom = (dto: RoomDto) => {
     return Axios.post('/chat/createroom', dto)
 }
 
 let findRoom = (dto: RoomDto) => {
-    console.log('findroom')
-    console.log(dto)
     return Axios.post('/chat/findroom', dto)
 }
 
@@ -29,49 +43,79 @@ let createRoomChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/createroomchannel', dto)
 }
 
-let findRoomChannel = (dto: RoomChannelDto) => {
-    console.log('findroom')
-    console.log(dto)
+// let findRoomChannel = (dto: RoomChannelDto) => {
+//     return Axios.post('/chat/findroomchannel', dto)
+// }
+
+let findRoomChannel = (dto: object) => {
     return Axios.post('/chat/findroomchannel', dto)
 }
 
+
 let editChannel = (dto: RoomChannelDto) => {
-    console.log('edit', dto)
     return Axios.post('/chat/editchannel', dto)
 }
 
+
+
+////////////////////////////////////////////////////////
+//                  CHANNELS/FRIENDS                  //
+////////////////////////////////////////////////////////
 let addFriend = (dto: RoomChannelDto) => {
-    console.log(dto)
-    console.log('ca marche add friend')
     return Axios.post('/users/addfriend', dto)
 }
 
 let addChannel = (dto: RoomChannelDto) => {
-    console.log(dto)
-    console.log('ca marche add friend')
     return Axios.post('/users/addchannel', dto)
 }
 
+let removeFriend = (dto: object) => {
+    return Axios.post('/users/removefriend', dto)
+}
+
+let removeChannel = (dto: object) => {
+    return Axios.post('/users/removechannel', dto)
+}
+
+let publicsChannels = () => {
+    return Axios.get('/chat/publicschannels')
+}
+
+let sendFriendRequest = (dto: object) => {
+    return Axios.post('/chat/friendsrequests', dto)
+}
+
+let removeRequest = (dto: object) => {
+    return Axios.post('/chat/removerequest', dto)
+}
+
+
+
+
+////////////////////////////////////////////////////////
+//                      MESSAGES                      //
+////////////////////////////////////////////////////////
 let addMessage = (dto: MessageDto) => {
-    console.log(dto)
     return Axios.post('/chat/addmessage', dto)
 }
 
 let getMsg = (room: String) => {
-    // return Axios.get('/chat/getmsg', room)
     return Axios.get('/chat/getmsg', { params: { room } })
 }
 
 let addMessageChannel = (dto: MessageDto) => {
-    console.log(dto)
     return Axios.post('/chat/addmsgchannel', dto)
 }
 
 let getMsgChannel = (room: String) => {
-    // return Axios.get('/chat/getmsg', room)
     return Axios.get('/chat/getmsgchannel', { params: { room } })
 }
 
+
+
+////////////////////////////////////////////////////////
+//                       TOKENS                       //
+////////////////////////////////////////////////////////
 let logout = () => {
     localStorage.removeItem('token')
 }
@@ -88,6 +132,8 @@ let isLogged = () => {
     let token = localStorage.getItem('token')
     return !!token  //transforme une variable (ici: string) en booleen (si vide -> false, sinon true)
 }
+
+
 
 export const accountService = {
     login,
@@ -107,6 +153,12 @@ export const accountService = {
     getMsg,
     addMessageChannel,
     getMsgChannel,
-    updateUsername
-    // getCookie
+    updateUsername,
+    findUser,
+    removeFriend,
+    removeChannel,
+    getUserId,
+    publicsChannels,
+    sendFriendRequest,
+    removeRequest
 }

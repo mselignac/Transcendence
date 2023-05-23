@@ -44,7 +44,6 @@
 
 
 // router.beforeEach((to, from, next) => {
-//   console.log(to.matched[0].name)
 //   // const teeee: tamere = to.matched[0]
 //   if(to.matched[0].name != 'test' && to.matched[0].name != 'login' && to.matched[0].name != 'error'
 
@@ -88,6 +87,7 @@ import { authGuard, authGuardTest } from '../_helper/auth-guard'
 import Infos from '../components/InfosChannel.vue'
 import Channel from '../components/Channel.vue'
 import List from '../components/ListChannels.vue'
+import FriendsRequests from '../components/FriendsRequest.vue'
 
 
 const router = createRouter({
@@ -108,7 +108,8 @@ const router = createRouter({
     { path: '/:pathMatch(.*)*', name: 'error', component: NotFound },
     { path: '/pong', component: Pong },
     { path: '/list-channels', component: List },
-    { path: '/channel/:idchannel', name: 'channel', component: Channel, props: true }
+    { path: '/channel/:idchannel', name: 'channel', component: Channel, props: true },
+    { path: '/friend-request', component: FriendsRequests },
   ]
 })
 
