@@ -95,7 +95,7 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: Login },
     { path: '/login', name: 'login', component: Login42 },
-    { path: '/main-page', component: MainPage },
+    { path: '/main-page', name: 'main', component: MainPage },
     { path: '/game-mode', component: GameMode },
     { path: '/chat/:idchat', component: Chat, props: true },
     { path: '/profile', component: Profile },
@@ -119,8 +119,10 @@ router.beforeEach((to, from, next) => {
     && to.matched[0].name != 'error') {
     authGuard()
   }
-  if (to.matched[0].name == 'home' && to.matched[0].name == 'choose-username')
+  //block access to all routes except main when authGuardTest is false
+  if(to.matched[0].name != 'main' && to.matched[0].name != 'error') {
     authGuardTest()
+  }
   next()
 })
 

@@ -1,31 +1,3 @@
-// import router from '@/router'
-
-// export function authGuard(){
-//     // let token = localStorage.getItem('token')
-
-//     // let token = Cookies.isKey('jwt')
-//     // let token = Cookies.get('jwt')   
-
-
-//     console.log('authguard')
-
-
-
-//     // A CHANGER////////////////////////////
-//     ////////////////////////////////////////
-//     let token = true
-//     ////////////////////////////////////////
-//     ////////////////////////////////////////
-
-
-
-//     if(token){
-//         return true
-//     }
-
-//     router.push('/')
-// }
-
 import router from '@/router'
 import { accountService } from '@/_services'
 import Cookies from 'js-cookie';
@@ -40,11 +12,15 @@ export function authGuard(){
     router.push('/')
 }
 
-export function authGuardTest(){
-    let token = localStorage.getItem('token')
-
-    if(token != null && token != "undefined" && token != ""){
-        router.push('/main-page')
+export async function authGuardTest(){
+    let login;
+    await accountService.usersMe()
+    .then((res) => {
+        login = res.data.login;
+    })
+    .catch(res => console.log(res))
+    if (login != null){
         return true
     }
+    router.push('/main-page')
 }

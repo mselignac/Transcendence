@@ -4,6 +4,7 @@ import { Controller,
 	Req,
 } from "@nestjs/common";
 import { FortyTwoGuard } from "./guard";
+import { AuthGuard } from "@nestjs/passport";
 import { UserService } from "src/user/user.service";
 import { ConfigService } from "@nestjs/config";
 import { Request, Response } from 'express';
