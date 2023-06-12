@@ -53,6 +53,7 @@ export class ChatController {
 
 	@Get('finduser')
 	findUser(@Req() req) {
+		console.log(req.query.dto)
 		return this.chatService.findUser(req.query.dto)
 	}
 

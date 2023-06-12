@@ -36,10 +36,15 @@ export class ChatService {
       type ObjectKey = keyof typeof dto;
 
       let data: userDto = dto as ObjectKey
+      // let data: RoomDto = dto as ObjectKey
 
+      console.log('iciiiiiiiiiiiiiiiiiii')
+      console.log(data)
+      console.log('iciiiiiiiiiiiiiiiiiii2')
       let user = await this.prisma.user.findUnique({
         where: {
           login: data.login
+          // login: data.name
         }
       })
       if (user)

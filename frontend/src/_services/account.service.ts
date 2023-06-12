@@ -19,6 +19,7 @@ let updateUsername = (username: string) => {
 }
 
 let findUser = (dto: RoomDto) => {
+    console.log(dto)
     return Axios.get('/chat/finduser', { params: { dto }})
 }
 

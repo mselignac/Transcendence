@@ -39,7 +39,8 @@ export default {
           my_username: '',
           exist: '',
           user_save: '',
-          channel_exist: ''
+          channel_exist: '',
+          request: ''
         }
     },
     methods: {
@@ -130,8 +131,10 @@ export default {
       async search_users() {
         if (this.validateInput(this.search_user)) {
 
-          let find: object = { name: this.search_user , user_one: this.my_username, user_two: this.newFriend }
+          // let find: object = { name: this.search_user , user_one: this.my_username, user_two: this.newFriend }
 
+          let find: object = { login: this.search_user }
+          console.log(find)
           await accountService.findUser(find)
             .then(res => { this.exist = res.data })
 
@@ -198,6 +201,7 @@ export default {
         this.channels = response.data.channels
         this.users = response.data
         this.my_username = this.users.login
+        this.request = response.data.requests
       })
     },
     // updated() {
@@ -318,7 +322,16 @@ export default {
       <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
       <RouterLink to="/list-channels" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
       <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
-      <RouterLink to="/friend-request" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
+      <RouterLink v-if="!request.length" to="/friend-request" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
+      <div v-else className="icons_border_left">
+        <RouterLink to="/friend-request" className="icons_border_left_request"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
+        <h1 className="request_icon"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
+      </div>
+
+      <!-- <RouterLink v-else to="/friend-request" className="icons_border_left">
+        <font-awesome-icon icon="fa-solid fa-user-plus" />
+        <font-awesome-icon icon="fa-solid fa-circle" />
+      </RouterLink> -->
     </div>
 
   </div>

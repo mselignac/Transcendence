@@ -271,9 +271,21 @@
     width: 100%;
     height: 8%;
     justify-content: center;
+    /* justify-content: space-around; */
     align-items: center;
     /* color: #7086a7; */
     color: #7399d1;
+}
+
+.icons_border_left_request {
+    align-items: center;
+    color: #7399d1;
+}
+
+.icons_border_left_request:hover {
+    scale: 1.1;
+    background-color: transparent;
+    color: #2c5cc5;
 }
 
 .icons_border_left:hover {
@@ -458,4 +470,16 @@
     margin-top: 20px;
     justify-content: space-evenly;
     /* background-color: red; */
+}
+
+.request_icon {
+    display: flex;
+
+    color: red;
+    font-size: 45%;
+    /* background-color: green; */
+    justify-self: flex-start;
+    margin-top: 25px;
+    /* margin-right: 20px; */
+    align-self: flex-start;
 }
