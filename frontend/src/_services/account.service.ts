@@ -90,6 +90,14 @@ let removeRequest = (dto: object) => {
     return Axios.post('/chat/removerequest', dto)
 }
 
+let removeUser = (dto: object) => {
+    console.log('removeuser front')
+    return Axios.post('/chat/removeuser', dto)
+}
+
+// let userChannels = (dto: object) => {
+//     return Axios.post('/users/user')
+// }
 
 
 
@@ -161,5 +169,6 @@ export const accountService = {
     getUserId,
     publicsChannels,
     sendFriendRequest,
-    removeRequest
+    removeRequest,
+    removeUser
 }

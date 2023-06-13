@@ -72,6 +72,12 @@ export class ChatController {
 		return this.chatService.removeRequest(dto)
 	}
 
+	@Post('removeuser')
+	removeUser(@Body() dto: object) {
+		console.log('removeUser back')
+		return this.chatService.removeUser(dto)
+	}
+
 
 	// @Get('getuserid')
 	// getUserId(@Req() req)//, @Body() dto: userDto)

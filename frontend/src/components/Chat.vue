@@ -125,9 +125,9 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
-                    <form @submit.prevent="send_msg_test" className="type_msg_test">
+                    <!-- <form @submit.prevent="send_msg_test" className="type_msg_test">
                         <input className="type_msg_test" v-model="text_test" placeholder='name'>
-                    </form>
+                    </form> -->
                 </div>
             </div>
             <div className="chat_msg_div">

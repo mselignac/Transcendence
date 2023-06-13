@@ -30,8 +30,6 @@ export default {
           newChannel: '',
           friends: '',
           channels: '',
-          // friends: [] as string[],
-          // channels: [] as string[],
           token: '',
           connected: false,
           create_channel: false,
@@ -40,7 +38,8 @@ export default {
           exist: '',
           user_save: '',
           channel_exist: '',
-          request: ''
+          request: '',
+          jsp: ''
         }
     },
     methods: {
@@ -80,17 +79,7 @@ export default {
             .then(res => { this.exist = res.data })
             .catch(res => console.log(res))
 
-          if (this.exist) {
-            // let dto: RoomDto = { name: idRoom.toString(), user_one: this.user_test.login, user_two: this.exist.login }
-            // idRoom++
-            // this.friends.push( this.newFriend )
-            // accountService.createRoom(dto)
-            //   .catch(res => console.log(res))
-
-            // let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newFriend ] }
-            // accountService.addFriend(dtoo)
-            // .catch(res => console.log(res))
-
+          if (this.exist && this.newFriend != this.my_username) {
             accountService.sendFriendRequest({ name: this.newFriend, user_one: this.my_username })
               .catch(res => console.log(res))
           }
@@ -102,6 +91,10 @@ export default {
 
         let friend: object = { name: this.my_username, user_one: friends }
         accountService.removeFriend(friend)
+          .catch(res => console.log(res))
+
+        let second_friend: object = { name: friends, user_one: this.my_username }
+        accountService.removeFriend(second_friend)
           .catch(res => console.log(res))
 
         this.friend = false
@@ -124,14 +117,14 @@ export default {
       removeChannel(channels: friend_type) {
           let channel: object = { name: this.my_username, user_one: channels }
           accountService.removeChannel(channel)
+          let dto: object = { name: channels, user_one: this.my_username }
+          accountService.removeUser(dto)
           this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
 
       async search_users() {
         if (this.validateInput(this.search_user)) {
-
-          // let find: object = { name: this.search_user , user_one: this.my_username, user_two: this.newFriend }
 
           let find: object = { login: this.search_user }
           console.log(find)
@@ -157,19 +150,24 @@ export default {
       },
 
       async createChannel() {
-        console.log('new channel = ', this.newChannel)
+        // console.log('new channel = ', this.newChannel)
         await accountService.findRoomChannel({ name: this.newChannel })
           .then(res => this.channel_exist = res.data )
           .catch(res => console.log(res))
+          
+          this.jsp =  this.channels.find(t => t === this.newChannel)
           if (this.channel_exist == '')
             this.create_channel = true
-          else
+          else if (!this.jsp)
           {
             this.create_channel = false
             this.channels.push( this.newChannel )
             accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
             let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
             accountService.addChannel(dtoo)
+            this.newChannel = ''
+          }
+          else {
             this.newChannel = ''
           }
       },

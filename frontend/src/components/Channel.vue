@@ -56,12 +56,12 @@ export default {
               this.text = ''
         }
       },
-      send_msg_test() {
-        if (this.validateInput(this.text_test)) {
-              this.my_username = this.text_test,
-              this.text_test = ''
-        }
-      },
+    //   send_msg_test() {
+    //     if (this.validateInput(this.text_test)) {
+    //           this.my_username = this.text_test,
+    //           this.text_test = ''
+    //     }
+    //   },
       receivedMessage(message: message_type) {
           accountService.getMsgChannel(this.room) 
             .then(res => {
@@ -117,9 +117,9 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
-                    <form @submit.prevent="send_msg_test" className="type_msg_test">
+                    <!-- <form @submit.prevent="send_msg_test" className="type_msg_test">
                         <input className="type_msg_test" v-model="text_test" placeholder='name'>
-                    </form>
+                    </form> -->
                 </div>
             </div>
             <div className="chat_msg_div">

@@ -49,6 +49,8 @@
     margin-top: 20%;
     font-size: 290%;
     color: rgb(164, 128, 187);
+    background-color: transparent;
+    border-color: transparent;
 }
 
 .admin:hover {
@@ -62,6 +64,8 @@
     margin-top: 20%;
     font-size: 290%;
     color: rgb(152, 152, 236);
+    background-color: transparent;
+    border-color: transparent;
 }
 
 .not_admin:hover {
@@ -132,6 +136,7 @@
     background-color: rgb(48, 57, 80);
     font-size: 250%;
     border-radius: 10px 10px 10px 10px;
+    border-color: transparent;
 }
 
 .channel_public:hover {
@@ -145,4 +150,48 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 50px;
+}
+/* 
+.joinChannelMsg {
+    display: flex;
+    background-color: brown;
+    height: 30%;
+    width: 70%;
+    justify-content: center;
+} */
+
+.joinChannelMsg {
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(7, 7, 7, 0.363);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.joinChannelMsg2 {
+    position: absolute;
+    display: flex;
+    background-color: rgb(78, 81, 99);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 35%;
+    margin-left: 20%;
+    width: 60%;
+    height: 15%;
+}
+
+.button_join_channel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+    margin-top: 2%;
+}
+
+.admin_access {
+    display: flex;
+    
 }

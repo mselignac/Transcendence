@@ -19,6 +19,17 @@ export class ChatService {
 
     server: Server;
 
+
+
+
+////////////////////////
+// select: {          //
+//   channels: true   //
+////////////////////////
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                      CHAT/MP                                         //
@@ -38,9 +49,9 @@ export class ChatService {
       let data: userDto = dto as ObjectKey
       // let data: RoomDto = dto as ObjectKey
 
-      console.log('iciiiiiiiiiiiiiiiiiii')
-      console.log(data)
-      console.log('iciiiiiiiiiiiiiiiiiii2')
+      // console.log('iciiiiiiiiiiiiiiiiiii')
+      // console.log(data)
+      // console.log('iciiiiiiiiiiiiiiiiiii2')
       let user = await this.prisma.user.findUnique({
         where: {
           login: data.login
@@ -280,6 +291,34 @@ export class ChatService {
       return room;
     }
 
+    async removeUser(dto: object) {
+
+      type ObjectKey = keyof typeof dto;
+
+      let data: RoomDto = dto as ObjectKey
+
+      console.log(data)
+      const { users } = await this.prisma.roomChannel.findUnique({
+        where: {
+          name: data.name
+        },
+        select: {
+          users: true
+        },
+        });
+
+        await this.prisma.roomChannel.update({
+        where: {
+          name: data.name
+        },
+        data: {
+          users: {
+          set: users.filter((id) => id !== data.user_one),
+          },
+        },
+      });
+    }
+
     async addMsgChannel(dto: object) {
 
       type ObjectKey = keyof typeof dto;
@@ -327,9 +366,16 @@ export class ChatService {
       let channels = await this.prisma.roomChannel.findMany({
         where: {
           private: false
-        }
+        },
+        // select: {
+        //   name: true
+        // }
       })
 
       return channels
     }
+
+    // async getChannel() {
+    //   let channel = await this.prisma.
+    // }
 }
