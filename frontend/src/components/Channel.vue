@@ -34,10 +34,15 @@ export default {
             msg: [] as message_type[],
             my_username: '',
             room: room,
+            block: false
         }
     },
     methods: {
       check_username(username: string) {
+        // await accountService.isBlocked({ name: this.my_username, user_one: username })
+        // .then(res => {
+        //     this.block = res.data
+        // })
         return (username == this.my_username)
       },
       check_invite(text: string) {
@@ -73,6 +78,27 @@ export default {
       },
       validateInput(text: string) {
           return text.length > 0
+      },
+      async isBlocked(user) {
+        console.log(user)
+        console.log(this.my_username)
+        await accountService.isBlocked({ name: this.my_username, user_one: user })
+        .then(res => {
+            console.log
+            this.block = res.data
+        })
+        console.log(this.block)
+        if (this.block == false)
+        {
+            console.log('iciiii')
+            return (true)
+        }
+        else {
+            console.log('laaaaaa') 
+            return (false)
+        }
+        // return (res.data)
+        // return (res.data)
       }
     },
     async created() {
@@ -117,9 +143,6 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
-                    <!-- <form @submit.prevent="send_msg_test" className="type_msg_test">
-                        <input className="type_msg_test" v-model="text_test" placeholder='name'>
-                    </form> -->
                 </div>
             </div>
             <div className="chat_msg_div">
@@ -128,7 +151,7 @@ export default {
                         <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
                         <h4 v-else>{{ chat.text }}</h4>
                     </div>
-                    <div v-else className="msg_user_test">
+                    <div v-else-if="isBlocked(chat.username)" className="msg_user_test">
                         <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
                         <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
                         <p className="username_msg">{{ chat.username }}</p>

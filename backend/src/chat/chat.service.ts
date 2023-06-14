@@ -47,15 +47,10 @@ export class ChatService {
       type ObjectKey = keyof typeof dto;
 
       let data: userDto = dto as ObjectKey
-      // let data: RoomDto = dto as ObjectKey
 
-      // console.log('iciiiiiiiiiiiiiiiiiii')
-      // console.log(data)
-      // console.log('iciiiiiiiiiiiiiiiiiii2')
       let user = await this.prisma.user.findUnique({
         where: {
           login: data.login
-          // login: data.name
         }
       })
       if (user)
@@ -367,15 +362,27 @@ export class ChatService {
         where: {
           private: false
         },
-        // select: {
-        //   name: true
-        // }
       })
 
       return channels
     }
 
-    // async getChannel() {
-    //   let channel = await this.prisma.
-    // }
+    async checkPassword(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: RoomChannelDto = dto as ObjectKey
+
+      let room = await this.prisma.roomChannel.findUnique({
+        where: {
+          name: data.name
+        }
+      })
+
+      if (room.password == data.users[0])
+        return (true)
+      else
+        return (false)
+
+    }
+
 }

@@ -5,27 +5,17 @@ import { accountService } from '@/_services';
 
 <script lang="ts">
 
-let id = 0;
-
-
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-//                  A CHANGER                   //
-//////////////////////////////////////////////////
-//////////////////////////////////////////////////
-
 
 export default {
     props: ['idchannel'],
     data() {
         return {
-            visibility: 'public',
+            visibility: '',
             password: '',
-            // admin: true,
             infos: '',
             owner: false,
-            admin: false,
-            me: ''
+            isAdmin: false,
+            me: '',
         }
     },
     methods: {
@@ -34,9 +24,53 @@ export default {
                 this.visibility = 'private'
             else
                 this.visibility = 'public'
+
+            let dto = { channel: this.idchannel }
+            accountService.visibility(dto)
+            .catch((res) => console.log(res))
         },
         change_password() {
+            let dto = { channel: this.idchannel, user: this.password }
+            accountService.password(dto)
+            .catch((res) => console.log(res))
             this.password = ''
+        },
+        async removePassword() {
+            let dto = { channel: this.idchannel }
+            await accountService.removePassword(dto)
+            .catch((res) => console.log(res))
+        },
+        async ban(user) {
+            let dto = { channel: this.idchannel, user: user }
+            await accountService.ban(dto)
+            .catch((res) => console.log(res))
+
+            dto = { name: this.idchannel, user_one: user }
+            await accountService.removeUser(dto)
+            .catch((res) => console.log(res))
+
+            dto = { name: user, user_one: this.idchannel }
+            await accountService.removeChannel(dto)
+            .catch((res) => console.log(res))
+        },
+        async remove(user) {
+            let dto = { name: this.idchannel, user_one: user }
+            await accountService.removeUser(dto)
+            .catch((res) => console.log(res))
+
+            dto = { name: user, user_one: this.idchannel }
+            await accountService.removeChannel(dto)
+            .catch((res) => console.log(res))
+        },
+        mute(user) {
+            let dto = { channel: this.idchannel, user: user }
+            accountService.mute(dto)
+            .catch((res) => console.log(res))
+        },
+        admin(user) {
+            let dto = { channel: this.idchannel, user: user }
+            accountService.admin(dto)
+            .catch((res) => console.log(res))
         }
     },
     async created() {
@@ -45,12 +79,16 @@ export default {
       .then((response) => {
         console.log(response.data.name)
         this.infos = response.data
+        if (this.infos.private == true)
+            this.visibility = 'private'
+        else
+            this.visibility = 'public'
       })
       accountService.usersMe()
       .then((res) => {
         this.me = res.data
         if (this.infos.admin.find(t => t === this.me.login))
-            this.admin = true
+            this.isAdmin = true
         if (this.infos.owner == this.me.login)
             this.owner = true
       })
@@ -63,49 +101,30 @@ export default {
       <div className="main_div">
         <div className="infos">
             <h1 className="channel_name_infos">{{ idchannel }}</h1>
-<!-- 
-            <div className="user_list_infos">
-                <li v-for="user in infos.users" :key="user.id">
-                    <RouterLink :to="'/profile-user/' + user" v-if="infos.admin.find(t => t === user)" className="admin">{{ user }}</RouterLink>
-                    <RouterLink :to="'/profile-user/' + user" v-else className="not_admin">{{ user }}</RouterLink>
-                </li>
-            </div> -->
-
 
             <div className="user_list_infos">
                 <li v-for="user in infos.users" :key="user.id">
                     <div className="admin_access">
-                        <button v-if="infos.admin.find(t => t === user)" className="admin">{{ user }}</button>
-                        <button v-else className="not_admin">{{ user }}</button>
-                        <button v-if="admin">ban</button>
-                        <button v-if="admin">remove</button>
-                        <button v-if="admin">sourdine</button>
-                        <button v-if="admin">admin</button>
+                        <RouterLink :to="'/profile-user/' + user" v-if="infos.admin.find(t => t === user)" className="admin">{{ user }}</RouterLink>
+                        <RouterLink :to="'/profile-user/' + user" v-else className="not_admin">{{ user }}</RouterLink>
+                        <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="ban(user)"><font-awesome-icon icon="fa-solid fa-user-xmark" /></button>
+                        <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="remove(user)"><font-awesome-icon icon="fa-solid fa-user-minus" /></button>
+                        <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="mute(user)"><font-awesome-icon icon="fa-solid fa-comment-slash" /></button>
+                        <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="admin(user)"><font-awesome-icon icon="fa-solid fa-user-tie" /></button>
                     </div>
                 </li>
             </div>
 
             <div className="private_public">
                 <button v-if="owner" @click="change_visibility">{{ visibility }}</button>
+                <button v-if="owner && infos.is_password" @click="removePassword()">Remove password</button>
                 <form v-if="owner" @submit.prevent="change_password">
                     <input v-model="password" placeholder='set password' :maxlength="9">
                 </form>
-                <h1 v-else>prive</h1>
+
+                <h1 v-else>{{ visibility }}</h1>
             </div>
         </div>
 
     </div>
   </template>
-
-
-
-
-
-<!-- this.jsp =  this.channels.find(t => t === this.newChannel) -->
-
-
-
-
-<!-- si t'es owner
-sinon si t'es admin
-sinon -->

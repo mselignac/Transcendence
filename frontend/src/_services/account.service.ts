@@ -27,6 +27,15 @@ let getUserId = (dto: object) => {
     return Axios.get('/chat/getuserid', { params: { dto }})
 }
 
+let block = (dto: object) => {
+    return Axios.post('users/block', dto)
+}
+
+let isBlocked = (dto: object) => {
+    return Axios.post('users/isblocked', dto)
+}
+
+
 
 
 ////////////////////////////////////////////////////////
@@ -95,9 +104,9 @@ let removeUser = (dto: object) => {
     return Axios.post('/chat/removeuser', dto)
 }
 
-// let userChannels = (dto: object) => {
-//     return Axios.post('/users/user')
-// }
+let checkPassword = (dto: object) => {
+    return Axios.post('/chat/checkpassword', dto)
+}
 
 
 
@@ -144,6 +153,41 @@ let isLogged = () => {
 
 
 
+////////////////////////////////////////////////////////
+//                        ADMIN                       //
+////////////////////////////////////////////////////////
+let ban = (dto: object) => {
+    console.log('ban account service')
+    return Axios.post('/admin/ban', dto)
+}
+
+let admin = (dto: object) => {
+    return Axios.post('/admin/admin', dto)
+}
+
+let mute = (dto: object) => {
+    return Axios.post('/admin/mute', dto)
+}
+
+let remove = (dto: object) => {
+    return Axios.post('/admin/remove', dto)
+}
+
+let password = (dto: object) => {
+    return Axios.post('/admin/password', dto)
+}
+
+let removePassword = (dto: object) => {
+    return Axios.post('/admin/removepassword', dto)
+}
+
+let visibility = (dto: object) => {
+    return Axios.post('/admin/visibility', dto)
+}
+
+
+
+
 export const accountService = {
     login,
     logout,
@@ -170,5 +214,15 @@ export const accountService = {
     publicsChannels,
     sendFriendRequest,
     removeRequest,
-    removeUser
+    removeUser,
+    ban,
+    admin,
+    mute,
+    remove,
+    password,
+    visibility,
+    removePassword,
+    checkPassword,
+    block,
+    isBlocked
 }

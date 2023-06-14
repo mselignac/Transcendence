@@ -3,13 +3,6 @@ import router from '@/router';
 import Borders from './Borders.vue';
 import { accountService } from '@/_services';
 
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-//           PRENDRE TOUS LES CHANNELS PAS QUE DAMS USERME            //
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
 export default {
     data() {
         return {
@@ -17,7 +10,9 @@ export default {
             list: '',
             isInChannel: '',
             joinChannelMsg: false,
-            channel: ''
+            channel: '',
+            password: false,
+            check_password: ''
         };
     },
     components: { Borders },
@@ -35,16 +30,40 @@ export default {
         },
         yes() {
 
-            accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
-            let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
-            accountService.addChannel(dto)
+            if (this.channel.is_password == true)
+            {
+              console.log('password')
+              this.password = true
+            }
+            else {
 
-            this.joinChannelMsg = false
-            router.push('/channel/' + this.channel.name)
+                accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
+                let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
+                accountService.addChannel(dto)
+
+                this.joinChannelMsg = false
+                router.push('/channel/' + this.channel.name)
+            }
         },
         no() {
             this.joinChannelMsg = false
-        }
+        },
+        async checkPassword() {
+            let dto = { name: this.channel.name, users: [ this.check_password ] }
+            await accountService.checkPassword(dto)
+            .then((res) => this.check_password = res.data )
+            .catch((res) => console.log(res))
+
+            if (this.check_password == true) {
+                accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
+                let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
+                accountService.addChannel(dto)
+                router.push('/channel/' + this.channel.name)
+            }
+            this.check_password = ''
+            this.password = false
+        },
+
     },
     created() {
         accountService.usersMe()
@@ -68,7 +87,6 @@ export default {
         <h1 className="no_public_channel" v-if="!this.list.length">no public channel yet</h1>
         <h1 className="no_public_channel" v-else>publics channels:</h1>
         <li v-for="channel in this.list" className="list_channels">
-            <!-- <RouterLink :to="'/channel/' + channel" className="channel_public">{{ channel.name }}</RouterLink> -->
             <button @click="joinChannel(channel)" className="channel_public">{{ channel.name }}</button>
         </li>
         <div v-if="joinChannelMsg" className="joinChannelMsg">
@@ -78,5 +96,19 @@ export default {
                 <button @click="no()" className="button_join_channel">no</button>
             </div>
         </div>
+
+
+        <div v-if="password" className="joinChannelMsg">
+            <div className="joinChannelMsg2">
+                <h1>Password?</h1>
+                <form @submit.prevent="checkPassword" className="placeholder_search">
+                    <input v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
+                </form>
+
+            </div>
+        </div>
+
+
+
     </div>
 </template>

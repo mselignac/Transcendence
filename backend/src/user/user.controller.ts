@@ -69,4 +69,14 @@ export class UserController {
 	removeChannel(@Body() dto: object) {
 		return this.userService.removeChannel(dto) ;
 	}
+
+	@Post('block')
+	block(@Body() dto: object) {
+		return this.userService.block(dto)
+	}
+
+	@Post('isblocked')
+	isBlocked(@Body() dto: object) {
+		return this.userService.isBlocked(dto)
+	}
 }

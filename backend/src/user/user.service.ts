@@ -120,6 +120,38 @@ export class UserService {
 		  });
 	}
 
+	async block(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		await this.prisma.user.update({
+			where: {
+				login: data.name
+			},
+			data: {
+				blocked: {
+					push: data.user_one
+				}
+			}
+		})
+	}
+
+	async isBlocked(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		let blocked = await this.prisma.user.findUnique({
+			where: {
+				login: data.name
+			},
+		})
+
+		if (blocked.blocked.find(t => t === data.user_one))
+			return true
+		else
+			return false
+	}
+
 	//Update user username
 	async editUsername(id: string, username: string) {
 		const user = await this.prisma.user.findUnique({

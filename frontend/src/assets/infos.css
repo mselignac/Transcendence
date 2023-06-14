@@ -22,6 +22,7 @@
     justify-content: center;
     font-weight: bold;
     font-size: 300%;
+    color: rgb(201, 201, 201);
 }
 
 .user_list_infos {
@@ -46,31 +47,38 @@
 .admin {
     display: flex;
 
-    margin-top: 20%;
+    margin-top: 10%;
     font-size: 290%;
     color: rgb(164, 128, 187);
     background-color: transparent;
     border-color: transparent;
+    margin-right: 7%;
 }
 
 .admin:hover {
-    background-color: rgba(164, 128, 187, 0.493);
+    /* background-color: rgba(164, 128, 187, 0.493); */
+    background-color: transparent;
     border-radius: 15px 15px 15px 15px;
+    scale: 1.1;
+    /* font-weight: bold; */
 }
 
 .not_admin {
     display: flex;
 
-    margin-top: 20%;
+    margin-top: 10%;
     font-size: 290%;
     color: rgb(152, 152, 236);
     background-color: transparent;
     border-color: transparent;
+    margin-right: 7%;
 }
 
 .not_admin:hover {
-    background-color: rgb(152, 152, 236, 0.493);
+    /* background-color: rgb(152, 152, 236, 0.493); */
+    background-color: transparent;
     border-radius: 15px 15px 15px 15px;
+    scale: 1.1;
 }
 
 .private_public {
@@ -194,4 +202,24 @@
 .admin_access {
     display: flex;
     
+}
+
+.button_admin {
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 15px 15px 15px 15px;
+    width: auto;
+    height: 40px;
+    margin-left: 2%;
+    margin-top: 15%;
+    font-size: 200%;
+    border-color: transparent;
+}
+
+.button_admin:hover {
+    scale: 1.1;
+    color: rgb(114, 114, 168);
 }

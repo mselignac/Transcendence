@@ -78,6 +78,10 @@ export class ChatController {
 		return this.chatService.removeUser(dto)
 	}
 
+	@Post('checkpassword')
+	checkPassword(@Body() dto: object) {
+		return this.chatService.checkPassword(dto)
+	}
 
 	// @Get('getuserid')
 	// getUserId(@Req() req)//, @Body() dto: userDto)
