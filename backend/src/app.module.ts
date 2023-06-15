@@ -8,12 +8,14 @@ import { PongController } from './pong/pong.controller';
 import { PongModule } from './pong/pong.module';
 import { PongGateway } from './pong.gateway';
 import { PongService } from './pong/pong.service';
-import { ChatGateway } from './chat.gateway';
+import { ChatGateway } from './chat/chat.gateway';
 import { JwtService } from '@nestjs/jwt';
+import { ChatModule } from './chat/chat.module';
+import { AdminModule } from './admin/admin.module';
 
 
 @Module({
-  imports: [PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule, 
+  imports: [AdminModule, ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule, 
     ConfigModule.forRoot({
       isGlobal: true,
     })],

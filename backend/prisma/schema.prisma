@@ -11,31 +11,70 @@ datasource db {
 }
 
 model User {
-  id        String    @id @unique @default(uuid())
-  createAt  DateTime  @default(now())
-  updateAT  DateTime  @default(now())
-  checkID String @unique
-  login       String  @unique
-  fullName    String
-  avatarUrl   String
-  firstName   String
-  lastName    String
-  email       String  @unique
-  phonenumber String?
-  country     String?
-  twofactor                     Boolean @default(false)
+  id                            String   @id @unique @default(uuid())
+  createAt                      DateTime @default(now())
+  updateAT                      DateTime @default(now())
+  checkID                       String   @unique
+  login                         String?   @unique
+  fullName                      String
+  avatarUrl                     String
+  firstName                     String
+  lastName                      String
+  email                         String   @unique
+  phonenumber                   String?
+  country                       String?
+  twofactor                     Boolean  @default(false)
   twoFactorAuthenticationSecret String
+
+  requests  String[]
+  channels String[]
+  friends  String[]
+  blocked   String[]
   // bookmarks Bookmark[]
   @@map("users")
 }
 
-// model Channels {
-//   id        Int       @id @default(autoincrement())
-//   createAt  DateTime  @default(now())
-//   updateAT  DateTime  @default(now())
+model Room {
+  id       String   @id @unique @default(uuid())
+  createAt DateTime @default(now())
+  updateAT DateTime @default(now())
 
-//   channels String[]
-// }
+  name     String   @unique
+  user_one String
+  user_two String
+  messages Message[]
+
+  @@map("maps")
+}
+
+model RoomChannel {
+  id       String   @id @unique @default(uuid())
+  createAt DateTime @default(now())
+  updateAT DateTime @default(now())
+
+  name     String    @unique
+  users    String[]
+  admin     String[]
+  owner     String?
+  users_ban String[]
+
+  private   Boolean @default(false)
+  is_password  Boolean @default(false)
+  password      String?
+  messages Message[]
+
+  @@map("channels")
+}
+
+model Message {
+  id            Int          @id @default(autoincrement())
+  text          String
+  username      String
+  RoomChannel   RoomChannel? @relation(fields: [roomChannelId], references: [id])
+  roomChannelId String?
+  Room          Room?        @relation(fields: [roomId], references: [id])
+  roomId        String?
+}
 
 // model Game {
 //   id        Int       @id @default(autoincrement())
@@ -45,7 +84,7 @@ model User {
 //   player_one String
 //   player_two String
 //   score String
-  
+
 //   userId  String
 //   user User @relation(fields: [userId], references: [id])
 
@@ -64,5 +103,5 @@ model User {
 //   userId  Int
 //   user User @relation(fields: [userId], references: [id])
 
-  // @@map("bookmarks")
+// @@map("bookmarks")
 // }

@@ -1,11 +1,19 @@
-<script>
+<script lang="ts">
 import { accountService } from '@/_services'
+import { RoomChannelDto }  from '@/_services/room.channel.dto'
+import router from '@/router';
 
-let id = 0
+export type users_type = {
+  username: string
+}
 
 export default {
     data() {
+
+        let users: users_type = {username: ''}
+
         return {
+          users: users,
           test_friend: '',
           test_channel: '',
           search_user: '',
@@ -14,96 +22,247 @@ export default {
           friend: false,
           channel: false,
           channels_friends: true,
-          users: [],
           newFriend: '',
-          friends: [],
           newChannel: '',
-          channels: [],
+          friends: '',
+          channels: '',
           token: '',
-          connected: false
+          connected: false,
+          create_channel: false,
+          user_test: '',
+          my_username: '',
+          exist: '',
+          user_save: '',
+          channel_exist: '',
+          request: '',
+          jsp: '',
+          password: false,
+          check_password: ''
         }
     },
     methods: {
-      friend_menu(name) {
+      change_friend() {
+        this.friend = !this.friend
+      },
+
+      change_channel() {
+        this.channel = !this.channel
+      },
+
+      friend_menu(name: string) {
         this.friend = !this.friend,
         this.test_friend = name
-        console.log(this.test_friend)
       },
-      channel_menu(name) {
+
+      channel_menu(name: string) {
         this.test_channel = name
         this.channel = !this.channel
       },
+
       show_channels() {
         this.friend = false
         this.channels_friends = false
       },
+
       show_friends() {
         this.channel = false
         this.channels_friends = true
       },
-      addFriend() {
+
+      async addFriend() {
         if (this.validateInput(this.newFriend)) {
-          this.friends.push({ id: id++, text: this.newFriend }),
+
+          let user: object = { login: this.newFriend }
+          await accountService.findUser(user)
+            .then(res => { this.exist = res.data })
+            .catch(res => console.log(res))
+
+          if (this.exist && this.newFriend != this.my_username) {
+            let is_blocked = await accountService.isBlocked({ name: this.newFriend , user_one: this.my_username })
+            // console.log(is_blocked.data)
+            if (is_blocked == false) {
+              accountService.sendFriendRequest({ name: this.newFriend, user_one: this.my_username })
+                .catch(res => console.log(res))
+            }
+          }
           this.newFriend = ''
         }
       },
-      removeFriend(friends) {
+
+      removeFriend(friends: friend_type) {
+
+        let friend: object = { name: this.my_username, user_one: friends }
+        accountService.removeFriend(friend)
+          .catch(res => console.log(res))
+
+        let second_friend: object = { name: friends, user_one: this.my_username }
+        accountService.removeFriend(second_friend)
+          .catch(res => console.log(res))
+
         this.friend = false
         this.friends = this.friends.filter((t) => t !== friends)
       },
+
       addChannel() {
         if (this.validateInput(this.newChannel)) {
-          this.channels.push({ id: id++, text: this.newChannel }),
+          let dto: RoomChannelDto = { name: this.newChannel, users: [ this.my_username ] }
+          this.channels.push( this.newChannel )
+          accountService.createRoomChannel(dto)
+            .catch (res => console.log(res))
+          let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
+          accountService.addChannel(dtoo)
           this.newChannel = ''
+          this.create_channel = false
         }
       },
-      removeChannel(channels) {
+
+      removeChannel(channels: friend_type) {
+          let channel: object = { name: this.my_username, user_one: channels }
+          accountService.removeChannel(channel)
+          let dto: object = { name: channels, user_one: this.my_username }
+          accountService.removeUser(dto)
           this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
-      search_users() {
+
+      async search_users() {
         if (this.validateInput(this.search_user)) {
-          if (this.search_user === this.users.username) {
+
+          let find: object = { login: this.search_user }
+          console.log(find)
+          await accountService.findUser(find)
+            .then(res => { this.exist = res.data })
+
+          if (this.exist){
             this.user_exist = true,
-          this.user_not_exist = false }
+            this.user_not_exist = false
+            this.user_save = this.search_user
+          }
           else {
-              this.user_exist = false,
-              this.user_not_exist = true }
-          this.search_user = ''
+            this.user_exist = false,
+            this.user_not_exist = true
+          }
         }
+        this.search_user = ''
       },
-      validateInput(text) {
+
+      create_channel_close() {
+        this.create_channel = false,
+        this.newChannel = ''
+      },
+
+      async createChannel() {
+        await accountService.findRoomChannel({ name: this.newChannel })
+          .then(res => this.channel_exist = res.data )
+          .catch(res => console.log(res))
+          
+          this.jsp =  this.channels.find(t => t === this.newChannel)
+          if (this.channel_exist == '')
+            this.create_channel = true
+          else if (!this.jsp)
+          {
+            this.create_channel = false
+
+            if (this.channel_exist.is_password == true)
+            {
+              console.log('password')
+              this.password = true
+            }
+            else {
+              this.channels.push( this.newChannel )
+              accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
+              let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
+              accountService.addChannel(dtoo)
+              this.newChannel = ''
+            }
+          }
+          else {
+            this.newChannel = ''
+          }
+      },
+
+      async checkPassword() {
+          let dto = { name: this.newChannel, users: [ this.check_password ] }
+          await accountService.checkPassword(dto)
+          .then((res) => this.check_password = res.data )
+          .catch((res) => console.log(res))
+
+          if (this.check_password == true) {
+            this.channels.push( this.newChannel )
+            accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
+            let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
+            accountService.addChannel(dtoo)
+          }
+          this.check_password = ''
+          this.newChannel = ''
+          this.password = false
+      },
+
+      validateInput(text: string) {
         return text.length > 0
       },
-    // mounted() {
-    //   console.log("salut");
-    //   accountService.usersMe()
-    //       .then(res => {
-    //         console.log(res)
-    //         // this.$router.push('/main-page')
-    //       })
-    //       .catch(err => console.log(err))
-    //     }
-    }
+
+      async go_to(route: string) {
+        await router.push('/chat/' + route)
+        router.go()
+      },
+
+      async go_to_channel(route: string) {
+        await router.push('/channel/' + route)
+        router.go()
+      },
+
+      async go_to_profile(route: string) {
+        await router.push('/profile-user/' + route)
+        router.go()
+      },
+
+      async block() {
+        accountService.block({ name: this.my_username, user_one: this.test_friend })
+        .catch((res) => console.log(res))
+
+        accountService.removeFriend({ name: this.my_username, user_one: this.test_friend })
+          .catch(res => console.log(res))
+
+        accountService.removeFriend({ name: this.test_friend, user_one: this.my_username })
+          .catch(res => console.log(res))
+
+        this.friend = false
+        this.friends = this.friends.filter((t) => t !== this.test_friend)
+      }
+
+    },
+    created() {
+      accountService.usersMe()
+      .then((response) => {
+        this.user_test = response.data
+        this.friends = response.data.friends
+        this.channels = response.data.channels
+        this.users = response.data
+        this.my_username = this.users.login
+        this.request = response.data.requests
+      })
+    },
 }
 </script>
 
 <template>
   <div className="friend_menu" v-if="friend">
-    <RouterLink :to="'/profile-user/' + this.test_friend.text" className="elements_menu" v-if="friend">Profile</RouterLink>
-    <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(this.test_friend)">Remove to friend</button>
-    <RouterLink :to="'/chat/' + this.test_friend.text" className="elements_menu" v-if="friend">Send a message</RouterLink>
-    <button className="elements_menu" v-if="friend">Watch the game</button>
-    <button className="elements_menu" v-if="friend">Invite to channel ></button>
-    <button className="elements_menu" v-if="friend">Block</button>
-    <button className="close_menu" v-if="friend" @click="friend_menu">close</button>
+    <RouterLink :to="'/profile-user/' + test_friend" className="elements_menu" @click="go_to_profile(test_friend)" v-if="friend">Profile</RouterLink>
+    <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(test_friend)">Remove to friend</button>
+    <RouterLink :to="'/chat/' + test_friend" className="elements_menu" @click="go_to(test_friend)" v-if="friend">Chat</RouterLink>
+    <!-- <button className="elements_menu" v-if="friend" @click="go_to(test_friend)">Chat</button> -->
+    <!-- <button className="elements_menu" v-if="friend">Watch the game</button>
+    <button className="elements_menu" v-if="friend">Invite to channel ></button> -->
+    <button className="elements_menu" v-if="friend" @click="block">Block</button>
+    <button className="close_menu" v-if="friend" @click="change_friend">close</button>
   </div>
 
   <div className="channel_menu" v-if="channel">
-    <RouterLink :to="'/chat/' + this.test_channel.text" className="elements_menu" v-if="channel">Chat</RouterLink>
-    <button className="elements_menu" v-if="channel" @click=removeChannel(this.test_channel)>Quit</button>
-    <RouterLink :to="'/infos/' + this.test_channel.text" className="elements_menu" v-if="channel">Infos</RouterLink>
-    <button className="close_menu" v-if="channel" @click="channel_menu">close</button>
+    <RouterLink :to="'/channel/' + test_channel" className="elements_menu" @click="go_to_channel(test_channel)" v-if="channel">Chat</RouterLink>
+    <button className="elements_menu" v-if="channel" @click=removeChannel(test_channel)>Quit</button>
+    <RouterLink :to="'/infos/' + test_channel" className="elements_menu" v-if="channel">Infos</RouterLink>
+    <button className="close_menu" v-if="channel" @click="change_channel">close</button>
   </div>
 
   <div className="borders_div">
@@ -111,7 +270,9 @@ export default {
     <div className="borders_right">
       <div className="border_right_top">
         <div className="border_right_top_left">
-          <h1 className="routers_profile">{{ users.email }}</h1>
+          <!-- <h1 className="routers_profile">{{ users.email }}</h1> -->
+          <!-- <h1 className="routers_profile">{{ users.username }}</h1> -->
+          <h1 className="routers_profile">{{ this.my_username }}</h1>
         </div>
         <div className="border_right_top_right">
           <RouterLink to="/profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>
@@ -130,18 +291,39 @@ export default {
         </div>
         <div className="border_right_bottom_two">
           <form v-if="channels_friends" @submit.prevent="addFriend"  className="border_right_bottom_two">
-            <input className="placeholder_search_friends" v-model="newFriend" placeholder='add friends'>
+            <input className="placeholder_search_friends" pattern="[a-zA-Z]+" title="only letters accepted" v-model="newFriend" placeholder='add friends' :maxlength="9">
           </form>
-          <form v-else @submit.prevent="addChannel" className="border_right_bottom_two">
-            <input className="placeholder_search_friends" v-model="newChannel" placeholder='search channel'>
+          <form v-else @submit.prevent="createChannel" className="border_right_bottom_two">
+            <input className="placeholder_search_friends" pattern="[a-zA-Z]+" title="only letters accepted" v-model="newChannel" placeholder='search channel' :maxlength="9">
           </form>
+
+        <div v-if="create_channel" className="create_channel">
+          <h1>This channel doesn't exist</h1>
+          <h1>Do you want to create it?</h1>
+          <div className="yes_no">
+            <button @click="create_channel_close" className="button_no">no</button>
+            <button @click="addChannel" className="button_yes">yes</button>
+          </div>
+        </div>
+
+        <div v-if="password" className="create_channel">
+          <h1>Password?</h1>
+          <form @submit.prevent="checkPassword" className="placeholder_search">
+            <input className="placeholder_search" v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
+          </form>
+          <!-- <div className="yes_no">
+            <button @click="create_channel_close" className="button_no"></button>
+            <button @click="addChannel" className="button_yes">yes</button>
+          </div> -->
+        </div>
+
         </div>
         <div v-if="channels_friends" className="border_right_bottom_three">
           <ul>
             <h1 v-if="!friends.length" className="no_friends">you don't have any friends</h1>
             <h1 v-if="!friends.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-sad-tear" /></h1>
-            <li v-for="friend in friends" :key="friend.id" className="friends_usernames">
-              <button @click="friend_menu(friend)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.text }}</button>
+            <li v-for="friend in friends" className="friends_usernames">
+              <button @click="friend_menu(friend)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend }}</button>
               <h1 className="connected" v-if="connected"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
               <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
             </li>
@@ -151,9 +333,8 @@ export default {
           <ul>
             <h1 v-if="!channels.length" className="no_friends">you haven't joined channels</h1>
             <h1 v-if="!channels.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-grimace" /></h1>
-            <li v-for="channel in channels" :key="channel.id" className="friends_usernames">
-              <button @click="channel_menu(channel)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" />{{ channel.text }}</button>
-              <!-- <button @click="removeChannel(channel)">X</button> -->
+            <li v-for="channel in channels" className="friends_usernames">
+              <button @click="channel_menu(channel)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-users" />{{ channel }}</button>
             </li>
           </ul>
         </div>
@@ -170,12 +351,12 @@ export default {
 
         <div className="border_middle_top_right">
           <form @submit.prevent="search_users" className="placeholder_search">
-            <input className="placeholder_search" v-model="search_user" placeholder='search'>
+            <input className="placeholder_search" v-model="search_user" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='search' :maxlength="9">
           </form>
         </div>
       </div>
       <div className="border_middle_two">
-          <RouterLink to="/profile-user" v-if="user_exist" className="msg_user_exist">user</RouterLink>
+          <RouterLink :to="'/profile-user/' + user_save" v-if="user_exist" className="msg_user_exist">profile</RouterLink>
           <h1 v-if="user_not_exist" className="msg_error_search_user">user doesn't exist</h1>
       </div>
 
@@ -185,8 +366,14 @@ export default {
       <RouterLink to="/main-page" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-house" /></RouterLink>
       <RouterLink to="/game-mode" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gamepad" /></RouterLink>
       <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
-      <RouterLink :to="'/chat/' + 'jesaispasfautquejechange'" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
+      <RouterLink to="/list-channels" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
       <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
+      <RouterLink v-if="!request.length" to="/friend-request" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
+      <div v-else className="icons_border_left">
+        <RouterLink to="/friend-request" className="icons_border_left_request"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
+        <h1 className="request_icon"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
+      </div>
+
     </div>
 
   </div>

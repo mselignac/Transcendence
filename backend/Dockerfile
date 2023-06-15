@@ -11,6 +11,6 @@ COPY . .
 
 RUN npx prisma generate
 
-EXPOSE 3000
+EXPOSE ${BACKEND_PORT}
 
 CMD [ "yarn", "run", "start:migrate:dev"]

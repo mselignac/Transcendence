@@ -28,3 +28,6 @@ library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUs
 
 const app = createApp(App).use(router, VueAxios, axios, unoverlay)
 .component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+// app.config.globalProperties.axios=axios
+// app.component('font-awesome-icon', FontAwesomeIcon)
+// app.mount('#app')

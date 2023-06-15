@@ -11,15 +11,11 @@ export class AuthService {
         checkID: details.id,
       },
     });
-    if (user) return { ...user, firstLogin: false };
-    const checkUserName = await this.prisma.user.findUnique({
-      where: {
-        login: details.username,
-      },
-    });
+    if (user) return user;
+
     let data = {
       checkID: details.id,
-      login: details.username,
+      login: details.login,
       fullName: details.displayName,
       firstName: details.firstName,
       lastName: details.lastName,
@@ -27,16 +23,10 @@ export class AuthService {
       avatarUrl: details.avatarUrl,
       twoFactorAuthenticationSecret: '',
     };
-    if (checkUserName) {
-      data = {
-        ...data,
-        login: details.username + '_',
-      };
-    }
 
     const newUser = await this.prisma.user.create({
       data,
     });
-    return { ...newUser, firstLogin: true };
+    return newUser;
   }
 }
