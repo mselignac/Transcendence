@@ -14,6 +14,8 @@
     import $socket from '../plugin/socket';
     import * as PIXI from 'pixi.js';
     import {ref} from 'vue';
+    import Borders from './Borders.vue'
+    import axios from 'axios';
     import { io } from "socket.io-client";
 
     let socket = $socket;
@@ -26,7 +28,6 @@
     let rightReady = ref(false);
 
     // const socket = io("ws://localhost:3001");
-
     export default {
         watch: {
             boardexist: function (newVal, oldVal) {
@@ -36,12 +37,10 @@
             },
         },
         name: 'Pong',
+        props: ['id'],
         data() {
             return {
-                position: {
-                    x: 0,
-                    y: 0
-                },
+                username: this.id,
                 active: true,
             }
         },
@@ -77,7 +76,7 @@
             });},
 
             playRequest() {
-                socket.emit("playRequest", {username: actualUsername.value});
+                socket.emit("playRequest", {username: this.username});
             },
 
             play() {
@@ -87,7 +86,8 @@
 
             confirmUsername() {
                 console.log("Here : ", this.newUsername);
-                actualUsername.value = this.newUsername;
+                this.username = this.newUsername;
+                // actualUsername.value = this.newUsername;
             },
 
             Game() {

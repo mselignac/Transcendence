@@ -35,7 +35,7 @@ const router = createRouter({
     { path: '/achievements', component: Achievements },
     { path: '/infos/:id', component: Infos , props: true},
     { path: '/:pathMatch(.*)*', component: NotFound },
-    { path: '/pong', component: Pong },
+    { path: '/pong/:id', component: Pong , props: true},
   ]
 })
 
