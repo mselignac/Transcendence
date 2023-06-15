@@ -2,10 +2,21 @@
 import { accountService } from '@/_services'
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
 import router from '@/router';
+import io from "socket.io-client"
 
 export type users_type = {
   username: string
 }
+
+const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
+// let $socket = io(`ws://${host}:${port}/user`,
+//   { 
+//       transports: ["websocket"],
+//       forceNew: true,
+//       upgrade: false,
+//   }
+//   );
+
 
 export default {
     data() {
@@ -37,7 +48,8 @@ export default {
           request: '',
           jsp: '',
           password: false,
-          check_password: ''
+          check_password: '',
+          friends_online: ''
         }
     },
     methods: {
@@ -80,7 +92,7 @@ export default {
           if (this.exist && this.newFriend != this.my_username) {
             let is_blocked = await accountService.isBlocked({ name: this.newFriend , user_one: this.my_username })
             // console.log(is_blocked.data)
-            if (is_blocked == false) {
+            if (is_blocked.data == false) {
               accountService.sendFriendRequest({ name: this.newFriend, user_one: this.my_username })
                 .catch(res => console.log(res))
             }
@@ -129,7 +141,7 @@ export default {
         if (this.validateInput(this.search_user)) {
 
           let find: object = { login: this.search_user }
-          console.log(find)
+          // console.log(find)
           await accountService.findUser(find)
             .then(res => { this.exist = res.data })
 
@@ -165,7 +177,7 @@ export default {
 
             if (this.channel_exist.is_password == true)
             {
-              console.log('password')
+              // console.log('password')
               this.password = true
             }
             else {
@@ -218,22 +230,29 @@ export default {
       },
 
       async block() {
-        accountService.block({ name: this.my_username, user_one: this.test_friend })
+        await accountService.block({ name: this.my_username, user_one: this.test_friend })
         .catch((res) => console.log(res))
 
-        accountService.removeFriend({ name: this.my_username, user_one: this.test_friend })
+        await accountService.removeFriend({ name: this.my_username, user_one: this.test_friend })
           .catch(res => console.log(res))
 
-        accountService.removeFriend({ name: this.test_friend, user_one: this.my_username })
+        await accountService.removeFriend({ name: this.test_friend, user_one: this.my_username })
           .catch(res => console.log(res))
 
         this.friend = false
         this.friends = this.friends.filter((t) => t !== this.test_friend)
+      },
+
+      async isConnected(friend)
+      {
+        await accountService.isConnected({ name: friend })
+        .then(res => { this.connected = res.data })
+        return (true)
       }
 
     },
-    created() {
-      accountService.usersMe()
+    async created() {
+      await accountService.usersMe()
       .then((response) => {
         this.user_test = response.data
         this.friends = response.data.friends
@@ -241,6 +260,24 @@ export default {
         this.users = response.data
         this.my_username = this.users.login
         this.request = response.data.requests
+      })
+
+      if (this.my_username) {
+        await accountService.friendsOnline({ login: this.my_username })
+        .then(res => { this.friends_online = res.data })
+      }
+
+      let $socket = io(`ws://${host}:${port}/user`, { 
+          transports: ["websocket"],
+          forceNew: true,
+          upgrade: false,
+      });
+
+      $socket.auth = { name: this.user_test.id }
+      
+      $socket.on('connection', () => {
+          accountService.friendsOnline({ login: this.my_username })
+          .then(res => { this.friends_online = res.data })
       })
     },
 }
@@ -270,8 +307,6 @@ export default {
     <div className="borders_right">
       <div className="border_right_top">
         <div className="border_right_top_left">
-          <!-- <h1 className="routers_profile">{{ users.email }}</h1> -->
-          <!-- <h1 className="routers_profile">{{ users.username }}</h1> -->
           <h1 className="routers_profile">{{ this.my_username }}</h1>
         </div>
         <div className="border_right_top_right">
@@ -322,11 +357,19 @@ export default {
           <ul>
             <h1 v-if="!friends.length" className="no_friends">you don't have any friends</h1>
             <h1 v-if="!friends.length" className="no_friends"><font-awesome-icon icon="fa-regular fa-face-sad-tear" /></h1>
-            <li v-for="friend in friends" className="friends_usernames">
+            <!-- <li v-for="friend in friends" className="friends_usernames">
               <button @click="friend_menu(friend)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend }}</button>
-              <h1 className="connected" v-if="connected"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
+              <h1 className="connected" v-if="isConnected(friend) && connected"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
+              <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
+            </li> -->
+            
+            <li v-for="friend in friends_online" className="friends_usernames">
+              <button @click="friend_menu(friend.login)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.login }}</button>
+              <h1 className="connected" v-if="friend.online"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
               <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
             </li>
+
+
           </ul>
         </div>
         <div v-else className="border_right_bottom_three">
@@ -367,12 +410,12 @@ export default {
       <RouterLink to="/game-mode" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gamepad" /></RouterLink>
       <RouterLink to="/stats" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-chart-simple" /></RouterLink>
       <RouterLink to="/list-channels" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-comment" /></RouterLink>
-      <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
       <RouterLink v-if="!request.length" to="/friend-request" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
       <div v-else className="icons_border_left">
         <RouterLink to="/friend-request" className="icons_border_left_request"><font-awesome-icon icon="fa-solid fa-user-plus" /></RouterLink>
         <h1 className="request_icon"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
       </div>
+      <RouterLink to="/profile" className="icons_border_left"><font-awesome-icon icon="fa-solid fa-gear" /></RouterLink>
 
     </div>
 

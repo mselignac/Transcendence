@@ -77,7 +77,6 @@ export default {
       let dto: RoomChannelDto = { name: this.idchannel }
       await accountService.findRoomChannel(dto)
       .then((response) => {
-        console.log(response.data.name)
         this.infos = response.data
         if (this.infos.private == true)
             this.visibility = 'private'

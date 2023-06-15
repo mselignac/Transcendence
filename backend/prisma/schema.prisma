@@ -26,6 +26,8 @@ model User {
   twofactor                     Boolean  @default(false)
   twoFactorAuthenticationSecret String
 
+  online                        Boolean @default(true)
+
   requests  String[]
   channels String[]
   friends  String[]
@@ -75,6 +77,7 @@ model Message {
   Room          Room?        @relation(fields: [roomId], references: [id])
   roomId        String?
 }
+
 
 // model Game {
 //   id        Int       @id @default(autoincrement())

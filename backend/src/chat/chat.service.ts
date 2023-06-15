@@ -62,7 +62,6 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
-      console.log(data)
       let room = await this.prisma.room.findMany({
         where: {
           user_two: {
@@ -292,7 +291,6 @@ export class ChatService {
 
       let data: RoomDto = dto as ObjectKey
 
-      console.log(data)
       const { users } = await this.prisma.roomChannel.findUnique({
         where: {
           name: data.name

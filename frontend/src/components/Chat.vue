@@ -5,18 +5,22 @@ import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
 import { MessageDto } from '../_services/messages.dto'
 import router from '@/router';
+
 </script>
 
 <script lang="ts">
 
+const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
 let id = 0
-let $socket_chat = io('ws://localhost:3000/chat',
+let $socket_chat = io(`ws://${host}:${port}/chat`,
 { 
     transports: ["websocket"],
     forceNew: true,
     upgrade: false,
 }
 );
+
+// $socket_chat.handshake.auth = { id: this.me.id }
 
 export type message_type = {
     id: number,
@@ -72,36 +76,23 @@ export default {
     },
     async created() {
         await accountService.usersMe()
-            .then((response) => { 
-                this.my_username = response.data.login
-                this.me = response.data })
-
-        // let user: object = { login: this.idchat }
-        // await accountService.findUser(user)
-        //     .then(res => this.user = res.data)
-        //     .catch(res => console.log(res))
-        console.log(this.me.id)
+        .then((response) => { 
+            this.my_username = response.data.login
+            this.me = response.data 
+        })
         let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
-        accountService.findRoom(dto) 
+        await accountService.findRoom(dto) 
             .then(res => {
-                console.log(res)
                 this.room = res.data[0].name
 
                 accountService.getMsg(this.room) 
-                    .then(res => {
-                        this.msg = res.data
-                    })
+                    .then(res => { this.msg = res.data })
                     .catch(err => console.log(err))
 
-                    $socket_chat.on('msgToClient', (message: message_type) => {
-                    console.log('create')
-                    this.receivedMessage(message)
-                })
+                $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
                 $socket_chat.emit('joinRoomChat', this.room)
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => { console.log(err) })
     },
 }
 </script>
@@ -114,7 +105,6 @@ export default {
                 <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
                 </div>
-                <!-- <h1 className="chat_name">{{ this.id }}</h1> -->
                 <RouterLink :to="'/profile-user/' + idchat" className="chat_name">{{ idchat }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
@@ -125,9 +115,6 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
-                    <!-- <form @submit.prevent="send_msg_test" className="type_msg_test">
-                        <input className="type_msg_test" v-model="text_test" placeholder='name'>
-                    </form> -->
                 </div>
             </div>
             <div className="chat_msg_div">

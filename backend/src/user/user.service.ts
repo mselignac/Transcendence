@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { EditUserDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { RoomChannelDto, RoomDto } from 'src/chat';
+import { RoomChannelDto, RoomDto, userDto } from 'src/chat';
 
 @Injectable()
 export class UserService {
@@ -98,7 +98,6 @@ export class UserService {
 
 		let data: RoomDto = dto as ObjectKey
 
-		console.log(data)
 		const { channels } = await this.prisma.user.findUnique({
 			where: {
 			  login: data.name
@@ -134,6 +133,51 @@ export class UserService {
 				}
 			}
 		})
+
+		const { requests } = await this.prisma.user.findUnique({
+			where: {
+				login: data.user_one
+			  },
+			  select: {
+				requests: true
+			  },
+			});
+  
+		await this.prisma.user.update({
+			where: {
+				login: data.user_one
+			},
+			data: {
+			requests: {
+				set: requests.filter((id) => id !== data.name),
+			},
+			},
+		});
+	}
+
+	async unblock(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		const { blocked } = await this.prisma.user.findUnique({
+			where: {
+				login: data.name
+			  },
+			  select: {
+				blocked: true
+			  },
+			});
+  
+		await this.prisma.user.update({
+			where: {
+				login: data.name
+			},
+			data: {
+			blocked: {
+				set: blocked.filter((id) => id !== data.user_one),
+			},
+			},
+		});
 	}
 
 	async isBlocked(dto: object) {
@@ -150,6 +194,91 @@ export class UserService {
 			return true
 		else
 			return false
+	}
+
+	async isRequest(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		let requests = await this.prisma.user.findUnique({
+			where: {
+				login: data.name
+			},
+		})
+
+		if (requests.requests.find(t => t === data.user_one))
+			return true
+		else
+			return false
+	}
+
+	async isConnected(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		let user = await this.prisma.user.findUnique({
+			where: {
+				login: data.name
+			},
+		})
+
+		// if (user.online)
+		// 	return true
+		// else
+		// 	return false
+		return (user.online)
+	}
+
+	async online(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		await this.prisma.user.update({
+			where: {
+				id: data.name
+			},
+			data: {
+				online: true
+			}
+		})
+
+	}
+
+	async offline(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: RoomDto = dto as ObjectKey
+		await this.prisma.user.update({
+			where: {
+				id: data.name
+			},
+			data: {
+				online: false
+			}
+		})
+
+	}
+
+	async friendsOnline(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: userDto = dto as ObjectKey
+		let users = await this.prisma.user.findMany({
+			where: {
+				// friends:  { in: data.login }
+				friends: {
+					hasEvery: [data.login],
+				  },
+			},
+			select: {
+			  login: !null,
+			  online: !null
+			},
+		})
+
+		return (users)
+
+
 	}
 
 	//Update user username

@@ -39,15 +39,13 @@ export default {
     },
     methods: {
       check_username(username: string) {
-        // await accountService.isBlocked({ name: this.my_username, user_one: username })
-        // .then(res => {
-        //     this.block = res.data
-        // })
         return (username == this.my_username)
       },
+
       check_invite(text: string) {
         return (text == 'invite')
       },
+
       async send_msg() {
         if (this.validateInput(this.text)) {
               const message = {
@@ -61,46 +59,25 @@ export default {
               this.text = ''
         }
       },
-    //   send_msg_test() {
-    //     if (this.validateInput(this.text_test)) {
-    //           this.my_username = this.text_test,
-    //           this.text_test = ''
-    //     }
-    //   },
+
       receivedMessage(message: message_type) {
           accountService.getMsgChannel(this.room) 
-            .then(res => {
-                this.msg = res.data
-            })
+            .then(res => { this.msg = res.data  })
             .catch(err => console.log (err))
 
-        //   this.msg.push(message)
       },
+
       validateInput(text: string) {
           return text.length > 0
       },
+
       async isBlocked(user) {
-        console.log(user)
-        console.log(this.my_username)
         await accountService.isBlocked({ name: this.my_username, user_one: user })
-        .then(res => {
-            console.log
-            this.block = res.data
-        })
-        console.log(this.block)
-        if (this.block == false)
-        {
-            console.log('iciiii')
-            return (true)
-        }
-        else {
-            console.log('laaaaaa') 
-            return (false)
-        }
-        // return (res.data)
-        // return (res.data)
+        .then(res => {  this.block = res.data })
+        return(true)
       }
     },
+
     async created() {
         await accountService.usersMe()
         .then((response) => { this.my_username = response.data.login })
@@ -110,14 +87,10 @@ export default {
                 this.room = res.data.name
 
                 accountService.getMsgChannel(this.room) 
-                    .then(res => {
-                        this.msg = res.data
-                    })
+                    .then(res => { this.msg = res.data })
                     .catch(err => console.log(err))
 
-                $socket_chat.on('msgToClient', (message: message_type) => {
-                    this.receivedMessage(message)
-                })
+                $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
                 $socket_chat.emit('joinRoomChat', this.room)
             })
             .catch(err => console.log(err))
@@ -151,9 +124,8 @@ export default {
                         <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
                         <h4 v-else>{{ chat.text }}</h4>
                     </div>
-                    <div v-else-if="isBlocked(chat.username)" className="msg_user_test">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
-                        <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
+                    <div v-else-if="isBlocked(chat.username) && !block" className="msg_user_test">
+                        <h4 className="msg_user_testt">{{ chat.text }}</h4>
                         <p className="username_msg">{{ chat.username }}</p>
                     </div>
                 </li>
@@ -161,5 +133,3 @@ export default {
         </div>
       </div>
   </template>
-
-

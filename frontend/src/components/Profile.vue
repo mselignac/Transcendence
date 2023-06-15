@@ -27,6 +27,7 @@ export default {
       logout() {
         Cookies.remove('jwt');
         accountService.logout();
+        // offline?
         router.push('/');
       },
     },

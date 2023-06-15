@@ -19,7 +19,6 @@ let updateUsername = (username: string) => {
 }
 
 let findUser = (dto: RoomDto) => {
-    console.log(dto)
     return Axios.get('/chat/finduser', { params: { dto }})
 }
 
@@ -31,11 +30,25 @@ let block = (dto: object) => {
     return Axios.post('users/block', dto)
 }
 
+let unblock = (dto: object) => {
+    return Axios.post('users/unblock', dto)
+}
+
 let isBlocked = (dto: object) => {
     return Axios.post('users/isblocked', dto)
 }
 
+let isRequest = (dto: object) => {
+    return Axios.post('users/isrequest', dto)
+}
 
+let isConnected = (dto: object) => {
+    return Axios.post('users/isconnected', dto)
+}
+
+let friendsOnline = (dto: object) => {
+    return Axios.post('users/friendsonline', dto)
+}
 
 
 ////////////////////////////////////////////////////////
@@ -100,7 +113,6 @@ let removeRequest = (dto: object) => {
 }
 
 let removeUser = (dto: object) => {
-    console.log('removeuser front')
     return Axios.post('/chat/removeuser', dto)
 }
 
@@ -157,7 +169,6 @@ let isLogged = () => {
 //                        ADMIN                       //
 ////////////////////////////////////////////////////////
 let ban = (dto: object) => {
-    console.log('ban account service')
     return Axios.post('/admin/ban', dto)
 }
 
@@ -224,5 +235,9 @@ export const accountService = {
     removePassword,
     checkPassword,
     block,
-    isBlocked
+    isBlocked,
+    unblock,
+    isRequest,
+    isConnected,
+    friendsOnline
 }

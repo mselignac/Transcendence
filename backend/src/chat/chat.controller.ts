@@ -53,7 +53,7 @@ export class ChatController {
 
 	@Get('finduser')
 	findUser(@Req() req) {
-		console.log(req.query.dto)
+		// console.log(req.query.dto)
 		return this.chatService.findUser(req.query.dto)
 	}
 
@@ -74,7 +74,7 @@ export class ChatController {
 
 	@Post('removeuser')
 	removeUser(@Body() dto: object) {
-		console.log('removeUser back')
+		// console.log('removeUser back')
 		return this.chatService.removeUser(dto)
 	}
 

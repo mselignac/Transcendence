@@ -25,9 +25,7 @@ export default {
     },
     async created() {
       await accountService.usersMe()
-        .then(res => {
-          this.login = res.data.login
-        })
+        .then(res => { this.login = res.data.login })
         .catch(res => console.log(res))
 
         if (!this.login)

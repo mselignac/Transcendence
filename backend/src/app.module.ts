@@ -12,6 +12,7 @@ import { ChatGateway } from './chat/chat.gateway';
 import { JwtService } from '@nestjs/jwt';
 import { ChatModule } from './chat/chat.module';
 import { AdminModule } from './admin/admin.module';
+import { UserGateway } from './user/user.gateway';
 
 
 @Module({
@@ -20,6 +21,6 @@ import { AdminModule } from './admin/admin.module';
       isGlobal: true,
     })],
   controllers: [PongController],
-  providers: [PongGateway, PongService, JwtService, ChatGateway]
+  providers: [PongGateway, PongService, JwtService, ChatGateway, UserGateway]
 })
 export class AppModule {}

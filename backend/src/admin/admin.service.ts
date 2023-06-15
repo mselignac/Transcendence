@@ -22,8 +22,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('BAN')
         await this.prisma.roomChannel.update({
 			where: {
 			  name: data.channel
@@ -41,8 +39,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('ADMIN')
         await this.prisma.roomChannel.update({
 			where: {
 			  name: data.channel
@@ -60,8 +56,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('MUTE')
 	}
 
     async remove(dto: object) {		
@@ -69,8 +63,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('REMOVE')
 	}
 
 	async password(dto: object) {		
@@ -78,8 +70,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('PASSWORD')
         await this.prisma.roomChannel.update({
 			where: {
 			  name: data.channel
@@ -96,8 +86,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('PASSWORD')
         await this.prisma.roomChannel.update({
 			where: {
 			  name: data.channel
@@ -114,8 +102,6 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-        console.log(data)
-        console.log('VISIBILITY')
         const value = await this.prisma.roomChannel.findUnique({
 			where: {
 			  name: data.channel

@@ -18,9 +18,7 @@ export default {
     components: { Borders },
     methods: {
         joinChannel(channel) {
-            console.log(channel)
             this.isInChannel = channel.users.find(t => t === this.me.login)
-            console.log(this.isInChannel)
             if (this.isInChannel)
                 router.push('/channel/' + channel.name)
             else {
@@ -28,15 +26,11 @@ export default {
                 this.channel = channel
             }
         },
+
         yes() {
-
             if (this.channel.is_password == true)
-            {
-              console.log('password')
               this.password = true
-            }
             else {
-
                 accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
                 let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
                 accountService.addChannel(dto)
@@ -45,9 +39,11 @@ export default {
                 router.push('/channel/' + this.channel.name)
             }
         },
+
         no() {
             this.joinChannelMsg = false
         },
+
         async checkPassword() {
             let dto = { name: this.channel.name, users: [ this.check_password ] }
             await accountService.checkPassword(dto)
@@ -67,16 +63,10 @@ export default {
     },
     created() {
         accountService.usersMe()
-            .then(res => {
-                this.me = res.data
-            })
+            .then(res => { this.me = res.data })
 
         accountService.publicsChannels()
-            .then(res => {
-                console.log(res.data)
-                this.list = res.data
-                console.log(this.list)
-            })
+            .then(res => { this.list = res.data })
     } 
 }
 </script>
