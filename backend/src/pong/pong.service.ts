@@ -34,7 +34,7 @@ export class PongService {
         leftPlayer: {
             x: this.board.width / 20,
             y: this.board.height / 2,
-            width: 20,
+            width: this.board.width / 19,
             height: PADDLE_SIZE,
             nickname: "",
             score: 0,
@@ -43,7 +43,7 @@ export class PongService {
         rightPlayer: {
             x: this.board.width - (this.board.width / 20),
             y: this.board.height / 2,
-            width: 20,
+            width: this.board.width / 19,
             height: PADDLE_SIZE,
             nickname: "",
             score: 0,
@@ -116,7 +116,7 @@ export class PongService {
         // console.log("server hbvzreghzzierhzibhzerbizhbzbzihrbzireiebvzirb", server);
         this.server = server;
         this.isPlaying = true;
-        this.calculateBounceAngle(this.dataChariot.leftPlayer);
+        this.calculateBounceAngle(this.dataChariot.leftPlayer, true);
         this.loop();
         // server.to("1").emit("data", this.dataChariot);
         // setTimeout(this.gamePlaying.bind(this), 10);
@@ -147,8 +147,13 @@ export class PongService {
 
     //Tests if two objects are colliding
     calculateCollision(object1, object2) {
-        let combinedHalfWidths, combinedHalfHeights, vx, vy;
+        if (object2.x < this.board.width / 2 && object1.vx > 0)
+            return false;
+        else if (object2.x > this.board.width / 2 && object1.vx < 0)
+            return false;
 
+        let combinedHalfWidths, combinedHalfHeights, vx, vy;
+        
         //Calculate the distance vector between the sprites
         vx = object1.x - object2.x;
         vy = object1.y - object2.y;
@@ -161,9 +166,11 @@ export class PongService {
             //A collision might be occuring. Check for a collision on the vert axis
             if (Math.abs(vy) < combinedHalfHeights) {
                 //There's definitely a collision happening
-                this.calculateBounceAngle(object2);
+                this.calculateBounceAngle(object2, false);
+                return true;
             }
         }
+        return false;
     }
 
 
@@ -176,24 +183,33 @@ export class PongService {
         }
     }
 
-    calculateBounceAngle(paddle) {
+    calculateBounceAngle(paddle, isStart) {
         let relativeIntersectY = paddle.y - this.dataChariot.ball.y;
     
         let normalizedRelativeIntersectionY = (relativeIntersectY / (PADDLE_SIZE / 2));
         let bounceAngle = normalizedRelativeIntersectionY * MAXBOUNCEANGLE;
         if (this.dataChariot.ball.vx > 0) {
             this.dataChariot.ball.vx = this.ballSpeed * -Math.cos(bounceAngle);
+            //adjust ball position
+            if (!isStart)
+                this.dataChariot.ball.x = this.dataChariot.rightPlayer.x - (this.dataChariot.rightPlayer.width / 3);
         } 
         else {
             this.dataChariot.ball.vx = this.ballSpeed * Math.cos(bounceAngle);
+            //adjust ball position
+            if (!isStart)
+                this.dataChariot.ball.x = this.dataChariot.leftPlayer.x + (this.dataChariot.leftPlayer.width / 3);
         }
         this.dataChariot.ball.vy = this.ballSpeed * -Math.sin(bounceAngle);
+        
         this.bounce++;
-        if (!(this.bounce % 4))
+        if (!(this.bounce % 1) && this.ballSpeed < 15)
             this.ballSpeed += 0.5;
     }
 
     checkIfScored() {
+        // let vball = {x: this.dataChariot.ball.x, y: this.dataChariot.ball.y, vx: this.dataChariot.ball.vx, vy: this.dataChariot.ball.vy, width: this.dataChariot.ball.width, height: this.dataChariot.ball.height};
+        // vball.x -= vball.vx / 2; 
         // console.log("Ball X: ", this.dataChariot.ball.x);
         // console.log("Left X: ", this.dataChariot.leftPlayer.x);
         // console.log("Right X: ", this.dataChariot.rightPlayer.x);
@@ -206,6 +222,8 @@ export class PongService {
             return true;
         } 
         else if (this.dataChariot.ball.x >= this.globalwidth - (this.globalwidth / 30)) {
+            // if (this.calculateCollision(vball, this.dataChariot.rightPlayer))
+            //     return false;
             this.dataChariot.rightPlayer.score++;
             this.bounce = 0;
             this.ballSpeed = 7;
