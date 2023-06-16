@@ -26,6 +26,27 @@
     /* background-color: rgba(75, 82, 104, 0.377); */
     /* background-color: red; */
     /* overflow: hidden; */
+    /* overflow: hidden; */
+    /* overflow-y: scroll; */
+}
+
+.scroll {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    /* height: 100vh; */
+    grid-template-rows: 1fr 60fr 1fr;
+    border-radius: 20px 20px 20px 20px;
+    /* background-color: rgba(75, 82, 104, 0.377); */
+    /* background-color: red; */
+    /* overflow: hidden; */
+    /* overflow: hidden; */
+    transform: rotate(180deg);
+    overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+    display: none;
 }
 
 .chat_top_test {
@@ -38,7 +59,7 @@
     align-items: center;
     color: rgb(31, 31, 31);
     border-bottom: 2px solid rgba(186, 189, 216, 0.897);
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .chat_bottom_test {
@@ -49,7 +70,7 @@
     align-items: center;
     /* background-color: rgba(37, 53, 107, 0.452); */
     background-color: rgba(20, 51, 153, 0.596);
-    overflow: hidden;
+    /* overflow: hidden; */
     /* background-color: blue; */
 }
 
@@ -61,7 +82,6 @@
 
 
 
-
     justify-content: flex-start;
 
 
@@ -69,9 +89,9 @@
 
 
     /* ca marche presque */
-    /* justify-content: flex-end; */
-    /* transform: rotate(180deg) */
-    /* flex-direction: column-reverse; */
+    justify-content: flex-end;
+    /* transform: rotate(180deg); */
+    flex-direction: column-reverse;
     
     
     
@@ -79,8 +99,14 @@
     /* align-items: flex-start; */
     /* grid-template-columns: 1fr 1fr 1fr; */
     /* justify-content: flex-end; */
-    overflow-y: scroll;
-    flex-direction: column;
+
+
+
+    /* overflow-y: scroll; */
+    
+    
+    
+    /* flex-direction: column; */
     /* transform: rotate(180deg); */
 
     /* background-color: blue; */
@@ -197,15 +223,15 @@
     /* background-color: rgb(78, 83, 94); */
     border-radius: 20px 20px 20px 0px;
     flex-direction: column;
-    margin-right: auto;
+    /* margin-right: auto; */
     color: rgba(255, 255, 255, 0.904);
 
 
 
 
     /* ca marche presque */
-    /* transform: rotate(180deg); */
-    /* margin-left: auto; */
+    transform: rotate(180deg);
+    margin-left: auto;
 
     /* background-color: red; */
 }
@@ -237,6 +263,7 @@
     /* justify-content: flex-start; */
     /* align-items: flex-end; */
     word-break: break-all;
+    /* overflow-y: scroll; */
     /* justify-self: flex-end; */
 }
 
@@ -253,7 +280,7 @@
     /* margin-right: 15px; */
     /* margin-left: 15px; */
     /* margin-left: auto; */
-    margin-left: auto;
+    /* margin-left: auto; */
     padding: 10px;
     /* padding-left: 150px; */
     background-color: rgb(26, 72, 172);
@@ -267,8 +294,13 @@
 
 
     /* ca marche presque */
-    /* transform: rotate(180deg); */
-    /* margin-right: auto; */
+    /* background-color: red; */
+    transform: rotate(180deg);
+    margin-right: auto;
+    /* justify-content: flex-start; */
+    /* align-self: flex-end; */
+    /* justify-self: flex-end; */
+    /* align-items: flex-start; */
 }
 
 .test_msg:hover {

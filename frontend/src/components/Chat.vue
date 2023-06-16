@@ -117,18 +117,20 @@ export default {
                     </form>
                 </div>
             </div>
-            <div className="chat_msg_div">
-                <li v-for="chat in msg" :key="chat.id" className="msg_form">
-                    <div v-if="check_username(chat.username)" className="test_msg">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
-                        <h4 v-else>{{ chat.text }}</h4>
-                    </div>
-                    <div v-else className="msg_user_test">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
-                        <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
-                        <p className="username_msg">{{ chat.username }}</p>
-                    </div>
-                </li>
+            <div className="scroll">
+                <div className="chat_msg_div">
+                    <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                        <div v-if="check_username(chat.username)" className="test_msg">
+                            <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
+                            <h4 v-else>{{ chat.text }}</h4>
+                        </div>
+                        <div v-else className="msg_user_test">
+                            <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
+                            <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
+                            <p className="username_msg">{{ chat.username }}</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </div>
       </div>
