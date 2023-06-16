@@ -10,6 +10,7 @@ import { RoomChannelDto } from './roomChannel.dto';
 import { PrismaService } from "../prisma/prisma.service";
 import { MessageDto } from './messages.dto';
 import { userDto } from './user.dto';
+import { AdminDto } from '../admin/admin.dto';
 
 let id = 0
 
@@ -381,6 +382,21 @@ export class ChatService {
       else
         return (false)
 
+    }
+
+    async isMute(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: AdminDto = dto as ObjectKey
+
+      let mute = await this.prisma.mute.findMany({
+        where: {
+          roomChannelId: data.channel,
+          user: data.user
+        },
+      })
+        console.log(mute)
+      return (mute)
     }
 
 }

@@ -21,11 +21,6 @@ export class AdminController {
 		return this.adminService.mute(dto)
 	}
 
-    @Post('remove')
-	remove(@Body() dto: object) {
-		return this.adminService.remove(dto)
-	}
-
 	@Post('password')
 	password(@Body() dto: object) {
 		return this.adminService.password(dto)

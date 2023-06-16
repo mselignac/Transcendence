@@ -120,6 +120,10 @@ let checkPassword = (dto: object) => {
     return Axios.post('/chat/checkpassword', dto)
 }
 
+let isMute = (dto: object) => {
+    return Axios.post('/chat/ismute', dto)
+}
+
 
 
 ////////////////////////////////////////////////////////
@@ -239,5 +243,6 @@ export const accountService = {
     unblock,
     isRequest,
     isConnected,
-    friendsOnline
+    friendsOnline,
+    isMute
 }

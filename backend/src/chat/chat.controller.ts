@@ -83,6 +83,11 @@ export class ChatController {
 		return this.chatService.checkPassword(dto)
 	}
 
+	@Post('ismute')
+	isMute(@Body() dto:object) {
+		return this.chatService.isMute(dto)
+	}
+
 	// @Get('getuserid')
 	// getUserId(@Req() req)//, @Body() dto: userDto)
 	// {

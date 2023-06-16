@@ -141,7 +141,6 @@ export default {
         if (this.validateInput(this.search_user)) {
 
           let find: object = { login: this.search_user }
-          // console.log(find)
           await accountService.findUser(find)
             .then(res => { this.exist = res.data })
 
@@ -176,10 +175,7 @@ export default {
             this.create_channel = false
 
             if (this.channel_exist.is_password == true)
-            {
-              // console.log('password')
               this.password = true
-            }
             else {
               this.channels.push( this.newChannel )
               accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
@@ -251,6 +247,7 @@ export default {
       }
 
     },
+
     async created() {
       await accountService.usersMe()
       .then((response) => {
@@ -265,20 +262,19 @@ export default {
       if (this.my_username) {
         await accountService.friendsOnline({ login: this.my_username })
         .then(res => { this.friends_online = res.data })
+        let $socket = io(`ws://${host}:${port}/user`, { 
+            transports: ["websocket"],
+            forceNew: true,
+            upgrade: false,
+        });
+        $socket.auth = { name: this.user_test.id }
+        
+        $socket.on('connection', () => {
+            accountService.friendsOnline({ login: this.my_username })
+            .then(res => { this.friends_online = res.data })
+        })
       }
 
-      let $socket = io(`ws://${host}:${port}/user`, { 
-          transports: ["websocket"],
-          forceNew: true,
-          upgrade: false,
-      });
-
-      $socket.auth = { name: this.user_test.id }
-      
-      $socket.on('connection', () => {
-          accountService.friendsOnline({ login: this.my_username })
-          .then(res => { this.friends_online = res.data })
-      })
     },
 }
 </script>

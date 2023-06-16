@@ -55,13 +55,41 @@ export class AdminService {
         type ObjectKey = keyof typeof dto;
 
 		let data: AdminDto = dto as ObjectKey
+		console.log(data)
+        let channel = await this.prisma.mute.findMany({
+			where: {
+				roomChannelId: data.channel,
+				user: data.user
+			},
+        })
 
-	}
-
-    async remove(dto: object) {		
-        type ObjectKey = keyof typeof dto;
-
-		let data: AdminDto = dto as ObjectKey
+		if (channel[0] === undefined) {
+			await this.prisma.roomChannel.update({
+				where: {
+					name: data.channel
+				},
+				data: {
+					mute: {
+					  create: [
+						{
+						  user: data.user,
+						  date: data.date
+						}
+					  ]
+					}
+				}
+			})
+		}
+		else {
+			await this.prisma.mute.update({
+				where: {
+					id: channel[0].id
+				},
+				data: {
+					date: data.date
+				}
+			})
+		}
 
 	}
 

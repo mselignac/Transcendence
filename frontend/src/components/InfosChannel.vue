@@ -63,10 +63,32 @@ export default {
             .catch((res) => console.log(res))
         },
         mute(user) {
-            let dto = { channel: this.idchannel, user: user }
+            let start = new Date();
+            console.log(start.getTime())
+            let time = start.getTime()
+            let dto = { channel: this.idchannel, user: user, date: time.toString() }
             accountService.mute(dto)
             .catch((res) => console.log(res))
         },
+
+        // isMute(user) {
+        //     let time = new Date();
+        //     console.log('time = ', time.getTime())
+        //     let dto = { channel: this.idchannel, user: user, date: time.getTime() }
+        //     accountService.isMute(dto)
+        //     .then(res => {
+        //         console.log(res)
+        //         if (res.data.length) {
+        //             let test = res.data[0].date
+        //             let sec = time - test
+        //             console.log('result = ', sec/1000)
+        //         }
+        //         else
+        //             console.log('PAS MUTE')
+        //     })
+        //     .catch((res) => console.log(res))
+        // },
+
         admin(user) {
             let dto = { channel: this.idchannel, user: user }
             accountService.admin(dto)
@@ -110,6 +132,10 @@ export default {
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="remove(user)"><font-awesome-icon icon="fa-solid fa-user-minus" /></button>
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="mute(user)"><font-awesome-icon icon="fa-solid fa-comment-slash" /></button>
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="admin(user)"><font-awesome-icon icon="fa-solid fa-user-tie" /></button>
+
+
+
+                        <!-- <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="isMute(user)"><font-awesome-icon icon="fa-solid fa-user-xmark" /></button> -->
                     </div>
                 </li>
             </div>

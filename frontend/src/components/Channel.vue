@@ -34,7 +34,8 @@ export default {
             msg: [] as message_type[],
             my_username: '',
             room: room,
-            block: false
+            block: false,
+            mute: false
         }
     },
     methods: {
@@ -46,6 +47,33 @@ export default {
         return (text == 'invite')
       },
 
+      async isMute() {
+            let time = new Date();
+            await accountService.isMute({ channel: this.idchannel, user: this.my_username })
+            .then(res => {
+                    console.log('res = ', res)
+                if (res.data.length) {
+                    let test = time - res.data[0].date
+                    let sec = test/1000
+                    console.log('sec = ', this.sec)
+                    if (sec > 20) {
+                        console.log('> 20')
+                        this.mute = false
+                    }
+                    else {
+                        console.log('< 20')
+                        this.mute = true
+                    }
+                }
+                else
+                {
+                    console.log('ca devrait etre bon')
+                    this.mute = false
+                }
+            })
+            .catch((res) => console.log(res))
+        },
+
       async send_msg() {
         if (this.validateInput(this.text)) {
               const message = {
@@ -53,9 +81,13 @@ export default {
                   text: this.text,
                   username: this.my_username,
               }
-              let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
-              await accountService.addMessageChannel(msg)
-              $socket_chat.emit('msgToServer', this.room, message)
+              await this.isMute()
+              if (this.mute == false) {
+                console.log('ca passe ici')
+                let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
+                await accountService.addMessageChannel(msg)
+                $socket_chat.emit('msgToServer', this.room, message)
+              }
               this.text = ''
         }
       },
