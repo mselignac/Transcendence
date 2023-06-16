@@ -55,7 +55,6 @@ export class AdminService {
         type ObjectKey = keyof typeof dto;
 
 		let data: AdminDto = dto as ObjectKey
-		console.log(data)
         let channel = await this.prisma.mute.findMany({
 			where: {
 				roomChannelId: data.channel,

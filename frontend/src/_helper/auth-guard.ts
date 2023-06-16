@@ -34,7 +34,6 @@ export function authGuard(){
 	accountService.saveToken(Cookies.get('jwt'));
     let token = localStorage.getItem('token')
 
-    console.log('authGuard')
     if(token != null && token != "undefined" && token != ""){
         return true
     }
@@ -44,7 +43,6 @@ export function authGuard(){
 export function authGuardTest(){
     let token = localStorage.getItem('token')
 
-    console.log('authGuardTest')
     if(token != null && token != "undefined" && token != ""){
         router.push('/main-page')
         return true

@@ -4,6 +4,7 @@ import { accountService } from '@/_services';
 import io from "socket.io-client"
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
 import { MessageDto } from '../_services/messages.dto'
+import router from '@/router';
 </script>
 
 <script lang="ts">
@@ -35,7 +36,8 @@ export default {
             my_username: '',
             room: room,
             block: false,
-            mute: false
+            mute: false,
+            infos: ''
         }
     },
     methods: {
@@ -51,25 +53,16 @@ export default {
             let time = new Date();
             await accountService.isMute({ channel: this.idchannel, user: this.my_username })
             .then(res => {
-                    console.log('res = ', res)
                 if (res.data.length) {
                     let test = time - res.data[0].date
                     let sec = test/1000
-                    console.log('sec = ', this.sec)
-                    if (sec > 20) {
-                        console.log('> 20')
+                    if (sec > 20)
                         this.mute = false
-                    }
-                    else {
-                        console.log('< 20')
+                    else
                         this.mute = true
-                    }
                 }
                 else
-                {
-                    console.log('ca devrait etre bon')
                     this.mute = false
-                }
             })
             .catch((res) => console.log(res))
         },
@@ -83,7 +76,6 @@ export default {
               }
               await this.isMute()
               if (this.mute == false) {
-                console.log('ca passe ici')
                 let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
                 await accountService.addMessageChannel(msg)
                 $socket_chat.emit('msgToServer', this.room, message)
@@ -114,18 +106,23 @@ export default {
         await accountService.usersMe()
         .then((response) => { this.my_username = response.data.login })
         let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
-        accountService.findRoomChannel(dto) 
-            .then(res => {
-                this.room = res.data.name
+        await accountService.findRoomChannel(dto) 
+        .then(res => {
+            this.room = res.data.name
+            this.infos = res.data
+        })
+        .catch(err => console.log(err))
 
-                accountService.getMsgChannel(this.room) 
-                    .then(res => { this.msg = res.data })
-                    .catch(err => console.log(err))
+        if (this.infos && this.infos.users.find(t => t === this.my_username)) {
+            accountService.getMsgChannel(this.room) 
+                .then(res => { this.msg = res.data })
+                .catch(err => console.log(err))
 
-                $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
-                $socket_chat.emit('joinRoomChat', this.room)
-            })
-            .catch(err => console.log(err))
+            $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
+            $socket_chat.emit('joinRoomChat', this.room)
+        }
+        else
+            router.push('/main-page')
     }
 }
 </script>

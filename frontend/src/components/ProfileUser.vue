@@ -16,7 +16,8 @@ export default {
             me: '',
             is_friend: false,
             is_blocked: false,
-            request: false
+            request: false,
+            exist: ''
         }
     },
     methods: {
@@ -63,24 +64,32 @@ export default {
         this.is_blocked = false
       }
     },
+
     async created() {
-      await accountService.usersMe()
-      .then((response) => {
-        this.me = response.data
-        if (this.me.login == this.username)
-          router.push('/profile')
-        if (response.data.friends.find(t => t === this.id))
-          this.is_friend = true
-        if (response.data.blocked.find(t => t === this.id))
-          this.is_blocked = true
+      await accountService.findUser({ login: this.id })
+      .then(res => { this.exist = res.data })
 
-      })
+      if (!this.exist)
+        router.push('/main-page')
+      else {
+        await accountService.usersMe()
+        .then((response) => {
+          this.me = response.data
+          if (this.me.login == this.username)
+            router.push('/profile')
+          if (response.data.friends.find(t => t === this.id))
+            this.is_friend = true
+          if (response.data.blocked.find(t => t === this.id))
+            this.is_blocked = true
 
-      await accountService.isRequest({ name: this.username, user_one: this.me.login })
-      .then(res => {
-        if (res.data == true)
-          this.request = true
-      })
+        })
+
+        await accountService.isRequest({ name: this.username, user_one: this.me.login })
+        .then(res => {
+          if (res.data == true)
+            this.request = true
+        })
+      }
     }
 }
 </script>

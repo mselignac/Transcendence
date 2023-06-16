@@ -20,8 +20,6 @@ let $socket_chat = io(`ws://${host}:${port}/chat`,
 }
 );
 
-// $socket_chat.handshake.auth = { id: this.me.id }
-
 export type message_type = {
     id: number,
     text: string,
@@ -80,19 +78,23 @@ export default {
             this.my_username = response.data.login
             this.me = response.data 
         })
-        let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
-        await accountService.findRoom(dto) 
-            .then(res => {
-                this.room = res.data[0].name
+        if (!this.me.friends.find(t => t === this.idchat))
+            router.push('/main-page')
+        else {
+            let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
+            await accountService.findRoom(dto) 
+                .then(res => {
+                    this.room = res.data[0].name
 
-                accountService.getMsg(this.room) 
-                    .then(res => { this.msg = res.data })
-                    .catch(err => console.log(err))
+                    accountService.getMsg(this.room) 
+                        .then(res => { this.msg = res.data })
+                        .catch(err => console.log(err))
 
-                $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
-                $socket_chat.emit('joinRoomChat', this.room)
-            })
-            .catch(err => { console.log(err) })
+                    $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
+                    $socket_chat.emit('joinRoomChat', this.room)
+                })
+                .catch(err => { console.log(err) })
+        }
     },
 }
 </script>

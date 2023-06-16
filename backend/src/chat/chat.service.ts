@@ -395,7 +395,6 @@ export class ChatService {
           user: data.user
         },
       })
-        console.log(mute)
       return (mute)
     }
 

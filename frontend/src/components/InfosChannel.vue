@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from '@/router';
 import Borders from './Borders.vue'
 import { accountService } from '@/_services';
 </script>
@@ -71,24 +72,6 @@ export default {
             .catch((res) => console.log(res))
         },
 
-        // isMute(user) {
-        //     let time = new Date();
-        //     console.log('time = ', time.getTime())
-        //     let dto = { channel: this.idchannel, user: user, date: time.getTime() }
-        //     accountService.isMute(dto)
-        //     .then(res => {
-        //         console.log(res)
-        //         if (res.data.length) {
-        //             let test = res.data[0].date
-        //             let sec = time - test
-        //             console.log('result = ', sec/1000)
-        //         }
-        //         else
-        //             console.log('PAS MUTE')
-        //     })
-        //     .catch((res) => console.log(res))
-        // },
-
         admin(user) {
             let dto = { channel: this.idchannel, user: user }
             accountService.admin(dto)
@@ -96,23 +79,25 @@ export default {
         }
     },
     async created() {
+      await accountService.usersMe()
+      .then((res) => { this.me = res.data })
+
       let dto: RoomChannelDto = { name: this.idchannel }
       await accountService.findRoomChannel(dto)
-      .then((response) => {
-        this.infos = response.data
+      .then((response) => { this.infos = response.data })
+
+      if (this.infos && this.infos.users.find(t => t === this.me.login)) {
         if (this.infos.private == true)
             this.visibility = 'private'
         else
             this.visibility = 'public'
-      })
-      accountService.usersMe()
-      .then((res) => {
-        this.me = res.data
         if (this.infos.admin.find(t => t === this.me.login))
             this.isAdmin = true
         if (this.infos.owner == this.me.login)
             this.owner = true
-      })
+      }
+      else
+        router.push('/main-page')
     }
 }
 </script>
@@ -132,10 +117,6 @@ export default {
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="remove(user)"><font-awesome-icon icon="fa-solid fa-user-minus" /></button>
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="mute(user)"><font-awesome-icon icon="fa-solid fa-comment-slash" /></button>
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="admin(user)"><font-awesome-icon icon="fa-solid fa-user-tie" /></button>
-
-
-
-                        <!-- <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="isMute(user)"><font-awesome-icon icon="fa-solid fa-user-xmark" /></button> -->
                     </div>
                 </li>
             </div>
