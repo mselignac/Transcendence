@@ -12,8 +12,13 @@
   /* background: linear-gradient(0deg, hsl(240, 3%, 7%),  hsl(260, 1%, 51%) 180%); */
   /* background-color: rgb(180, 180, 180); */
 
-  background-color: #272727;
+  /* background-color: #272727; */
+  background-image: url("./background25.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
+/* 17 25 */
 
 a,
 .green {

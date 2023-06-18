@@ -359,7 +359,8 @@ export default {
             </li> -->
             
             <li v-for="friend in friends_online" className="friends_usernames">
-              <button @click="friend_menu(friend.login)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.login }}</button>
+              <!-- <button @click="friend_menu(friend.login)" className="friends_usernames"><font-awesome-icon icon="fa-solid fa-user" />{{ friend.login }}</button> -->
+              <button @click="friend_menu(friend.login)" className="friends_usernames">{{ friend.login }}</button>
               <h1 className="connected" v-if="friend.online"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
               <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
             </li>

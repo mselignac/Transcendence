@@ -264,7 +264,8 @@
     align-items: flex-start;
     font-size: 350%;
     font-weight: bold;
-    color: rgb(27, 27, 27);
+    /* color: rgb(27, 27, 27); */
+    color: rgb(210, 201, 223);
 }
 
 .img_profile {

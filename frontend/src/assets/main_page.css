@@ -14,12 +14,19 @@
     display: flex;
     /* height: 85%; */
     height: 85vh;
-    background-color: rgba(54, 60, 68, 0.623);
+    /* background-color: rgba(54, 60, 68, 0.623); */
+    /* background-color: rgba(57, 40, 88, 0.589); */
+    /* background-color: rgba(134, 112, 71, 0.534); */
+    /* background-color: rgba(57, 40, 88, 0.39); */
+    /* background-color: rgba(31, 3, 83, 0.658); */
+    background-color: rgba(31, 3, 83, 0.781);
+    /* background: linear-gradient(0deg, transparent,  #272727 30%); */
     margin-top: 7%;
     margin-left: 10%;
     margin-right: 33%;
     /* margin-bottom: 5%; */
-    border-radius: 20px 20px 20px 20px;
+    /* border-radius: 20px 20px 20px 20px; */
+    border-radius: 10px 10px 10px 10px;
     /* overflow: hidden;
     overflow-y: scroll; */
     /* overflow-y: hidden; */
@@ -76,52 +83,73 @@
     display: flex;
     width: 50%;
     height: 35%;
-    border-radius: 20px 20px 20px 20px;
+    /* border-radius: 20px 20px 20px 20px; */
+    border-radius: 10px 10px 10px 10px;
     justify-content: center;
     align-items: center;
     font-size: 400%;
-    background-color: rgb(37, 53, 107);
-    color: rgb(150, 150, 150);
+    /* background-color: rgb(161, 140, 175); */
+    background-color: rgb(114, 98, 134);
+    /* background-color: rgb(37, 23, 87); */
+    color: rgb(221, 221, 221);
 }
 
 .main_page_chat {
     display: flex;
     width: 50%;
     height: 35%;
-    border-radius: 20px 20px 20px 20px;
+    /* border-radius: 20px 20px 20px 20px; */
+    border-radius: 10px 10px 10px 10px;
     justify-content: center;
     align-items: center;
     font-size: 400%;
-    background-color: rgb(37, 53, 107);
-    color: rgb(150, 150, 150);
+    /* background-color: rgb(37, 53, 107); */
+    /* background-color: rgb(37, 23, 87); */
+    /* background-color: rgb(161, 140, 175);
+    background-color: rgb(68, 32, 116); */
+    background-color: rgb(114, 98, 134);
+    /* color: rgb(150, 150, 150); */
+    color: rgb(221, 221, 221);
 }
 
 .main_page_play {
     display: flex;
     width: 50%;
     height: 60%;
-    border-radius: 20px 20px 20px 20px;
+    /* border-radius: 20px 20px 20px 20px; */
+    border-radius: 10px 10px 10px 10px;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 400%;
-    background-color: rgb(37, 53, 107);
-    color: rgb(150, 150, 150);
+    /* background-color: rgb(37, 53, 107); */
+    /* background-color: rgb(68, 32, 116); */
+    background-color: rgb(114, 98, 134);
+    /* color: rgb(150, 150, 150); */
+    color: rgb(221, 221, 221);
 }
 
 .main_page_play:hover {
     scale: 1.1;
-    background-color: rgb(37, 53, 107);
+    /* background-color: rgb(37, 53, 107); */
+    /* background-color: rgb(37, 23, 87); */
+    background-color: rgb(123, 89, 163);
 }
 
 .main_page_chat:hover {
     scale: 1.1;
-    background-color: rgb(37, 53, 107);
+    /* background-color: rgb(37, 53, 107); */
+    /* background-color: rgb(37, 23, 87); */
+    /* background-color: rgb(114, 98, 134); */
+    background-color: rgb(123, 89, 163);
 }
 
 .main_page_stats:hover {
     scale: 1.1;
-    background-color: rgb(37, 53, 107);
+    /* background-color: rgb(37, 53, 107); */
+    /* background-color: rgb(37, 23, 87); */
+    /* background-color: rgb(114, 98, 134); */
+    background-color: rgb(123, 89, 163);
 }
 
 
