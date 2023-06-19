@@ -263,7 +263,15 @@
 				// gameScene.x = PongApp.screen.width / 2;
 				// gameScene.y = PongApp.screen.height / 2;
 
-				window.addEventListener('resize', resize);
+				// window.addEventListener('resize', resize);
+                window.onresize = function (event) {    
+                    var w = window.innerWidth;
+                    var h = window.innerHeight;    //this part resizes the canvas but keeps ratio the same    
+                    PongApp.renderer.view.style.width = w + "px";    
+                    PongApp.renderer.view.style.height = h + "px";    
+                    //this part adjusts the ratio:    
+                    PongApp.renderer.resize(w,h);
+                }
 
 				function resize() {
    				// Récupérez les nouvelles dimensions de la div.

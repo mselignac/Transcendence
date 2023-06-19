@@ -100,10 +100,14 @@ export class PongService {
         this.updateBall();
         // console.log("vx, vy: ", this.dataChariot.ball.vx, this.dataChariot.ball.vy);
         if (this.dataChariot.leftPlayer.score == 10) {
+            
+            this.server.to(this.id.toString()).emit("data", this.dataChariot);
             this.server.to(this.id.toString()).emit("endGame", {winner: this.dataChariot.rightPlayer.nickname});
             setTimeout(this.endGame.bind(this), 5000);
         }
         else if (this.dataChariot.rightPlayer.score == 10) {
+            
+            this.server.to(this.id.toString()).emit("data", this.dataChariot);
             this.server.to(this.id.toString()).emit("endGame", {winner: this.dataChariot.leftPlayer.nickname});
             setTimeout(this.endGame.bind(this), 5000);
         }
