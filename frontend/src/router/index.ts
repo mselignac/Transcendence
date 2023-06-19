@@ -111,7 +111,7 @@ const router = createRouter({
     { path: '/list-channels', component: List },
     { path: '/channel/:idchannel', name: 'channel', component: Channel, props: true },
     { path: '/friend-request', component: FriendsRequests },
-    { path: '/play', component: GamePage},
+    { path: '/play/:room', component: GamePage, props: true,  name: 'play' },
   ]
 })
 

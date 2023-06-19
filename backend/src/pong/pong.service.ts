@@ -20,6 +20,7 @@ export class PongService {
     leftReady: boolean = false;
     rightReady: boolean = false;
     isPlaying: boolean = false;
+    side: boolean = false;
     readonly globalheight: number = 1000;
     readonly globalwidth: number = this.globalheight * 5 / 3;
     readonly board: {

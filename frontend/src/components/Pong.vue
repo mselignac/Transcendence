@@ -20,12 +20,9 @@
 	let leftReady = ref(false);
 	let rightReady = ref(false);
 	
-	// const socket = io("ws://localhost:3001");
 	export default {
 		watch: {
 			boardexist: function (newVal, oldVal) {
-			// watch it
-			//console.log("Prop changed: ", newVal, " | was: ", oldVal);
 			document.querySelector("#my-canvas-wrapper")?.remove();
 			},
 		},
@@ -36,6 +33,7 @@
 				active: true,
 			}
 		},
+		props: ['room'],
 
 		mounted() {
 
@@ -62,16 +60,16 @@
 			Game() {
 				// var canvas = document.getElementById('pong')
 				const PongApp = new PIXI.Application({
-					autoResize: true,
-					resolution: devicePixelRatio,
-					// width: window.innerWidth,
-					// height: window.innerHeight - 300,
+					// autoResize: true,
+					// resolution: devicePixelRatio,
+					width: window.innerWidth,
+					height: window.innerHeight - 300,
 					// resizeTo: window,
 					// view: canvas,
 					backgroundAlpha: 0,
 				});
 				this.$refs.pong_canvas.appendChild(PongApp.view);
-				resize();
+				// resize();
 				// document.body.appendChild(PongApp.view);
 				
 				const gameScene = new PIXI.Container();
@@ -356,7 +354,6 @@
 
 					leftUserText.text = data.leftUsername;
 					rightUserText.text = data.rightUsername;
-					tRoomId.value = data.roomId;
 
 					if (data.isLeft)
 						side.value = "left";
@@ -390,32 +387,35 @@
 					socket.emit("gameEnded", {id: tRoomId.value});
 				})
 				socket.on('reset', (data) => {
-					leftScoreText.destroy(true);
-					rightScoreText.destroy(true);
-					leftUserText.destroy(true);
-					rightUserText.destroy(true);
-					leftPaddle.destroy(true);
-					rightPaddle.destroy(true);
-					rightCheck.destroy(true);
-					rightCross.destroy(true);
-					leftCheck.destroy(true);
-					leftCross.destroy(true);
-					ballTex.destroy(true);
-					backImgTex.destroy(true);
-					PongApp.stage.destroy(true);
-					PongApp.destroy(true);
+					// leftScoreText.destroy(true);
+					// rightScoreText.destroy(true);
+					// leftUserText.destroy(true);
+					// rightUserText.destroy(true);
+					// leftPaddle.destroy(true);
+					// rightPaddle.destroy(true);
+					// rightCheck.destroy(true);
+					// rightCross.destroy(true);
+					// leftCheck.destroy(true);
+					// leftCross.destroy(true);
+					// ballTex.destroy(true);
+					// backImgTex.destroy(true);
+					// PongApp.stage.destroy(true);
+					// PongApp.destroy(true);
 
 					this.$router.push({ path: '/game-mode'});
 				})
 			},
 
 		},
-		// async created() {
-		// 	await accountService.usersMe()
-		// 	.then((response) => {
-		// 		actualUsername.value = response.data.login
-		// 	})
-		// },
+		async created() {
+			await accountService.usersMe()
+			.then((response) => {
+				actualUsername.value = response.data.login
+			})
+			tRoomId.value = this.room;
+			console.log("Room id afefwef", tRoomId.value);
+			socket.emit("requestInfo", {roomId: tRoomId.value, username: actualUsername.value})
+		},
 	}
 </script>
 

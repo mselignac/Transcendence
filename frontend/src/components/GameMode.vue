@@ -13,13 +13,7 @@ import router from '../router';
 let socket = $socket;
 let actualUsername = ref(false);
 let isWaiting = ref(false);
-let leftUsername = ref(false);
-let rightUsername = ref(false);
 let tRoomId = ref(null);
-let side = ref(false);
-let leftReady = ref(false);
-let rightReady = ref(false);
-
 
 export default {
 	methods: {
@@ -38,21 +32,15 @@ export default {
 	})
 },
 }
+
 /*
 RECEIVE MESSAGE FROM BACKEND
 */
 
 socket.on('roomAssigned', (data) => {
-	leftUsername.value = data.leftUsername;
-	rightUsername.value = data.rightUsername;
-
 	tRoomId.value = data.roomId;
-
-	if (data.isLeft)
-		side.value = "left";
-	else
-		side.value = "right";
-	router.push({ path: '/play'});
+	isWaiting.value = false;
+	router.push({ name: 'play', params: {room: tRoomId.value}});
 })
 
 </script>

@@ -10,10 +10,18 @@
 </script>
 
 <script lang="ts">
+    let tRoomId = ref(null);
+
     export default {
         components: {
             Pong
         },
+        props: ['room'],
+
+        // created() {
+        //     tRoomId.value = this.room;
+        //     console.log("Room id ", tRoomId.value);
+        // },
     };
 </script>
 
@@ -21,7 +29,7 @@
     <Borders/>
     <div className="main_div">
         <div className="pong_game">
-            <Pong/>
+            <Pong :room="this.room"/>
         </div>
     </div>
 </template>
