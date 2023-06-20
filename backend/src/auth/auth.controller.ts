@@ -29,23 +29,15 @@ export class AuthController {
   @UseGuards(FortyTwoGuard)
   @Get('42/redirect')
   async handlerRedirect(@Req() req: Request) {
-	  if (req.user['twofactor'] == true) {
-		//   const checkCookie = await this.userservice.signCheckToken(req.user['id']);
-		//   req.res.cookie('checkJwt', checkCookie, { path: '/', httpOnly: true });
-		//   req.res.redirect(this.config.get('route_qrcode'));
-		} else {
-			const cookie = await this.userservice.signToken(req.user['id']);
-			var expiryDate = new Date(Number(new Date()) + ((60 * 60000) * 24) * 15);
-			req.res.cookie('jwt', cookie, { expires: expiryDate, path: '/'});
-			req.res.redirect(this.config.get('route_frontend'));
-		}
-		return;
+	if (req.user['twofactor'] == true) {
+		const twoFaCookie = await this.userservice.sign2faToken(req.user['id']);
+		var expiryDate = new Date(Number(new Date()) + ((60 * 60000) * 24) * 15);
+		req.res.cookie('2fajwt', twoFaCookie,{ expires: expiryDate, path: '/'});
 	}
-
-	// // Route: "http://localhost:8080/auth/42/check" to check if the user is logged in
-	// @UseGuards(AuthGuard('jwt'))
-	// @Get('42/check')
-	// async handleCheck(@Req() req: Request) {
-	//   return req.user;
-	// }
+	const cookie = await this.userservice.signToken(req.user['id']);
+	var expiryDate = new Date(Number(new Date()) + ((60 * 60000) * 24) * 15);
+	req.res.cookie('jwt', cookie, { expires: expiryDate, path: '/'});
+	req.res.redirect(this.config.get('route_frontend'));
+	return;
+	}
 }

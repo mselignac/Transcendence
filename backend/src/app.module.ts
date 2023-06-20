@@ -11,10 +11,11 @@ import { PongService } from './pong/pong.service';
 import { ChatGateway } from './chat/chat.gateway';
 import { JwtService } from '@nestjs/jwt';
 import { ChatModule } from './chat/chat.module';
-
+import { twoFactorAuthentication } from './twoFactorAuth/twoFactorAuthentication.module';
 
 @Module({
-  imports: [ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule, 
+  imports: [ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule,
+    twoFactorAuthentication,
     ConfigModule.forRoot({
       isGlobal: true,
     })],
