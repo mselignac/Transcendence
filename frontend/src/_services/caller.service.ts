@@ -7,9 +7,12 @@ const Axios = axios.create({
     baseURL: `http://${host}:${port}`
 })
 
-Axios.interceptors.request.use(request => {
+const Axios2fa = axios.create({
+    baseURL: `http://${host}:${port}`
+})
 
-    let token = accountService.getToken()
+Axios2fa.interceptors.request.use(request => {
+    let token = accountService.getToken("2faToken")
 
     if (token) {
         request.headers.Authorization = 'Bearer ' + token
@@ -18,4 +21,15 @@ Axios.interceptors.request.use(request => {
     return request
 })
 
-export default Axios
+Axios.interceptors.request.use(request => {
+
+    let token = accountService.getToken("token")
+
+    if (token) {
+        request.headers.Authorization = 'Bearer ' + token
+    }
+
+    return request
+})
+
+export { Axios, Axios2fa }
