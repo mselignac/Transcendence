@@ -9,16 +9,14 @@ import Cookies from 'js-cookie';
 export default {
     data() {
         return {
-            msg: 'test log',
-            count: 0,
-            titleClass: 'title',
             popup: false,
             login: '',
             twofactor: false,
             popup2fa: false,
             msg: '',
-            token: accountService.getToken('2faToken'),
-            token2faOn: accountService.getToken('2faOn') ? true : false
+            // token: accountService.getToken('2faToken'),
+            // token2faOn: accountService.getToken('2faOn') ? true : false,
+            validate: localStorage.getItem('validate') ? true : false
         }
     },
 
@@ -30,10 +28,10 @@ export default {
       },
 
       async change_popup2fa() {
-        console.log(accountService.getToken('2faToken'))
         await accountService.authenticate(this.msg)
         .then(() => {
           this.popup2fa = !this.popup2fa,
+          localStorage.setItem('validate', 'true'),
           this.msg = ''
         })
         .catch(res => console.log(res))
@@ -51,7 +49,13 @@ export default {
         if (!this.login)
           this.popup = true
 
-        if (this.twofactor == true && !this.token && !this.token2faOn)
+        // if (this.twofactor == true && !this.token && !this.token2faOn)
+        // {
+        //   accountService.save2FaToken(Cookies.get('2fajwt')),
+        //   this.popup2fa = true
+        // }
+
+        if (this.twofactor == true && this.validate == false)
         {
           accountService.save2FaToken(Cookies.get('2fajwt')),
           this.popup2fa = true

@@ -134,7 +134,8 @@ let getMsgChannel = (room: String) => {
 let logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('2faToken')
-
+    localStorage.removeItem('2faOn')
+    localStorage.removeItem('validate')
 }
 
 let getToken = (token: string) => {

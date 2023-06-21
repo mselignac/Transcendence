@@ -41,8 +41,8 @@ export default {
         .then( () => {
           this.users.twofactor = false,
           localStorage.removeItem('2faToken'),
-          Cookies.remove('2fajwt'),
-          Cookies.remove('2faOn')
+          localStorage.removeItem('validate'),
+          Cookies.remove('2fajwt')
         })
         .catch((err) => {
           console.log(err)
@@ -51,6 +51,7 @@ export default {
       }
     }
   },
+
   methods: {
     async change_username() {
       await accountService.updateUsername(this.text)
@@ -63,7 +64,6 @@ export default {
       async logout() {
         Cookies.remove('jwt');
         Cookies.remove('2fajwt');
-        Cookies.remove('2faOn');
         accountService.logout();
         await router.push('/');
       },
@@ -71,7 +71,7 @@ export default {
       async turnOn2fa() {
         await accountService.turnOnTwoFactorAuth(this.code)
         .then(() => {
-          localStorage.setItem('2faOn', 'true')
+          localStorage.setItem('validate', 'true')
         })
         .catch((err) => {
           console.log(err)
