@@ -6,6 +6,7 @@
 	import axios from 'axios';
 	import { io } from "socket.io-client";
 	import { accountService } from '../_services/account.service'
+import router from '@/router';
 
 </script>
 
@@ -372,7 +373,7 @@
 					}
 					else{
 						rightReady.value = true;
-						rightCross.visible = false;
+						rightCross.visible = false;http://localhost:8080/profile
 						rightCheck.visible = true;
 					}
 
@@ -384,8 +385,12 @@
 				socket.on('endGame', (data) => {
 					endText.text = data.winner + " has won !";
 					endText.visible = true;
-					// 
+					if (actualUsername.value == data.winner)
+						accountService.addVictory({ login: data.winner })
+					if (side._value == 'right')
+						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});
+					// router.push('/main-page')
 				})
 				socket.on('reset', (data) => {
 					// leftScoreText.destroy(true);
@@ -403,6 +408,7 @@
 					// PongApp.stage.destroy(true);
 					// PongApp.destroy(true);
 
+					router.go()
 					this.$router.push({ path: '/game-mode'});
 				})
 			},

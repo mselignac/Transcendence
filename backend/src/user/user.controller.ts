@@ -99,4 +99,9 @@ export class UserController {
 	friendsOnline(@Body() dto: object) {
 		return this.userService.friendsOnline(dto)
 	}
+
+	@Post('addvictory')
+	addVictory(@Body() dto: object) {
+		return this.userService.addVictory(dto)
+	}
 }

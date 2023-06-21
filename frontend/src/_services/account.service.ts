@@ -202,6 +202,29 @@ let visibility = (dto: object) => {
 
 
 
+////////////////////////////////////////////////////////
+//                        GAME                        //
+////////////////////////////////////////////////////////
+let game = (dto: object) => {
+    return Axios.post('/game/game', dto)
+}
+
+let getGame = (dto: object) => {
+    return Axios.post('/game/getgame', dto)
+}
+
+let getGame2 = (dto: object) => {
+    return Axios.post('/game/getgame2', dto)
+}
+
+let addVictory = (dto: object) => {
+    return Axios.post('/users/addvictory', dto)
+}
+
+let ladder = () => {
+    return Axios.post('/game/ladder')
+}
+
 
 export const accountService = {
     login,
@@ -244,5 +267,10 @@ export const accountService = {
     isRequest,
     isConnected,
     friendsOnline,
-    isMute
+    isMute,
+    game,
+    getGame,
+    getGame2,
+    addVictory,
+    ladder
 }

@@ -281,6 +281,24 @@ export class UserService {
 
 	}
 
+	async addVictory(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: userDto = dto as ObjectKey
+		console.log(data)
+		let user = await this.prisma.user.update({
+			where: {
+				login: data.login
+			},
+			data: {
+				victory: {increment: 1}
+			}
+		})
+
+		return (user)
+
+	}
+
 	//Update user username
 	async editUsername(id: string, username: string) {
 		const user = await this.prisma.user.findUnique({

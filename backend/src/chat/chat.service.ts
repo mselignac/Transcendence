@@ -11,6 +11,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { MessageDto } from './messages.dto';
 import { userDto } from './user.dto';
 import { AdminDto } from '../admin/admin.dto';
+import * as argon from 'argon2';
 
 let id = 0
 
@@ -376,11 +377,7 @@ export class ChatService {
           name: data.name
         }
       })
-
-      if (room.password == data.users[0])
-        return (true)
-      else
-        return (false)
+      return (await argon.verify(room.password, data.users[0]))
 
     }
 

@@ -89,7 +89,8 @@
     align-items: center;
     font-size: 400%;
     /* background-color: rgb(161, 140, 175); */
-    background-color: rgb(114, 98, 134);
+    /* background-color: rgb(114, 98, 134); */
+    background-color: rgb(123, 89, 163);
     /* background-color: rgb(37, 23, 87); */
     color: rgb(221, 221, 221);
 }
@@ -107,7 +108,8 @@
     /* background-color: rgb(37, 23, 87); */
     /* background-color: rgb(161, 140, 175);
     background-color: rgb(68, 32, 116); */
-    background-color: rgb(114, 98, 134);
+    /* background-color: rgb(114, 98, 134); */
+    background-color: rgb(123, 89, 163);
     /* color: rgb(150, 150, 150); */
     color: rgb(221, 221, 221);
 }
@@ -124,7 +126,8 @@
     font-size: 400%;
     /* background-color: rgb(37, 53, 107); */
     /* background-color: rgb(68, 32, 116); */
-    background-color: rgb(114, 98, 134);
+    /* background-color: rgb(114, 98, 134); */
+    background-color: rgb(123, 89, 163);
     /* color: rgb(150, 150, 150); */
     color: rgb(221, 221, 221);
 }
@@ -156,25 +159,35 @@
 .test_popup {
     position: absolute;
     z-index: 1;
-    background-color: rgba(7, 7, 7, 0.534);
+    /* background-color: rgba(7, 7, 7, 0.534); */
+
     justify-content: center;
     align-items: center;
     /* margin-top: 35%;
     margin-left: 25%; */
     width: 100%;
     height: 100%;
+    background-image: url("./background25.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .test_popup2 {
     position: absolute;
     /* z-index: 100; */
     display: flex;
-    background-color: rgb(71, 75, 95);
+    background-color: rgb(144 119 190);
     justify-content: center;
     align-items: center;
-    margin-top: 35%;
-    margin-left: 25%;
-    width: 35%;
-    height: 20%;
+    /* margin-top: 35%;
+    margin-left: 25%; */
+    margin-top: 40vh;
+    margin-left: 25vw;
+    /* align-self: center; */
+    /* width: 35%;
+    height: 20%; */
+    width: 30vw;
+    height: 20vh;
     /* z-index: 2; */
 }

@@ -114,6 +114,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage('gameEnded')
   gameEnded(client: Socket, data: any): void {
 	delete this.gameRoomList[data.id];
+	// console.log('data side = ', data.side)
 	setTimeout(() => {
 	  client.emit('reset');
 	}, 5000);

@@ -70,25 +70,25 @@ export class PongService {
     move(data: any) {
         switch(data.direction) {
             case "upL":
-                console.log("UpL");
+                // console.log("UpL");
                 if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE / 2)) - 10)
                     this.dataChariot.leftPlayer.y -= 10;
                 // return this.position;
                 break;
             case "downL":
-                console.log("DownL");
+                // console.log("DownL");
                 if (this.dataChariot.leftPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE / 2)) + 10)
                 this.dataChariot.leftPlayer.y += 10;
                 // return this.position;
                 break;
             case "upR":
-                console.log("UpR");
+                // console.log("UpR");
                 if (this.dataChariot.rightPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE / 2)) - 10)
                     this.dataChariot.rightPlayer.y -= 10;
                 // return this.position;
                 break;
             case "downR":
-                console.log("DownR");
+                // console.log("DownR");
                 if (this.dataChariot.rightPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE / 2)) + 10)
                     this.dataChariot.rightPlayer.y += 10;
                 // return this.position;
@@ -100,10 +100,12 @@ export class PongService {
         this.updateBall();
         // console.log("vx, vy: ", this.dataChariot.ball.vx, this.dataChariot.ball.vy);
         if (this.dataChariot.leftPlayer.score == 10) {
+            this.server.to(this.id.toString()).emit("data", this.dataChariot);
             this.server.to(this.id.toString()).emit("endGame", {winner: this.dataChariot.rightPlayer.nickname});
             setTimeout(this.endGame.bind(this), 5000);
         }
         else if (this.dataChariot.rightPlayer.score == 10) {
+            this.server.to(this.id.toString()).emit("data", this.dataChariot);
             this.server.to(this.id.toString()).emit("endGame", {winner: this.dataChariot.leftPlayer.nickname});
             setTimeout(this.endGame.bind(this), 5000);
         }
@@ -135,7 +137,7 @@ export class PongService {
             this.dataChariot.ball.y = this.globalheight / 2;
         }
 
-        console.log("Ball X ", this.dataChariot.ball.x);
+        // console.log("Ball X ", this.dataChariot.ball.x);
 
         this.dataChariot.ball.x += this.dataChariot.ball.vx;
         this.dataChariot.ball.y += this.dataChariot.ball.vy;
