@@ -1,25 +1,56 @@
-// import { Injectable } from '@nestjs/common';
-// import { authenticator } from 'otplib';
-// import User from '../../users/user.entity';
-// import { UsersService } from '../../users/users.service';
+import { Injectable, Req } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
+import { authenticator } from 'otplib';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { toFileStream } from 'qrcode';
+import { User } from '@prisma/client';
 
-// @Injectable()
-// export class TwoFactorAuthenticationService {
-//   constructor (
-//     private readonly usersService: UsersService,
-//     private readonly configService: ConfigService
-//   ) {}
+@Injectable()
+export class TwoFactorAuthenticationService {
+  constructor(private prisma: PrismaService, private config: ConfigService) {}
 
-//   public async generateTwoFactorAuthenticationSecret(user: User) {
-//     const secret = authenticator.generateSecret();
+  public async generateSecret(user: any) {
+    const secret = authenticator.generateSecret();
+    const otpauthUrl = authenticator.keyuri(
+      user.email,
+      this.config.get('TWO_FACTOR_AUTHENTICATION_APP_NAME'),
+      secret,
+    );
+    await this.prisma.user.update({
+      where: {
+        email: user.email,
+      },
+      data: {
+        twoFactorAuthenticationSecret: secret,
+      },
+    });
+    return { secret, otpauthUrl };
+  }
 
-//     const otpauthUrl = authenticator.keyuri(user.email, this.configService.get('TWO_FACTOR_AUTHENTICATION_APP_NAME'), secret);
+  public async pipeQrCodeStream(stream: Response, otpauthUrl: string) {
+    return toFileStream(stream, otpauthUrl);
+  }
 
-//     await this.usersService.setTwoFactorAuthenticationSecret(secret, user.id);
+  public isTwoFactorAuthenticationValid(
+    twoFactorAuthenticationCode: string,
+    user: User,
+  ) {
+    return authenticator.verify({
+      token: twoFactorAuthenticationCode,
+      secret: user['twoFactorAuthenticationSecret'],
+    });
+  }
 
-//     return {
-//       secret,
-//       otpauthUrl
-//     }
-//   }
-// }
+  public async disableTwoFactorAuthentication(user: User) {
+    await this.prisma.user.update({
+      where: {
+        email: user.email,
+      },
+      data: {
+        twoFactorAuthenticationSecret: '',
+        twofactor: false,
+      },
+    });
+  }
+}

@@ -1,4 +1,4 @@
-import Axios from './caller.service'
+import {Axios, Axios2fa } from './caller.service'
 import { RoomChannelDto } from './room.channel.dto';
 import { RoomDto } from './room.dto';
 import { MessageDto } from './messages.dto';
@@ -24,6 +24,22 @@ let findUser = (dto: RoomDto) => {
 
 let getUserId = (dto: object) => {
     return Axios.get('/chat/getuserid', { params: { dto }})
+}
+
+let generateQr = () => {
+    return Axios.get('/2fa/generate', { responseType: 'arraybuffer' })
+}
+
+let turnOnTwoFactorAuth = (code: string) => {
+    return Axios.post('/2fa/turn-on', { code })
+}
+
+let turnOffTwoFactorAuth = () => {
+    return Axios.post('/2fa/disable2fa')
+}
+
+let authenticate = (code: string) => {
+    return Axios2fa.post('/2fa/authenticate', { code })
 }
 
 let block = (dto: object) => {
@@ -152,14 +168,21 @@ let getMsgChannel = (room: String) => {
 ////////////////////////////////////////////////////////
 let logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('2faToken')
+    localStorage.removeItem('2faOn')
+    localStorage.removeItem('validate')
 }
 
-let getToken = () => {
-    return localStorage.getItem('token')
+let getToken = (token: string) => {
+    return localStorage.getItem(token)
 }
 
 let saveToken = (token: string) => {
     localStorage.setItem('token', token)
+}
+
+let save2FaToken = (token: string) => {
+    localStorage.setItem('2faToken', token)
 }
 
 let isLogged = () => {
@@ -229,6 +252,11 @@ export const accountService = {
     publicsChannels,
     sendFriendRequest,
     removeRequest,
+    turnOnTwoFactorAuth,
+    generateQr,
+    turnOffTwoFactorAuth,
+    save2FaToken,
+    authenticate,
     removeUser,
     ban,
     admin,

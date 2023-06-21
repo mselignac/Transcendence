@@ -142,7 +142,7 @@ export class UserService {
 				requests: true
 			  },
 			});
-  
+
 		await this.prisma.user.update({
 			where: {
 				login: data.user_one
@@ -167,7 +167,7 @@ export class UserService {
 				blocked: true
 			  },
 			});
-  
+
 		await this.prisma.user.update({
 			where: {
 				login: data.name
@@ -297,4 +297,24 @@ export class UserService {
 			throw new Error('Username already exists');
 		}
 	}
+
+	async turnOnTwoFactorAuthentication(email: string) {
+		return this.prisma.user.update({
+		  where: { email },
+		  data: { twofactor: true },
+		});
+	}
+
+	async sign2faToken(id: string) {
+		const payload = {
+		  sub: id,
+		};
+		const token = await this.jwt.signAsync(payload, {
+		  expiresIn: this.config.get('jwt_expiresIn'),
+		  secret: this.config.get('2fajwt_secret'),
+		});
+		return token;
+	}
+
+
 }

@@ -3,7 +3,7 @@ services:
   database:
     image: postgres:13
     ports:
-    - "${DATABASE_PORT}:${DATABASE_PORT}"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -39,8 +39,6 @@ services:
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     container_name: frontend-transcendence
-    # environment:
-      # - VITE_ENV_APP:${fdsfds}
     env_file:
       - .env
     volumes:

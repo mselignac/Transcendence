@@ -305,7 +305,7 @@ export default {
           <h1 className="routers_profile">{{ this.my_username }}</h1>
         </div>
         <div className="border_right_top_right">
-          <RouterLink to="/profile" className="routers_profile"><img className="img_border" src="../assets/icon.webp" /></RouterLink>
+          <RouterLink to="/profile" className="routers_profile"><img className="img_border" :src="user_test.avatarUrl" /></RouterLink>
         </div>
       </div>
 
@@ -379,7 +379,6 @@ export default {
         </div>
       </div>
     </div>
-
     <div className="borders_middle">
 
       <div className="border_middle_top">

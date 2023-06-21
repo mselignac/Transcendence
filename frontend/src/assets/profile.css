@@ -1,5 +1,5 @@
 @import './base.css';
-/* 
+/*
 #profile {
     display: flex;
     width: 100vw;
@@ -316,4 +316,11 @@
 .button_block_friend:hover {
     background-color: rgb(179, 2, 2);
     scale: 1.1;
+}
+
+.profile_picture_img
+{
+    width: 200px; /* Spécifiez la largeur souhaitée */
+    height: auto; /* La hauteur s'ajustera automatiquement en conservant les proportions */
+    border-radius: 50%; /* Applique une forme arrondie à l'image */
 }
