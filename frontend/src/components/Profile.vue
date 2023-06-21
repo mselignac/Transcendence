@@ -43,11 +43,11 @@ export default {
           localStorage.removeItem('2faToken'),
           localStorage.removeItem('validate'),
           Cookies.remove('2fajwt')
+          this.qrCodeData = ''
         })
         .catch((err) => {
           console.log(err)
         })
-        this.qrCodeData = ''
       }
     }
   },
@@ -72,13 +72,13 @@ export default {
         await accountService.turnOnTwoFactorAuth(this.code)
         .then(() => {
           localStorage.setItem('validate', 'true')
+          this.code = ''
+          this.qrCodeData = ''
         })
         .catch((err) => {
           console.log(err)
-          this.value = false
+          this.code = ''
         })
-        this.code = ''
-        this.qrCodeData = ''
       },
     },
 
@@ -136,6 +136,26 @@ export default {
         </div>
       </div>
     </div>
+	<!-- <div className="profile_div">
+	  <div className="profile_picture">
+		<button className="profile_picture_button"><img className="" src=""/></button>
+		<h1 className="profile_user">{{ this.username }}</h1>
+	  </div>
+	  <div className="profile_username">
+		<form @submit.prevent="change_username" className="border_right_bottom_two">
+
+		  <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
+		</form>
+	  </div>
+	  <div className="profile_bottom">
+		  <h1 className="profile_user">{{ users.email }}</h1>
+		  <button @click="logout">log out</button>
+		  <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
+		  <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
+	  </div> -->
+
+	<!-- </div> -->
+  <!-- </div> -->
 </template>
 
 <style src="@vueform/toggle/themes/default.css"></style>

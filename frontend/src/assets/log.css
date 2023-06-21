@@ -108,7 +108,8 @@
 }
   
 ::placeholder {
-    color: rgba(0, 0, 0, 0.589);
+    /* color: rgba(0, 0, 0, 0.589); */
+    color: rgb(229, 225, 243);
 }
   
   .button_login_log:hover {

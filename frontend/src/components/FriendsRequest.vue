@@ -13,7 +13,6 @@ export default {
     },
     methods: {
         acceptFriend(friend) {
-            console.log('friend = ', friend)
             let room: RoomDto = { name: 'room', user_one: this.me.login, user_two: friend }
             accountService.createRoom(room)
               .catch(res => console.log(res))
@@ -35,7 +34,6 @@ export default {
             .then(res => {
                 this.me = res.data
                 this.friends_requests = res.data.requests
-                console.log(this.friends_request)
             })
             .catch(res => console.log(res))
     }

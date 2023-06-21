@@ -15,7 +15,7 @@ model User {
   createAt                      DateTime @default(now())
   updateAT                      DateTime @default(now())
   checkID                       String   @unique
-  login                         String?   @unique
+  login                         String?  @unique
   fullName                      String
   avatarUrl                     String
   firstName                     String
@@ -26,10 +26,13 @@ model User {
   twofactor                     Boolean  @default(false)
   twoFactorAuthenticationSecret String
 
-  requests  String[]
+  online Boolean @default(true)
+
+  requests String[]
   channels String[]
   friends  String[]
-  blocked   String[]
+  blocked  String[]
+
   // bookmarks Bookmark[]
   @@map("users")
 }
@@ -39,7 +42,7 @@ model Room {
   createAt DateTime @default(now())
   updateAT DateTime @default(now())
 
-  name     String   @unique
+  name     String    @unique
   user_one String
   user_two String
   messages Message[]
@@ -52,16 +55,17 @@ model RoomChannel {
   createAt DateTime @default(now())
   updateAT DateTime @default(now())
 
-  name     String    @unique
-  users    String[]
+  name      String   @unique
+  users     String[]
   admin     String[]
   owner     String?
   users_ban String[]
+  mute      Mute[]
 
-  private   Boolean @default(false)
-  is_password  Boolean @default(false)
-  password      String?
-  messages Message[]
+  private     Boolean   @default(false)
+  is_password Boolean   @default(false)
+  password    String?
+  messages    Message[]
 
   @@map("channels")
 }
@@ -74,6 +78,14 @@ model Message {
   roomChannelId String?
   Room          Room?        @relation(fields: [roomId], references: [id])
   roomId        String?
+}
+
+model Mute {
+  id            Int          @id @default(autoincrement())
+  user          String
+  date          String
+  RoomChannel   RoomChannel? @relation(fields: [roomChannelId], references: [name])
+  roomChannelId String?
 }
 
 // model Game {

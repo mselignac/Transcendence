@@ -5,12 +5,14 @@ import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
 import { MessageDto } from '../_services/messages.dto'
 import router from '@/router';
+
 </script>
 
 <script lang="ts">
 
+const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
 let id = 0
-let $socket_chat = io('ws://localhost:3000/chat',
+let $socket_chat = io(`ws://${host}:${port}/chat`,
 { 
     transports: ["websocket"],
     forceNew: true,
@@ -72,36 +74,27 @@ export default {
     },
     async created() {
         await accountService.usersMe()
-            .then((response) => { 
-                this.my_username = response.data.login
-                this.me = response.data })
+        .then((response) => { 
+            this.my_username = response.data.login
+            this.me = response.data 
+        })
+        if (!this.me.friends.find(t => t === this.idchat))
+            router.push('/main-page')
+        else {
+            let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
+            await accountService.findRoom(dto) 
+                .then(res => {
+                    this.room = res.data[0].name
 
-        // let user: object = { login: this.idchat }
-        // await accountService.findUser(user)
-        //     .then(res => this.user = res.data)
-        //     .catch(res => console.log(res))
-        console.log(this.me.id)
-        let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
-        accountService.findRoom(dto) 
-            .then(res => {
-                console.log(res)
-                this.room = res.data[0].name
+                    accountService.getMsg(this.room) 
+                        .then(res => { this.msg = res.data })
+                        .catch(err => console.log(err))
 
-                accountService.getMsg(this.room) 
-                    .then(res => {
-                        this.msg = res.data
-                    })
-                    .catch(err => console.log(err))
-
-                    $socket_chat.on('msgToClient', (message: message_type) => {
-                    console.log('create')
-                    this.receivedMessage(message)
+                    $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
+                    $socket_chat.emit('joinRoomChat', this.room)
                 })
-                $socket_chat.emit('joinRoomChat', this.room)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                .catch(err => { console.log(err) })
+        }
     },
 }
 </script>
@@ -114,7 +107,6 @@ export default {
                 <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
                 </div>
-                <!-- <h1 className="chat_name">{{ this.id }}</h1> -->
                 <RouterLink :to="'/profile-user/' + idchat" className="chat_name">{{ idchat }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
@@ -125,23 +117,22 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
-                    <form @submit.prevent="send_msg_test" className="type_msg_test">
-                        <input className="type_msg_test" v-model="text_test" placeholder='name'>
-                    </form>
                 </div>
             </div>
-            <div className="chat_msg_div">
-                <li v-for="chat in msg" :key="chat.id" className="msg_form">
-                    <div v-if="check_username(chat.username)" className="test_msg">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
-                        <h4 v-else>{{ chat.text }}</h4>
-                    </div>
-                    <div v-else className="msg_user_test">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
-                        <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
-                        <p className="username_msg">{{ chat.username }}</p>
-                    </div>
-                </li>
+            <div className="scroll">
+                <div className="chat_msg_div">
+                    <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                        <div v-if="check_username(chat.username)" className="test_msg">
+                            <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
+                            <h4 v-else>{{ chat.text }}</h4>
+                        </div>
+                        <div v-else className="msg_user_test">
+                            <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
+                            <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
+                            <p className="username_msg">{{ chat.username }}</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </div>
       </div>

@@ -12,14 +12,16 @@ import { ChatGateway } from './chat/chat.gateway';
 import { JwtService } from '@nestjs/jwt';
 import { ChatModule } from './chat/chat.module';
 import { twoFactorAuthentication } from './twoFactorAuth/twoFactorAuthentication.module';
+import { AdminModule } from './admin/admin.module';
+import { UserGateway } from './user/user.gateway';
 
 @Module({
-  imports: [ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule,
+  imports: [AdminModule, ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule,
     twoFactorAuthentication,
     ConfigModule.forRoot({
       isGlobal: true,
     })],
   controllers: [PongController],
-  providers: [PongGateway, PongService, JwtService, ChatGateway]
+  providers: [PongGateway, PongService, JwtService, ChatGateway, UserGateway]
 })
 export class AppModule {}

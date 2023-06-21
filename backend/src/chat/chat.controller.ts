@@ -53,6 +53,7 @@ export class ChatController {
 
 	@Get('finduser')
 	findUser(@Req() req) {
+		// console.log(req.query.dto)
 		return this.chatService.findUser(req.query.dto)
 	}
 
@@ -71,6 +72,21 @@ export class ChatController {
 		return this.chatService.removeRequest(dto)
 	}
 
+	@Post('removeuser')
+	removeUser(@Body() dto: object) {
+		// console.log('removeUser back')
+		return this.chatService.removeUser(dto)
+	}
+
+	@Post('checkpassword')
+	checkPassword(@Body() dto: object) {
+		return this.chatService.checkPassword(dto)
+	}
+
+	@Post('ismute')
+	isMute(@Body() dto:object) {
+		return this.chatService.isMute(dto)
+	}
 
 	// @Get('getuserid')
 	// getUserId(@Req() req)//, @Body() dto: userDto)

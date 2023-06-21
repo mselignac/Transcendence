@@ -4,6 +4,7 @@ import { accountService } from '@/_services';
 import io from "socket.io-client"
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
 import { MessageDto } from '../_services/messages.dto'
+import router from '@/router';
 </script>
 
 <script lang="ts">
@@ -34,15 +35,38 @@ export default {
             msg: [] as message_type[],
             my_username: '',
             room: room,
+            block: false,
+            mute: false,
+            infos: ''
         }
     },
     methods: {
       check_username(username: string) {
         return (username == this.my_username)
       },
+
       check_invite(text: string) {
         return (text == 'invite')
       },
+
+      async isMute() {
+            let time = new Date();
+            await accountService.isMute({ channel: this.idchannel, user: this.my_username })
+            .then(res => {
+                if (res.data.length) {
+                    let test = time - res.data[0].date
+                    let sec = test/1000
+                    if (sec > 20)
+                        this.mute = false
+                    else
+                        this.mute = true
+                }
+                else
+                    this.mute = false
+            })
+            .catch((res) => console.log(res))
+        },
+
       async send_msg() {
         if (this.validateInput(this.text)) {
               const message = {
@@ -50,51 +74,55 @@ export default {
                   text: this.text,
                   username: this.my_username,
               }
-              let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
-              await accountService.addMessageChannel(msg)
-              $socket_chat.emit('msgToServer', this.room, message)
+              await this.isMute()
+              if (this.mute == false) {
+                let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
+                await accountService.addMessageChannel(msg)
+                $socket_chat.emit('msgToServer', this.room, message)
+              }
               this.text = ''
         }
       },
-      send_msg_test() {
-        if (this.validateInput(this.text_test)) {
-              this.my_username = this.text_test,
-              this.text_test = ''
-        }
-      },
+
       receivedMessage(message: message_type) {
           accountService.getMsgChannel(this.room) 
-            .then(res => {
-                this.msg = res.data
-            })
+            .then(res => { this.msg = res.data  })
             .catch(err => console.log (err))
 
-        //   this.msg.push(message)
       },
+
       validateInput(text: string) {
           return text.length > 0
+      },
+
+      async isBlocked(user) {
+        await accountService.isBlocked({ name: this.my_username, user_one: user })
+        .then(res => {  this.block = res.data })
+        return(true)
       }
     },
+
     async created() {
         await accountService.usersMe()
         .then((response) => { this.my_username = response.data.login })
         let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
-        accountService.findRoomChannel(dto) 
-            .then(res => {
-                this.room = res.data.name
+        await accountService.findRoomChannel(dto) 
+        .then(res => {
+            this.room = res.data.name
+            this.infos = res.data
+        })
+        .catch(err => console.log(err))
 
-                accountService.getMsgChannel(this.room) 
-                    .then(res => {
-                        this.msg = res.data
-                    })
-                    .catch(err => console.log(err))
+        if (this.infos && this.infos.users.find(t => t === this.my_username)) {
+            accountService.getMsgChannel(this.room) 
+                .then(res => { this.msg = res.data })
+                .catch(err => console.log(err))
 
-                $socket_chat.on('msgToClient', (message: message_type) => {
-                    this.receivedMessage(message)
-                })
-                $socket_chat.emit('joinRoomChat', this.room)
-            })
-            .catch(err => console.log(err))
+            $socket_chat.on('msgToClient', (message: message_type) => { this.receivedMessage(message) })
+            $socket_chat.emit('joinRoomChat', this.room)
+        }
+        else
+            router.push('/main-page')
     }
 }
 </script>
@@ -117,26 +145,22 @@ export default {
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
-                    <form @submit.prevent="send_msg_test" className="type_msg_test">
-                        <input className="type_msg_test" v-model="text_test" placeholder='name'>
-                    </form>
                 </div>
             </div>
-            <div className="chat_msg_div">
-                <li v-for="chat in msg" :key="chat.id" className="msg_form">
-                    <div v-if="check_username(chat.username)" className="test_msg">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
-                        <h4 v-else>{{ chat.text }}</h4>
-                    </div>
-                    <div v-else className="msg_user_test">
-                        <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
-                        <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
-                        <p className="username_msg">{{ chat.username }}</p>
-                    </div>
-                </li>
+            <div className="scroll">
+                <div className="chat_msg_div">
+                    <li v-for="chat in msg" :key="chat.id" className="msg_form">
+                        <div v-if="check_username(chat.username)" className="test_msg">
+                            <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
+                            <h4 v-else>{{ chat.text }}</h4>
+                        </div>
+                        <div v-else-if="isBlocked(chat.username) && !block" className="msg_user_test">
+                            <h4 className="msg_user_testt">{{ chat.text }}</h4>
+                            <p className="username_msg">{{ chat.username }}</p>
+                        </div>
+                    </li>
+                </div>
             </div>
         </div>
       </div>
   </template>
-
-

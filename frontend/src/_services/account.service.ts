@@ -42,6 +42,30 @@ let authenticate = (code: string) => {
     return Axios2fa.post('/2fa/authenticate', { code })
 }
 
+let block = (dto: object) => {
+    return Axios.post('users/block', dto)
+}
+
+let unblock = (dto: object) => {
+    return Axios.post('users/unblock', dto)
+}
+
+let isBlocked = (dto: object) => {
+    return Axios.post('users/isblocked', dto)
+}
+
+let isRequest = (dto: object) => {
+    return Axios.post('users/isrequest', dto)
+}
+
+let isConnected = (dto: object) => {
+    return Axios.post('users/isconnected', dto)
+}
+
+let friendsOnline = (dto: object) => {
+    return Axios.post('users/friendsonline', dto)
+}
+
 
 ////////////////////////////////////////////////////////
 //                        ROOMS                       //
@@ -104,6 +128,17 @@ let removeRequest = (dto: object) => {
     return Axios.post('/chat/removerequest', dto)
 }
 
+let removeUser = (dto: object) => {
+    return Axios.post('/chat/removeuser', dto)
+}
+
+let checkPassword = (dto: object) => {
+    return Axios.post('/chat/checkpassword', dto)
+}
+
+let isMute = (dto: object) => {
+    return Axios.post('/chat/ismute', dto)
+}
 
 
 
@@ -157,6 +192,40 @@ let isLogged = () => {
 
 
 
+////////////////////////////////////////////////////////
+//                        ADMIN                       //
+////////////////////////////////////////////////////////
+let ban = (dto: object) => {
+    return Axios.post('/admin/ban', dto)
+}
+
+let admin = (dto: object) => {
+    return Axios.post('/admin/admin', dto)
+}
+
+let mute = (dto: object) => {
+    return Axios.post('/admin/mute', dto)
+}
+
+let remove = (dto: object) => {
+    return Axios.post('/admin/remove', dto)
+}
+
+let password = (dto: object) => {
+    return Axios.post('/admin/password', dto)
+}
+
+let removePassword = (dto: object) => {
+    return Axios.post('/admin/removepassword', dto)
+}
+
+let visibility = (dto: object) => {
+    return Axios.post('/admin/visibility', dto)
+}
+
+
+
+
 export const accountService = {
     login,
     logout,
@@ -187,5 +256,21 @@ export const accountService = {
     generateQr,
     turnOffTwoFactorAuth,
     save2FaToken,
-    authenticate
+    authenticate,
+    removeUser,
+    ban,
+    admin,
+    mute,
+    remove,
+    password,
+    visibility,
+    removePassword,
+    checkPassword,
+    block,
+    isBlocked,
+    unblock,
+    isRequest,
+    isConnected,
+    friendsOnline,
+    isMute
 }

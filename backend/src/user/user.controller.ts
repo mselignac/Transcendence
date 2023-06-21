@@ -47,4 +47,34 @@ export class UserController {
 	removeChannel(@Body() dto: object) {
 		return this.userService.removeChannel(dto) ;
 	}
+
+	@Post('block')
+	block(@Body() dto: object) {
+		return this.userService.block(dto)
+	}
+
+	@Post('unblock')
+	unblock(@Body() dto: object) {
+		return this.userService.unblock(dto)
+	}
+
+	@Post('isblocked')
+	isBlocked(@Body() dto: object) {
+		return this.userService.isBlocked(dto)
+	}
+
+	@Post('isrequest')
+	isRequest(@Body() dto: object) {
+		return this.userService.isRequest(dto)
+	}
+
+	@Post('isconnected')
+	isConnected(@Body() dto: object) {
+		return this.userService.isConnected(dto)
+	}
+
+	@Post('friendsonline')
+	friendsOnline(@Body() dto: object) {
+		return this.userService.friendsOnline(dto)
+	}
 }

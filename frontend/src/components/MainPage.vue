@@ -25,6 +25,7 @@ export default {
         await accountService.updateUsername(this.login)
         this.popup = !this.popup
         this.login = ''
+        router.go()
       },
 
       async change_popup2fa() {

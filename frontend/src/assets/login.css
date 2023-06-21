@@ -1,16 +1,22 @@
 @import './base.css';
 
 .button_test {
-    text-shadow: 2px 2px 3px rgb(79, 80, 85);
+    /* text-shadow: 2px 2px 3px rgb(79, 80, 85); */
     display: flex;
-    font-size: 130px;
+    font-size: 60px;
     align-self: center;
     font-weight: bolder;
     text-transform: capitalize;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: transparent;
-    border-color: transparent;
-    color:rgb(126, 149, 179);
+    background-color: rgba(255, 255, 255, 0.164);
+    /* background-color: red; */
+    /* border-color: transparent; */
+    border:5px solid red;
+    border-color: white;
+    color:rgb(255, 255, 255);
+    padding: 1% 4%;
+    /* padding-: 5%; */
+    border-radius: 20px;
 }
 
 .button_test:hover {
@@ -25,3 +31,154 @@
     justify-content: center;
     align-items: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* le boutoooooonn  */
+
+.center {
+    display: flex;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 24px;
+  }
+
+/* body {
+    background: #ffffff;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+    color: #c2c2c2;
+  } */
+  
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 24px;
+  }
+  
+  .btn-1 {
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  /* Created by http://grohit.com/  */
+  footer a,
+  .btn-1 a {
+    text-decoration: none;
+    border: 2px solid #010100;
+    padding: 15px;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  span {
+    position: relative;
+    /* z-index coz when we put bg to before and after this span text will not be visible */
+    z-index: 3;
+  }
+  
+  /* Button 1 styles */
+  
+  .btn-1 a::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -2px;
+    width: calc(100% + 6px);
+    /*100% plus double the times left values*/
+    height: calc(100% - 10px);
+    background-color: #ffffff;
+    transition: all 0.5s ease-in-out;
+    transform: scaleY(1);
+  }
+  
+  .btn-1 a:hover::before {
+    transform: scaleY(0);
+  }
+  
+  .btn-1 a::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: -5px;
+    width: calc(100% - 10px);
+    /*100% plus double the times left values*/
+    height: calc(100% + 10px);
+    background-color: #ffffff;
+    transition: all 0.5s ease-in-out;
+    transform: scaleX(1);
+  }
+  /* Created by http://grohit.com/  */
+  
+  .btn-1 a:hover::after {
+    transform: scaleX(0);
+  }
+  
+  /* Created by http://grohit.com/  */
+  footer{
+      text-align: center;
+    font-size: 10px;
+  }
+
+  /* fin du boutooooooooooon */
