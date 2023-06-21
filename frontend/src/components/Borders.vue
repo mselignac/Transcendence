@@ -28,7 +28,6 @@ export default {
           test_friend: '',
           test_channel: '',
           search_user: '',
-          user_exist: false,
           user_not_exist: false,
           friend: false,
           channel: false,
@@ -43,7 +42,6 @@ export default {
           user_test: '',
           my_username: '',
           exist: '',
-          user_save: '',
           channel_exist: '',
           request: '',
           jsp: '',
@@ -143,15 +141,12 @@ export default {
           await accountService.findUser(find)
             .then(res => { this.exist = res.data })
 
-          if (this.exist){
-            this.user_exist = true,
-            this.user_not_exist = false
-            this.user_save = this.search_user
+          if (this.exist) {
+            await router.push('/profile-user/' + this.search_user)
+            router.go()
           }
-          else {
-            this.user_exist = false,
+          else
             this.user_not_exist = true
-          }
         }
         this.search_user = ''
       },
@@ -338,8 +333,8 @@ export default {
 
         <div v-if="password" className="create_channel">
           <h1>Password?</h1>
-          <form @submit.prevent="checkPassword" className="placeholder_search">
-            <input className="placeholder_search" v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
+          <form @submit.prevent="checkPassword">
+            <input className="placeholder_password" v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
           </form>
           <!-- <div className="yes_no">
             <button @click="create_channel_close" className="button_no"></button>
@@ -394,7 +389,6 @@ export default {
         </div>
       </div>
       <div className="border_middle_two">
-          <RouterLink :to="'/profile-user/' + user_save" v-if="user_exist" className="msg_user_exist">profile</RouterLink>
           <h1 v-if="user_not_exist" className="msg_error_search_user">user doesn't exist</h1>
       </div>
 

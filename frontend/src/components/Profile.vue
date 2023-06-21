@@ -104,22 +104,24 @@ export default {
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
       </div>
-      <div className="profile_username">
-        <form @submit.prevent="change_username" className="border_right_bottom_two">
+      <!-- <div className="profile_username"> -->
+        <!-- <form @submit.prevent="change_username" className="border_right_bottom_two">
           <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
-          <!-- <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9"> -->
-        </form>
+        </form> -->
         <!-- <h1>{{ this.username }}</h1> -->
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
+      <!-- </div> -->
+      <div className="profile_two">
+        <h1 className="profile_user">{{ users.email }}</h1>
       </div>
-      <div className="profile_bottom">
+      <div className="profile_three">
         <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
-          <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
-          <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
-          <button @click="logout" className="button_access_profile">logout</button>
-        </div>
-        <h1 className="profile_user">{{ users.email }}</h1>
+        <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
+        <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
+        <button @click="logout" className="button_access_profile">logout</button>
+      </div>
+      <div className="profile_bottom">
         <div>
           <h1> twofactor auth </h1>
           <Toggle
@@ -129,10 +131,11 @@ export default {
           />
         </div>
         <div v-if="qrCodeData">
-          <img v-bind:src="qrCodeData"/>
-          <form @submit.prevent="turnOn2fa" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="code" placeholder='2fa code' :maxlength="6" pattern="[0-9]+" title="only numbers accepted">
-        </form>
+            <img v-bind:src="qrCodeData"/>
+            <form @submit.prevent="turnOn2fa">
+              <input className="profile_change_username" v-model="code" placeholder='2fa code' :maxlength="6" pattern="[0-9]+" title="only numbers accepted">
+            </form>
+          </div>
         </div>
       </div>
     </div>

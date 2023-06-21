@@ -50,8 +50,10 @@
     justify-content: center;
     align-items: center;
     font-size: 250%;
-    color: rgb(150, 150, 150);
-    background-color: rgb(37, 53, 107);
+    /* color: rgb(150, 150, 150); */
+    color: rgb(221, 221, 221);
+    /* background-color: rgb(37, 53, 107); */
+    background-color: rgb(123, 89, 163);
     border-color: transparent;
     border-radius: 8px 8px 8px 8px;
 }
@@ -59,7 +61,8 @@
 .modes_routers:hover {
     scale: 1.1;
     background-color: transparent;
-    background-color: rgb(37, 53, 107);
+    /* background-color: rgb(37, 53, 107); */
+    background-color: rgb(123, 89, 163);
     border-color: transparent;
     font-weight: bold;
 }

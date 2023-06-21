@@ -91,8 +91,8 @@ export default {
         <div v-if="password" className="joinChannelMsg">
             <div className="joinChannelMsg2">
                 <h1>Password?</h1>
-                <form @submit.prevent="checkPassword" className="placeholder_search">
-                    <input v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
+                <form @submit.prevent="checkPassword">
+                    <input  className="placeholder_password" v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
                 </form>
 
             </div>

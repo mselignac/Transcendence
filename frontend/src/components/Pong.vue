@@ -408,7 +408,7 @@ import router from '@/router';
 					// PongApp.stage.destroy(true);
 					// PongApp.destroy(true);
 
-					router.go()
+					// router.go()
 					this.$router.push({ path: '/game-mode'});
 				})
 			},

@@ -36,12 +36,8 @@ export default {
             <div className="game_history_test">
                 <button @click="goHistory()" className="game_history_button_test">Game history</button>
             </div>
-
-
-
-
-
         </div>
+
         <div className="stats_right">
             <div className="stats_right_top">
                 <h1>Ladder</h1>
@@ -49,13 +45,14 @@ export default {
             <div className="stats_right_bottom">
                 <li v-for="user in ladder">
                     <div className="ladder_element">
-                        <h1 v-if="user.victory != 0" className="login_ladder"><font-awesome-icon icon="fa-solid fa-crown" /></h1>
+                        <h1 v-if="user.victory != 0 && ladder[0] == user" className="login_ladder"><font-awesome-icon icon="fa-solid fa-crown" /></h1>
                         <h1 className="login_ladder">{{ user.login }}</h1>
                         <h1>victories: {{ user.victory }}</h1>
                     </div>
                 </li>
             </div>
         </div>
+
     </div>
   </div>
 

@@ -42,7 +42,7 @@ export default {
     <div className="stat_div">
         <div className="stats_left">
             <div className="game_history_test">
-                <button @click="goLadder()" className="game_history_button_test">Ladder lvl X</button>
+                <button @click="goLadder()" className="game_history_button_test">Ladder</button>
             </div>
         </div>
         <div className="stats_right">
