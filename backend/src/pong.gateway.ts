@@ -17,6 +17,12 @@ type waitingRoom = {
   username?: string;
 };
 
+type gameUser = {
+	client: Socket;
+	username?: string;
+	roomId: number;
+  };
+
 @WebSocketGateway({cors: true})
 
 export class PongGateway
@@ -30,6 +36,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   private gameRoomList: Array<PongService> = new Array<PongService>();
   private waitingRoomList: Array<waitingRoom> = [];
+  private inGameList: Array<gameUser> = [];
   private roomCount: number = 0;
 
   @WebSocketServer() server: Server;
@@ -78,6 +85,15 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	  this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1]);
   }
 
+  @SubscribeMessage('leaveWaiting')
+  leaveWaiting(client: Socket, data: any): void {
+	console.log("Leave request arrived from: ", data.username);
+	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+	if (index !== -1) {
+    	this.waitingRoomList.splice(index, 1);
+	}
+  }
+
   gameInit(leftPlayer: waitingRoom, rightPlayer: waitingRoom) {
 	this.gameRoomList.push(new PongService());
 	this.gameRoomList.slice(-1)[0].id = this.roomCount;
@@ -97,6 +113,26 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
 	leftPlayer.client.emit('roomAssigned', {roomId: this.roomCount});
 	rightPlayer.client.emit('roomAssigned', {roomId: this.roomCount});
+	const newGameUser1: gameUser = {
+		client: leftPlayer.client,
+		username: leftPlayer.username,
+		roomId: this.roomCount,
+	  };
+	const newGameUser2: gameUser = {
+		client: rightPlayer.client,
+		username: rightPlayer.username,
+		roomId: this.roomCount,
+	  };
+	this.inGameList.push(newGameUser1);
+	this.inGameList.push(newGameUser2);
+	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname);
+	if (index !== -1) {
+    	this.waitingRoomList.splice(index, 1);
+	}
+	index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname);
+	if (index !== -1) {
+    	this.waitingRoomList.splice(index, 1);
+	}
 	this.roomCount++;
   }
 
@@ -113,6 +149,14 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('gameEnded')
   gameEnded(client: Socket, data: any): void {
+	let index = this.inGameList.findIndex(gameUser => gameUser.username === this.gameRoomList[data.id].dataChariot.leftPlayer.nickname);
+	if (index !== -1) {
+    	this.inGameList.splice(index, 1);
+	}
+	index = this.inGameList.findIndex(gameUser => gameUser.username === this.gameRoomList[data.id].dataChariot.rightPlayer.nickname);
+	if (index !== -1) {
+    	this.inGameList.splice(index, 1);
+	}
 	delete this.gameRoomList[data.id];
 	setTimeout(() => {
 	  client.emit('reset');
@@ -125,6 +169,10 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   }
 
   handleDisconnect(client: Socket) {
+	let index = this.inGameList.findIndex(gameUser => gameUser.client === client);
+	if (index !== -1) {
+    	this.gameEnded(client, {id: this.inGameList[index].roomId})
+	}
 	console.log(`Client disconnected: ${client.id}`);
   }
 
