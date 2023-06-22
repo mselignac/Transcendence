@@ -11,6 +11,7 @@
 
 .stats_left {
     display: grid;
+    /* height: 100%; */
     grid-template-rows: 2fr 1fr 1fr 1fr 8fr;
     grid-column: 1;
     /* background-color: rgba(0, 0, 255, 0); */
@@ -267,12 +268,31 @@
     background: linear-gradient(90deg, transparent, rgb(71, 58, 119), transparent );
 }
 
+.ladder_me_element {
+    display: flex;
+    padding: 15px;
+    /* justify-self: space-between; */
+    width: 100%;
+    flex-direction: row;
+    background: linear-gradient(90deg, transparent, rgb(52, 45, 146), transparent );
+
+    /* justify-content: space-evenly; */
+    /* flex-direction: column; */
+    /* background-color: red; */
+}
+
 .login_ladder {
     display: flex;
     align-self: center;
     margin-right: 20px;
 }
 
+.me_ladder {
+    display: flex;
+    align-self: center;
+    margin-right: 20px;
+    color: rgb(143, 110, 233);
+}
 
 
 

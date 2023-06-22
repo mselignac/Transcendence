@@ -37,7 +37,8 @@ export default {
             my_username: '',
             room: room,
             me: '',
-            user: ''
+            user: '',
+            exist: ''
         }
     },
     methods: {
@@ -81,6 +82,9 @@ export default {
         if (!this.me.friends.find(t => t === this.idchat))
             router.push('/main-page')
         else {
+            await accountService.findUser({ login: this.idchat })
+            .then(res => { this.exist = res.data })
+
             let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
             await accountService.findRoom(dto) 
                 .then(res => {
@@ -104,14 +108,16 @@ export default {
       <div className="main_div">
         <div className="chat_div_test">
             <div className="chat_top_test">
-                <div className="logo_chat_profile_test">
+                <!-- <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
-                </div>
+                </div> -->
+                <img className="profile_picture_img_chat" :src="exist.avatarUrl" class="profile_picture_img_chat"/>
                 <RouterLink :to="'/profile-user/' + idchat" className="chat_name">{{ idchat }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">
-                    <font-awesome-icon icon="fa-regular fa-face-laugh-beam" />
+                    <!-- <font-awesome-icon icon="fa-regular fa-face-laugh-beam" /> -->
+                    <font-awesome-icon icon="fa-regular fa-paper-plane" />
                 </div>
                 <div className="type_msg">
                     <form @submit.prevent="send_msg" className="type_msg_test">

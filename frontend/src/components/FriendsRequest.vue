@@ -69,7 +69,7 @@ export default {
                     <li v-for="friend in friends_requests">
                         <div className="user_request">
                             <h1 className="request">{{ friend }}</h1>
-                            <button className="button_request" @click="acceptFriend(friend)">add</button>
+                            <button className="button_request" @click="acceptFriend(friend)"><font-awesome-icon icon="fa-solid fa-square-plus" /></button>
                         </div>
                     </li>
                 </ul>
