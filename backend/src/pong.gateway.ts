@@ -41,20 +41,13 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @WebSocketServer() server: Server;
 
-  @SubscribeMessage('init')
-  connection(client: Socket): void {
-	console.log("connected to frontend");
-	// client.join("1");
-	// client.broadcast.emit("data", this.room.dataChariot);
-  }
-
   @SubscribeMessage('move')
   movePlayer(client: Socket, data: any): void {
 	this.gameRoomList[data.roomId].move(data);
 	// this.server.to(data.roomId.toString()).emit("data", this.room.dataChariot);
   }
 
-  @SubscribeMessage('play')
+  @SubscribeMessage('play') 
   play(client: Socket, data: any): void {
 	console.log("side ", data.side);
 	if (data.side === "left"){
@@ -83,6 +76,10 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	console.log("WAITING LIST ", this.waitingRoomList);
 	if (this.waitingRoomList.length >= 2)
 	  this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1]);
+  }
+
+  inviteToPlay() {
+
   }
 
   @SubscribeMessage('leaveWaiting')
@@ -142,6 +139,8 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage('requestInfo')
   sendInfo(client: Socket, data: any): void {
 	console.log("Username 1 ", this.gameRoomList[data.roomId].dataChariot.leftPlayer);
+	console.log("Username 2 ", this.gameRoomList[data.roomId].dataChariot.rightPlayer);
+
 	if (!this.gameRoomList[data.roomId].side) {
 		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname, isLeft: true});
 		this.gameRoomList[data.roomId].side = true;
@@ -160,10 +159,11 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	if (index !== -1) {
     	this.inGameList.splice(index, 1);
 	}
-	delete this.gameRoomList[data.id];
 	setTimeout(() => {
-	  client.emit('reset');
+		client.emit('reset');
 	}, 5000);
+	// this.gameRoomList.splice(data.id, 1);
+	delete this.gameRoomList[data.id];
 	console.log("GAME LIST ", this.gameRoomList);
   }
 
@@ -174,7 +174,10 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   handleDisconnect(client: Socket) {
 	let index = this.inGameList.findIndex(gameUser => gameUser.client === client);
 	if (index !== -1) {
-    	this.gameEnded(client, {id: this.inGameList[index].roomId})
+		this.server.to(this.inGameList[index].roomId.toString()).emit("endGame", {winner: "false"});
+		this.gameRoomList[this.inGameList[index].roomId].endGame();
+		// this.gameRoomList[this.inGameList[index].roomId].endGame();
+    	// this.gameEnded(client, {id: this.inGameList[index].roomId})
 	}
 	console.log(`Client disconnected: ${client.id}`);
   }

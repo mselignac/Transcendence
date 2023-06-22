@@ -38,14 +38,13 @@
 		mounted() {
 
 			if (this.active == true) {
-				socket.emit("init");
 				this.Game();
 			}
 		},
 		methods: {
 			move(direction: string) { socket.emit("move", direction); 
 			socket.on('error', function (err) {
-				console.log(err);
+				console.log(err); 
 			});},
 
 			// playRequest() {
@@ -390,7 +389,10 @@
 					}
 				})
 				socket.on('endGame', (data) => {
-					endText.text = data.winner + " has won !";
+					if (data.winner === "false")
+						endText.text = "Player has disconnected";
+					else
+						endText.text = data.winner + " has won !";
 					endText.visible = true;
 					// 
 					socket.emit("gameEnded", {id: tRoomId.value});
@@ -412,6 +414,10 @@
 					// PongApp.destroy(true);
 
 					this.$router.push({ path: '/game-mode'});
+				})
+
+				socket.on('hardReset', (data) => {
+
 				})
 			},
 
