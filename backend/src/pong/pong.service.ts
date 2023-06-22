@@ -139,7 +139,7 @@ export class PongService {
             this.dataChariot.ball.y = this.globalheight / 2;
         }
 
-        console.log("Ball X ", this.dataChariot.ball.x);
+        // console.log("Ball X ", this.dataChariot.ball.x);
 
         this.dataChariot.ball.x += this.dataChariot.ball.vx;
         this.dataChariot.ball.y += this.dataChariot.ball.vy;

@@ -22,6 +22,10 @@ export default {
 				socket.emit("playRequest", {username: actualUsername.value});
 				isWaiting.value = true;
 			}
+			else {
+				socket.emit("leaveWaiting", {username: actualUsername.value});
+				isWaiting.value = false;
+			}
 		},
 	},
 
@@ -51,6 +55,7 @@ socket.on('roomAssigned', (data) => {
 		<div className="game_mode_div_test">
 			<div className="game_mode_one_div">
 				<button v-on:click="this.playRequestClassic()" className="modes_routers">Classic</button>
+				<button v-on:click="this.leaveWaiting()" className="modes_routers">Leave queue</button>
 			</div>
 			<div className="game_mode_two_div">
 				<RouterLink to="mode" className="modes_routers" >Mode 2</RouterLink>

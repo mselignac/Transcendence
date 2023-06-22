@@ -79,8 +79,8 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	  client: client,
 	  username: data.username,
 	};
-
 	this.waitingRoomList.push(newWaitingRoom);
+	console.log("WAITING LIST ", this.waitingRoomList);
 	if (this.waitingRoomList.length >= 2)
 	  this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1]);
   }
@@ -92,6 +92,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	if (index !== -1) {
     	this.waitingRoomList.splice(index, 1);
 	}
+	console.log("WAITING LIST ", this.waitingRoomList);
   }
 
   gameInit(leftPlayer: waitingRoom, rightPlayer: waitingRoom) {
@@ -134,6 +135,8 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
     	this.waitingRoomList.splice(index, 1);
 	}
 	this.roomCount++;
+	console.log("WAITING LIST ", this.waitingRoomList);
+	console.log("GAME LIST ", this.gameRoomList);
   }
 
   @SubscribeMessage('requestInfo')
@@ -161,7 +164,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	setTimeout(() => {
 	  client.emit('reset');
 	}, 5000);
-
+	console.log("GAME LIST ", this.gameRoomList);
   }
 
   afterInit(server: Server) {
