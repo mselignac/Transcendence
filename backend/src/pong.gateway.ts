@@ -50,12 +50,12 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('play') 
   play(client: Socket, data: any): void {
-	console.log("side ", data.side);
-	if (data.side === "left"){
+	console.log("username ", data.username);
+	if (data.username === this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname){
 		this.gameRoomList[data.roomId].leftReady = true;
 		this.server.to(data.roomId.toString()).emit("readyMsg", {side: "left"});
 	}
-	if (data.side === "right"){
+	if (data.username === this.gameRoomList[data.roomId].dataChariot.rightPlayer.nickname){
 		this.gameRoomList[data.roomId].rightReady = true;
 		this.server.to(data.roomId.toString()).emit("readyMsg", {side: "right"});
 	}
@@ -139,16 +139,17 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('requestInfo')
   sendInfo(client: Socket, data: any): void {
+	console.log("Room id ", data.roomId);
 	console.log("Username 1 ", this.gameRoomList[data.roomId].dataChariot.leftPlayer);
 	console.log("Username 2 ", this.gameRoomList[data.roomId].dataChariot.rightPlayer);
 	console.log("SIDE VALUE", this.gameRoomList[data.roomId].side);
-	if (!this.gameRoomList[data.roomId].side) {
+	if (this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname === data.username) {
 		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname, isLeft: true});
-		this.gameRoomList[data.roomId].side = true;
 	}
-	else
+	else {
 		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname, isLeft: false});
-  }
+	}
+}
 
   @SubscribeMessage('gameEnded')
   gameEnded(client: Socket, data: any): void {

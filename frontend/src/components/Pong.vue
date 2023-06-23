@@ -21,9 +21,10 @@
 	let rightReady = ref(false);
 	
 	export default {
+		props: ['roomid', 'appExist'],
 		watch: {
-			boardexist: function (newVal, oldVal) {
-			document.querySelector("#my-canvas-wrapper")?.remove();
+			appExist: function (newVal, oldVal) {
+			document.querySelector("#pong-canvas")?.remove();
 			},
 		},
 		name: 'Pong',
@@ -33,7 +34,6 @@
 				active: true,
 			}
 		},
-		props: ['room'],
 
 		mounted() {
 
@@ -53,7 +53,7 @@
 
 			play() {
 				console.log("bonjour");
-				socket.emit("play", {roomId: tRoomId.value, side: side.value});
+				socket.emit("play", {roomId: tRoomId.value, username: actualUsername.value});
 			},
 
 			Game() {
@@ -67,7 +67,9 @@
 					// view: canvas,
 					backgroundAlpha: 0,
 				});
-				this.$refs.pong_canvas.appendChild(PongApp.view);
+				if (document.querySelector("#pong-canvas") != null)
+          			document.querySelector("#pong-canvas")?.appendChild(PongApp.view);
+				PongApp.resize(PongApp.view.parentNode.width, PongApp.view.parentNode.height);
 				// resize();
 				// document.body.appendChild(PongApp.view);
 				
@@ -409,14 +411,16 @@
 					leftCheck.destroy(true);
 					leftCross.destroy(true);
 					ballTex.destroy(true);
+					// this.$router.push({ path: '/game-mode'});
 					backImgTex.destroy(true);
 					PongApp.stage.destroy(true);
-					PongApp.destroy(true);
-
-					this.$router.push({ path: '/game-mode'});
-				})
-
-				socket.on('hardReset', (data) => {
+					PongApp.stage = null;
+					// PongApp.destroy(true);
+					if (document.querySelector("#pong-canvas") != null) {
+              			const child = document.querySelector("#pong-canvas")?.lastChild;
+              			if (child != null && child != undefined)
+                			document.querySelector("#pong-canvas")?.removeChild(child);
+            		}	
 
 				})
 			},
@@ -427,24 +431,22 @@
 			.then((response) => {
 				actualUsername.value = response.data.login
 			})
-			tRoomId.value = this.room;
-			console.log("Room id afefwef", tRoomId.value);
+			tRoomId.value = this.roomid;
+			// console.log("Room id afefwef", tRoomId.value);
 			socket.emit("requestInfo", {roomId: tRoomId.value, username: actualUsername.value})
 		},
 	}
 </script>
 
 <template>
-		<div ref="pong_canvas" class="pong"></div>
+		<div id="pong-canvas"></div>
 		<p>
 			<button v-on:click="this.play()">Ready</button>
-			<button v-on:click="this.playRequest()">Play Request</button>
 		</p>
 </template>
 
-<!-- <style scoped>
-.pong {
-	width: 80%; /* Ajustez le pourcentage selon vos besoins */
-  height: 60vh;
+<style scoped>
+#pong-canvas {
+  position: absolute;
 }
-</style> -->
+</style>

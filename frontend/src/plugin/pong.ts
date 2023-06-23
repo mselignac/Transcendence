@@ -2,17 +2,17 @@ import { def } from '@vue/shared';
 import * as PIXI from 'pixi.js'
 
 let elem;
-if(document.getElementById('my-canvas-wrapper') != null)
+if(document.getElementById('pong-canvas') != null)
 {
-	elem = document.getElementById('my-canvas-wrapper');
+	elem = document.getElementById('pong-canvas');
 }
 else
 {
 	elem = window;
 }
 
-const board = new PIXI.Application({
+const PongApp = new PIXI.Application({
 	resizeTo: window,
 	})
 
-export default board;
+export default PongApp;
