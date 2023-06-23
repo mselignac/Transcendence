@@ -398,20 +398,20 @@
 					socket.emit("gameEnded", {id: tRoomId.value});
 				})
 				socket.on('reset', (data) => {
-					// leftScoreText.destroy(true);
-					// rightScoreText.destroy(true);
-					// leftUserText.destroy(true);
-					// rightUserText.destroy(true);
-					// leftPaddle.destroy(true);
-					// rightPaddle.destroy(true);
-					// rightCheck.destroy(true);
-					// rightCross.destroy(true);
-					// leftCheck.destroy(true);
-					// leftCross.destroy(true);
-					// ballTex.destroy(true);
-					// backImgTex.destroy(true);
-					// PongApp.stage.destroy(true);
-					// PongApp.destroy(true);
+					leftScoreText.destroy(true);
+					rightScoreText.destroy(true);
+					leftUserText.destroy(true);
+					rightUserText.destroy(true);
+					leftPaddle.destroy(true);
+					rightPaddle.destroy(true);
+					rightCheck.destroy(true);
+					rightCross.destroy(true);
+					leftCheck.destroy(true);
+					leftCross.destroy(true);
+					ballTex.destroy(true);
+					backImgTex.destroy(true);
+					PongApp.stage.destroy(true);
+					PongApp.destroy(true);
 
 					this.$router.push({ path: '/game-mode'});
 				})

@@ -41,6 +41,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @WebSocketServer() server: Server;
 
+
   @SubscribeMessage('move')
   movePlayer(client: Socket, data: any): void {
 	this.gameRoomList[data.roomId].move(data);
@@ -140,7 +141,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   sendInfo(client: Socket, data: any): void {
 	console.log("Username 1 ", this.gameRoomList[data.roomId].dataChariot.leftPlayer);
 	console.log("Username 2 ", this.gameRoomList[data.roomId].dataChariot.rightPlayer);
-
+	console.log("SIDE VALUE", this.gameRoomList[data.roomId].side);
 	if (!this.gameRoomList[data.roomId].side) {
 		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname, isLeft: true});
 		this.gameRoomList[data.roomId].side = true;
