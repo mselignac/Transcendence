@@ -134,16 +134,19 @@
     /* border-radius: 20px 20px 20px 20px; */
     border-radius: 10px 10px 10px 10px;
     /* color: beige; */
-    background-color: rgb(2, 77, 138);
+    /* background-color: rgb(2, 77, 138); */
     background-color: rgb(123, 89, 163);
     border-color: transparent;
     color: rgb(221, 221, 221);
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
 }
 
 .button_access_profile:hover {
-    scale: 1.1;
-    background-color: rgb(2, 77, 138);
+    /* scale: 1.1; */
+    /* background-color: rgb(2, 77, 138); */
     background-color: rgb(123, 89, 163);
+    transform: scale(1.1);
 }
 
 .button_add_friend {
@@ -187,4 +190,39 @@
     width: 230px; /* Spécifiez la largeur souhaitée */
     height: auto; /* La hauteur s'ajustera automatiquement en conservant les proportions */
     border-radius: 50%; /* Applique une forme arrondie à l'image */
+}
+
+
+@keyframes smooth-appear {
+    to{
+      bottom: 20px;
+      opacity:1;
+    }
+  }
+  
+.code {
+    /* background: gray; */
+    color:white;
+    padding-bottom: 100px;
+    position: fixed;
+    bottom: -100%;
+    opacity:0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    animation: smooth-appear 1s ease forwards;
+  }
+
+.twofactor {
+    display: flex;
+    /* justify-self: flex-start; */
+    justify-content: center;
+    align-items: center;
+    margin-right: 35%;
+}
+
+.twofactor_auth {
+    display: flex;
+    margin-right: 20px;
+    /* background-color: red; */
 }

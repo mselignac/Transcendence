@@ -122,15 +122,15 @@ export default {
         <button @click="logout" className="button_access_profile">logout</button>
       </div>
       <div className="profile_bottom">
-        <div>
-          <h1> twofactor auth </h1>
+        <div className="twofactor">
+          <h1 className="twofactor_auth"> twofactor auth </h1>
           <Toggle
           v-model="value"
           on-label="On"
           off-label="Off"
           />
         </div>
-        <div v-if="qrCodeData">
+        <div v-if="qrCodeData" className="code">
             <img v-bind:src="qrCodeData"/>
             <form @submit.prevent="turnOn2fa">
               <input className="profile_change_username" v-model="code" placeholder='2fa code' :maxlength="6" pattern="[0-9]+" title="only numbers accepted">

@@ -62,6 +62,7 @@ router.beforeEach((to, from, next) => {
   to.matched[0].name != 'main' && to.matched[0].name != 'error') {
     authGuard2fa()
   }
+
   next()
 })
 

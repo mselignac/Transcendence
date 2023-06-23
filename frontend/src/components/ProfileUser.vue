@@ -111,7 +111,10 @@ export default {
       <div className="profile_three">
           <RouterLink :to="'/game-history/' + id" className="button_access_profile">history</RouterLink>
           <RouterLink :to="'/ladder/' + id" className="button_access_profile">ladder</RouterLink>
-          <RouterLink :to="'/chat/' + id" v-if="is_friend" className="button_access_profile">chat</RouterLink> <!-- si on est amis -> chat accessible -->
+          <RouterLink :to="'/chat/' + id" v-if="is_friend" className="button_access_profile">chat</RouterLink>
+      </div>
+      <div className="profile_bottom">
+          <button v-if="is_friend" className="button-85">play</button>
       </div>
 
     </div>

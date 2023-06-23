@@ -19,11 +19,14 @@
     align-items: center;
     /* background-color: rgb(37, 53, 107); */
     background-color: rgb(123, 89, 163);
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
 }
 
 .stats_one_div:hover {
-    scale: 1.1;
+    /* scale: 1.1; */
     background-color: rgb(123, 89, 163);
+    transform: scale(1.1);
 }
 
 .stats_two_div {
@@ -36,11 +39,14 @@
     align-items: center;
     /* background-color: rgb(37, 53, 107); */
     background-color: rgb(123, 89, 163);
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
 }
 
 .stats_two_div:hover {
-    scale: 1.1;
+    /* scale: 1.1; */
     background-color: rgb(123, 89, 163);
+    transform: scale(1.1);
 }
 
 .stats_three_div {

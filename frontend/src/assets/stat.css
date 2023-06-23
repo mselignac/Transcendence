@@ -319,7 +319,7 @@
 <button class="button-85" role="button">Button 85</button> */
 
 /* CSS */
-/* .button-85 {
+.button-85 {
   padding: 0.6em 2em;
   border: none;
   outline: none;
@@ -332,8 +332,9 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  font-size: 350%;
 }
-
+/* 
 .button-85:before {
   content: "";
   background: linear-gradient(
@@ -347,6 +348,25 @@
     #7a00ff,
     #ff00c8,
     #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+} */
+
+.button-85:before {
+  content: "";
+  background: linear-gradient(
+    45deg, rgb(163, 163, 163), blue, rgb(155, 106, 201), grey, rgb(25, 25, 124), rgb(155, 106, 201)
   );
   position: absolute;
   top: -2px;
@@ -384,4 +404,4 @@
   left: 0;
   top: 0;
   border-radius: 10px;
-} */
+}

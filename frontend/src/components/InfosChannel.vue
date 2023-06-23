@@ -17,7 +17,8 @@ export default {
             owner: false,
             isAdmin: false,
             me: '',
-            pw: false
+            pw: false,
+            length: '0'
         }
     },
     methods: {
@@ -101,6 +102,7 @@ export default {
             this.isAdmin = true
         if (this.infos.owner == this.me.login)
             this.owner = true
+        this.length = this.infos.users.length
       }
       else
         router.push('/main-page')
@@ -114,7 +116,7 @@ export default {
         <div className="infos">
             <div className="channel_name_infos">
                 <h1 className="make_bold">{{ idchannel }}</h1>
-                <h1 className="members">{{ infos.users.length }} members</h1>
+                <h1 className="members">{{ length }} members</h1>
             </div>
 
             <div className="user_list_infos">
@@ -138,9 +140,9 @@ export default {
                         <input className="set_password" v-model="password" placeholder='set password' :maxlength="9">
                     </form>
                     <button v-if="owner && pw" @click="removePassword()" className="remove_pw_button">Remove password</button>
+                    <h1 v-if="!owner">{{ visibility }}</h1>
                 </div>
 
-                <h1 v-if="!owner">{{ visibility }}</h1>
             </div>
         </div>
 

@@ -47,15 +47,11 @@ export default {
                     <div className="ladder_element" v-if="user.login != id">
                         <h1 v-if="user.victory != 0 && ladder[0] == user" className="login_ladder"><font-awesome-icon icon="fa-solid fa-crown" /></h1>
                         <h1 className="login_ladder">{{ user.login }}</h1>
-                        <!-- <h1 v-else className="me_ladder">{{ user.login }}</h1> -->
                         <h1 className="login_ladder">victories: {{ user.victory }}</h1>
-                        <!-- <h1 v-else className="me_ladder">victories: {{ user.victory }}</h1> -->
                     </div>
                     <div className="ladder_me_element" v-else>
                         <h1 v-if="user.victory != 0 && ladder[0] == user" className="login_ladder"><font-awesome-icon icon="fa-solid fa-crown" /></h1>
-                        <!-- <h1 className="login_ladder">{{ user.login }}</h1> -->
                         <h1 className="me_ladder">{{ user.login }}</h1>
-                        <!-- <h1 className="login_ladder">victories: {{ user.victory }}</h1> -->
                         <h1 className="me_ladder">victories: {{ user.victory }}</h1>
                     </div>
                 </li>
