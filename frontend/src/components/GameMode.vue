@@ -3,7 +3,7 @@ import { PlaneGeometry } from 'pixi.js';
 import Borders from './Borders.vue'
 import Pong from './Pong.vue'
 import $socket from '../plugin/socket';
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
 import { io } from "socket.io-client";
 import { accountService } from '../_services/account.service'
 import router from '../router';
@@ -26,9 +26,22 @@ export default {
 			}
 		},
 
+		playRequestSpecial(mode: string) {
+			if (isWaiting.value === false) {
+				socket.emit("specialPlayRequest", {username: actualUsername.value});
+				isWaiting.value = true;
+			}
+		},
+
 		leaveQueue(mode: string) {
 			if (isWaiting.value === true) {
 				socket.emit("leaveWaiting", {username: actualUsername.value});
+				isWaiting.value = false;
+			}
+		},
+		specialLeaveQueue(mode: string) {
+			if (isWaiting.value === true) {
+				socket.emit("leaveSpecialWaiting", {username: actualUsername.value});
 				isWaiting.value = false;
 			}
 		},
@@ -62,6 +75,8 @@ socket.on('roomAssigned', (data) => {
 socket.on("reset", (data) => {
 	inGame.value = false;
 	tRoomId.value = null;
+	appExist.value = false;
+	console.log("HERE ZBOUI");
 })
 
 </script>
@@ -69,7 +84,7 @@ socket.on("reset", (data) => {
 <template>
 	<Borders/>
 	<div className="main_div">
-		<Pong v-if="inGame" :roomid="tRoomId" :appExist="appExist"/>
+		<Pong ref="pongRef" v-if="inGame" :roomid="tRoomId" :appExist="appExist"/>
 		<!-- <button v-on:click="this.play()" v-if="inGame" >Ready</button> -->
 		<div className="game_mode_div_test" v-if="!inGame">
 			<div className="game_mode_one_div" v-if="!inGame">
@@ -77,10 +92,8 @@ socket.on("reset", (data) => {
 				<button @click="this.leaveQueue()" v-if="!inGame" className="modes_routers">Leave queue</button>
 			</div>
 			<div className="game_mode_two_div" v-if="!inGame">
-				<RouterLink to="mode" className="modes_routers" >Mode 2</RouterLink>
-			</div>
-			<div className="game_mode_three_div" v-if="!inGame">
-				<RouterLink to="mode" className="modes_routers" >Mode 3</RouterLink>
+				<button @click="this.playRequestSpecial()" v-if="!inGame" className="modes_routers">Special</button>
+				<button @click="this.specialLeaveQueue()" v-if="!inGame" className="modes_routers">Leave queue</button>
 			</div>
 		</div>
 	</div>

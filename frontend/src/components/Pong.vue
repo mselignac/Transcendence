@@ -1,11 +1,10 @@
 <script setup lang="ts">
 	import $socket from '../plugin/socket';
 	import * as PIXI from 'pixi.js';
-	import {ref} from 'vue';
-	import Borders from './Borders.vue'
+	import { ref, watch, defineComponent } from 'vue';
 	import axios from 'axios';
 	import { io } from "socket.io-client";
-	import { accountService } from '../_services/account.service'
+	import { accountService } from '../_services/account.service';
 
 </script>
 
@@ -16,15 +15,17 @@
 	let leftUsername = ref(false);
 	let rightUsername = ref(false);
 	let tRoomId = ref(null);
-	let side = ref(false);
+	let side = ref("");
 	let leftReady = ref(false);
 	let rightReady = ref(false);
+	let isSpecial = ref(false);
 	
-	export default {
+	export default defineComponent ({
 		props: ['roomid', 'appExist'],
 		watch: {
 			appExist: function (newVal, oldVal) {
-			document.querySelector("#pong-canvas")?.remove();
+				console.log("HEREHEHEHEHE");
+				document.querySelector("#pong-canvas")?.remove();
 			},
 		},
 		name: 'Pong',
@@ -74,7 +75,7 @@
 				// document.body.appendChild(PongApp.view);
 				
 				const gameScene = new PIXI.Container();
-				let leftPaddle, rightPaddle, ball, state, leftCross, leftCheck, rightCross, rightCheck;
+				let leftPaddle, rightPaddle, ball, state, leftCross, leftCheck, rightCross, rightCheck, upMidWall, downMidWall;
 
 				PongApp.stage.addChild(gameScene);
 
@@ -87,6 +88,10 @@
 				const backImgSprite = new PIXI.Sprite(backImgTex);
 				leftPaddle = new PIXI.Sprite(paddleTex);
 				rightPaddle = new PIXI.Sprite(paddleTex);
+
+				upMidWall = new PIXI.Sprite(paddleTex);
+				downMidWall = new PIXI.Sprite(paddleTex);
+
 				ball = new PIXI.Sprite(ballTex);
 				
 				//Background Setup
@@ -155,10 +160,10 @@
 				leftCheck.width = backImgSprite.width / 30;
 				rightCross.width = backImgSprite.width / 30;
 				rightCheck.width = backImgSprite.width / 30;
-				leftCross.height = leftCross.width
-				leftCheck.height = leftCross.width
-				rightCross.height = leftCross.width
-				rightCheck.height = leftCross.width
+				leftCross.height = backImgSprite.width / 30;
+				leftCheck.height = backImgSprite.width / 30;
+				rightCross.height = backImgSprite.width / 30;
+				rightCheck.height = backImgSprite.width / 30;
 
 
 				leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
@@ -199,6 +204,25 @@
 				rightPaddle.vy = 0;
 				gameScene.addChild(rightPaddle);
 
+				//Middle walls setup
+				upMidWall.anchor.set(0.5, 0.5);
+				downMidWall.anchor.set(0.5, 0.5);
+
+				upMidWall.width = backImgSprite.width / 19;
+				downMidWall.width = backImgSprite.width / 19;
+
+				upMidWall.height = (backImgSprite.height / 3.5) / 1.5; 
+				downMidWall.height = (backImgSprite.height / 3.5) / 1.5;
+
+				upMidWall.position.set((backImgSprite.width / 2), backImgSprite.height / 3);
+				downMidWall.position.set((backImgSprite.width / 2), backImgSprite.height - backImgSprite.height / 3);
+
+				gameScene.addChild(upMidWall);
+				gameScene.addChild(downMidWall);
+
+				upMidWall.visible = false;
+				downMidWall.visible = false;
+
 				//Ball Setup
 				ball.anchor.set(0.5, 0.5);
 				ball.position.x = backImgSprite.width / 2;
@@ -214,9 +238,7 @@
 
 				//Key listener
 				const   up = keyboard("ArrowUp"),
-						down = keyboard("ArrowDown"),
-						upR = keyboard("ArrowLeft"),
-						downR = keyboard("ArrowRight");
+						down = keyboard("ArrowDown");
 
 				//Up
 				up.press = () => {
@@ -235,25 +257,6 @@
 				down.release = () => {
 					if (!up.isDown) {
 						leftPaddle.vy = 0;
-					}
-				};
-
-				upR.press = () => {
-					rightPaddle.vy = -1;
-				};
-				upR.release = () => {
-					if (!downR.isDown) {
-						rightPaddle.vy = 0;
-					}
-				};
-
-				//Down
-				downR.press = () => {
-					rightPaddle.vy = 1;
-				};
-				downR.release = () => {
-					if (!upR.isDown) {
-						rightPaddle.vy = 0;
 					}
 				};
 
@@ -364,6 +367,16 @@
 					leftUserText.text = data.leftUsername;
 					rightUserText.text = data.rightUsername;
 
+					isSpecial.value = data.isSpecial;
+					if (data.isSpecial) {
+						upMidWall.visible = true;
+						downMidWall.visible = true;
+					}
+					else {
+						upMidWall.visible = false;
+						downMidWall.visible = false;
+					}
+
 					if (data.isLeft)
 						side.value = "left";
 					else
@@ -374,7 +387,7 @@
 				})
 
 				socket.on('readyMsg', (data) => {
-					if (data.side == "left"){
+					if (data.side === "left"){
 						leftReady.value = true;
 						leftCross.visible = false;
 						leftCheck.visible = true;
@@ -385,7 +398,8 @@
 						rightCheck.visible = true;
 					}
 
-					if (leftReady.value === true && rightReady.value === true){
+					if (leftReady.value === true && rightReady.value === true) {
+						console.log("salut");
 						leftCheck.visible = false;
 						rightCheck.visible = false;
 					}
@@ -416,12 +430,17 @@
 					// PongApp.stage.destroy(true);
 					// // PongApp.stage = null;
 					// PongApp.destroy(true);
-					if (document.querySelector("#pong-canvas") != null) {
-              			const child = document.querySelector("#pong-canvas")?.lastChild;
-              			if (child != null && child != undefined)
-                			document.querySelector("#pong-canvas")?.removeChild(child);
-            		}	
+
+					// if (document.querySelector("#pong-canvas") != null) {
+              		// 	const child = document.querySelector("#pong-canvas")?.lastChild;
+              		// 	if (child != null && child != undefined)
+                	// 		document.querySelector("#pong-canvas")?.removeChild(child);
+            		// }
+					rightReady.value = false;
+					leftReady.value = false;
 					this.active = false;
+					up.unsubscribe();
+					down.unsubscribe();
 				})
 			},
 
@@ -435,7 +454,7 @@
 			// console.log("Room id afefwef", tRoomId.value);
 			socket.emit("requestInfo", {roomId: tRoomId.value, username: actualUsername.value})
 		},
-	}
+	})
 </script>
 
 <template>

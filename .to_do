@@ -1,4 +1,5 @@
-- Fix ready sprite when starting a second pong game
+Y Fix ready sprite when starting a second pong game
 - Make the Pong responsive
 - Invite another player
-- Make another mode (maybe two walls on the middle)
+Y Make another mode (maybe two walls on the middle)
+- Régler css boutons sur /Game-pagec

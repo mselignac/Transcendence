@@ -36,6 +36,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   private gameRoomList: Array<PongService> = new Array<PongService>();
   private waitingRoomList: Array<waitingRoom> = [];
+  private specialWaitingRoomList: Array<waitingRoom> = [];
   private inGameList: Array<gameUser> = [];
   private roomCount: number = 0;
 
@@ -68,15 +69,27 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('playRequest')
   playRequest(client: Socket, data: any): void {
-	console.log("Request arrived from: ", data.username);
+	// console.log("Request arrived from: ", data.username);
 	const newWaitingRoom: waitingRoom = {
 	  client: client,
 	  username: data.username,
 	};
 	this.waitingRoomList.push(newWaitingRoom);
-	console.log("WAITING LIST ", this.waitingRoomList);
+	// console.log("WAITING LIST ", this.waitingRoomList);
 	if (this.waitingRoomList.length >= 2)
-	  this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1]);
+	  this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1], false);
+  }
+
+  @SubscribeMessage('specialPlayRequest')
+  specialPlayRequest(client: Socket, data: any): void {
+	console.log("Request arrived from: ", data.username);
+	const newWaitingRoom: waitingRoom = {
+	  client: client,
+	  username: data.username,
+	};
+	this.specialWaitingRoomList.push(newWaitingRoom);
+	if (this.specialWaitingRoomList.length >= 2)
+	  this.gameInit(this.specialWaitingRoomList[0], this.specialWaitingRoomList[1], true);
   }
 
   inviteToPlay() {
@@ -85,23 +98,30 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('leaveWaiting')
   leaveWaiting(client: Socket, data: any): void {
-	console.log("Leave request arrived from: ", data.username);
+	// console.log("Leave request arrived from: ", data.username);
 	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
 	if (index !== -1) {
     	this.waitingRoomList.splice(index, 1);
 	}
-	console.log("WAITING LIST ", this.waitingRoomList);
+	// console.log("WAITING LIST ", this.waitingRoomList);
   }
 
-  gameInit(leftPlayer: waitingRoom, rightPlayer: waitingRoom) {
+  @SubscribeMessage('leaveSpecialWaiting')
+  leaveSpecialWaiting(client: Socket, data: any): void {
+	// console.log("Leave request arrived from: ", data.username);
+	let index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+	if (index !== -1) {
+    	this.specialWaitingRoomList.splice(index, 1);
+	}
+	// console.log("WAITING LIST ", this.specialWaitingRoomList);
+  }
+
+  gameInit(leftPlayer: waitingRoom, rightPlayer: waitingRoom, specialMode: boolean) {
 	this.gameRoomList.push(new PongService());
 	this.gameRoomList.slice(-1)[0].id = this.roomCount;
 
-  
-	if (leftPlayer.username == undefined)
-	  leftPlayer.username = "Ceci est";
-	if (rightPlayer.username == undefined)
-	  rightPlayer.username = "une pre-alpha";
+	if (specialMode)
+		this.gameRoomList.slice(-1)[0].specialMode = true;
 
 	leftPlayer.client.join(this.gameRoomList.slice(-1)[0].id.toString());
 	rightPlayer.client.join(this.gameRoomList.slice(-1)[0].id.toString());
@@ -124,30 +144,44 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	  };
 	this.inGameList.push(newGameUser1);
 	this.inGameList.push(newGameUser2);
-	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname);
-	if (index !== -1) {
-    	this.waitingRoomList.splice(index, 1);
+
+	if (specialMode === false) {
+		let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname);
+		if (index !== -1) {
+			this.waitingRoomList.splice(index, 1);
+		}
+		index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname);
+		if (index !== -1) {
+			this.waitingRoomList.splice(index, 1);
+		}
 	}
-	index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname);
-	if (index !== -1) {
-    	this.waitingRoomList.splice(index, 1);
+	else {
+		let index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname);
+		if (index !== -1) {
+			this.specialWaitingRoomList.splice(index, 1);
+		}
+		index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname);
+		if (index !== -1) {
+			this.specialWaitingRoomList.splice(index, 1);
+		}
 	}
+
 	this.roomCount++;
-	console.log("WAITING LIST ", this.waitingRoomList);
-	console.log("GAME LIST ", this.gameRoomList);
+	// console.log("WAITING LIST ", this.waitingRoomList);
+	// console.log("GAME LIST ", this.gameRoomList);
   }
 
   @SubscribeMessage('requestInfo')
   sendInfo(client: Socket, data: any): void {
-	console.log("Room id ", data.roomId);
-	console.log("Username 1 ", this.gameRoomList[data.roomId].dataChariot.leftPlayer);
-	console.log("Username 2 ", this.gameRoomList[data.roomId].dataChariot.rightPlayer);
-	console.log("SIDE VALUE", this.gameRoomList[data.roomId].side);
+	// console.log("Room id ", data.roomId);
+	// console.log("Username 1 ", this.gameRoomList[data.roomId].dataChariot.leftPlayer);
+	// console.log("Username 2 ", this.gameRoomList[data.roomId].dataChariot.rightPlayer);
+	// console.log("SIDE VALUE", this.gameRoomList[data.roomId].side);
 	if (this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname === data.username) {
-		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname, isLeft: true});
+		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList[data.roomId].dataChariot.rightPlayer.nickname, isLeft: true, isSpecial: this.gameRoomList[data.roomId].specialMode});
 	}
 	else {
-		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname, isLeft: false});
+		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList[data.roomId].dataChariot.rightPlayer.nickname, isLeft: false, isSpecial: this.gameRoomList[data.roomId].specialMode});
 	}
 }
 
@@ -166,7 +200,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	}, 5000);
 	// this.gameRoomList.splice(data.id, 1);
 	delete this.gameRoomList[data.id];
-	console.log("GAME LIST ", this.gameRoomList);
+	// console.log("GAME LIST ", this.gameRoomList);
   }
 
   afterInit(server: Server) {
