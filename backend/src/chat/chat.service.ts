@@ -12,6 +12,7 @@ import { MessageDto } from './messages.dto';
 import { userDto } from './user.dto';
 import { AdminDto } from '../admin/admin.dto';
 import * as argon from 'argon2';
+// import { S3Client } from '@aws-sdk/client-s3'
 
 let id = 0
 

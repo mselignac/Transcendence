@@ -127,6 +127,9 @@ export default {
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
                 </div>
+                <div className="invitation">
+                    <button className="invite_friend">invite</button>
+                </div>
             </div>
             <div className="scroll">
                 <div className="chat_msg_div">

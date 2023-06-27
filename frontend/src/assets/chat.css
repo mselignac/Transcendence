@@ -68,7 +68,7 @@
 .chat_bottom_test {
     display: grid;
     grid-row: 3;
-    grid-template-columns: 1fr 12fr;
+    grid-template-columns: 1fr 12fr 2fr;
     border-radius: 0px 0px 10px 10px;
     align-items: center;
     /* background-color: rgba(37, 53, 107, 0.452); */
@@ -303,4 +303,29 @@
     width: 50px;
     height: auto;
     border-radius: 50%;
+}
+
+.invite_friend {
+    display: flex;
+
+    background-color: rgb(225, 222, 228);
+    font-size: 130%;
+    padding: 8%;
+    border-radius: 8px;
+    border-color: transparent;
+}
+
+.invite_friend:hover {
+    scale: 0.97;
+    background-color: rgb(186, 179, 192);
+}
+
+.invitation {
+    display:flex;
+    height: 100%;
+    width: 100%;
+    grid-column: 3;
+    justify-content: center;
+    align-items: center;
+
 }
