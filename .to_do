@@ -1,0 +1,4 @@
+- Fix ready sprite when starting a second pong game
+- Make the Pong responsive
+- Invite another player
+- Make another mode (maybe two walls on the middle)

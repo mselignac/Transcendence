@@ -37,7 +37,7 @@
 
 		mounted() {
 
-			if (this.active == true) {
+			if (this.active === true) {
 				this.Game();
 			}
 		},
@@ -379,13 +379,13 @@
 						leftCross.visible = false;
 						leftCheck.visible = true;
 					}
-					else{
+					else {
 						rightReady.value = true;
 						rightCross.visible = false;
 						rightCheck.visible = true;
 					}
 
-					if (leftReady.value && rightReady.value){
+					if (leftReady.value === true && rightReady.value === true){
 						leftCheck.visible = false;
 						rightCheck.visible = false;
 					}
@@ -400,28 +400,28 @@
 					socket.emit("gameEnded", {id: tRoomId.value});
 				})
 				socket.on('reset', (data) => {
-					leftScoreText.destroy(true);
-					rightScoreText.destroy(true);
-					leftUserText.destroy(true);
-					rightUserText.destroy(true);
-					leftPaddle.destroy(true);
-					rightPaddle.destroy(true);
-					rightCheck.destroy(true);
-					rightCross.destroy(true);
-					leftCheck.destroy(true);
-					leftCross.destroy(true);
-					ballTex.destroy(true);
+					// leftScoreText.destroy(true);
+					// rightScoreText.destroy(true);
+					// leftUserText.destroy(true);
+					// rightUserText.destroy(true);
+					// leftPaddle.destroy(true);
+					// rightPaddle.destroy(true);
+					// rightCheck.destroy(true);
+					// rightCross.destroy(true);
+					// leftCheck.destroy(true);
+					// leftCross.destroy(true);
+					// ballTex.destroy(true);
 					// this.$router.push({ path: '/game-mode'});
-					backImgTex.destroy(true);
-					PongApp.stage.destroy(true);
-					PongApp.stage = null;
+					// backImgTex.destroy(true);
+					// PongApp.stage.destroy(true);
+					// // PongApp.stage = null;
 					// PongApp.destroy(true);
 					if (document.querySelector("#pong-canvas") != null) {
               			const child = document.querySelector("#pong-canvas")?.lastChild;
               			if (child != null && child != undefined)
                 			document.querySelector("#pong-canvas")?.removeChild(child);
             		}	
-
+					this.active = false;
 				})
 			},
 
