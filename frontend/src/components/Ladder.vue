@@ -22,6 +22,7 @@ export default {
     async created() {
         await accountService.ladder()
         .then(res => this.ladder = res.data )
+        .catch (res => console.log(res))
     }
 }
 </script>

@@ -387,6 +387,7 @@ import router from '@/router';
 					endText.visible = true;
 					if (actualUsername.value == data.winner)
 						accountService.addVictory({ login: data.winner })
+						.catch(res => console.log(res))
 					if (side._value == 'right')
 						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});

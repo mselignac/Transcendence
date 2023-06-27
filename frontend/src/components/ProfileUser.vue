@@ -68,6 +68,7 @@ export default {
     async created() {
       await accountService.findUser({ login: this.id })
       .then(res => { this.exist = res.data })
+      .catch (res => console.log(res))
 
       if (!this.exist)
         router.push('/main-page')
@@ -83,12 +84,14 @@ export default {
             this.is_blocked = true
 
         })
+        .catch (res => console.log(res))
 
         await accountService.isRequest({ name: this.username, user_one: this.me.login })
         .then(res => {
           if (res.data == true)
             this.request = true
         })
+        .catch (res => console.log(res))
       }
     }
 }

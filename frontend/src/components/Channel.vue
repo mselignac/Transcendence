@@ -78,6 +78,7 @@ export default {
               if (this.mute == false) {
                 let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
                 await accountService.addMessageChannel(msg)
+                .catch (res => console.log(res))
                 $socket_chat.emit('msgToServer', this.room, message)
               }
               this.text = ''
@@ -98,6 +99,7 @@ export default {
       async isBlocked(user) {
         await accountService.isBlocked({ name: this.my_username, user_one: user })
         .then(res => {  this.block = res.data })
+        .catch (res => console.log(res))
         return(true)
       }
     },
@@ -105,6 +107,7 @@ export default {
     async created() {
         await accountService.usersMe()
         .then((response) => { this.my_username = response.data.login })
+        .catch (res => console.log(res))
         let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
         await accountService.findRoomChannel(dto) 
         .then(res => {

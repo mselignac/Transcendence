@@ -83,7 +83,17 @@ export class UserService {
 
 		let dataa: RoomChannelDto = dto as ObjectKey
 
-		await this.prisma.user.update({
+		let ban = await this.prisma.roomChannel.findUnique({
+			where: {
+				name: dataa.users[0]
+			},
+			select: {
+				users_ban: !null
+			}
+		})
+
+		if (!ban.users_ban.find(t => t === dataa.name)) {
+			await this.prisma.user.update({
 			where: {
 			  login: dataa.name
 			},
@@ -91,7 +101,10 @@ export class UserService {
 			  channels: {
 				push: dataa.users[0]
 			  }
-	}})}
+			}})
+		}
+
+	}
 
 	async removeChannel(dto: object) {
 		type ObjectKey = keyof typeof dto;
@@ -278,7 +291,6 @@ export class UserService {
 
 		return (users)
 
-
 	}
 
 	async addVictory(dto: object) {
@@ -295,7 +307,7 @@ export class UserService {
 			}
 		})
 
-		return (user)
+		// return (user)
 
 	}
 

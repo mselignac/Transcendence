@@ -58,13 +58,15 @@ export default {
         .then((res) => {
           this.username = res.data.login
         })
+        .catch (res => console.log(res))
         this.text = ''
       },
 
       async logout() {
         Cookies.remove('jwt');
         Cookies.remove('2fajwt');
-        accountService.logout();
+        accountService.logout()
+        .catch (res => console.log(res))
         await router.push('/');
       },
 

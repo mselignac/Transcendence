@@ -57,6 +57,12 @@ export default {
             dto = { name: user, user_one: this.idchannel }
             await accountService.removeChannel(dto)
             .catch((res) => console.log(res))
+
+
+            let channel: RoomChannelDto = { name: this.idchannel }
+            await accountService.findRoomChannel(channel)
+            .then((response) => { this.infos = response.data })
+            .catch (res => console.log(res))
         },
         async remove(user) {
             let dto = { name: this.idchannel, user_one: user }
@@ -66,6 +72,12 @@ export default {
             dto = { name: user, user_one: this.idchannel }
             await accountService.removeChannel(dto)
             .catch((res) => console.log(res))
+
+
+            let channel: RoomChannelDto = { name: this.idchannel }
+            await accountService.findRoomChannel(channel)
+            .then((response) => { this.infos = response.data })
+            .catch (res => console.log(res))
         },
         mute(user) {
             let start = new Date();
@@ -76,15 +88,21 @@ export default {
             .catch((res) => console.log(res))
         },
 
-        admin(user) {
+        async admin(user) {
             let dto = { channel: this.idchannel, user: user }
-            accountService.admin(dto)
+            await accountService.admin(dto)
             .catch((res) => console.log(res))
+
+            let channel: RoomChannelDto = { name: this.idchannel }
+            await accountService.findRoomChannel(channel)
+            .then((response) => { this.infos = response.data })
+            .catch (res => console.log(res))
         }
     },
     async created() {
       await accountService.usersMe()
       .then((res) => { this.me = res.data })
+      .catch (res => console.log(res))
 
       let dto: RoomChannelDto = { name: this.idchannel }
       await accountService.findRoomChannel(dto)
@@ -92,6 +110,7 @@ export default {
         this.infos = response.data,
         this.pw = response.data.is_password
       })
+      .catch (res => console.log(res))
 
       if (this.infos && this.infos.users.find(t => t === this.me.login)) {
         if (this.infos.private == true)

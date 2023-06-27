@@ -27,9 +27,11 @@ export default {
     async created() {
         await accountService.getGame({ user_one: this.id })
         .then(res => this.games = res.data )
+        .catch (res => console.log(res))
 
         await accountService.getGame2({ user_one: this.id })
         .then(res => this.games2 = res.data )
+        .catch (res => console.log(res))
 
         // console.log(this.games)
     }

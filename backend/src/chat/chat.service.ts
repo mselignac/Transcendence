@@ -53,6 +53,9 @@ export class ChatService {
       let user = await this.prisma.user.findUnique({
         where: {
           login: data.login
+        },
+        select: {
+          avatarUrl: !null
         }
       })
       if (user)
@@ -91,7 +94,7 @@ export class ChatService {
         const user = await this.prisma.room.create({
             data,
         });
-        return user;
+        // return user;
       }
 
     }
@@ -251,7 +254,7 @@ export class ChatService {
             }
           },
         })
-        return user;
+        // return user;
       }
     }
 
@@ -265,6 +268,9 @@ export class ChatService {
             name: data.name
       },})
 
+      if (room)
+        delete room.password;
+
       return room;
     }
 
@@ -273,7 +279,17 @@ export class ChatService {
 
       let dataa: RoomChannelDto = dto as ObjectKey
 
-      let room = await this.prisma.roomChannel.update({
+      let ban = await this.prisma.roomChannel.findUnique({
+        where: {
+          name: dataa.name
+        },
+        select: {
+          users_ban: !null
+        }
+      })
+
+		if (!ban.users_ban.find(t => t === dataa.users[0])) {
+      await this.prisma.roomChannel.update({
           where: {
             name: dataa.name
           },
@@ -283,8 +299,9 @@ export class ChatService {
             }
           },
         })
+      }
 
-      return room;
+      // return room;
     }
 
     async removeUser(dto: object) {
@@ -362,6 +379,10 @@ export class ChatService {
         where: {
           private: false
         },
+        select: {
+          name: !null,
+          users: !null
+        }
       })
 
       return channels

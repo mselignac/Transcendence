@@ -16,6 +16,7 @@ export default {
     created() {
         accountService.usersMe()
         .then(res => this.me = res.data)
+        .catch (res => console.log(res))
     }
 }
 </script>

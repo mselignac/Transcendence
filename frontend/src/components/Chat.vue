@@ -57,6 +57,7 @@ export default {
               }
               let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
               await accountService.addMessage(msg)
+                .catch (res => console.log(res))
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
@@ -79,11 +80,13 @@ export default {
             this.my_username = response.data.login
             this.me = response.data 
         })
+        .catch (res => console.log(res))
         if (!this.me.friends.find(t => t === this.idchat))
             router.push('/main-page')
         else {
             await accountService.findUser({ login: this.idchat })
             .then(res => { this.exist = res.data })
+            .catch (res => console.log(res))
 
             let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
             await accountService.findRoom(dto) 

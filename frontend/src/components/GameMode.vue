@@ -27,9 +27,8 @@ export default {
 
 	async created() {
 	await accountService.usersMe()
-	.then((response) => {
-		actualUsername.value = response.data.login
-	})
+	.then((response) => { actualUsername.value = response.data.login })
+    .catch (res => console.log(res))
 },
 }
 

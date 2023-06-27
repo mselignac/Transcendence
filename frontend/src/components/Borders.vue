@@ -146,6 +146,7 @@ export default {
             .catch (res => console.log(res))
           let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
           accountService.addChannel(dtoo)
+            .catch (res => console.log(res))
           this.newChannel = ''
           this.create_channel = false
         }
@@ -154,8 +155,10 @@ export default {
       removeChannel(channels: friend_type) {
           let channel: object = { name: this.my_username, user_one: channels }
           accountService.removeChannel(channel)
+            .catch (res => console.log(res))
           let dto: object = { name: channels, user_one: this.my_username }
           accountService.removeUser(dto)
+            .catch (res => console.log(res))
           this.channel = false
           this.channels = this.channels.filter((t) => t !== channels)
       },
@@ -166,6 +169,7 @@ export default {
           let find: object = { login: this.search_user }
           await accountService.findUser(find)
             .then(res => { this.exist = res.data })
+            .catch (res => console.log(res))
 
           if (this.exist) {
             await router.push('/profile-user/' + this.search_user)
@@ -199,8 +203,10 @@ export default {
             else {
               this.channels.push( this.newChannel )
               accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
+              .catch (res => console.log(res))
               let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
               accountService.addChannel(dtoo)
+              .catch (res => console.log(res))
               this.newChannel = ''
             }
           }
@@ -218,8 +224,10 @@ export default {
           if (this.check_password == true) {
             this.channels.push( this.newChannel )
             accountService.editChannel({ name: this.newChannel, users: [ this.my_username ] })
+            .catch (res => console.log(res))
             let dtoo: RoomChannelDto = { name: this.my_username, users: [ this.newChannel ] }
             accountService.addChannel(dtoo)
+            .catch (res => console.log(res))
           }
           this.check_password = ''
           this.newChannel = ''
@@ -263,6 +271,7 @@ export default {
       {
         await accountService.isConnected({ name: friend })
         .then(res => { this.connected = res.data })
+        .catch (res => console.log(res))
         return (true)
       }
 
@@ -278,10 +287,12 @@ export default {
         this.my_username = this.users.login
         this.request = response.data.requests
       })
+      .catch (res => console.log(res))
 
       if (this.my_username) {
         await accountService.friendsOnline({ login: this.my_username })
         .then(res => { this.friends_online = res.data })
+        .catch (res => console.log(res))
         let $socket = io(`ws://${host}:${port}/user`, { 
             transports: ["websocket"],
             forceNew: true,
@@ -292,6 +303,7 @@ export default {
         $socket.on('connection', () => {
             accountService.friendsOnline({ login: this.my_username })
             .then(res => this.friends_online = res.data )
+            .catch (res => console.log(res))
         })
       }
 
