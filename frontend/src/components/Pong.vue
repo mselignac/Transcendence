@@ -19,9 +19,10 @@
 	let leftReady = ref(false);
 	let rightReady = ref(false);
 	let isSpecial = ref(false);
+	let gameDiv = ref(null);
 	
 	export default defineComponent ({
-		props: ['roomid', 'appExist'],
+		props: ['roomid', 'appExist', 'dimensions'],
 		watch: {
 			appExist: function (newVal, oldVal) {
 				console.log("HEREHEHEHEHE");
@@ -37,7 +38,8 @@
 		},
 
 		mounted() {
-
+			gameDiv.value = this.dimensions;
+			// console.log("Width: ", gameDiv.value.clientWidth);
 			if (this.active === true) {
 				this.Game();
 			}
@@ -61,9 +63,11 @@
 				// var canvas = document.getElementById('pong')
 				const PongApp = new PIXI.Application({
 					// autoResize: true,
-					// resolution: devicePixelRatio,
-					width: window.innerWidth,
-					height: window.innerHeight - 300,
+					// width: window.innerWidth,
+					// height: window.innerHeight - 300,
+					width: gameDiv.value.clientWidth,
+					height: gameDiv.value.clientWidth * 3 / 5,
+					resolution: devicePixelRatio,
 					// resizeTo: window,
 					// view: canvas,
 					backgroundAlpha: 0,
@@ -268,23 +272,55 @@
 				// gameScene.y = PongApp.screen.height / 2;
 
 				// window.addEventListener('resize', resize);
-                window.onresize = function (event) {    
-                    var w = window.innerWidth;
-                    var h = window.innerHeight;    //this part resizes the canvas but keeps ratio the same    
-                    PongApp.renderer.view.style.width = w + "px";    
-                    PongApp.renderer.view.style.height = h + "px";    
-                    //this part adjusts the ratio:    
-                    PongApp.renderer.resize(w,h);
-                }
+                window.addEventListener('resize', () => {
+					const parent = PongApp.view.parentNode;
 
-				function resize() {
-   				// Récupérez les nouvelles dimensions de la div.
-    			let width = this.pong_canvas.offsetWidth;
-    			let height = this.pong_canvas.offsetHeight;
-
-    			// Redimensionnez l'application Pixi.
-    			PongApp.renderer.resize(width, height);
-}
+					// let newWidth = parent.clientWidth;
+					// let newHeight = gameDiv.value.clientWidth * 3 / 5;
+					PongApp.renderer.resize(gameDiv.value.clientWidth, gameDiv.value.clientWidth * 3 / 5);
+					// PongApp.renderer.resolution = devicePixelRatio;
+					// gameScene.width = PongApp.renderer.width;
+					// gameScene.height = PongApp.renderer.width * 3 / 5;
+					backImgSprite.width = PongApp.renderer.width;
+					backImgSprite.height = PongApp.renderer.width * 3 / 5;
+					leftCross.width = backImgSprite.width / 30;
+					leftCheck.width = backImgSprite.width / 30;
+					rightCross.width = backImgSprite.width / 30;
+					rightCheck.width = backImgSprite.width / 30;
+					leftCross.height = backImgSprite.width / 30;
+					leftCheck.height = backImgSprite.width / 30;
+					rightCross.height = backImgSprite.width / 30;
+					rightCheck.height = backImgSprite.width / 30;
+					leftPaddle.width = backImgSprite.width / 19;
+					leftPaddle.height = backImgSprite.height / 3.5; 
+					rightPaddle.width = backImgSprite.width / 19;
+					rightPaddle.height = backImgSprite.height / 3.5;
+					upMidWall.width = backImgSprite.width / 19;
+					downMidWall.width = backImgSprite.width / 19;
+					upMidWall.height = (backImgSprite.height / 3.5) / 1.5; 
+					downMidWall.height = (backImgSprite.height / 3.5) / 1.5;
+					ball.width = backImgSprite.width / 20;
+					ball.height = ball.width;
+					leftUserText.position.set(backImgSprite.width / 4, backImgSprite.height / 15);
+					rightUserText.position.set(backImgSprite.width - (backImgSprite.width / 4), backImgSprite.height / 15);
+					leftScoreText.position.set(backImgSprite.width / 1.8, backImgSprite.height / 15);
+					rightScoreText.position.set(backImgSprite.width - (backImgSprite.width / 1.8), backImgSprite.height / 15);
+					endText.position.set(backImgSprite.width / 2, backImgSprite.height / 2);
+					leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					leftCheck.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					rightCross.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					rightCheck.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					leftPaddle.position.set((backImgSprite.width / 2) - (backImgSprite.width * 0.45), backImgSprite.height / 2);
+					rightPaddle.position.set((backImgSprite.width / 2) + (backImgSprite.width * 0.45), backImgSprite.height / 2);
+					upMidWall.position.set((backImgSprite.width / 2), backImgSprite.height / 3);
+					downMidWall.position.set((backImgSprite.width / 2), backImgSprite.height - backImgSprite.height / 3);
+					leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					leftCheck.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					rightCross.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					rightCheck.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					ball.position.x = backImgSprite.width / 2;
+					ball.position.y = backImgSprite.height / 2;
+				});
 
 				function keyboard(value) {
 					const key = {};

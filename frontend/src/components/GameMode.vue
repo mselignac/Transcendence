@@ -83,8 +83,8 @@ socket.on("reset", (data) => {
 
 <template>
 	<Borders/>
-	<div className="main_div">
-		<Pong ref="pongRef" v-if="inGame" :roomid="tRoomId" :appExist="appExist"/>
+	<div className="main_div" ref="mainDiv">
+		<Pong ref="pongRef" v-if="inGame" :roomid="tRoomId" :appExist="appExist" :dimensions="this.$refs.mainDiv"/>
 		<!-- <button v-on:click="this.play()" v-if="inGame" >Ready</button> -->
 		<div className="game_mode_div_test" v-if="!inGame">
 			<div className="game_mode_one_div" v-if="!inGame">

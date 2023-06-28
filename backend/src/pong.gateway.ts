@@ -203,6 +203,12 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	// console.log("GAME LIST ", this.gameRoomList);
   }
 
+  	@SubscribeMessage('privateInvite')
+	privateInvite(client: Socket, data: any): void {
+
+	}
+
+
   afterInit(server: Server) {
 	console.log('Server initialized');
   }
