@@ -47,7 +47,7 @@ export default {
         return (username == this.my_username)
       },
       check_invite(text: string) {
-        return (text == 'invite')
+        return (text == 'Do you want to play?')
       },
       async send_msg() {
         if (this.validateInput(this.text)) {
@@ -76,9 +76,14 @@ export default {
       },
 
       invite() {
-        socket_pong.emit("privateInvite", {sender: this.my_username, receiver: this.idchat});
-      
+        // socket_pong.emit("privateInvite", {sender: this.my_username, receiver: this.idchat});
+        this.text = "Do you want to play?"
+        this.send_msg()
         },
+
+        accept_invitation() {
+
+        }
     },
     async created() {
         await accountService.usersMe()
@@ -147,6 +152,8 @@ export default {
                         <div v-else className="msg_user_test">
                             <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink> -->
                             <h4 className="msg_user_testt">{{ chat.text }}</h4>
+                            <button @click="accept_invitation()" v-if="check_invite(chat.text)">yes</button>
+                            <button v-if="check_invite(chat.text)">no</button>
                             <p className="username_msg">{{ chat.username }}</p>
                         </div>
                     </li>
