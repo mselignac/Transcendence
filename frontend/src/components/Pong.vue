@@ -238,7 +238,7 @@
 				
 				ball.vx = 0;
 				ball.vy = 0;
-
+				ball.visible = true;
 				gameScene.addChild(ball);
 
 				//Key listener
@@ -321,6 +321,7 @@
 					rightCheck.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
 					ball.position.x = backImgSprite.width / 2;
 					ball.position.y = backImgSprite.height / 2;
+					endText.style.fontSize = backImgSprite.width / 15;
 				});
 
 				function keyboard(value) {
@@ -447,7 +448,9 @@
 						endText.text = "Player has disconnected";
 					else
 						endText.text = data.winner + " has won !";
+					endText.style.fontSize = backImgSprite.width / 15;
 					endText.visible = true;
+					ball.visible = false;
 					if (actualUsername.value == data.winner)
 						accountService.addVictory({ login: data.winner })
 						.catch(res => console.log(res))
