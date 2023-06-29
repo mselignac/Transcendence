@@ -19,8 +19,10 @@ type waitingRoom = {
 
 type privateWaitingRoom = {
 	client: Socket;
-	username?: string;
-	receiverUsername: string;
+	usernameOne?: string;
+	receiverClient?: Socket;
+	usernameTwo: string;
+	id: number;
   };
 
 type gameUser = {
@@ -46,6 +48,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   private inGameList: Array<gameUser> = [];
   private privateWaitingRoomList: Array<privateWaitingRoom> = [];
   private roomCount: number = 0;
+  private privateRoomCount: number = 0;
 
   @WebSocketServer() server: Server;
 
@@ -90,11 +93,22 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 		}
 	  	const newWaitingRoom: privateWaitingRoom = {
 			client: client,
-			username: data.sender,
-			receiverUsername: data.receiver,
+			usernameOne: data.sender,
+			usernameTwo: data.receiver,
+			id: this.privateRoomCount;
 	  	};
-
+		this.privateRoomCount++;
 	  	this.privateWaitingRoomList.push(newWaitingRoom);
+		client.emit("inviteInfo");
+	}
+
+	@SubscribeMessage('confirmInvite')
+	confirmInvite(client: Socket, data: any): void {
+		let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.usernameOne);
+		if (index === -1) {
+    		return ;
+		}
+
 	}
 	
 	@SubscribeMessage('playRequest')
