@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { accountService } from '@/_services'
 import Toggle from '@vueform/toggle'
 import router from '../router';
+import { Axios } from '@/_services/caller.service';
 </script>
 
 <script lang="ts">
@@ -53,6 +54,20 @@ export default {
   },
 
   methods: {
+    async upload() {
+      const formData = new FormData(this.$refs.upload_form);
+      console.log(formData.get('picture').name)
+      // await accountService.uploadAvatar(formData)
+      Axios.post('http://localhost:3000/upload', formData.get('picture').name, formData)
+      .then((res) => {
+        this.users.avatarUrl = res.data.avatarUrl
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    },
+
     async change_username() {
       await accountService.updateUsername(this.text)
         .then((res) => {
@@ -62,8 +77,6 @@ export default {
       },
 
       async logout() {
-        Cookies.remove('jwt');
-        Cookies.remove('2fajwt');
         accountService.logout();
         await router.push('/');
       },
@@ -104,14 +117,14 @@ export default {
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
       </div>
-      <div className="profile_username">
-        <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
+      <!-- <div className="profile_username"> -->
+        <!-- <form @submit.prevent="change_username" className="border_right_bottom_two"> -->
+          <!-- <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted"> -->
           <!-- <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9"> -->
-        </form>
+        <!-- </form> -->
         <!-- <h1>{{ this.username }}</h1> -->
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
-      </div>
+      <!-- </div> -->
       <div className="profile_bottom">
         <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
@@ -156,6 +169,24 @@ export default {
 
 	<!-- </div> -->
   <!-- </div> -->
+
+  	<!-- Le formulaire d'upload avec la référence "upload_form" -->
+	<form v-on:submit.prevent="upload" enctype="multipart/form-data" ref="upload_form" >
+
+<label for="picture" >Séléctionnez une image</label><br>
+
+<input type="file" id="picture" name="picture" required accept=".jpg,.png,.gif" >
+
+<!-- La barre de progression -->
+<!-- <div>
+  <progress v-bind:value="pourcentage" max="100" >{{ pourcentage }} %</progress>
+  </span>{{ (pourcentage > 0) ? pourcentage + ' %' : '' }}
+</div> -->
+
+<button type="submit" >Uploader</button>
+</form>
+
+
 </template>
 
 <style src="@vueform/toggle/themes/default.css"></style>

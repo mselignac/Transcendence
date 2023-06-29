@@ -14,7 +14,7 @@ import GameHistory from '../components/GameHistory.vue'
 import Ladder from '../components/Ladder.vue'
 import NotFound from '../components/NotFound.vue'
 import ProfileUser from '../components/ProfileUser.vue'
-import { authGuard, authGuardUsername, authGuard2fa } from '../_helper/auth-guard'
+import { authGuard, authGuardUsername, authGuard2fa, authGuardUser } from '../_helper/auth-guard'
 import Infos from '../components/InfosChannel.vue'
 import Channel from '../components/Channel.vue'
 import List from '../components/ListChannels.vue'
@@ -62,6 +62,10 @@ router.beforeEach((to, from, next) => {
   to.matched[0].name != 'main' && to.matched[0].name != 'error') {
     authGuard2fa()
   }
+  //use guard on all routes except login and home
+  if (to.matched[0].name != 'login' && to.matched[0].name != 'home')
+    authGuardUser()
+
   next()
 })
 
