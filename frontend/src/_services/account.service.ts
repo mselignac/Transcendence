@@ -160,6 +160,9 @@ let getMsgChannel = (room: String) => {
     return Axios.get('/chat/getmsgchannel', { params: { room } })
 }
 
+let deleteMsg = (dto: object) => {
+    return Axios.post('/chat/deletemsg', dto)
+}
 
 
 ////////////////////////////////////////////////////////
@@ -299,5 +302,6 @@ export const accountService = {
     getGame,
     getGame2,
     addVictory,
-    ladder
+    ladder,
+    deleteMsg
 }

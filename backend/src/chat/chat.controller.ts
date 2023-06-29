@@ -46,6 +46,11 @@ export class ChatController {
 		return this.chatService.addMsgChannel(dto)
 	}
 
+	@Post('deletemsg')
+	deleteMsg(@Body() dto: object) {
+		return this.chatService.deleteMsg(dto)
+	}
+
 	@Get('getmsgchannel')
 	getMsgChannel(@Req() req) {
 		return this.chatService.getMsgChannel(req.query)

@@ -173,6 +173,17 @@ export class ChatService {
       return msg
     }
 
+    async deleteMsg(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: userDto = dto as ObjectKey
+      await this.prisma.message.delete({
+        where: {
+          id: parseInt(data.login),
+        },
+      })
+    }
+
     async sendFriendRequest(dto: object) {
       type ObjectKey = keyof typeof dto;
 
