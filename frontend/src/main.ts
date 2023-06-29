@@ -22,6 +22,7 @@ import './assets/stats.css'
 import './assets/stat.css'
 import './assets/infos.css'
 import './assets/friends.css'
+import './assets/pong.css'
 
 /* add each imported icon to the library */
 library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUser, faUsers, faHouse, faGamepad, faChartSimple, faComment, faGear, faFaceSadTear, faFaceGrimace, faCircle, faUserPlus, faUserMinus, faUserXmark, faUserTie, faCommentSlash, faCrown, faSquarePlus, faPaperPlane )

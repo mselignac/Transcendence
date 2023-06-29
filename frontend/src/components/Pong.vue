@@ -21,6 +21,7 @@
 	let rightReady = ref(false);
 	let isSpecial = ref(false);
 	let gameDiv = ref(null);
+	let isPlaying = ref(false);
 	
 	export default defineComponent ({
 		props: ['roomid', 'appExist', 'dimensions'],
@@ -56,7 +57,6 @@
 			// },
 
 			play() {
-				console.log("bonjour");
 				socket.emit("play", {roomId: tRoomId.value, username: actualUsername.value});
 			},
 
@@ -439,6 +439,7 @@
 						console.log("salut");
 						leftCheck.visible = false;
 						rightCheck.visible = false;
+						isPlaying.value = true;
 					}
 				})
 				socket.on('endGame', (data) => {
@@ -481,6 +482,7 @@
 					rightReady.value = false;
 					leftReady.value = false;
 					this.active = false;
+					isPlaying.value = false;
 					up.unsubscribe();
 					down.unsubscribe();
 				})
@@ -501,13 +503,13 @@
 
 <template>
 		<div id="pong-canvas"></div>
-		<p>
-			<button v-on:click="this.play()">Ready</button>
-		</p>
+		<div className="div_button">
+			<!-- <button @click="this.play()" v-if="!isPlaying" className="ready_button">Ready</button> -->
+		</div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 #pong-canvas {
   position: absolute;
 }
-</style>
+</style> -->

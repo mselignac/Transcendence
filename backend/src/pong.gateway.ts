@@ -73,8 +73,10 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	
 	if (!this.gameRoomList[data.roomId].isPlaying
 		&& this.gameRoomList[data.roomId].leftReady
-		&& this.gameRoomList[data.roomId].rightReady)
+		&& this.gameRoomList[data.roomId].rightReady) {
+		this.server.to(data.roomId.toString()).emit("gameStarted");
 		return(this.gameRoomList[data.roomId].gamePlaying(this.server));
+		}
 	}
 
 	@SubscribeMessage('privateInvite')
@@ -326,6 +328,14 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 		this.gameRoomList[this.inGameList[index].roomId].endGame();
 		// this.gameRoomList[this.inGameList[index].roomId].endGame();
     	// this.gameEnded(client, {id: this.inGameList[index].roomId})
+	}
+	index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.client === client);
+	if (index !== -1) {
+    	this.waitingRoomList.splice(index, 1);
+	}
+	index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.client === client);
+	if (index !== -1) {
+    	this.specialWaitingRoomList.splice(index, 1);
 	}
 	console.log(`Client disconnected: ${client.id}`);
   }

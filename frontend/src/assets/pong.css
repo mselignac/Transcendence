@@ -1,0 +1,48 @@
+@import './base.css';
+
+.div_button {
+	position: relative;
+	display: flex;
+    width: 95%;
+    height: 20%;
+    margin: 3%;
+    border-radius: 8px 8px 8px 8px;
+    justify-content: bottom;
+    align-items: bottom;
+}
+
+.ready_button {
+	/* position: absolute;
+    display: flex;*/
+    width: 50%;
+    /*height: 100%;
+    margin: 2%;
+    justify-content: center;
+    align-items: center; */
+    font-size: 300%;
+    /* color: rgb(150, 150, 150); */
+    color: rgb(221, 221, 221);
+    /* background-color: rgb(37, 53, 107); */
+    background-color: rgb(123, 89, 163);
+    /* background-color: rgb(89, 163, 122); */
+    border-color: transparent;
+    border-radius: 8px 8px 8px 8px;
+    /* transition: transform .5s ease-in-out */
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
+    /* filter: brightness(150%); */
+}
+
+.ready_button:hover {
+    /* scale: 1.1; */
+    /* background-color: transparent; */
+    /* background-color: rgb(37, 53, 107); */
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
+    font-weight: bold;
+    /* opacity: 1; */
+    /* animation: 1s fadeIn; */
+    /* filter: bright80ness(100%); */
+    transform: scale(1.1);
+    /* animation: k; */
+}

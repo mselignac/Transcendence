@@ -16,6 +16,7 @@ let isWaiting = ref(false);
 let tRoomId = ref(null);
 let inGame = ref(false);
 let appExist = ref(true);
+let isPlaying = ref(false);
 
 export default {
 	methods: {
@@ -72,10 +73,15 @@ socket.on('roomAssigned', (data) => {
 })
 
 socket.on("reset", (data) => {
+	isPlaying.value = false;
 	inGame.value = false;
 	tRoomId.value = null;
 	appExist.value = false;
 	console.log("HERE ZBOUI");
+})
+
+socket.on('gameStarted', (data) => {
+	isPlaying.value = true;
 })
 
 </script>
@@ -84,16 +90,17 @@ socket.on("reset", (data) => {
 	<Borders/>
 	<div className="main_div" ref="mainDiv">
 		<Pong ref="pongRef" v-if="inGame" :roomid="tRoomId" :appExist="appExist" :dimensions="this.$refs.mainDiv"/>
+		<button @click="this.play()" v-if="inGame && !isPlaying" className="ready_button">Ready</button>
 		<!-- <button v-on:click="this.play()" v-if="inGame" >Ready</button> -->
 		<div class="lds-roller" v-if="isWaiting"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 		<div className="game_mode_div_test" v-if="!inGame">
 			<div className="game_mode_one_div" v-if="!inGame">
 				<button @click="this.playRequestClassic()" v-if="!inGame" className="modes_routers">Classic</button>
-				<button @click="this.leaveQueue()" v-if="!inGame" className="modes_routers">Leave queue</button>
+				<button @click="this.leaveQueue()" v-if="!inGame" className="quit_queue">Leave</button>
 			</div>
 			<div className="game_mode_two_div" v-if="!inGame">
 				<button @click="this.playRequestSpecial()" v-if="!inGame" className="modes_routers">Special</button>
-				<button @click="this.specialLeaveQueue()" v-if="!inGame" className="modes_routers">Leave queue</button>
+				<button @click="this.specialLeaveQueue()" v-if="!inGame" className="quit_queue">Leave</button>
 			</div>
 		</div>
 	</div>
