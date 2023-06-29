@@ -6,23 +6,14 @@
     height: 100%;
     grid-template-columns: 1fr 3fr;
     border-radius: 20px 20px 20px 20px;
-    /* overflow: hidden; */
 }
 
 .stats_left {
     display: grid;
-    /* height: 100%; */
     grid-template-rows: 2fr 1fr 1fr 1fr 8fr;
     grid-column: 1;
-    /* background-color: rgba(0, 0, 255, 0); */
     border-radius: 10px 0px 0px 10px;
-    /* background-color: rgb(39, 23, 97); */
-    /* background-color: rgb(77, 61, 134); */
     background-color: rgb(44, 29, 97);
-    /* background-color: rgb(56 68 180); */
-    /* background-color: rgb(20 39 157); */
-    /* background-color: rgb(1 13 99); */
-    /* background-color: rgb(62, 34, 114); */
 }
 
 .stats_right {
@@ -40,10 +31,7 @@
     justify-content: center;
     align-items: center;
     font-size: 200%;
-    /* background-color: rgb(44, 29, 97); */
-    /* background-color: rgb(77, 61, 134); */
     background-color: rgb(96, 80, 155);
-    /* background-color: rgb(123, 89, 163); */
     border-radius: 0px 10px 0px 0px;
 }
 
@@ -52,11 +40,9 @@
     grid-row: 2;
     width: 100%;
     color: rgb(137, 170, 207);
-    /* justify-content: center; */
     flex-direction: column;
     align-items: center;
     font-size: 120%;
-    /* background-color: rgb(34, 62, 114); */
     border-radius: 0px 20px 0px 0px;
 }
 
@@ -97,13 +83,11 @@
 .game_history_div {
     display: grid;
     grid-template-columns: 15fr 1fr 4fr 1fr 15fr 1fr 15fr 1fr 15fr;
-    /* background-color: rgb(26, 26, 139); */
     grid-row: 2
 }
 
 .user_left {
     display: flex;
-    /* background-color: rgb(77, 77, 187); */
     grid-column: 1;
     flex-direction: column;
     align-items: center;
@@ -111,7 +95,6 @@
 
 .vs {
     display: flex;
-    /* background-color: rgb(77, 77, 187); */
     grid-column: 3;
     flex-direction: column;
     align-items: center;
@@ -120,7 +103,6 @@
 
 .user_right {
     display: flex;
-    /* background-color: rgb(77, 77, 187); */
     grid-column: 5;
     flex-direction: column;
     align-items: center;
@@ -128,7 +110,6 @@
 
 .score {
     display: flex;
-    /* background-color: rgb(77, 77, 187); */
     grid-column: 7;
     flex-direction: column;
     align-items: center;
@@ -136,7 +117,6 @@
 
 .victory {
     display: flex;
-    /* background-color: rgb(77, 77, 187); */
     grid-column: 9;
     flex-direction: column;
     align-items: center;
@@ -152,28 +132,22 @@
 
 .vs_element {
     display: flex;
-    /* margin-top: 75%; */
     margin-top: 1vh;
     font-size: 200%;
-    /* color: rgb(112, 135, 201); */
     color: rgb(87, 86, 105);
     font-weight: bold;
-    /* text-shadow: 2px 2px 3px rgb(3, 22, 39); */
     height: 5vh;
-    /* align-self: center; */
 }
 
 .achievements_div {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    /* background-color: rgb(26, 26, 139); */
     grid-row: 2;
     overflow-y: scroll;
 }
 
 .achievements_icon_div {
     display: flex;
-    /* background-color: red; */
     grid-column: 2;
     flex-direction: column;
     align-items: center;
@@ -181,24 +155,20 @@
 
 .achievement_div {
     display: flex;
-    /* background-color: purple; */
     grid-column: 1;
     flex-direction: column;
     align-items: center;
-    /* overflow-y: scroll; */
 }
 
 .achievement_icon {
     display: flex;
     width: 45%;
-    /* height: 70%; */
     border-radius: 50%;
     margin-top: 21%;
 }
 
 .achievement {
     display: flex;
-    /* background-color: pink; */
     align-items: center;
     margin-top: 10%;
     font-size: 250%;
@@ -211,7 +181,6 @@
 .achiev_div {
     display: flex;
     grid-row: 2;
-    /* background-color: blue; */
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -223,7 +192,6 @@
     height: 150px;
     grid-template-columns: 3fr 1fr;
     border-bottom: 2px solid rgb(42, 42, 49);
-    /* background-color: red; */
 }
 
 .ach_icon_div {
@@ -235,14 +203,12 @@
     align-self: center;
     justify-self: center;
     border-radius: 50%;
-    /* background-color: green; */
 }
 
 .ach_div {
     display: flex;
     grid-column: 1;
     font-size: 250%;
-    /* background-color: purple; */
     justify-content: center;
     align-items: center;
     color: beige;
@@ -251,34 +217,20 @@
 .ladder_element {
     display: flex;
     padding: 15px;
-    /* justify-self: space-between; */
     width: 100%;
     flex-direction: row;
-
-    /* justify-content: space-evenly; */
-    /* flex-direction: column; */
-    /* background-color: red; */
 }
 
 .ladder_element:hover {
-    /* border-bottom: 2px solid rgb(120, 109, 156); */
-    /* border-bottom: 2px solid rgb(63, 55, 90); */
-    /* border-bottom: 1px solid rgb(47, 38, 77); */
-    /* background: linear-gradient(0deg, rgb(63, 55, 90), transparent ); */
     background: linear-gradient(90deg, transparent, rgb(71, 58, 119), transparent );
 }
 
 .ladder_me_element {
     display: flex;
     padding: 15px;
-    /* justify-self: space-between; */
     width: 100%;
     flex-direction: row;
     background: linear-gradient(90deg, transparent, rgb(52, 45, 146), transparent );
-
-    /* justify-content: space-evenly; */
-    /* flex-direction: column; */
-    /* background-color: red; */
 }
 
 .login_ladder {
@@ -293,30 +245,6 @@
     margin-right: 20px;
     color: rgb(143, 110, 233);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* <!-- HTML !-->
-<button class="button-85" role="button">Button 85</button> */
 
 /* CSS */
 .button-85 {
@@ -334,34 +262,6 @@
   touch-action: manipulation;
   font-size: 350%;
 }
-/* 
-.button-85:before {
-  content: "";
-  background: linear-gradient(
-    45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
-  );
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  background-size: 400%;
-  z-index: -1;
-  filter: blur(5px);
-  -webkit-filter: blur(5px);
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  animation: glowing-button-85 20s linear infinite;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 10px;
-} */
 
 .button-85:before {
   content: "";

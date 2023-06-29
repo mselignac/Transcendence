@@ -97,9 +97,7 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
-		// data.user = data.user.
 		const Hash = await argon.hash(data.user);
-		// console.log(Hash)
 		data.user = Hash
         await this.prisma.roomChannel.update({
 			where: {

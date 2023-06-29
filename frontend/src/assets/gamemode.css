@@ -6,11 +6,6 @@
         background-color: rgb(123, 89, 163);
         opacity: 1;
     }
-    /* 100% {
-        scale: 1.1;
-        background-color: rgb(123, 89, 163);
-        opacity: 1;
-    } */
 }
 
 
@@ -32,8 +27,6 @@
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    /* background-color: rgb(37, 53, 107); */
-    /* background-color: red; */
 }
 
 .game_mode_two_div {
@@ -44,7 +37,6 @@
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    /* background-color: rgb(37, 53, 107); */
 }
 
 .game_mode_three_div {
@@ -55,7 +47,6 @@
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    /* background-color: rgb(37, 53, 107); */
 }
 
 .modes_routers {
@@ -65,31 +56,19 @@
     justify-content: center;
     align-items: center;
     font-size: 250%;
-    /* color: rgb(150, 150, 150); */
     color: rgb(221, 221, 221);
-    /* background-color: rgb(37, 53, 107); */
     background-color: rgb(123, 89, 163);
-    /* background-color: rgb(89, 163, 122); */
     border-color: transparent;
     border-radius: 8px 8px 8px 8px;
-    /* transition: transform .5s ease-in-out */
     transform-origin: 50% 65%;
     transition: transform 0.6s, filter 3s ease-in-out;
-    /* filter: brightness(150%); */
 }
 
 .modes_routers:hover {
-    /* scale: 1.1; */
-    /* background-color: transparent; */
-    /* background-color: rgb(37, 53, 107); */
     background-color: rgb(123, 89, 163);
     border-color: transparent;
     font-weight: bold;
-    /* opacity: 1; */
-    /* animation: 1s fadeIn; */
-    /* filter: bright80ness(100%); */
     transform: scale(1.1);
-    /* animation: k; */
 }
 
 .lds-roller {

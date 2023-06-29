@@ -3,10 +3,7 @@
 .infos {
     display: grid;
     grid-template-rows: 3fr 5fr 3fr;
-    /* flex-direction: column; */
     width: 100%;
-    /* color: black; */
-    /* justify-content: center; */
 }
 
 .infos::-webkit-scrollbar {
@@ -20,8 +17,6 @@
     grid-row: 1;
     align-items: center;
     justify-content: center;
-    /* justify-content: space-evenly; */
-    /* font-weight: bold; */
     flex-direction: column;
     font-size: 200%;
     color: rgb(226, 226, 226);
@@ -30,13 +25,6 @@
 .members {
     display: flex;
 
-    /* height: 100%; */
-    /* grid-row: 1; */
-    /* align-items: center;
-    align-self: center;
-    justify-content: center; */
-    /* font-weight: bold; */
-    /* margin-left: 40px; */
     font-size: 90%;
     color: rgb(175, 175, 175);
 }
@@ -49,12 +37,10 @@
     padding-top: 20px;
     align-items: center;
     justify-self: center;
-    /* background-color: rgba(0, 17, 255, 0.274); */
     background-color: rgb(72, 59, 133);
     flex-direction: column;
     border-radius: 20px 20px 20px 20px;
     overflow: hidden;
-    /* overflow-y: scroll; */
     overflow: scroll;
 }
 
@@ -67,21 +53,16 @@
 
     margin-top: 10%;
     font-size: 290%;
-    /* color: rgb(164, 128, 187); */
-    /* color: rgb(191, 137, 241); */
     color: rgb(196, 147, 243);
-    /* color: rgb(205, 171, 248); */
     background-color: transparent;
     border-color: transparent;
     margin-right: 7%;
 }
 
 .admin:hover {
-    /* background-color: rgba(164, 128, 187, 0.493); */
     background-color: transparent;
     border-radius: 15px 15px 15px 15px;
     scale: 1.1;
-    /* font-weight: bold; */
 }
 
 .not_admin {
@@ -89,8 +70,6 @@
 
     margin-top: 10%;
     font-size: 290%;
-    /* color: rgb(152, 152, 236); */
-    /* color: rgb(203, 197, 255); */
     color: rgb(168, 168, 236);
     background-color: transparent;
     border-color: transparent;
@@ -98,7 +77,6 @@
 }
 
 .not_admin:hover {
-    /* background-color: rgb(152, 152, 236, 0.493); */
     background-color: transparent;
     border-radius: 15px 15px 15px 15px;
     scale: 1.1;
@@ -107,12 +85,9 @@
 .private_public {
     display: flex;
     grid-row: 3;
-    /* height: 50%; */
 
     height: 100%;
-    /* background-color: red; */
     align-items: center;
-    /* align-self: center; */
     justify-content: space-evenly;
     font-size: 150%;
     width: 100%;
@@ -124,10 +99,8 @@
     font-size: 130%;
     border-radius: 15px;
     border-color: transparent;
-    /* background-color: rgb(180, 118, 221); */
     background-color: rgb(172, 137, 212);
     color: rgb(240, 240, 241);
-    /* background-color: red; */
 }
 
 .public_button:hover {
@@ -146,10 +119,8 @@
     border-radius: 10px;
     border-color: transparent;
     margin-top: 10px;
-    /* background-color: rgb(180, 118, 221); */
     background-color: rgb(118, 105, 133);
     color: rgb(247, 247, 247);
-    /* background-color: red; */
 }
 
 .remove_pw_button:hover {
@@ -168,18 +139,13 @@
 
 .admin_info {
     display: flex;
-    /* width: 200px; */
     font-size: 150%;
     align-items: center;
-    /* align-self: center; */
-    /* justify-content: flex-end; */
     margin-top: 17%;
     background-color: transparent;
     border-color: transparent;
     margin-left: 7%;
     color: rgb(139, 139, 139);
-    /* background-color: red; */
-    /* font-weight: bold; */
 }
 
 
@@ -187,20 +153,13 @@
     display: flex;
     height: 85vh;
     padding-top: 50px;
-    /* background-color: rgba(54, 60, 68, 0.623); */
     background-color: rgba(31, 3, 83, 0.781);
     margin-top: 7%;
     margin-left: 10%;
     margin-right: 33%;
-    /* border-radius: 20px 20px 20px 20px; */
     border-radius: 10px 10px 10px 10px;
-    /* overflow: hidden; */
     overflow-y: scroll;
     flex-direction: column;
-    /* justify-content: flex-start; */
-    /* overflow-y: hidden; */
-    /* background-color: red; */
-
 }
 
 .main_public_channel::-webkit-scrollbar {
@@ -212,14 +171,9 @@
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
-    /* background-color: green; */
     align-items: center;
     flex-direction: column;
     justify-content: flex-start;
-    /* justify-content: center; */
-    /* overflow: hidden; */
-    /* overflow-y: scroll; */
-
 }
 
 .channel_public {
@@ -229,8 +183,6 @@
     color: rgb(193, 200, 211);
     width: 50%;
     height: 100px;
-    /* margin-top: 25px; */
-    /* background-color: rgb(48, 57, 80); */
     background-color: rgb(123, 89, 163);
     font-size: 250%;
     border-radius: 10px 10px 10px 10px;
@@ -238,8 +190,6 @@
 }
 
 .channel_public:hover {
-    /* background-color: rgba(30, 35, 49, 0.747); */
-    /* background-color: rgb(114, 99, 141); */
     background-color: rgb(93, 45, 148);
 }
 
@@ -251,14 +201,6 @@
     align-items: center;
     margin-bottom: 50px;
 }
-/* 
-.joinChannelMsg {
-    display: flex;
-    background-color: brown;
-    height: 30%;
-    width: 70%;
-    justify-content: center;
-} */
 
 .joinChannelMsg {
     position: absolute;
@@ -293,7 +235,6 @@
 
 .admin_access {
     display: flex;
-    /* background-color: red; */
     justify-content: center;
     
 }
@@ -326,12 +267,7 @@
     margin-left: 25%;
     margin-top: 20px;
     padding: 5px;
-    /* font-size: 180%; */
     font-size: 150%;
     font-weight: bold;
-    /* justify-content: center; */
     justify-self: center;
-    /* align-self: center; */
-    /* justify-self: flex-start; */
-    /* background-color: red; */
 }
