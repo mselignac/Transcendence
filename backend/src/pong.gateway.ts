@@ -79,37 +79,95 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
 	@SubscribeMessage('privateInvite')
 	privateInvite(client: Socket, data: any): void {
-		let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+		let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.sender);
 		if (index !== -1) {
     		return ;
 		}
-		index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+		index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.sender);
 		if (index !== -1) {
     		return ;
 		}
-		index = this.inGameList.findIndex(gameUser => gameUser.username === data.username);
+		index = this.inGameList.findIndex(gameUser => gameUser.username === data.sender);
 		if (index !== -1) {
     		return ;
 		}
+		index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.sender);
+		if (index !== -1) {
+    		return ;
+	}
 	  	const newWaitingRoom: privateWaitingRoom = {
 			client: client,
 			usernameOne: data.sender,
 			usernameTwo: data.receiver,
-			id: this.privateRoomCount;
+			id: this.privateRoomCount,
 	  	};
-		this.privateRoomCount++;
 	  	this.privateWaitingRoomList.push(newWaitingRoom);
-		client.emit("inviteInfo");
+		client.emit("inviteInfo", {id: this.privateRoomCount});
+		console.log("HERE PRIVATE INVITE", this.privateWaitingRoomList);
+		this.privateRoomCount++;
 	}
 
 	@SubscribeMessage('confirmInvite')
 	confirmInvite(client: Socket, data: any): void {
-		let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.usernameOne);
+		let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.receiver);
 		if (index === -1) {
     		return ;
 		}
-
+		console.log("HERE 1");
+		this.privateWaitingRoomList[index].receiverClient = client;
+		this.privateWaitingRoomList[index].client.emit('goPlay');
+		this.privateWaitingRoomList[index].receiverClient.emit('goPlay');
+		this.privateGameInit(this.privateWaitingRoomList[index], false);
 	}
+
+	@SubscribeMessage('declineInvite')
+	declineInvite(client: Socket, data: any): void {
+		let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.receiver);
+		if (index !== -1) {
+    		this.privateWaitingRoomList.splice(index, 1);
+		}
+	}
+
+	privateGameInit(users: privateWaitingRoom, specialMode: boolean) {
+		this.gameRoomList.push(new PongService());
+		this.gameRoomList.slice(-1)[0].id = this.roomCount;
+	
+		if (specialMode)
+			this.gameRoomList.slice(-1)[0].specialMode = true;
+	
+		users.client.join(this.gameRoomList.slice(-1)[0].id.toString());
+		users.receiverClient.join(this.gameRoomList.slice(-1)[0].id.toString());
+	
+		this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname = users.usernameOne;
+		this.gameRoomList.slice(-1)[0].dataChariot.rightPlayer.nickname = users.usernameTwo;
+		this.waitingRoomList.splice(0, 2);
+	
+		users.client.emit('roomAssigned', {roomId: this.roomCount});
+		users.receiverClient.emit('roomAssigned', {roomId: this.roomCount});
+		const newGameUser1: gameUser = {
+			client: users.client,
+			username: users.usernameOne,
+			roomId: this.roomCount,
+		  };
+		const newGameUser2: gameUser = {
+			client: users.receiverClient,
+			username: users.usernameTwo,
+			roomId: this.roomCount,
+		  };
+		this.inGameList.push(newGameUser1);
+		this.inGameList.push(newGameUser2);
+	
+		if (specialMode === false) {
+			let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname);
+			if (index !== -1) {
+				this.privateWaitingRoomList.splice(index, 1);
+			}
+		}
+		this.roomCount++;
+		// console.log("WAITING LIST ", this.waitingRoomList);
+		// console.log("GAME LIST ", this.gameRoomList);
+	  }
+	
 	
 	@SubscribeMessage('playRequest')
 	playRequest(client: Socket, data: any): void {
@@ -133,7 +191,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	this.waitingRoomList.push(newWaitingRoom);
 	// console.log("WAITING LIST ", this.waitingRoomList);
 	if (this.waitingRoomList.length >= 2)
-	this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1], false);
+		this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1], false);
   }
 
   @SubscribeMessage('specialPlayRequest')

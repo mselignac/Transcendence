@@ -6,11 +6,13 @@ import { RoomDto } from '../_services/room.dto';
 import { MessageDto } from '../_services/messages.dto'
 import router from '@/router';
 import $socket from '../plugin/socket';
+import { ref } from 'vue';
 
 </script>
 
 <script lang="ts">
-
+let socket_pong = $socket;
+let inviteId = ref(-1);
 const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
 let id = 0
 let $socket_chat = io(`ws://${host}:${port}/chat`,
@@ -20,7 +22,6 @@ let $socket_chat = io(`ws://${host}:${port}/chat`,
     upgrade: false,
 }
 );
-let socket_pong = $socket;
 export type message_type = {
     id: number,
     text: string,
@@ -76,15 +77,23 @@ export default {
       },
 
       invite() {
-        // socket_pong.emit("privateInvite", {sender: this.my_username, receiver: this.idchat});
+        socket_pong.emit("privateInvite", {sender: this.my_username, receiver: this.idchat});
         this.text = "Do you want to play?"
         this.send_msg()
         },
 
         accept_invitation() {
+            console.log("HERE 1");
+            socket_pong.emit("confirmInvite", {sender: this.my_username, receiver: this.idchat})
+        },
 
+        refuse_invitation() {
+            this.text = "Invitation declined.";
+            this.send_msg();
+            socket_pong.emit("declineInvite", {sender: this.my_username, receiver: this.idchat})
         }
     },
+
     async created() {
         await accountService.usersMe()
         .then((response) => { 
@@ -113,8 +122,17 @@ export default {
                 })
                 .catch(err => { console.log(err) })
         }
-    },
+    },   
 }
+
+    socket_pong.on('inviteInfo', (dataInvite) => {
+            inviteId.value = dataInvite.id;
+        }),
+
+    socket_pong.on('goPlay', (data) => {
+        console.log("HERE GO PLAY");
+        router.push({path: '/game-mode'});
+    })
 </script>
 
 <template>
@@ -153,7 +171,7 @@ export default {
                             <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink> -->
                             <h4 className="msg_user_testt">{{ chat.text }}</h4>
                             <button @click="accept_invitation()" v-if="check_invite(chat.text)">yes</button>
-                            <button v-if="check_invite(chat.text)">no</button>
+                            <button @click="refuse_invitation()" v-if="check_invite(chat.text)">no</button>
                             <p className="username_msg">{{ chat.username }}</p>
                         </div>
                     </li>
