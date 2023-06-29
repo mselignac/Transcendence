@@ -92,7 +92,7 @@ export class UserService {
 			}
 		})
 
-		if (!ban.users_ban.find(t => t === dataa.name)) {
+		if (ban && !ban.users_ban.find(t => t === dataa.name)) {
 			await this.prisma.user.update({
 			where: {
 			  login: dataa.name
@@ -102,6 +102,17 @@ export class UserService {
 				push: dataa.users[0]
 			  }
 			}})
+		}
+		else if (!ban) {
+			await this.prisma.user.update({
+				where: {
+				  login: dataa.name
+				},
+				data: {
+				  channels: {
+					push: dataa.users[0]
+				  }
+				}})
 		}
 
 	}
