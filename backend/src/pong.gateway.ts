@@ -17,6 +17,12 @@ type waitingRoom = {
   username?: string;
 };
 
+type privateWaitingRoom = {
+	client: Socket;
+	username?: string;
+	receiverUsername: string;
+  };
+
 type gameUser = {
 	client: Socket;
 	username?: string;
@@ -38,6 +44,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   private waitingRoomList: Array<waitingRoom> = [];
   private specialWaitingRoomList: Array<waitingRoom> = [];
   private inGameList: Array<gameUser> = [];
+  private privateWaitingRoomList: Array<privateWaitingRoom> = [];
   private roomCount: number = 0;
 
   @WebSocketServer() server: Server;
@@ -60,16 +67,51 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 		this.gameRoomList[data.roomId].rightReady = true;
 		this.server.to(data.roomId.toString()).emit("readyMsg", {side: "right"});
 	}
-
+	
 	if (!this.gameRoomList[data.roomId].isPlaying
 		&& this.gameRoomList[data.roomId].leftReady
 		&& this.gameRoomList[data.roomId].rightReady)
 		return(this.gameRoomList[data.roomId].gamePlaying(this.server));
-  }
+	}
 
-  @SubscribeMessage('playRequest')
-  playRequest(client: Socket, data: any): void {
+	@SubscribeMessage('privateInvite')
+	privateInvite(client: Socket, data: any): void {
+		let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+		if (index !== -1) {
+    		return ;
+		}
+		index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+		if (index !== -1) {
+    		return ;
+		}
+		index = this.inGameList.findIndex(gameUser => gameUser.username === data.username);
+		if (index !== -1) {
+    		return ;
+		}
+	  	const newWaitingRoom: privateWaitingRoom = {
+			client: client,
+			username: data.sender,
+			receiverUsername: data.receiver,
+	  	};
+
+	  	this.privateWaitingRoomList.push(newWaitingRoom);
+	}
+	
+	@SubscribeMessage('playRequest')
+	playRequest(client: Socket, data: any): void {
 	// console.log("Request arrived from: ", data.username);
+	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+	if (index !== -1) {
+    	return ;
+	}
+	index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+	if (index !== -1) {
+    	return ;
+	}
+	index = this.inGameList.findIndex(gameUser => gameUser.username === data.username);
+	if (index !== -1) {
+    	return ;
+	}
 	const newWaitingRoom: waitingRoom = {
 	  client: client,
 	  username: data.username,
@@ -77,7 +119,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	this.waitingRoomList.push(newWaitingRoom);
 	// console.log("WAITING LIST ", this.waitingRoomList);
 	if (this.waitingRoomList.length >= 2)
-	  this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1], false);
+	this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1], false);
   }
 
   @SubscribeMessage('specialPlayRequest')
@@ -90,10 +132,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	this.specialWaitingRoomList.push(newWaitingRoom);
 	if (this.specialWaitingRoomList.length >= 2)
 	  this.gameInit(this.specialWaitingRoomList[0], this.specialWaitingRoomList[1], true);
-  }
-
-  inviteToPlay() {
-
   }
 
   @SubscribeMessage('leaveWaiting')
@@ -203,10 +241,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	// console.log("GAME LIST ", this.gameRoomList);
   }
 
-  	@SubscribeMessage('privateInvite')
-	privateInvite(client: Socket, data: any): void {
-
-	}
 
 
   afterInit(server: Server) {

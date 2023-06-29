@@ -5,6 +5,7 @@ import { accountService } from '../_services/account.service';
 import { RoomDto } from '../_services/room.dto';
 import { MessageDto } from '../_services/messages.dto'
 import router from '@/router';
+import $socket from '../plugin/socket';
 
 </script>
 
@@ -19,7 +20,7 @@ let $socket_chat = io(`ws://${host}:${port}/chat`,
     upgrade: false,
 }
 );
-
+let socket_pong = $socket;
 export type message_type = {
     id: number,
     text: string,
@@ -72,7 +73,12 @@ export default {
       },
       validateInput(text: string) {
           return text.length > 0
-      }
+      },
+
+      invite() {
+        socket_pong.emit("privateInvite", {sender: this.my_username, receiver: this.idchat});
+      
+        },
     },
     async created() {
         await accountService.usersMe()
@@ -128,7 +134,7 @@ export default {
                     </form>
                 </div>
                 <div className="invitation">
-                    <button className="invite_friend">invite</button>
+                    <button @click="invite()" className="invite_friend">invite</button>
                 </div>
             </div>
             <div className="scroll">
