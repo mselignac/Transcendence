@@ -68,6 +68,7 @@ export default {
     async created() {
       await accountService.findUser({ login: this.id })
       .then(res => { this.exist = res.data })
+      .catch (res => console.log(res))
 
       if (!this.exist)
         router.push('/main-page')
@@ -83,12 +84,14 @@ export default {
             this.is_blocked = true
 
         })
+        .catch (res => console.log(res))
 
         await accountService.isRequest({ name: this.username, user_one: this.me.login })
         .then(res => {
           if (res.data == true)
             this.request = true
         })
+        .catch (res => console.log(res))
       }
     }
 }
@@ -99,7 +102,7 @@ export default {
   <div className="main_div">
     <div className="profile_div">
       <div className="profile_picture">
-        <button className="profile_picture_button"><img className="img_profile" src="../assets/icon.webp" /></button>
+        <img className="profile_picture_img" :src="exist.avatarUrl" class="profile_picture_img"/>
         <h1 className="profile_user">{{ username }}</h1>
       </div>
       <div className="profile_username">
@@ -108,9 +111,13 @@ export default {
         <button v-if="!is_blocked" @click="block()" className="button_block_friend">block</button>
         <button v-else @click="unblock()" className="button_block_friend">unblock</button>
       </div>
+      <div className="profile_three">
+          <RouterLink :to="'/game-history/' + id" className="button_access_profile">history</RouterLink>
+          <RouterLink :to="'/ladder/' + id" className="button_access_profile">ladder</RouterLink>
+          <RouterLink :to="'/chat/' + id" v-if="is_friend" className="button_access_profile">chat</RouterLink>
+      </div>
       <div className="profile_bottom">
-          <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
-          <RouterLink :to="'/chat/' + id" v-if="is_friend" className="button_access_profile">chat</RouterLink> <!-- si on est amis -> chat accessible -->
+          <button v-if="is_friend" className="button-85">play</button>
       </div>
 
     </div>

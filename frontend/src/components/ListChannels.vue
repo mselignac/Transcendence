@@ -32,8 +32,10 @@ export default {
               this.password = true
             else {
                 accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
+                .catch (res => console.log(res))
                 let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
                 accountService.addChannel(dto)
+                .catch (res => console.log(res))
 
                 this.joinChannelMsg = false
                 router.push('/channel/' + this.channel.name)
@@ -52,8 +54,10 @@ export default {
 
             if (this.check_password == true) {
                 accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
+                .catch (res => console.log(res))
                 let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
                 accountService.addChannel(dto)
+                .catch (res => console.log(res))
                 router.push('/channel/' + this.channel.name)
             }
             this.check_password = ''
@@ -64,9 +68,11 @@ export default {
     created() {
         accountService.usersMe()
             .then(res => { this.me = res.data })
+            .catch (res => console.log(res))
 
         accountService.publicsChannels()
             .then(res => { this.list = res.data })
+            .catch (res => console.log(res))
     } 
 }
 </script>
@@ -91,8 +97,8 @@ export default {
         <div v-if="password" className="joinChannelMsg">
             <div className="joinChannelMsg2">
                 <h1>Password?</h1>
-                <form @submit.prevent="checkPassword" className="placeholder_search">
-                    <input v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
+                <form @submit.prevent="checkPassword">
+                    <input  className="placeholder_password" v-model="check_password" pattern="[a-zA-Z]+" title="only letters accepted" placeholder='password' :maxlength="9">
                 </form>
 
             </div>

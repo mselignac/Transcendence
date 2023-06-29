@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { accountService } from '@/_services';
 import Borders from './Borders.vue'
 </script>
 
@@ -9,7 +10,13 @@ export default {
             msg: 'test log',
             count: 0,
             titleClass: 'title',
+            me: ''
         }
+    },
+    created() {
+        accountService.usersMe()
+        .then(res => this.me = res.data)
+        .catch (res => console.log(res))
     }
 }
 </script>
@@ -21,10 +28,10 @@ export default {
     <div className="main_div">
         <div className="stats_div">
             <div className="stats_one_div">
-                <RouterLink to="game-history" className="stats_routers">Game history</RouterLink>
+                <RouterLink :to="'/game-history/' + me.login" className="stats_routers">Game history</RouterLink>
             </div>
             <div className="stats_two_div">
-                <RouterLink to="ladder" className="stats_routers">Ladder lvl X</RouterLink>
+                <RouterLink :to="'/ladder/' + me.login" className="stats_routers">Ladder</RouterLink>
             </div>
             <!-- <div className="stats_three_div">
                 <RouterLink to="achievements" className="stats_routers">Achievements</RouterLink>

@@ -1,4 +1,4 @@
-import Axios from './caller.service'
+import {Axios, Axios2fa } from './caller.service'
 import { RoomChannelDto } from './room.channel.dto';
 import { RoomDto } from './room.dto';
 import { MessageDto } from './messages.dto';
@@ -22,8 +22,24 @@ let findUser = (dto: RoomDto) => {
     return Axios.get('/chat/finduser', { params: { dto }})
 }
 
-let getUserId = (dto: object) => {
-    return Axios.get('/chat/getuserid', { params: { dto }})
+// let getUserId = (dto: object) => {
+//     return Axios.get('/chat/getuserid', { params: { dto }})
+// }
+
+let generateQr = () => {
+    return Axios.get('/2fa/generate', { responseType: 'arraybuffer' })
+}
+
+let turnOnTwoFactorAuth = (code: string) => {
+    return Axios.post('/2fa/turn-on', { code })
+}
+
+let turnOffTwoFactorAuth = () => {
+    return Axios.post('/2fa/disable2fa')
+}
+
+let authenticate = (code: string) => {
+    return Axios2fa.post('/2fa/authenticate', { code })
 }
 
 let block = (dto: object) => {
@@ -73,7 +89,6 @@ let createRoomChannel = (dto: RoomChannelDto) => {
 let findRoomChannel = (dto: object) => {
     return Axios.post('/chat/findroomchannel', dto)
 }
-
 
 let editChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/editchannel', dto)
@@ -152,14 +167,21 @@ let getMsgChannel = (room: String) => {
 ////////////////////////////////////////////////////////
 let logout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('2faToken')
+    localStorage.removeItem('2faOn')
+    localStorage.removeItem('validate')
 }
 
-let getToken = () => {
-    return localStorage.getItem('token')
+let getToken = (token: string) => {
+    return localStorage.getItem(token)
 }
 
 let saveToken = (token: string) => {
     localStorage.setItem('token', token)
+}
+
+let save2FaToken = (token: string) => {
+    localStorage.setItem('2faToken', token)
 }
 
 let isLogged = () => {
@@ -184,9 +206,9 @@ let mute = (dto: object) => {
     return Axios.post('/admin/mute', dto)
 }
 
-let remove = (dto: object) => {
-    return Axios.post('/admin/remove', dto)
-}
+// let remove = (dto: object) => {
+//     return Axios.post('/admin/remove', dto)
+// }
 
 let password = (dto: object) => {
     return Axios.post('/admin/password', dto)
@@ -201,6 +223,29 @@ let visibility = (dto: object) => {
 }
 
 
+
+////////////////////////////////////////////////////////
+//                        GAME                        //
+////////////////////////////////////////////////////////
+let game = (dto: object) => {
+    return Axios.post('/game/game', dto)
+}
+
+let getGame = (dto: object) => {
+    return Axios.post('/game/getgame', dto)
+}
+
+let getGame2 = (dto: object) => {
+    return Axios.post('/game/getgame2', dto)
+}
+
+let addVictory = (dto: object) => {
+    return Axios.post('/users/addvictory', dto)
+}
+
+let ladder = () => {
+    return Axios.post('/game/ladder')
+}
 
 
 export const accountService = {
@@ -225,15 +270,20 @@ export const accountService = {
     findUser,
     removeFriend,
     removeChannel,
-    getUserId,
+    // getUserId,
     publicsChannels,
     sendFriendRequest,
     removeRequest,
+    turnOnTwoFactorAuth,
+    generateQr,
+    turnOffTwoFactorAuth,
+    save2FaToken,
+    authenticate,
     removeUser,
     ban,
     admin,
     mute,
-    remove,
+    // remove,
     password,
     visibility,
     removePassword,
@@ -244,5 +294,10 @@ export const accountService = {
     isRequest,
     isConnected,
     friendsOnline,
-    isMute
+    isMute,
+    game,
+    getGame,
+    getGame2,
+    addVictory,
+    ladder
 }

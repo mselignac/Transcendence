@@ -8,7 +8,8 @@
     grid-column: 2;
     font-weight: bolder;
     font-size: 250%;
-    color: rgb(29, 29, 29);
+    /* color: rgb(29, 29, 29); */
+    color: rgb(221, 221, 221);
 }
 
 .chat_name:hover {
@@ -22,12 +23,13 @@
     height: 100%;
     /* height: 100vh; */
     grid-template-rows: 1fr 13fr 1fr;
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 10px 10px 10px 10px;
     /* background-color: rgba(75, 82, 104, 0.377); */
     /* background-color: red; */
     /* overflow: hidden; */
     /* overflow: hidden; */
     /* overflow-y: scroll; */
+    /* background-color: rgba(57, 50, 99, 0.185); */
 }
 
 .scroll {
@@ -36,7 +38,7 @@
     height: 100%;
     /* height: 100vh; */
     grid-template-rows: 1fr 60fr 1fr;
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 10px 10px 10px 10px;
     /* background-color: rgba(75, 82, 104, 0.377); */
     /* background-color: red; */
     /* overflow: hidden; */
@@ -54,8 +56,9 @@
     grid-row: 1;
     grid-template-columns: 1fr 12fr;
     /* background-color: rgba(37, 53, 107, 0.452); */
-    background-color: rgba(20, 51, 153, 0.596);
-    border-radius: 20px 20px 0px 0px;
+    /* background-color: rgba(20, 51, 153, 0.596); */
+    background-color: rgb(123, 89, 163);
+    border-radius: 10px 10px 0px 0px;
     align-items: center;
     color: rgb(31, 31, 31);
     border-bottom: 2px solid rgba(186, 189, 216, 0.897);
@@ -65,11 +68,12 @@
 .chat_bottom_test {
     display: grid;
     grid-row: 3;
-    grid-template-columns: 1fr 12fr;
-    border-radius: 0px 0px 20px 20px;
+    grid-template-columns: 1fr 12fr 2fr;
+    border-radius: 0px 0px 10px 10px;
     align-items: center;
     /* background-color: rgba(37, 53, 107, 0.452); */
-    background-color: rgba(20, 51, 153, 0.596);
+    /* background-color: rgba(20, 51, 153, 0.596); */
+    background-color: rgb(123, 89, 163);
     /* overflow: hidden; */
     /* background-color: blue; */
 }
@@ -122,7 +126,9 @@
     border-color: transparent;
     font-weight: bolder;
     justify-self: center;
-    color: rgb(31, 31, 31);
+    /* color: rgb(31, 31, 31); */
+    /* color: rgb(128, 127, 127); */
+    color: rgb(221, 221, 221);
 }
 
 .logo_chat_test {
@@ -130,24 +136,26 @@
     grid-column: 1;
     margin-left: 25%;
     width: 50px;
-    font-size: 250%;
+    font-size: 200%;
     background-color: transparent;
     border-color: transparent;
     font-weight: bolder;
     justify-self: center;
-    color: rgb(31, 31, 31);
+    /* color: rgb(31, 31, 31); */
+    color: rgb(221, 221, 221);
 }
 
 .type_msg_test {
     display:flex;
     /* grid-column: 2; */
-    font-size: 150%;
+    font-size: 130%;
     /* width: 100%; */
     /* height: 100%; */
     background-color: transparent;
     border-color: transparent;
     font-weight: bolder;
-    color: rgb(31, 31, 31);
+    /* color: rgb(31, 31, 31); */
+    color: rgb(221, 221, 221);
     /* justify-self: flex-start; */
     /* background-color: red; */
     justify-content: flex-start;
@@ -173,46 +181,23 @@
     outline: 0px solid transparent;
 }
 
-.msg {
-    display: flex;
-    width: 100%;
-    font-size: 250%;
-    background-color: red;
-    justify-content: flex-end;
-    color: rgb(124, 160, 214);
-}
-
-
-.msg_test {
-    display: flex;
-    font-size: 170%;
-    margin-top: 5px;
-    margin-right: 15px;
-    padding: 10px;
-    background-color: rgb(26, 72, 172);
-    border-radius: 20px 20px 0px 20px;
-    justify-content: flex-end;
-    color: rgba(255, 255, 255, 0.904);
-}
-
-.msg_me {
+/* .msg_me {
     display: flex;
     width: 100%;
     grid-row: 1;
-    /* background-color: green; */
     grid-column: 2/4;
     align-items: flex-end;
     flex-direction: column;
-}
+} */
 
-.msg_user {
+/* .msg_user {
     display: flex;
     grid-row: 1;
-    /* background-color: rgb(0, 128, 122); */
     grid-column: 1/3;
     align-items: flex-start;
     flex-direction: column;
-}
+    background-color: red;
+} */
 
 .msg_user_test {
     display: flex;
@@ -226,9 +211,6 @@
     /* margin-right: auto; */
     color: rgba(255, 255, 255, 0.904);
 
-
-
-
     /* ca marche presque */
     transform: rotate(180deg);
     margin-left: auto;
@@ -237,14 +219,16 @@
 }
 
 .msg_user_testt {
-    background-color: rgb(78, 83, 94);
+    /* background-color: rgb(78, 83, 94); */
+    background-color: rgb(111, 109, 114);
     border-radius: 20px 20px 20px 0px;
     padding: 10px;
     
 }
 
 .msg_user_testt:hover {
-    background-color: rgb(78, 83, 94);
+    /* background-color: rgb(78, 83, 94); */
+    background-color: rgb(111, 109, 114);
     border-radius: 20px 20px 20px 0px;
     padding: 10px;
 }
@@ -283,35 +267,23 @@
     /* margin-left: auto; */
     padding: 10px;
     /* padding-left: 150px; */
-    background-color: rgb(26, 72, 172);
+    /* background-color: rgb(26, 72, 172); */
+    background-color: rgb(139, 108, 165);
     border-radius: 20px 20px 0px 20px;
     /* justify-content: flex-end; */
     /* justify-self: flex-start; */
     /* flex-direction: column; */
     /* align-items: flex-end; */
     color: rgba(255, 255, 255, 0.904);
-
-
-
-    /* ca marche presque */
-    /* background-color: red; */
     transform: rotate(180deg);
     margin-right: auto;
-    /* justify-content: flex-start; */
-    /* align-self: flex-end; */
-    /* justify-self: flex-end; */
-    /* align-items: flex-start; */
 }
 
 .test_msg:hover {
     display: flex;
-    /* width: 95%; */
     font-size: 170%;
     margin-top: 5px;
-    /* margin-right: 15px; */
-    margin-left: auto;
     padding: 10px;
-    background-color: rgb(26, 72, 172);
     border-radius: 20px 20px 0px 20px;
     justify-content: flex-end;
     justify-self: flex-start;
@@ -323,15 +295,37 @@
     display: flex;
     font-size: 65%;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.568);
-    /* width: 55%; */
-    /* justify-self: flex-end;
-    justify-content: flex-end; */
-    /* background-color: red; */
+    color: rgb(119, 119, 119);
 }
 
-/* .channel_name {
+.profile_picture_img_chat {
+    margin: 5px;
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.invite_friend {
     display: flex;
-    grid-column: 2;
-    font-weight: bolder;
-} */
+
+    background-color: rgb(225, 222, 228);
+    font-size: 130%;
+    padding: 8%;
+    border-radius: 8px;
+    border-color: transparent;
+}
+
+.invite_friend:hover {
+    scale: 0.97;
+    background-color: rgb(186, 179, 192);
+}
+
+.invitation {
+    display:flex;
+    height: 100%;
+    width: 100%;
+    grid-column: 3;
+    justify-content: center;
+    align-items: center;
+
+}

@@ -37,7 +37,8 @@ export default {
             my_username: '',
             room: room,
             me: '',
-            user: ''
+            user: '',
+            exist: ''
         }
     },
     methods: {
@@ -56,6 +57,7 @@ export default {
               }
               let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
               await accountService.addMessage(msg)
+                .catch (res => console.log(res))
               $socket_chat.emit('msgToServer', this.room, message)
               this.text = ''
         }
@@ -78,9 +80,14 @@ export default {
             this.my_username = response.data.login
             this.me = response.data 
         })
+        .catch (res => console.log(res))
         if (!this.me.friends.find(t => t === this.idchat))
             router.push('/main-page')
         else {
+            await accountService.findUser({ login: this.idchat })
+            .then(res => { this.exist = res.data })
+            .catch (res => console.log(res))
+
             let dto: RoomDto = { name: 'test', user_one: this.me.login, user_two: this.idchat }
             await accountService.findRoom(dto) 
                 .then(res => {
@@ -104,31 +111,36 @@ export default {
       <div className="main_div">
         <div className="chat_div_test">
             <div className="chat_top_test">
-                <div className="logo_chat_profile_test">
+                <!-- <div className="logo_chat_profile_test">
                     <font-awesome-icon icon="fa-regular fa-circle-user" />
-                </div>
+                </div> -->
+                <img className="profile_picture_img_chat" :src="exist.avatarUrl" class="profile_picture_img_chat"/>
                 <RouterLink :to="'/profile-user/' + idchat" className="chat_name">{{ idchat }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">
-                    <font-awesome-icon icon="fa-regular fa-face-laugh-beam" />
+                    <!-- <font-awesome-icon icon="fa-regular fa-face-laugh-beam" /> -->
+                    <font-awesome-icon icon="fa-regular fa-paper-plane" />
                 </div>
                 <div className="type_msg">
                     <form @submit.prevent="send_msg" className="type_msg_test">
                         <input className="type_msg_test" v-model="text" placeholder='Type a message ...'>
                     </form>
                 </div>
+                <div className="invitation">
+                    <button className="invite_friend">invite</button>
+                </div>
             </div>
             <div className="scroll">
                 <div className="chat_msg_div">
                     <li v-for="chat in msg" :key="chat.id" className="msg_form">
                         <div v-if="check_username(chat.username)" className="test_msg">
-                            <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
-                            <h4 v-else>{{ chat.text }}</h4>
+                            <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink> -->
+                            <h4>{{ chat.text }}</h4>
                         </div>
                         <div v-else className="msg_user_test">
-                            <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink>
-                            <h4 v-else className="msg_user_testt">{{ chat.text }}</h4>
+                            <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink> -->
+                            <h4 className="msg_user_testt">{{ chat.text }}</h4>
                             <p className="username_msg">{{ chat.username }}</p>
                         </div>
                     </li>

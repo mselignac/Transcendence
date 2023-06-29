@@ -91,25 +91,25 @@ export class PongService {
     move(data: any) {
         switch(data.direction) {
             case "upL":
-                console.log("UpL");
+                // console.log("UpL");
                 if (this.dataChariot.leftPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE / 2)) - 10)
                     this.dataChariot.leftPlayer.y -= 15;
                 // return this.position;
                 break;
             case "downL":
-                console.log("DownL");
+                // console.log("DownL");
                 if (this.dataChariot.leftPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE / 2)) + 10)
                 this.dataChariot.leftPlayer.y += 15;
                 // return this.position;
                 break;
             case "upR":
-                console.log("UpR");
+                // console.log("UpR");
                 if (this.dataChariot.rightPlayer.y > (VERTICAL_BOUNDS + (PADDLE_SIZE / 2)) - 10)
                     this.dataChariot.rightPlayer.y -= 15;
                 // return this.position;
                 break;
             case "downR":
-                console.log("DownR");
+                // console.log("DownR");
                 if (this.dataChariot.rightPlayer.y < (this.globalheight - VERTICAL_BOUNDS - (PADDLE_SIZE / 2)) + 10)
                     this.dataChariot.rightPlayer.y += 15;
                 // return this.position;
