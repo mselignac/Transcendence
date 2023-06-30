@@ -20,6 +20,9 @@ export default {
             value: false,
             qrCodeData: '',
             code:'',
+            file: '',
+            popup: false,
+            popupActive: false,
         }
     },
     watch: {
@@ -54,13 +57,16 @@ export default {
   },
 
   methods: {
+    handleFileUpload( event ) {
+      this.file = event.target.files[0];
+    },
+
     async upload() {
-      const formData = new FormData(this.$refs.upload_form);
-      console.log(formData.get('picture').name)
-      // await accountService.uploadAvatar(formData)
-      Axios.post('http://localhost:3000/upload', formData.get('picture').name, formData)
-      .then((res) => {
-        this.users.avatarUrl = res.data.avatarUrl
+      const formData = new FormData();
+      formData.append('picture', this.file);
+      await accountService.uptadeAvatar(formData)
+      .then(() => {
+        router.go()
       })
       .catch((err) => {
         console.log(err)
@@ -93,9 +99,21 @@ export default {
           this.code = ''
         })
       },
+
+      closePopup() {
+        this.popup = false
+      },
+
+      handleKeyDown(event) {
+        if (event.key === 'Escape') {
+          this.closePopup();
+        }
+      },
     },
 
-    async mounted() {
+    async created() {
+      document.addEventListener('keydown', this.handleKeyDown);
+
       await accountService.usersMe()
       .then((res) => {
         this.users = res.data,
@@ -105,15 +123,31 @@ export default {
         console.log(err)
       })
     },
+
+    beforeUnmount() {
+      document.removeEventListener('keydown', this.handleKeyDown);
+    },
 }
+
 </script>
 
 <template>
   <Borders/>
-  <div className="main_div">
+
+  <div className="main_div" @click="handleClickOutside">
     <div className="profile_div">
+
       <div className="profile_picture">
-        <img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/>
+        <button @click="popup = true" className="profile_picture_button"><img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/></button>
+        <div v-if="popup" className="test_popup" >
+          <div className="test_popup2">
+            <form v-on:submit.prevent="upload" enctype="multipart/form-data" ref="upload_form" >
+              <label for="picture" >Séléctionnez une image</label><br>
+              <input type="file" id="picture" name="picture" required accept=".jpg,.png,.gif" @change="handleFileUpload( $event )"/>
+              <button type="submit">change Avatar</button>
+            </form>
+          </div>
+        </div>
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
       </div>
@@ -171,22 +205,6 @@ export default {
   <!-- </div> -->
 
   	<!-- Le formulaire d'upload avec la référence "upload_form" -->
-	<form v-on:submit.prevent="upload" enctype="multipart/form-data" ref="upload_form" >
-
-<label for="picture" >Séléctionnez une image</label><br>
-
-<input type="file" id="picture" name="picture" required accept=".jpg,.png,.gif" >
-
-<!-- La barre de progression -->
-<!-- <div>
-  <progress v-bind:value="pourcentage" max="100" >{{ pourcentage }} %</progress>
-  </span>{{ (pourcentage > 0) ? pourcentage + ' %' : '' }}
-</div> -->
-
-<button type="submit" >Uploader</button>
-</form>
-
-
 </template>
 
 <style src="@vueform/toggle/themes/default.css"></style>

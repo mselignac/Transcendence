@@ -15,6 +15,7 @@ import { twoFactorAuthentication } from './twoFactorAuth/twoFactorAuthentication
 import { AdminModule } from './admin/admin.module';
 import { UserGateway } from './user/user.gateway';
 import { UploadModule } from './upload/upload.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [AdminModule, ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule,
@@ -22,7 +23,11 @@ import { UploadModule } from './upload/upload.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UploadModule],
+    UploadModule,
+    // MulterModule.register({
+    //   dest: './files',
+    // })
+  ],
   controllers: [PongController],
   providers: [PongGateway, PongService, JwtService, ChatGateway, UserGateway]
 })

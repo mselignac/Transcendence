@@ -6,6 +6,9 @@ import {
 	UseInterceptors,
 	MaxFileSizeValidator,
 	FileTypeValidator,
+	Body,
+	Request,
+	Param,
   } from '@nestjs/common';
   import { FileInterceptor } from '@nestjs/platform-express';
   import { UploadService } from './upload.service';
@@ -17,7 +20,6 @@ import {
 	@Post()
 	@UseInterceptors(FileInterceptor('file'))
 	async uploadFile(@UploadedFile() file: Express.Multer.File) {
-		console.log(file.originalname)
-		await this.uploadService.upload(file.originalname, file.buffer);
+		await this.uploadService.upload(file.originalname, file);
 	}
 }

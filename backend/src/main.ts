@@ -16,27 +16,26 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: '10gb' }));
 
   const configService = app.get(ConfigService);
-
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     transform: true,
-    }),
+  }),
   );
 
   app.enableCors({
     origin: `http://${configService.get('HOST')}:${configService.get(
       'FRONTEND_PORT',
-    )}`,
-    credentials: true,
-  });
+      )}`,
+      credentials: true,
+    });
 
-  const conf = new DocumentBuilder()
-  .setTitle('Backend')
-  .setDescription('The zboui')
-  .setVersion('1.0')
-  .build();
-  const document = SwaggerModule.createDocument(app, conf);
-  SwaggerModule.setup('api', app, document);
+    const conf = new DocumentBuilder()
+    .setTitle('Backend')
+    .setDescription('The zboui')
+    .setVersion('1.0')
+    .build();
+    const document = SwaggerModule.createDocument(app, conf);
+    SwaggerModule.setup('api', app, document);
 
   app.use(cookieParser());
 

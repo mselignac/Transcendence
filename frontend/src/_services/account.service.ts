@@ -68,8 +68,11 @@ let friendsOnline = (dto: object) => {
     return Axios.post('users/friendsonline', dto)
 }
 
-let uploadAvatar = (file: File) => {
-    return Axios.post('/upload', file)
+let uptadeAvatar = (file: File) => {
+    return Axios.post('users/uptadeAvatar', file, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }})
 }
 
 
@@ -231,9 +234,6 @@ let visibility = (dto: object) => {
     return Axios.post('/admin/visibility', dto)
 }
 
-
-
-
 export const accountService = {
     login,
     logout,
@@ -281,5 +281,5 @@ export const accountService = {
     isConnected,
     friendsOnline,
     isMute,
-    uploadAvatar
+    uptadeAvatar
 }

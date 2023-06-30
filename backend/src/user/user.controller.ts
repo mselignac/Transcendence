@@ -1,16 +1,18 @@
-import { Body, Controller, Get, Patch, UseGuards, Req, Res, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, UseGuards, Req, Res, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
 import { EditUserDto } from './dto';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UploadService } from 'src/upload/upload.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 
 @UseGuards(JwtGuard)
 @Controller('users')
 export class UserController {
-	constructor(private userService: UserService) {}
+	constructor(private userService: UserService, private readonly uploadService: UploadService) {}
 
 	@Get('me')
 	getMe(@GetUser() user: User) {
@@ -76,5 +78,12 @@ export class UserController {
 	@Post('friendsonline')
 	friendsOnline(@Body() dto: object) {
 		return this.userService.friendsOnline(dto)
+	}
+
+	@Post('uptadeAvatar')
+	@UseInterceptors(FileInterceptor('picture'))
+	async uploadFile(@Req() req, @UploadedFile() file: Express.Multer.File) {
+		const url = await this.uploadService.upload(file.originalname, file);
+		return this.userService.updateAvatar(url, req.user.id);
 	}
 }

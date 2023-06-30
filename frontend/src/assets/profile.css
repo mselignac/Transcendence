@@ -320,7 +320,7 @@
 
 .profile_picture_img
 {
-    width: 200px; /* Spécifiez la largeur souhaitée */
-    height: auto; /* La hauteur s'ajustera automatiquement en conservant les proportions */
+    width: 13vw; /* Spécifiez la largeur souhaitée */
+    height: 13vw; /* La hauteur s'ajustera automatiquement en conservant les proportions */
     border-radius: 50%; /* Applique une forme arrondie à l'image */
 }
