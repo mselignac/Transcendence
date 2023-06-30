@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { accountService } from '@/_services'
 import Toggle from '@vueform/toggle'
 import router from '../router';
+import { Axios } from '@/_services/caller.service';
 </script>
 
 <script lang="ts">
@@ -19,6 +20,9 @@ export default {
             value: false,
             qrCodeData: '',
             code:'',
+            file: '',
+            popup: false,
+            popupActive: false,
         }
     },
     watch: {
@@ -53,6 +57,23 @@ export default {
   },
 
   methods: {
+    handleFileUpload( event ) {
+      this.file = event.target.files[0];
+    },
+
+    async upload() {
+      const formData = new FormData();
+      formData.append('picture', this.file);
+      await accountService.uptadeAvatar(formData)
+      .then(() => {
+        router.go()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    },
+
     async change_username() {
       await accountService.updateUsername(this.text)
         .then((res) => {
@@ -62,8 +83,6 @@ export default {
       },
 
       async logout() {
-        Cookies.remove('jwt');
-        Cookies.remove('2fajwt');
         accountService.logout();
         await router.push('/');
       },
@@ -80,9 +99,21 @@ export default {
           this.code = ''
         })
       },
+
+      closePopup() {
+        this.popup = false
+      },
+
+      handleKeyDown(event) {
+        if (event.key === 'Escape') {
+          this.closePopup();
+        }
+      },
     },
 
-    async mounted() {
+    async created() {
+      document.addEventListener('keydown', this.handleKeyDown);
+
       await accountService.usersMe()
       .then((res) => {
         this.users = res.data,
@@ -92,26 +123,42 @@ export default {
         console.log(err)
       })
     },
+
+    beforeUnmount() {
+      document.removeEventListener('keydown', this.handleKeyDown);
+    },
 }
+
 </script>
 
 <template>
   <Borders/>
-  <div className="main_div">
+
+  <div className="main_div" @click="handleClickOutside">
     <div className="profile_div">
+
       <div className="profile_picture">
-        <img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/>
+        <button @click="popup = true" className="profile_picture_button"><img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/></button>
+        <div v-if="popup" className="test_popup" >
+          <div className="test_popup2">
+            <form v-on:submit.prevent="upload" enctype="multipart/form-data" ref="upload_form" >
+              <label for="picture" >Séléctionnez une image</label><br>
+              <input type="file" id="picture" name="picture" required accept=".jpg,.png,.gif" @change="handleFileUpload( $event )"/>
+              <button type="submit">change Avatar</button>
+            </form>
+          </div>
+        </div>
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
       </div>
-      <div className="profile_username">
-        <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
+      <!-- <div className="profile_username"> -->
+        <!-- <form @submit.prevent="change_username" className="border_right_bottom_two"> -->
+          <!-- <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted"> -->
           <!-- <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9"> -->
-        </form>
+        <!-- </form> -->
         <!-- <h1>{{ this.username }}</h1> -->
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
-      </div>
+      <!-- </div> -->
       <div className="profile_bottom">
         <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
@@ -156,6 +203,8 @@ export default {
 
 	<!-- </div> -->
   <!-- </div> -->
+
+  	<!-- Le formulaire d'upload avec la référence "upload_form" -->
 </template>
 
 <style src="@vueform/toggle/themes/default.css"></style>

@@ -233,30 +233,34 @@ export class UserService {
 		type ObjectKey = keyof typeof dto;
 
 		let data: RoomDto = dto as ObjectKey
-		await this.prisma.user.update({
-			where: {
-				id: data.name
-			},
-			data: {
-				online: true
-			}
-		})
-
+		try {
+				await this.prisma.user.update({
+					where: {
+						id: data.name
+					},
+					data: {
+						online: true
+					}
+				})
+		} catch (error) {
+		}
 	}
 
 	async offline(dto: object) {
 		type ObjectKey = keyof typeof dto;
 
 		let data: RoomDto = dto as ObjectKey
-		await this.prisma.user.update({
-			where: {
-				id: data.name
-			},
-			data: {
-				online: false
-			}
-		})
-
+		try {
+				await this.prisma.user.update({
+					where: {
+						id: data.name
+					},
+					data: {
+						online: false
+					}
+				})
+		} catch (error) {
+		}
 	}
 
 	async friendsOnline(dto: object) {
@@ -316,5 +320,10 @@ export class UserService {
 		return token;
 	}
 
-
+	async updateAvatar(url: string, id: string) {
+		return this.prisma.user.update({
+			where: { id },
+			data: { avatarUrl: url },
+		});
+	}
 }
