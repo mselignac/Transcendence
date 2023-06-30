@@ -4,13 +4,10 @@ import {
 	OnGatewayInit,
 	OnGatewayConnection,
 	OnGatewayDisconnect,
-	ConnectedSocket,
 	SubscribeMessage,
-	MessageBody,
   } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { PongService } from './pong/pong.service'
-// import { emit } from process;
 
 type waitingRoom = {
   client: Socket;
@@ -36,9 +33,7 @@ type gameUser = {
 export class PongGateway
 implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect 
 {
-  constructor(private pong : PongService){ 
-	console.log("Here");
-  };
+  constructor(private pong : PongService){};
 
   room = new PongService();
 
@@ -56,7 +51,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage('move')
   movePlayer(client: Socket, data: any): void {
 	this.gameRoomList[data.roomId].move(data);
-	// this.server.to(data.roomId.toString()).emit("data", this.room.dataChariot);
+
   }
 
   @SubscribeMessage('play') 
@@ -166,14 +161,11 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 			}
 		}
 		this.roomCount++;
-		// console.log("WAITING LIST ", this.waitingRoomList);
-		// console.log("GAME LIST ", this.gameRoomList);
 	  }
 	
 	
 	@SubscribeMessage('playRequest')
 	playRequest(client: Socket, data: any): void {
-	// console.log("Request arrived from: ", data.username);
 	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
 	if (index !== -1) {
     	return ;
@@ -191,13 +183,24 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	  username: data.username,
 	};
 	this.waitingRoomList.push(newWaitingRoom);
-	// console.log("WAITING LIST ", this.waitingRoomList);
 	if (this.waitingRoomList.length >= 2)
 		this.gameInit(this.waitingRoomList[0], this.waitingRoomList[1], false);
   }
 
   @SubscribeMessage('specialPlayRequest')
   specialPlayRequest(client: Socket, data: any): void {
+	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+	if (index !== -1) {
+    	return ;
+	}
+	index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
+	if (index !== -1) {
+    	return ;
+	}
+	index = this.inGameList.findIndex(gameUser => gameUser.username === data.username);
+	if (index !== -1) {
+    	return ;
+	}
 	console.log("Request arrived from: ", data.username);
 	const newWaitingRoom: waitingRoom = {
 	  client: client,
@@ -210,22 +213,18 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('leaveWaiting')
   leaveWaiting(client: Socket, data: any): void {
-	// console.log("Leave request arrived from: ", data.username);
 	let index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
 	if (index !== -1) {
     	this.waitingRoomList.splice(index, 1);
 	}
-	// console.log("WAITING LIST ", this.waitingRoomList);
   }
 
   @SubscribeMessage('leaveSpecialWaiting')
   leaveSpecialWaiting(client: Socket, data: any): void {
-	// console.log("Leave request arrived from: ", data.username);
 	let index = this.specialWaitingRoomList.findIndex(waitingRoom => waitingRoom.username === data.username);
 	if (index !== -1) {
     	this.specialWaitingRoomList.splice(index, 1);
 	}
-	// console.log("WAITING LIST ", this.specialWaitingRoomList);
   }
 
   gameInit(leftPlayer: waitingRoom, rightPlayer: waitingRoom, specialMode: boolean) {
@@ -279,16 +278,10 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	}
 
 	this.roomCount++;
-	// console.log("WAITING LIST ", this.waitingRoomList);
-	// console.log("GAME LIST ", this.gameRoomList);
   }
 
   @SubscribeMessage('requestInfo')
   sendInfo(client: Socket, data: any): void {
-	// console.log("Room id ", data.roomId);
-	// console.log("Username 1 ", this.gameRoomList[data.roomId].dataChariot.leftPlayer);
-	// console.log("Username 2 ", this.gameRoomList[data.roomId].dataChariot.rightPlayer);
-	// console.log("SIDE VALUE", this.gameRoomList[data.roomId].side);
 	if (this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname === data.username) {
 		client.emit('initGame', {leftUsername: this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname, rightUsername: this.gameRoomList[data.roomId].dataChariot.rightPlayer.nickname, isLeft: true, isSpecial: this.gameRoomList[data.roomId].specialMode});
 	}
@@ -310,9 +303,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	setTimeout(() => {
 		client.emit('reset');
 	}, 5000);
-	// this.gameRoomList.splice(data.id, 1);
 	delete this.gameRoomList[data.id];
-	// console.log("GAME LIST ", this.gameRoomList);
   }
 
 
@@ -331,8 +322,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	if (index !== -1) {
 		this.server.to(this.inGameList[index].roomId.toString()).emit("endGame", {winner: "false"});
 		this.gameRoomList[this.inGameList[index].roomId].endGame();
-		// this.gameRoomList[this.inGameList[index].roomId].endGame();
-    	// this.gameEnded(client, {id: this.inGameList[index].roomId})
 	}
 	index = this.waitingRoomList.findIndex(waitingRoom => waitingRoom.client === client);
 	if (index !== -1) {
