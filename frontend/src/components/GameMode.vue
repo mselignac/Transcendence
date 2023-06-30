@@ -48,17 +48,22 @@ export default {
 		play() {
 			socket.emit("play", {roomId: tRoomId.value, username: actualUsername.value});
 		},
-
 	},
 
 	beforeRouteLeave(to: any, from: any, next: any) {
 		if (inGame.value === true) {
 			socket.emit('leavePage');
+			inGame.value = false;
+			isWaiting.value = false;
+			isPlaying.value = false;
 		}
 		if (isWaiting.value === true) {
 			socket.emit("leaveWaiting", {username: actualUsername.value});
 			socket.emit("leaveSpecialWaiting", {username: actualUsername.value});
 			isWaiting.value = false;
+			inGame.value = false;
+			isWaiting.value = false;
+			isPlaying.value = false;
 		}
    		next();
  	},
@@ -66,7 +71,7 @@ export default {
 	async created() {
 	await accountService.usersMe()
 	.then((response) => { actualUsername.value = response.data.login })
-    .catch (res => console.log(res))
+    .catch (res => console.log(res));	
 },
 }
 

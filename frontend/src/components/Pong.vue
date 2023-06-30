@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import $socket from '../plugin/socket';
 	import * as PIXI from 'pixi.js';
-	import { ref, watch, defineComponent } from 'vue';
+	import { ref, defineComponent } from 'vue';
 	import { accountService } from '../_services/account.service'
 
 </script>
@@ -243,20 +243,10 @@
 				state = play;
 				PongApp.ticker.add((delta) => gameLoop(delta));
 
-
-				// gameScene.x = PongApp.screen.width / 2;
-				// gameScene.y = PongApp.screen.height / 2;
-
-				// window.addEventListener('resize', resize);
                 window.addEventListener('resize', () => {
 					const parent = PongApp.view.parentNode;
 
-					// let newWidth = parent.clientWidth;
-					// let newHeight = gameDiv.value.clientWidth * 3 / 5;
 					PongApp.renderer.resize(gameDiv.value.clientWidth, gameDiv.value.clientWidth * 3 / 5);
-					// PongApp.renderer.resolution = devicePixelRatio;
-					// gameScene.width = PongApp.renderer.width;
-					// gameScene.height = PongApp.renderer.width * 3 / 5;
 					backImgSprite.width = PongApp.renderer.width;
 					backImgSprite.height = PongApp.renderer.width * 3 / 5;
 					leftCross.width = backImgSprite.width / 30;
