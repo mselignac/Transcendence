@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { PlaneGeometry } from 'pixi.js';
 import Borders from './Borders.vue'
 import Pong from './Pong.vue'
 import $socket from '../plugin/socket';
-import {ref, watch} from 'vue';
-import { io } from "socket.io-client";
+import { ref } from 'vue';
 import { accountService } from '../_services/account.service'
-import router from '../router';
+
 </script>
 
 <script lang="ts">
@@ -54,9 +52,13 @@ export default {
 	},
 
 	beforeRouteLeave(to: any, from: any, next: any) {
-   		console.log(to, " ", from);
 		if (inGame.value === true) {
 			socket.emit('leavePage');
+		}
+		if (isWaiting.value === true) {
+			socket.emit("leaveWaiting", {username: actualUsername.value});
+			socket.emit("leaveSpecialWaiting", {username: actualUsername.value});
+			isWaiting.value = false;
 		}
    		next();
  	},
@@ -77,7 +79,6 @@ socket.on('roomAssigned', (data) => {
 	console.log("room id", tRoomId.value);
 	isWaiting.value = false;
 	inGame.value = true;
-	// router.push({ name: 'play', params: {room: tRoomId.value}});
 })
 
 socket.on("reset", (data) => {
@@ -85,7 +86,6 @@ socket.on("reset", (data) => {
 	inGame.value = false;
 	tRoomId.value = null;
 	appExist.value = false;
-	console.log("HERE ZBOUI");
 })
 
 socket.on('gameStarted', (data) => {

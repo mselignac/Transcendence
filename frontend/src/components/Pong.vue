@@ -2,10 +2,7 @@
 	import $socket from '../plugin/socket';
 	import * as PIXI from 'pixi.js';
 	import { ref, watch, defineComponent } from 'vue';
-	import axios from 'axios';
-	import { io } from "socket.io-client";
 	import { accountService } from '../_services/account.service'
-	import router from '@/router';
 
 </script>
 
@@ -25,13 +22,9 @@
 	
 	export default defineComponent ({
 		props: ['roomid', 'appExist', 'dimensions'],
-		watch: {
-			appExist: function (newVal, oldVal) {
-				console.log("HEREHEHEHEHE");
-				document.querySelector("#pong-canvas")?.remove();
-			},
-		},
+
 		name: 'Pong',
+
 		data() {
 			return {
 				newUsername: '',
@@ -41,7 +34,6 @@
 
 		mounted() {
 			gameDiv.value = this.dimensions;
-			// console.log("Width: ", gameDiv.value.clientWidth);
 			if (this.active === true) {
 				this.Game();
 			}
@@ -52,35 +44,23 @@
 				console.log(err); 
 			});},
 
-			// playRequest() {
-			// 	socket.emit("playRequest", {username: actualUsername.value});
-			// },
-
 			play() {
 				socket.emit("play", {roomId: tRoomId.value, username: actualUsername.value});
 			},
 
 			Game() {
-				// var canvas = document.getElementById('pong')
 				const PongApp = new PIXI.Application({
-					// autoResize: true,
-					// width: window.innerWidth,
-					// height: window.innerHeight - 300,
 					width: gameDiv.value.clientWidth,
 					height: gameDiv.value.clientWidth * 3 / 5,
 					resolution: devicePixelRatio,
-					// resizeTo: window,
-					// view: canvas,
 					backgroundAlpha: 0,
 				});
 				if (document.querySelector("#pong-canvas") != null)
           			document.querySelector("#pong-canvas")?.appendChild(PongApp.view);
 				PongApp.resize(PongApp.view.parentNode.width, PongApp.view.parentNode.height);
-				// resize();
-				// document.body.appendChild(PongApp.view);
 				
 				const gameScene = new PIXI.Container();
-				let leftPaddle, rightPaddle, ball, state, leftCross, leftCheck, rightCross, rightCheck, upMidWall, downMidWall;
+				let leftPaddle: any, rightPaddle: any, ball: any, state: any, leftCross: any, leftCheck: any, rightCross: any, rightCheck: any, upMidWall: any, downMidWall: any;
 
 				PongApp.stage.addChild(gameScene);
 
@@ -100,13 +80,10 @@
 				ball = new PIXI.Sprite(ballTex);
 				
 				//Background Setup
-				// backImgSprite.scale.x = PongApp.view.width / 1000;
-				// backImgSprite.scale.y = backImgSprite.scale.x;
 
 				gameScene.width = PongApp.renderer.height * 5 / 3;
 				gameScene.height = PongApp.renderer.height;
 
-				// backImgSprite.anchor.set(0.5, 0.5);
 				backImgSprite.width = PongApp.renderer.height * 5 / 3;
 				backImgSprite.height = PongApp.renderer.height;
 
@@ -190,7 +167,6 @@
 				leftPaddle.position.set((backImgSprite.width / 2) - (backImgSprite.width * 0.45), backImgSprite.height / 2);
 
 				leftPaddle.width = backImgSprite.width / 19;
-				// leftPaddle.scale.y = 2;
 
 				leftPaddle.height = backImgSprite.height / 3.5; 
 
@@ -202,7 +178,6 @@
 				rightPaddle.position.set((backImgSprite.width / 2) + (backImgSprite.width * 0.45), backImgSprite.height / 2);
 				
 				rightPaddle.width = backImgSprite.width / 19;
-				// rightPaddle.scale.y = 2;
 
 				rightPaddle.height = backImgSprite.height / 3.5; 
 
@@ -390,7 +365,6 @@
 				socket.on('data', dataChariot => {
 					leftPaddle.y = (dataChariot.leftPlayer.y / 1000) * backImgSprite.height;
 					rightPaddle.y = (dataChariot.rightPlayer.y / 1000) * backImgSprite.height;
-					// ball.x = backImgSprite.width * dataChariot.ball.x / (1000 * 5 / 3);
 					ball.position.x = dataChariot.ball.x * backImgSprite.width / (1000 * 5 / 3);
 					ball.position.y = (dataChariot.ball.y / 1000) * backImgSprite.height;
 
@@ -432,12 +406,11 @@
 					}
 					else {
 						rightReady.value = true;
-						rightCross.visible = false;http://localhost:8080/profile
+						rightCross.visible = false;
 						rightCheck.visible = true;
 					}
 
 					if (leftReady.value === true && rightReady.value === true) {
-						console.log("salut");
 						leftCheck.visible = false;
 						rightCheck.visible = false;
 						isPlaying.value = true;
@@ -451,37 +424,14 @@
 					endText.style.fontSize = backImgSprite.width / 15;
 					endText.visible = true;
 					ball.visible = false;
-					if (actualUsername.value == data.winner)
+					if (actualUsername.value === data.winner && data.winner !== "false")
 						accountService.addVictory({ login: data.winner })
 						.catch(res => console.log(res))
-					if (side._value == 'right')
+					if (side._value == 'right' && data.winner !== "false")
 						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});
-					// router.push('/main-page')
 				})
 				socket.on('reset', (data) => {
-					// leftScoreText.destroy(true);
-					// rightScoreText.destroy(true);
-					// leftUserText.destroy(true);
-					// rightUserText.destroy(true);
-					// leftPaddle.destroy(true);
-					// rightPaddle.destroy(true);
-					// rightCheck.destroy(true);
-					// rightCross.destroy(true);
-					// leftCheck.destroy(true);
-					// leftCross.destroy(true);
-					// ballTex.destroy(true);
-					// this.$router.push({ path: '/game-mode'});
-					// backImgTex.destroy(true);
-					// PongApp.stage.destroy(true);
-					// // PongApp.stage = null;
-					// PongApp.destroy(true);
-
-					// if (document.querySelector("#pong-canvas") != null) {
-              		// 	const child = document.querySelector("#pong-canvas")?.lastChild;
-              		// 	if (child != null && child != undefined)
-                	// 		document.querySelector("#pong-canvas")?.removeChild(child);
-            		// }
 					rightReady.value = false;
 					leftReady.value = false;
 					this.active = false;
@@ -498,7 +448,6 @@
 				actualUsername.value = response.data.login
 			})
 			tRoomId.value = this.roomid;
-			// console.log("Room id afefwef", tRoomId.value);
 			socket.emit("requestInfo", {roomId: tRoomId.value, username: actualUsername.value})
 		},
 	})
@@ -507,12 +456,5 @@
 <template>
 		<div id="pong-canvas"></div>
 		<div className="div_button">
-			<!-- <button @click="this.play()" v-if="!isPlaying" className="ready_button">Ready</button> -->
 		</div>
 </template>
-
-<!-- <style scoped>
-#pong-canvas {
-  position: absolute;
-}
-</style> -->
