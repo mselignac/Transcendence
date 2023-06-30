@@ -88,8 +88,8 @@ export default {
         <div v-if="joinChannelMsg" className="joinChannelMsg">
             <div className="joinChannelMsg2">
                 <h1>Do you want to join this channel?</h1>
-                <button @click="yes()" className="button_join_channel">yes</button>
-                <button @click="no()" className="button_join_channel">no</button>
+                <button @click="yes()" id="button_join_channel_yes">yes</button>
+                <button @click="no()" id="button_join_channel_no">no</button>
             </div>
         </div>
 
