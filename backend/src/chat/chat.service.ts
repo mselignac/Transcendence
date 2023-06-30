@@ -12,7 +12,6 @@ import { MessageDto } from './messages.dto';
 import { userDto } from './user.dto';
 import { AdminDto } from '../admin/admin.dto';
 import * as argon from 'argon2';
-// import { S3Client } from '@aws-sdk/client-s3'
 
 let id = 0
 
@@ -23,27 +22,11 @@ export class ChatService {
     server: Server;
 
 
-
-
-////////////////////////
-// select: {          //
-//   channels: true   //
-////////////////////////
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                      CHAT/MP                                         //
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
-//     RoomDto {
-//       name -> string
-//       user_one -> string
-//       user_two -> string
-//     }
 
 
     async findUser(dto: object) {
@@ -95,7 +78,6 @@ export class ChatService {
         const user = await this.prisma.room.create({
             data,
         });
-        // return user;
       }
 
     }
@@ -173,6 +155,17 @@ export class ChatService {
       return msg
     }
 
+    async deleteMsg(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: userDto = dto as ObjectKey
+      await this.prisma.message.delete({
+        where: {
+          id: parseInt(data.login),
+        },
+      })
+    }
+
     async sendFriendRequest(dto: object) {
       type ObjectKey = keyof typeof dto;
 
@@ -221,12 +214,6 @@ export class ChatService {
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 
-//      RoomChannelDto {
-//        name -> string
-//        users -> string[]
-//      }
-
-
 
     async createRoomChannel(dto: object) {
       type ObjectKey = keyof typeof dto;
@@ -255,7 +242,6 @@ export class ChatService {
             }
           },
         })
-        // return user;
       }
     }
 
@@ -301,8 +287,6 @@ export class ChatService {
           },
         })
       }
-
-      // return room;
     }
 
     async removeUser(dto: object) {

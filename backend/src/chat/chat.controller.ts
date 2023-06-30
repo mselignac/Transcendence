@@ -1,6 +1,5 @@
 import { ChatService } from './chat.service';
 import { Body, Controller, Get, Patch, Req , Post } from '@nestjs/common';
-import { userDto } from './user.dto';
 
 @Controller('chat')
 export class ChatController {
@@ -46,6 +45,11 @@ export class ChatController {
 		return this.chatService.addMsgChannel(dto)
 	}
 
+	@Post('deletemsg')
+	deleteMsg(@Body() dto: object) {
+		return this.chatService.deleteMsg(dto)
+	}
+
 	@Get('getmsgchannel')
 	getMsgChannel(@Req() req) {
 		return this.chatService.getMsgChannel(req.query)
@@ -53,7 +57,6 @@ export class ChatController {
 
 	@Get('finduser')
 	findUser(@Req() req) {
-		// console.log(req.query.dto)
 		return this.chatService.findUser(req.query.dto)
 	}
 
@@ -74,7 +77,6 @@ export class ChatController {
 
 	@Post('removeuser')
 	removeUser(@Body() dto: object) {
-		// console.log('removeUser back')
 		return this.chatService.removeUser(dto)
 	}
 
@@ -87,12 +89,5 @@ export class ChatController {
 	isMute(@Body() dto:object) {
 		return this.chatService.isMute(dto)
 	}
-
-	// @Get('getuserid')
-	// getUserId(@Req() req)//, @Body() dto: userDto)
-	// {
-	// 	console.log('ooooooooooooooooo -> ', req)
-	// 	return this.getUserId(req.query.dto)
-	// }
 
 }

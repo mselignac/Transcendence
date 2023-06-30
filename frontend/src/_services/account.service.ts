@@ -22,10 +22,6 @@ let findUser = (dto: RoomDto) => {
     return Axios.get('/chat/finduser', { params: { dto }})
 }
 
-// let getUserId = (dto: object) => {
-//     return Axios.get('/chat/getuserid', { params: { dto }})
-// }
-
 let generateQr = () => {
     return Axios.get('/2fa/generate', { responseType: 'arraybuffer' })
 }
@@ -81,10 +77,6 @@ let findRoom = (dto: RoomDto) => {
 let createRoomChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/createroomchannel', dto)
 }
-
-// let findRoomChannel = (dto: RoomChannelDto) => {
-//     return Axios.post('/chat/findroomchannel', dto)
-// }
 
 let findRoomChannel = (dto: object) => {
     return Axios.post('/chat/findroomchannel', dto)
@@ -160,6 +152,9 @@ let getMsgChannel = (room: String) => {
     return Axios.get('/chat/getmsgchannel', { params: { room } })
 }
 
+let deleteMsg = (dto: object) => {
+    return Axios.post('/chat/deletemsg', dto)
+}
 
 
 ////////////////////////////////////////////////////////
@@ -205,10 +200,6 @@ let admin = (dto: object) => {
 let mute = (dto: object) => {
     return Axios.post('/admin/mute', dto)
 }
-
-// let remove = (dto: object) => {
-//     return Axios.post('/admin/remove', dto)
-// }
 
 let password = (dto: object) => {
     return Axios.post('/admin/password', dto)
@@ -270,7 +261,6 @@ export const accountService = {
     findUser,
     removeFriend,
     removeChannel,
-    // getUserId,
     publicsChannels,
     sendFriendRequest,
     removeRequest,
@@ -283,7 +273,6 @@ export const accountService = {
     ban,
     admin,
     mute,
-    // remove,
     password,
     visibility,
     removePassword,
@@ -299,5 +288,6 @@ export const accountService = {
     getGame,
     getGame2,
     addVictory,
-    ladder
+    ladder,
+    deleteMsg
 }

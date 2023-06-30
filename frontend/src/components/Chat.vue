@@ -40,7 +40,8 @@ export default {
             room: room,
             me: '',
             user: '',
-            exist: ''
+            exist: '',
+            button: true
         }
     },
     methods: {
@@ -82,15 +83,21 @@ export default {
         this.send_msg()
         },
 
-        accept_invitation() {
+        async accept_invitation(id) {
             console.log("HERE 1");
-            socket_pong.emit("confirmInvite", {sender: this.my_username, receiver: this.idchat})
+            socket_pong.emit("confirmInvite", {sender: this.my_username, receiver: this.idchat});
+            await accountService.deleteMsg({login: id})
+            .catch(res => console.log(res))
+            this.button = false
         },
 
-        refuse_invitation() {
+        async refuse_invitation(id) {
             this.text = "Invitation declined.";
             this.send_msg();
             socket_pong.emit("declineInvite", {sender: this.my_username, receiver: this.idchat})
+            await accountService.deleteMsg({login: id})
+            .catch(res => console.log(res))
+            this.button = false
         }
     },
 
@@ -170,8 +177,10 @@ export default {
                         <div v-else className="msg_user_test">
                             <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink> -->
                             <h4 className="msg_user_testt">{{ chat.text }}</h4>
-                            <button @click="accept_invitation()" v-if="check_invite(chat.text)">yes</button>
-                            <button @click="refuse_invitation()" v-if="check_invite(chat.text)">no</button>
+                            <div v-if="check_invite(chat.text) && button === true" className="button_invite_yes">
+                                <button @click="accept_invitation(chat.id)" className="button_invite_yes_no">yes</button>
+                                <button @click="refuse_invitation(chat.id)" className="button_invite_yes_no">no</button>
+                            </div>
                             <p className="username_msg">{{ chat.username }}</p>
                         </div>
                     </li>

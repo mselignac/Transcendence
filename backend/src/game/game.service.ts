@@ -21,7 +21,6 @@ export class GameService {
         await this.prisma.game.create({
             data
         });
-        // console.log(data)
     }
 
 	async getGame(dto: object) {
@@ -58,7 +57,6 @@ export class GameService {
                 victory: 'desc'
             }
         });
-        // console.log(ladder)
         return ladder
     }
 }

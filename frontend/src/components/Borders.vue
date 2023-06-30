@@ -9,14 +9,6 @@ export type users_type = {
 }
 
 const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
-// let $socket = io(`ws://${host}:${port}/user`,
-//   { 
-//       transports: ["websocket"],
-//       forceNew: true,
-//       upgrade: false,
-//   }
-//   );
-
 
 export default {
     data() {

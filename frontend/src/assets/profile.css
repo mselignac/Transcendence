@@ -2,7 +2,6 @@
 
 .profile_div {
     display: grid;
-    /* grid-template-rows: 2fr 1fr 3fr; */
     grid-template-rows: 4fr 1fr 2fr 3fr;
     width: 100%;
     height: 100%;
@@ -15,7 +14,6 @@
     height: 100%;
     justify-content: space-evenly;
     align-items: center;
-    /* background-color: blue; */
 }
 
 .profile_username {
@@ -25,8 +23,6 @@
     height: 100%;
     justify-content: center;
     align-items: center;
-    /* flex-direction: column; */
-    /* background-color: rgb(58, 56, 56); */
 }
 
 .profile_two {
@@ -34,13 +30,8 @@
     grid-row: 2;
     width: 100%;
     height: 100%;
-    /* align-self: center; */
-    /* flex-direction: column; */
     align-items: center;
-    /* justify-content: center; */
     justify-content: space-evenly;
-    /* background-color: rgb(51, 42, 42); */
-    /* background-color: red; */
 }
 
 .profile_three {
@@ -48,13 +39,8 @@
     grid-row: 3;
     width: 100%;
     height: 100%;
-    /* align-self: center; */
-    /* flex-direction: column; */
     align-items: center;
-    /* justify-content: center; */
     justify-content: space-evenly;
-    /* background-color: rgb(51, 42, 42); */
-    /* background-color: red; */
 }
 
 .profile_bottom {
@@ -62,31 +48,20 @@
     grid-row: 4;
     width: 100%;
     height: 100%;
-    /* align-self: center; */
-    /* flex-direction: column; */
     align-items: center;
-    /* justify-content: center; */
     justify-content: space-evenly;
-    /* background-color: rgb(51, 42, 42); */
-    /* background-color: red; */
     color: rgb(220, 214, 228);
 }
 
 .profile_picture_button {
     display: flex;
     width: 30%;
-    /* height: 78%; */
     justify-content: center;
     align-items: center;
-    /* border-radius: 20px 20px 20px 20px; */
     border-radius: 50%;
-    /* font-size: 1000%; */
     color: rgb(128, 128, 128);
-    /* border: 2px solid rgb(97, 97, 97); */
-    /* box-shadow: inset 5px 0px 25px rgba(3, 22, 63, 0.705); */
     border-color: transparent;
     background-color: transparent;
-    /* background-color: rgba(10, 20, 116, 0.822); */
 
 }
 
@@ -112,8 +87,6 @@
     align-items: flex-start;
     font-size: 350%;
     font-weight: bold;
-    /* color: rgb(27, 27, 27); */
-    /* color: rgb(210, 201, 223); */
     color: rgb(221, 221, 221);
 }
 
@@ -124,17 +97,13 @@
 
 .button_access_profile {
     display: flex;
-    /* margin-top: 10%; */
     font-size: 350%;
     padding: 5%;
     width: 15vw;
     height: 10vh;
     justify-content: center;
     align-items: center;
-    /* border-radius: 20px 20px 20px 20px; */
     border-radius: 10px 10px 10px 10px;
-    /* color: beige; */
-    /* background-color: rgb(2, 77, 138); */
     background-color: rgb(123, 89, 163);
     border-color: transparent;
     color: rgb(221, 221, 221);
@@ -143,17 +112,13 @@
 }
 
 .button_access_profile:hover {
-    /* scale: 1.1; */
-    /* background-color: rgb(2, 77, 138); */
     background-color: rgb(123, 89, 163);
     transform: scale(1.1);
 }
 
 .button_add_friend {
     display: flex;
-    /* background-color: rgb(0, 148, 0); */
     background-color: rgb(162, 158, 177);
-    /* background-color: rgb(166, 143, 187); */
     font-size: 150%;
     border-radius: 8px 8px 8px 8px;
     margin-right: 20px;
@@ -162,16 +127,13 @@
 }
 
 .button_add_friend:hover {
-    /* background-color: rgb(32, 179, 2); */
     background-color: rgb(166, 143, 187);
-    /* background-color: rgb(162, 158, 177); */
     scale: 1.1;
 }
 
 .button_block_friend {
     display: flex;
     margin-left: 20px;
-    /* background-color: rgb(148, 0, 0); */
     background-color: rgb(162, 158, 177);
     font-size: 150%;
     border-radius: 8px 8px 8px 8px;
@@ -180,7 +142,6 @@
 }
 
 .button_block_friend:hover {
-    /* background-color: rgb(179, 2, 2); */
     background-color: rgb(166, 143, 187);
     scale: 1.1;
 }
@@ -201,7 +162,6 @@
   }
   
 .code {
-    /* background: gray; */
     color:white;
     padding-bottom: 100px;
     position: fixed;
@@ -215,7 +175,6 @@
 
 .twofactor {
     display: flex;
-    /* justify-self: flex-start; */
     justify-content: center;
     align-items: center;
     margin-right: 35%;
@@ -224,5 +183,4 @@
 .twofactor_auth {
     display: flex;
     margin-right: 20px;
-    /* background-color: red; */
 }

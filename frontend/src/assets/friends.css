@@ -20,7 +20,6 @@
 
     margin-top: 20%;
     font-size: 290%;
-    /* color: rgb(152, 152, 236); */
     color: rgb(192, 192, 231);
 }
 
@@ -32,7 +31,6 @@
     padding-top: 20px;
     align-items: center;
     justify-self: center;
-    /* background-color: rgba(0, 17, 255, 0.274); */
     background-color: rgb(6, 16, 158);
     flex-direction: column;
     border-radius: 20px 20px 20px 20px;

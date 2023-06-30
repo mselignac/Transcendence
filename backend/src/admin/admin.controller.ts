@@ -1,6 +1,5 @@
 import { AdminService } from './admin.service';
 import { Body, Controller, Get, Patch, Req , Post } from '@nestjs/common';
-// import { userDto } from './user.dto';
 
 @Controller('admin')
 export class AdminController {
