@@ -6,7 +6,6 @@ import Chat from '../components/Chat.vue'
 import Profile from '../components/Profile.vue'
 import App from '../App.vue'
 import Pong from '../components/Pong.vue'
-import GamePage from '../components/GamePage.vue'
 import Login from '../components/Login.vue'
 import Mode from '../components/ModeTest.vue'
 import Stats from '../components/Stats.vue'
@@ -41,7 +40,6 @@ const router = createRouter({
     { path: '/list-channels', component: List },
     { path: '/channel/:idchannel', name: 'channel', component: Channel, props: true },
     { path: '/friend-request', component: FriendsRequests },
-    { path: '/play/:room', component: GamePage, props: true,  name: 'play' },
   ]
 })
 
