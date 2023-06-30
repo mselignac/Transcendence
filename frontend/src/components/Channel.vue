@@ -10,7 +10,8 @@ import router from '@/router';
 <script lang="ts">
 
 let id = 0
-let $socket_chat = io('ws://localhost:3000/chat',
+const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
+let $socket_chat = io(`ws://${host}:${port}/chat`,
 { 
     transports: ["websocket"],
     forceNew: true,

@@ -1,7 +1,9 @@
-import io, { Socket } from 'socket.io-client'
+import io from 'socket.io-client'
 
-let url: string = 'ws://localhost:3000';
+const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
 
-let $socket = io(url);
+const URL = `http://${host}:${port}`;
+
+let $socket = io(URL);
 
 export default $socket

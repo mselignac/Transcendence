@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Socket, Server } from 'socket.io';
-import {
-    SubscribeMessage, WebSocketGateway, WebSocketServer,
-    OnGatewayConnection, OnGatewayDisconnect,
-    OnGatewayInit
-  } from '@nestjs/websockets';
+import { Server } from 'socket.io';
 
 const VERTICAL_BOUNDS = 1000 / 20.5;
 const PADDLE_SIZE = 1000 / 4.2;
