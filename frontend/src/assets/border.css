@@ -78,7 +78,7 @@
     grid-template-rows: 1fr 7fr;
     background-color: transparent;
     /* background-color: red; */
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .border_right_bottom {
@@ -96,7 +96,7 @@
     /* background-color: red; */
     grid-template-rows: 2fr 1fr 15fr;
     /* box-shadow: inset 20px 20px 20px rgb(54, 54, 54); */
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .border_right_bottom_one {
