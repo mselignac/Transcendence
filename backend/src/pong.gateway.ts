@@ -321,6 +321,11 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	console.log('Server initialized');
   }
 
+  @SubscribeMessage('leavePage')
+  handleLeave(client: Socket) {
+	this.handleDisconnect(client);
+  }
+
   handleDisconnect(client: Socket) {
 	let index = this.inGameList.findIndex(gameUser => gameUser.client === client);
 	if (index !== -1) {

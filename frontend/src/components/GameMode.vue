@@ -53,6 +53,14 @@ export default {
 
 	},
 
+	beforeRouteLeave(to: any, from: any, next: any) {
+   		console.log(to, " ", from);
+		if (inGame.value === true) {
+			socket.emit('leavePage');
+		}
+   		next();
+ 	},
+
 	async created() {
 	await accountService.usersMe()
 	.then((response) => { actualUsername.value = response.data.login })
