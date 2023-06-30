@@ -107,7 +107,7 @@ export default {
       </div>
       <div className="profile_username">
         <button v-if="!is_friend && !is_blocked && !request" @click="add()" className="button_add_friend">add friend</button>
-        <button v-else-if="!is_blocked && !request" @click="remove()" className="button_add_friend">remove friend</button>
+        <button v-else-if="!is_blocked && !request" @click="remove()" className="button_add_friend">Unfriend</button>
         <button v-if="!is_blocked" @click="block()" className="button_block_friend">block</button>
         <button v-else @click="unblock()" className="button_block_friend">unblock</button>
       </div>
