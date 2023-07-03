@@ -21,7 +21,7 @@
     margin-left: 65%;
     margin-top: 27%;
     width: 10%;
-    height: 10%;
+    height: 25%;
     background-color: rgb(34, 34, 36);
     border-color: transparent;
     font-size: 100%;
@@ -51,7 +51,7 @@
     color : beige;
     align-items: center;
     justify-content: center;
-
+    font-size: 15px;
 }
 
 .elements_menu:hover {
@@ -189,7 +189,7 @@
     grid-row: 1;
     background-color: transparent;
     grid-template-columns: 1fr 12fr;
-    
+
 }
 
 .border_middle_two {
@@ -303,7 +303,7 @@
 .friends_usernames {
     display: flex;
     margin-top: 8%;
-    font-size: 200%;
+    font-size: 170%;
     font-weight: bold;
     color: #d1d1d1;
     background-color: transparent;
@@ -318,7 +318,8 @@
 
 .img_border {
     display: flex;
-    width: 45%;
+    width: 5vw;
+    height: 5vw;
     border-radius: 50%;
 }
 

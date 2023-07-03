@@ -14,8 +14,6 @@ export default {
             twofactor: false,
             popup2fa: false,
             msg: '',
-            // token: accountService.getToken('2faToken'),
-            // token2faOn: accountService.getToken('2faOn') ? true : false,
             validate: localStorage.getItem('validate') ? true : false
         }
     },
@@ -46,16 +44,13 @@ export default {
           this.login = res.data.login,
           this.twofactor = res.data.twofactor
         })
-        .catch(res => console.log(res))
+        .catch(res => {
+          accountService.logout(),
+          console.log(res)
+        })
 
         if (!this.login)
           this.popup = true
-
-        // if (this.twofactor == true && !this.token && !this.token2faOn)
-        // {
-        //   accountService.save2FaToken(Cookies.get('2fajwt')),
-        //   this.popup2fa = true
-        // }
 
         if (this.twofactor == true && this.validate == false)
         {

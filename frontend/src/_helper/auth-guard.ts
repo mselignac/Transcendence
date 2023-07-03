@@ -43,3 +43,12 @@ export async function authGuard2fa() {
     }
     router.push('/main-page')
 }
+
+export async function authGuardUser() {
+    await accountService.usersMe()
+    .catch(res => {
+        accountService.logout(),
+        router.push('/'),
+        console.log(res)
+    })
+}

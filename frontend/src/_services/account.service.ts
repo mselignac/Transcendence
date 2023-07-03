@@ -2,6 +2,8 @@ import {Axios, Axios2fa } from './caller.service'
 import { RoomChannelDto } from './room.channel.dto';
 import { RoomDto } from './room.dto';
 import { MessageDto } from './messages.dto';
+import Cookies from 'js-cookie';
+
 
 ////////////////////////////////////////////////////////
 //                        USERS                       //
@@ -60,6 +62,13 @@ let isConnected = (dto: object) => {
 
 let friendsOnline = (dto: object) => {
     return Axios.post('users/friendsonline', dto)
+}
+
+let uptadeAvatar = (file: File) => {
+    return Axios.post('users/uptadeAvatar', file, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }})
 }
 
 
@@ -161,9 +170,11 @@ let deleteMsg = (dto: object) => {
 //                       TOKENS                       //
 ////////////////////////////////////////////////////////
 let logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('2faToken')
-    localStorage.removeItem('2faOn')
+    Cookies.remove('jwt'),
+    Cookies.remove('2fajwt'),
+    localStorage.removeItem('token'),
+    localStorage.removeItem('2faToken'),
+    localStorage.removeItem('2faOn'),
     localStorage.removeItem('validate')
 }
 
@@ -284,6 +295,7 @@ export const accountService = {
     isConnected,
     friendsOnline,
     isMute,
+    uptadeAvatar,
     game,
     getGame,
     getGame2,

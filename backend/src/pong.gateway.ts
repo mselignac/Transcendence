@@ -56,7 +56,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('play') 
   play(client: Socket, data: any): void {
-	console.log("username ", data.username);
 	if (data.username === this.gameRoomList[data.roomId].dataChariot.leftPlayer.nickname){
 		this.gameRoomList[data.roomId].leftReady = true;
 		this.server.to(data.roomId.toString()).emit("readyMsg", {side: "left"});
@@ -100,7 +99,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	  	};
 	  	this.privateWaitingRoomList.push(newWaitingRoom);
 		client.emit("inviteInfo", {id: this.privateRoomCount});
-		console.log("HERE PRIVATE INVITE", this.privateWaitingRoomList);
 		this.privateRoomCount++;
 	}
 
@@ -110,7 +108,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 		if (index === -1) {
     		return ;
 		}
-		console.log("HERE 1");
 		this.privateWaitingRoomList[index].receiverClient = client;
 		this.privateWaitingRoomList[index].client.emit('goPlay');
 		this.privateWaitingRoomList[index].receiverClient.emit('goPlay');
@@ -201,7 +198,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	if (index !== -1) {
     	return ;
 	}
-	console.log("Request arrived from: ", data.username);
 	const newWaitingRoom: waitingRoom = {
 	  client: client,
 	  username: data.username,
@@ -303,6 +299,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	setTimeout(() => {
 		client.emit('reset');
 	}, 5000);
+	// this.server.in(data.id.toString()).disconnectSockets(true);
 	delete this.gameRoomList[data.id];
   }
 

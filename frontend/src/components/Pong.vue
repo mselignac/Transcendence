@@ -3,6 +3,7 @@
 	import * as PIXI from 'pixi.js';
 	import { ref, defineComponent } from 'vue';
 	import { accountService } from '../_services/account.service'
+import router from '@/router';
 
 </script>
 
@@ -341,15 +342,17 @@
 				}
 
 				function play(delta) {
-					if (leftPaddle.vy < 0 && side.value === "left")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'upL'});
-					if (leftPaddle.vy > 0 && side.value === "left")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'downL'});
-				
-					if (leftPaddle.vy < 0 && side.value === "right")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'upR'});
-					if (leftPaddle.vy > 0 && side.value === "right")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});                    
+					if (isPlaying.value === true) {
+						if (leftPaddle.vy < 0 && side.value === "left")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'upL'});
+						if (leftPaddle.vy > 0 && side.value === "left")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'downL'});
+					
+						if (leftPaddle.vy < 0 && side.value === "right")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'upR'});
+						if (leftPaddle.vy > 0 && side.value === "right")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});
+					}
 				}
 
 				socket.on('data', dataChariot => {
@@ -360,6 +363,10 @@
 
 					leftScoreText.text = String(dataChariot.leftPlayer.score);
 					rightScoreText.text = String(dataChariot.rightPlayer.score);
+					if (dataChariot.leftPlayer.score === 10 || dataChariot.rightPlayer.score === 10) {
+						up.unsubscribe();
+						down.unsubscribe();
+					}
 				})
 
 				socket.on('initGame', (data) => {
@@ -411,23 +418,25 @@
 						endText.text = "Player has disconnected";
 					else
 						endText.text = data.winner + " has won !";
+					isPlaying.value = false;
 					endText.style.fontSize = backImgSprite.width / 15;
 					endText.visible = true;
 					ball.visible = false;
+					console.log("CHECK");
 					if (actualUsername.value === data.winner && data.winner !== "false")
 						accountService.addVictory({ login: data.winner })
-						.catch(res => console.log(res))
+						.catch(res => console.log(res));
 					if (side._value == 'right' && data.winner !== "false")
 						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});
 				})
 				socket.on('reset', (data) => {
+					up.unsubscribe();
+					down.unsubscribe();
 					rightReady.value = false;
 					leftReady.value = false;
 					this.active = false;
 					isPlaying.value = false;
-					up.unsubscribe();
-					down.unsubscribe();
 				})
 			},
 
