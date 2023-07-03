@@ -308,7 +308,8 @@ export class UserService {
 		type ObjectKey = keyof typeof dto;
 
 		let data: userDto = dto as ObjectKey
-		console.log(data)
+		console.log("ici");
+		console.log(data);
 		let user = await this.prisma.user.update({
 			where: {
 				login: data.login
