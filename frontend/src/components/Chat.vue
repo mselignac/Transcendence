@@ -88,7 +88,7 @@ export default {
             socket_pong.emit("confirmInvite", {sender: this.my_username, receiver: this.idchat});
             await accountService.deleteMsg({login: id})
             .catch(res => console.log(res))
-            this.button = false
+            // this.button = false
         },
 
         async refuse_invitation(id) {
@@ -97,7 +97,7 @@ export default {
             socket_pong.emit("declineInvite", {sender: this.my_username, receiver: this.idchat})
             await accountService.deleteMsg({login: id})
             .catch(res => console.log(res))
-            this.button = false
+            // this.button = false
         }
     },
 
