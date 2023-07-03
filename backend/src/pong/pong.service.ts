@@ -138,7 +138,7 @@ export class PongService {
     endGame() {
         this.isPlaying = false;
         if (this.server)
-            this.server.socketsLeave(this.id.toString());
+            this.server.in(this.id.toString()).socketsLeave(this.id.toString());
     }
 
     updateBall() {
