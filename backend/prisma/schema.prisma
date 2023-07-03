@@ -25,6 +25,7 @@ model User {
   country                       String?
   twofactor                     Boolean  @default(false)
   twoFactorAuthenticationSecret String
+  victory                       Int @default(0)
 
   online Boolean @default(true)
 
@@ -86,6 +87,15 @@ model Mute {
   date          String
   RoomChannel   RoomChannel? @relation(fields: [roomChannelId], references: [name])
   roomChannelId String?
+}
+
+model Game {
+  id           Int          @id @default(autoincrement())
+  user_one      String
+  user_two      String
+  score_one     String
+  score_two     String
+  victory       String
 }
 
 // model Game {

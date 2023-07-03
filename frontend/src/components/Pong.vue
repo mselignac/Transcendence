@@ -1,10 +1,7 @@
 <script setup lang="ts">
 	import $socket from '../plugin/socket';
 	import * as PIXI from 'pixi.js';
-	import {ref} from 'vue';
-	import Borders from './Borders.vue'
-	import axios from 'axios';
-	import { io } from "socket.io-client";
+	import { ref, defineComponent } from 'vue';
 	import { accountService } from '../_services/account.service'
 
 </script>
@@ -16,64 +13,54 @@
 	let leftUsername = ref(false);
 	let rightUsername = ref(false);
 	let tRoomId = ref(null);
-	let side = ref(false);
+	let side = ref("");
 	let leftReady = ref(false);
 	let rightReady = ref(false);
+	let isSpecial = ref(false);
+	let gameDiv = ref(null);
+	let isPlaying = ref(false);
 	
-	export default {
-		watch: {
-			boardexist: function (newVal, oldVal) {
-			document.querySelector("#my-canvas-wrapper")?.remove();
-			},
-		},
+	export default defineComponent ({
+		props: ['roomid', 'appExist', 'dimensions'],
+
 		name: 'Pong',
+
 		data() {
 			return {
 				newUsername: '',
 				active: true,
 			}
 		},
-		props: ['room'],
 
 		mounted() {
-
-			if (this.active == true) {
-				socket.emit("init");
+			gameDiv.value = this.dimensions;
+			if (this.active === true) {
 				this.Game();
 			}
 		},
 		methods: {
 			move(direction: string) { socket.emit("move", direction); 
 			socket.on('error', function (err) {
-				console.log(err);
+				console.log(err); 
 			});},
 
-			// playRequest() {
-			// 	socket.emit("playRequest", {username: actualUsername.value});
-			// },
-
 			play() {
-				console.log("bonjour");
-				socket.emit("play", {roomId: tRoomId.value, side: side.value});
+				socket.emit("play", {roomId: tRoomId.value, username: actualUsername.value});
 			},
 
 			Game() {
-				// var canvas = document.getElementById('pong')
 				const PongApp = new PIXI.Application({
-					// autoResize: true,
-					// resolution: devicePixelRatio,
-					width: window.innerWidth,
-					height: window.innerHeight - 300,
-					// resizeTo: window,
-					// view: canvas,
+					width: gameDiv.value.clientWidth,
+					height: gameDiv.value.clientWidth * 3 / 5,
+					resolution: devicePixelRatio,
 					backgroundAlpha: 0,
 				});
-				this.$refs.pong_canvas.appendChild(PongApp.view);
-				// resize();
-				// document.body.appendChild(PongApp.view);
+				if (document.querySelector("#pong-canvas") != null)
+          			document.querySelector("#pong-canvas")?.appendChild(PongApp.view);
+				PongApp.resize(PongApp.view.parentNode.width, PongApp.view.parentNode.height);
 				
 				const gameScene = new PIXI.Container();
-				let leftPaddle, rightPaddle, ball, state, leftCross, leftCheck, rightCross, rightCheck;
+				let leftPaddle: any, rightPaddle: any, ball: any, state: any, leftCross: any, leftCheck: any, rightCross: any, rightCheck: any, upMidWall: any, downMidWall: any;
 
 				PongApp.stage.addChild(gameScene);
 
@@ -86,16 +73,17 @@
 				const backImgSprite = new PIXI.Sprite(backImgTex);
 				leftPaddle = new PIXI.Sprite(paddleTex);
 				rightPaddle = new PIXI.Sprite(paddleTex);
+
+				upMidWall = new PIXI.Sprite(paddleTex);
+				downMidWall = new PIXI.Sprite(paddleTex);
+
 				ball = new PIXI.Sprite(ballTex);
 				
 				//Background Setup
-				// backImgSprite.scale.x = PongApp.view.width / 1000;
-				// backImgSprite.scale.y = backImgSprite.scale.x;
 
 				gameScene.width = PongApp.renderer.height * 5 / 3;
 				gameScene.height = PongApp.renderer.height;
 
-				// backImgSprite.anchor.set(0.5, 0.5);
 				backImgSprite.width = PongApp.renderer.height * 5 / 3;
 				backImgSprite.height = PongApp.renderer.height;
 
@@ -154,10 +142,10 @@
 				leftCheck.width = backImgSprite.width / 30;
 				rightCross.width = backImgSprite.width / 30;
 				rightCheck.width = backImgSprite.width / 30;
-				leftCross.height = leftCross.width
-				leftCheck.height = leftCross.width
-				rightCross.height = leftCross.width
-				rightCheck.height = leftCross.width
+				leftCross.height = backImgSprite.width / 30;
+				leftCheck.height = backImgSprite.width / 30;
+				rightCross.height = backImgSprite.width / 30;
+				rightCheck.height = backImgSprite.width / 30;
 
 
 				leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
@@ -179,7 +167,6 @@
 				leftPaddle.position.set((backImgSprite.width / 2) - (backImgSprite.width * 0.45), backImgSprite.height / 2);
 
 				leftPaddle.width = backImgSprite.width / 19;
-				// leftPaddle.scale.y = 2;
 
 				leftPaddle.height = backImgSprite.height / 3.5; 
 
@@ -191,12 +178,30 @@
 				rightPaddle.position.set((backImgSprite.width / 2) + (backImgSprite.width * 0.45), backImgSprite.height / 2);
 				
 				rightPaddle.width = backImgSprite.width / 19;
-				// rightPaddle.scale.y = 2;
 
 				rightPaddle.height = backImgSprite.height / 3.5; 
 
 				rightPaddle.vy = 0;
 				gameScene.addChild(rightPaddle);
+
+				//Middle walls setup
+				upMidWall.anchor.set(0.5, 0.5);
+				downMidWall.anchor.set(0.5, 0.5);
+
+				upMidWall.width = backImgSprite.width / 19;
+				downMidWall.width = backImgSprite.width / 19;
+
+				upMidWall.height = (backImgSprite.height / 3.5) / 1.5; 
+				downMidWall.height = (backImgSprite.height / 3.5) / 1.5;
+
+				upMidWall.position.set((backImgSprite.width / 2), backImgSprite.height / 3);
+				downMidWall.position.set((backImgSprite.width / 2), backImgSprite.height - backImgSprite.height / 3);
+
+				gameScene.addChild(upMidWall);
+				gameScene.addChild(downMidWall);
+
+				upMidWall.visible = false;
+				downMidWall.visible = false;
 
 				//Ball Setup
 				ball.anchor.set(0.5, 0.5);
@@ -208,14 +213,12 @@
 				
 				ball.vx = 0;
 				ball.vy = 0;
-
+				ball.visible = true;
 				gameScene.addChild(ball);
 
 				//Key listener
 				const   up = keyboard("ArrowUp"),
-						down = keyboard("ArrowDown"),
-						upR = keyboard("ArrowLeft"),
-						downR = keyboard("ArrowRight");
+						down = keyboard("ArrowDown");
 
 				//Up
 				up.press = () => {
@@ -237,42 +240,54 @@
 					}
 				};
 
-				upR.press = () => {
-					rightPaddle.vy = -1;
-				};
-				upR.release = () => {
-					if (!downR.isDown) {
-						rightPaddle.vy = 0;
-					}
-				};
-
-				//Down
-				downR.press = () => {
-					rightPaddle.vy = 1;
-				};
-				downR.release = () => {
-					if (!upR.isDown) {
-						rightPaddle.vy = 0;
-					}
-				};
-
 				state = play;
 				PongApp.ticker.add((delta) => gameLoop(delta));
 
+                window.addEventListener('resize', () => {
+					const parent = PongApp.view.parentNode;
 
-				// gameScene.x = PongApp.screen.width / 2;
-				// gameScene.y = PongApp.screen.height / 2;
-
-				window.addEventListener('resize', resize);
-
-				function resize() {
-   				// Récupérez les nouvelles dimensions de la div.
-    			let width = this.pong_canvas.offsetWidth;
-    			let height = this.pong_canvas.offsetHeight;
-
-    			// Redimensionnez l'application Pixi.
-    			PongApp.renderer.resize(width, height);
-}
+					PongApp.renderer.resize(gameDiv.value.clientWidth, gameDiv.value.clientWidth * 3 / 5);
+					backImgSprite.width = PongApp.renderer.width;
+					backImgSprite.height = PongApp.renderer.width * 3 / 5;
+					leftCross.width = backImgSprite.width / 30;
+					leftCheck.width = backImgSprite.width / 30;
+					rightCross.width = backImgSprite.width / 30;
+					rightCheck.width = backImgSprite.width / 30;
+					leftCross.height = backImgSprite.width / 30;
+					leftCheck.height = backImgSprite.width / 30;
+					rightCross.height = backImgSprite.width / 30;
+					rightCheck.height = backImgSprite.width / 30;
+					leftPaddle.width = backImgSprite.width / 19;
+					leftPaddle.height = backImgSprite.height / 3.5; 
+					rightPaddle.width = backImgSprite.width / 19;
+					rightPaddle.height = backImgSprite.height / 3.5;
+					upMidWall.width = backImgSprite.width / 19;
+					downMidWall.width = backImgSprite.width / 19;
+					upMidWall.height = (backImgSprite.height / 3.5) / 1.5; 
+					downMidWall.height = (backImgSprite.height / 3.5) / 1.5;
+					ball.width = backImgSprite.width / 20;
+					ball.height = ball.width;
+					leftUserText.position.set(backImgSprite.width / 4, backImgSprite.height / 15);
+					rightUserText.position.set(backImgSprite.width - (backImgSprite.width / 4), backImgSprite.height / 15);
+					leftScoreText.position.set(backImgSprite.width / 1.8, backImgSprite.height / 15);
+					rightScoreText.position.set(backImgSprite.width - (backImgSprite.width / 1.8), backImgSprite.height / 15);
+					endText.position.set(backImgSprite.width / 2, backImgSprite.height / 2);
+					leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					leftCheck.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					rightCross.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					rightCheck.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					leftPaddle.position.set((backImgSprite.width / 2) - (backImgSprite.width * 0.45), backImgSprite.height / 2);
+					rightPaddle.position.set((backImgSprite.width / 2) + (backImgSprite.width * 0.45), backImgSprite.height / 2);
+					upMidWall.position.set((backImgSprite.width / 2), backImgSprite.height / 3);
+					downMidWall.position.set((backImgSprite.width / 2), backImgSprite.height - backImgSprite.height / 3);
+					leftCross.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					leftCheck.position.set(backImgSprite.width / 19 , backImgSprite.height / 15);
+					rightCross.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					rightCheck.position.set(backImgSprite.width - (backImgSprite.width / 19) , backImgSprite.height / 15);
+					ball.position.x = backImgSprite.width / 2;
+					ball.position.y = backImgSprite.height / 2;
+					endText.style.fontSize = backImgSprite.width / 15;
+				});
 
 				function keyboard(value) {
 					const key = {};
@@ -326,26 +341,31 @@
 				}
 
 				function play(delta) {
-					if (leftPaddle.vy < 0 && side.value === "left")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'upL'});
-					if (leftPaddle.vy > 0 && side.value === "left")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'downL'});
-				
-					if (leftPaddle.vy < 0 && side.value === "right")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'upR'});
-					if (leftPaddle.vy > 0 && side.value === "right")
-						socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});                    
+					if (isPlaying.value === true) {
+						if (leftPaddle.vy < 0 && side.value === "left")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'upL'});
+						if (leftPaddle.vy > 0 && side.value === "left")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'downL'});
+					
+						if (leftPaddle.vy < 0 && side.value === "right")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'upR'});
+						if (leftPaddle.vy > 0 && side.value === "right")
+							socket.emit("move", {roomId: tRoomId.value, direction: 'downR'});
+					}
 				}
 
 				socket.on('data', dataChariot => {
 					leftPaddle.y = (dataChariot.leftPlayer.y / 1000) * backImgSprite.height;
 					rightPaddle.y = (dataChariot.rightPlayer.y / 1000) * backImgSprite.height;
-					// ball.x = backImgSprite.width * dataChariot.ball.x / (1000 * 5 / 3);
 					ball.position.x = dataChariot.ball.x * backImgSprite.width / (1000 * 5 / 3);
 					ball.position.y = (dataChariot.ball.y / 1000) * backImgSprite.height;
 
 					leftScoreText.text = String(dataChariot.leftPlayer.score);
 					rightScoreText.text = String(dataChariot.rightPlayer.score);
+					if (dataChariot.leftPlayer.score === 10 || dataChariot.rightPlayer.score === 10) {
+						up.unsubscribe();
+						down.unsubscribe();
+					}
 				})
 
 				socket.on('initGame', (data) => {
@@ -354,6 +374,16 @@
 
 					leftUserText.text = data.leftUsername;
 					rightUserText.text = data.rightUsername;
+
+					isSpecial.value = data.isSpecial;
+					if (data.isSpecial) {
+						upMidWall.visible = true;
+						downMidWall.visible = true;
+					}
+					else {
+						upMidWall.visible = false;
+						downMidWall.visible = false;
+					}
 
 					if (data.isLeft)
 						side.value = "left";
@@ -365,45 +395,47 @@
 				})
 
 				socket.on('readyMsg', (data) => {
-					if (data.side == "left"){
+					if (data.side === "left"){
 						leftReady.value = true;
 						leftCross.visible = false;
 						leftCheck.visible = true;
 					}
-					else{
+					else {
 						rightReady.value = true;
 						rightCross.visible = false;
 						rightCheck.visible = true;
 					}
 
-					if (leftReady.value && rightReady.value){
+					if (leftReady.value === true && rightReady.value === true) {
 						leftCheck.visible = false;
 						rightCheck.visible = false;
+						isPlaying.value = true;
 					}
 				})
 				socket.on('endGame', (data) => {
-					endText.text = data.winner + " has won !";
+					if (data.winner === "false")
+						endText.text = "Player has disconnected";
+					else
+						endText.text = data.winner + " has won !";
+					isPlaying.value = false;
+					endText.style.fontSize = backImgSprite.width / 15;
 					endText.visible = true;
-					// 
+					ball.visible = false;
+					console.log("CHECK");
+					if (actualUsername.value === data.winner && data.winner !== "false")
+						accountService.addVictory({ login: data.winner })
+						.catch(res => console.log(res))
+					if (side._value == 'right' && data.winner !== "false")
+						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});
 				})
 				socket.on('reset', (data) => {
-					// leftScoreText.destroy(true);
-					// rightScoreText.destroy(true);
-					// leftUserText.destroy(true);
-					// rightUserText.destroy(true);
-					// leftPaddle.destroy(true);
-					// rightPaddle.destroy(true);
-					// rightCheck.destroy(true);
-					// rightCross.destroy(true);
-					// leftCheck.destroy(true);
-					// leftCross.destroy(true);
-					// ballTex.destroy(true);
-					// backImgTex.destroy(true);
-					// PongApp.stage.destroy(true);
-					// PongApp.destroy(true);
-
-					this.$router.push({ path: '/game-mode'});
+					up.unsubscribe();
+					down.unsubscribe();
+					rightReady.value = false;
+					leftReady.value = false;
+					this.active = false;
+					isPlaying.value = false;
 				})
 			},
 
@@ -413,24 +445,14 @@
 			.then((response) => {
 				actualUsername.value = response.data.login
 			})
-			tRoomId.value = this.room;
-			console.log("Room id afefwef", tRoomId.value);
+			tRoomId.value = this.roomid;
 			socket.emit("requestInfo", {roomId: tRoomId.value, username: actualUsername.value})
 		},
-	}
+	})
 </script>
 
 <template>
-		<div ref="pong_canvas" class="pong"></div>
-		<p>
-			<button v-on:click="this.play()">Ready</button>
-			<button v-on:click="this.playRequest()">Play Request</button>
-		</p>
+		<div id="pong-canvas"></div>
+		<div className="div_button">
+		</div>
 </template>
-
-<!-- <style scoped>
-.pong {
-	width: 80%; /* Ajustez le pourcentage selon vos besoins */
-  height: 60vh;
-}
-</style> -->

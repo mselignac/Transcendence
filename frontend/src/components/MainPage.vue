@@ -21,6 +21,7 @@ export default {
     methods: {
       async change_popup() {
         await accountService.updateUsername(this.login)
+        .catch (res => console.log(res))
         this.popup = !this.popup
         this.login = ''
         router.go()
@@ -53,7 +54,8 @@ export default {
 
         if (this.twofactor == true && this.validate == false)
         {
-          accountService.save2FaToken(Cookies.get('2fajwt')),
+          accountService.save2FaToken(Cookies.get('2fajwt'))
+          .catch (res => console.log(res))
           this.popup2fa = true
         }
     }

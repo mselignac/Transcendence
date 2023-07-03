@@ -11,6 +11,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { MessageDto } from './messages.dto';
 import { userDto } from './user.dto';
 import { AdminDto } from '../admin/admin.dto';
+import * as argon from 'argon2';
 
 let id = 0
 
@@ -21,27 +22,11 @@ export class ChatService {
     server: Server;
 
 
-
-
-////////////////////////
-// select: {          //
-//   channels: true   //
-////////////////////////
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 //                                      CHAT/MP                                         //
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
-//     RoomDto {
-//       name -> string
-//       user_one -> string
-//       user_two -> string
-//     }
 
 
     async findUser(dto: object) {
@@ -52,6 +37,9 @@ export class ChatService {
       let user = await this.prisma.user.findUnique({
         where: {
           login: data.login
+        },
+        select: {
+          avatarUrl: !null
         }
       })
       if (user)
@@ -90,7 +78,6 @@ export class ChatService {
         const user = await this.prisma.room.create({
             data,
         });
-        return user;
       }
 
     }
@@ -168,6 +155,17 @@ export class ChatService {
       return msg
     }
 
+    async deleteMsg(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: userDto = dto as ObjectKey
+      await this.prisma.message.delete({
+        where: {
+          id: parseInt(data.login),
+        },
+      })
+    }
+
     async sendFriendRequest(dto: object) {
       type ObjectKey = keyof typeof dto;
 
@@ -216,12 +214,6 @@ export class ChatService {
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 
-//      RoomChannelDto {
-//        name -> string
-//        users -> string[]
-//      }
-
-
 
     async createRoomChannel(dto: object) {
       type ObjectKey = keyof typeof dto;
@@ -250,7 +242,6 @@ export class ChatService {
             }
           },
         })
-        return user;
       }
     }
 
@@ -264,6 +255,9 @@ export class ChatService {
             name: data.name
       },})
 
+      if (room)
+        delete room.password;
+
       return room;
     }
 
@@ -272,7 +266,17 @@ export class ChatService {
 
       let dataa: RoomChannelDto = dto as ObjectKey
 
-      let room = await this.prisma.roomChannel.update({
+      let ban = await this.prisma.roomChannel.findUnique({
+        where: {
+          name: dataa.name
+        },
+        select: {
+          users_ban: !null
+        }
+      })
+
+		if (!ban.users_ban.find(t => t === dataa.users[0])) {
+      await this.prisma.roomChannel.update({
           where: {
             name: dataa.name
           },
@@ -282,8 +286,7 @@ export class ChatService {
             }
           },
         })
-
-      return room;
+      }
     }
 
     async removeUser(dto: object) {
@@ -361,6 +364,10 @@ export class ChatService {
         where: {
           private: false
         },
+        select: {
+          name: !null,
+          users: !null
+        }
       })
 
       return channels
@@ -376,11 +383,7 @@ export class ChatService {
           name: data.name
         }
       })
-
-      if (room.password == data.users[0])
-        return (true)
-      else
-        return (false)
+      return (await argon.verify(room.password, data.users[0]))
 
     }
 

@@ -79,6 +79,7 @@ export default {
         .then((res) => {
           this.username = res.data.login
         })
+        .catch (res => console.log(res))
         this.text = ''
       },
 
@@ -150,7 +151,15 @@ export default {
         </div>
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
+        <button class="button_change_login" @click="test_popup2">Change login</button>
+        <!-- <div v-if="popup" className="test_popup"> -->
+      <div v-if="button_change_login" className="test_popup2">
+          <form @submit.prevent="change_username">
+            <input pattern="[a-zA-Z]+" title="only letters accepted" v-model="login" placeholder='new login' :maxlength="9">
+            <button @click="change_username_close" className="button_no">cancel</button>
+          </form>
       </div>
+<<<<<<< HEAD
       <!-- <div className="profile_username"> -->
         <!-- <form @submit.prevent="change_username" className="border_right_bottom_two"> -->
           <!-- <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted"> -->
@@ -160,26 +169,43 @@ export default {
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
       <!-- </div> -->
       <div className="profile_bottom">
+=======
+      <!-- <div className="profile_username">
+        <form @submit.prevent="change_username" className="border_right_bottom_two">
+          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
+        </form>
+        <h1>{{ this.username }}</h1>
+        <input className="profile_change_username" v-model="text" placeholder='change username'>
+      </div> -->
+    <!-- </div> -->
+      </div>
+      
+      <div className="profile_two">
+        <h1 className="profile_user">{{ users.email }}</h1>
+      </div>
+      <div className="profile_three">
+>>>>>>> Etienne
         <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
-          <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
-          <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
-          <button @click="logout" className="button_access_profile">logout</button>
-        </div>
-        <h1 className="profile_user">{{ users.email }}</h1>
-        <div>
-          <h1> twofactor auth </h1>
+        <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
+        <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
+        <button @click="logout" className="button_access_profile">logout</button>
+      </div>
+      <div className="profile_bottom">
+        <div className="twofactor">
+          <h1 className="twofactor_auth"> twofactor auth </h1>
           <Toggle
           v-model="value"
           on-label="On"
           off-label="Off"
           />
         </div>
-        <div v-if="qrCodeData">
-          <img v-bind:src="qrCodeData"/>
-          <form @submit.prevent="turnOn2fa" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="code" placeholder='2fa code' :maxlength="6" pattern="[0-9]+" title="only numbers accepted">
-        </form>
+        <div v-if="qrCodeData" className="code">
+            <img v-bind:src="qrCodeData"/>
+            <form @submit.prevent="turnOn2fa">
+              <input className="profile_change_username" v-model="code" placeholder='2fa code' :maxlength="6" pattern="[0-9]+" title="only numbers accepted">
+            </form>
+          </div>
         </div>
       </div>
     </div>

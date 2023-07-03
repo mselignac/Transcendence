@@ -36,9 +36,9 @@
 
 <style>
 
-/* #pong {
-    width: 80%;
-    height: 80%;
+.pong_game {
+    width: 100vw;
+    height: 100vh;
     align-items: center;
-} */
+}
 </style>

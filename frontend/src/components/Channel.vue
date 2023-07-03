@@ -10,7 +10,8 @@ import router from '@/router';
 <script lang="ts">
 
 let id = 0
-let $socket_chat = io('ws://localhost:3000/chat',
+const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
+let $socket_chat = io(`ws://${host}:${port}/chat`,
 { 
     transports: ["websocket"],
     forceNew: true,
@@ -78,6 +79,7 @@ export default {
               if (this.mute == false) {
                 let msg: MessageDto = { room: this.room, text: this.text, username: this.my_username }
                 await accountService.addMessageChannel(msg)
+                .catch (res => console.log(res))
                 $socket_chat.emit('msgToServer', this.room, message)
               }
               this.text = ''
@@ -98,6 +100,7 @@ export default {
       async isBlocked(user) {
         await accountService.isBlocked({ name: this.my_username, user_one: user })
         .then(res => {  this.block = res.data })
+        .catch (res => console.log(res))
         return(true)
       }
     },
@@ -105,6 +108,7 @@ export default {
     async created() {
         await accountService.usersMe()
         .then((response) => { this.my_username = response.data.login })
+        .catch (res => console.log(res))
         let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
         await accountService.findRoomChannel(dto) 
         .then(res => {
@@ -151,8 +155,8 @@ export default {
                 <div className="chat_msg_div">
                     <li v-for="chat in msg" :key="chat.id" className="msg_form">
                         <div v-if="check_username(chat.username)" className="test_msg">
-                            <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink>
-                            <h4 v-else>{{ chat.text }}</h4>
+                            <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink> -->
+                            <h4>{{ chat.text }}</h4>
                         </div>
                         <div v-else-if="isBlocked(chat.username) && !block" className="msg_user_test">
                             <h4 className="msg_user_testt">{{ chat.text }}</h4>

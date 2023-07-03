@@ -17,6 +17,8 @@ export default {
             owner: false,
             isAdmin: false,
             me: '',
+            pw: false,
+            length: '0'
         }
     },
     methods: {
@@ -35,11 +37,13 @@ export default {
             accountService.password(dto)
             .catch((res) => console.log(res))
             this.password = ''
+            this.pw = true
         },
         async removePassword() {
             let dto = { channel: this.idchannel }
             await accountService.removePassword(dto)
             .catch((res) => console.log(res))
+            this.pw = false
         },
         async ban(user) {
             let dto = { channel: this.idchannel, user: user }
@@ -53,6 +57,12 @@ export default {
             dto = { name: user, user_one: this.idchannel }
             await accountService.removeChannel(dto)
             .catch((res) => console.log(res))
+
+
+            let channel: RoomChannelDto = { name: this.idchannel }
+            await accountService.findRoomChannel(channel)
+            .then((response) => { this.infos = response.data })
+            .catch (res => console.log(res))
         },
         async remove(user) {
             let dto = { name: this.idchannel, user_one: user }
@@ -62,6 +72,12 @@ export default {
             dto = { name: user, user_one: this.idchannel }
             await accountService.removeChannel(dto)
             .catch((res) => console.log(res))
+
+
+            let channel: RoomChannelDto = { name: this.idchannel }
+            await accountService.findRoomChannel(channel)
+            .then((response) => { this.infos = response.data })
+            .catch (res => console.log(res))
         },
         mute(user) {
             let start = new Date();
@@ -72,19 +88,29 @@ export default {
             .catch((res) => console.log(res))
         },
 
-        admin(user) {
+        async admin(user) {
             let dto = { channel: this.idchannel, user: user }
-            accountService.admin(dto)
+            await accountService.admin(dto)
             .catch((res) => console.log(res))
+
+            let channel: RoomChannelDto = { name: this.idchannel }
+            await accountService.findRoomChannel(channel)
+            .then((response) => { this.infos = response.data })
+            .catch (res => console.log(res))
         }
     },
     async created() {
       await accountService.usersMe()
       .then((res) => { this.me = res.data })
+      .catch (res => console.log(res))
 
       let dto: RoomChannelDto = { name: this.idchannel }
       await accountService.findRoomChannel(dto)
-      .then((response) => { this.infos = response.data })
+      .then((response) => {
+        this.infos = response.data,
+        this.pw = response.data.is_password
+      })
+      .catch (res => console.log(res))
 
       if (this.infos && this.infos.users.find(t => t === this.me.login)) {
         if (this.infos.private == true)
@@ -95,6 +121,7 @@ export default {
             this.isAdmin = true
         if (this.infos.owner == this.me.login)
             this.owner = true
+        this.length = this.infos.users.length
       }
       else
         router.push('/main-page')
@@ -106,12 +133,16 @@ export default {
       <Borders/>
       <div className="main_div">
         <div className="infos">
-            <h1 className="channel_name_infos">{{ idchannel }}</h1>
+            <div className="channel_name_infos">
+                <h1 className="make_bold">{{ idchannel }}</h1>
+                <h1 className="members">{{ length }} members</h1>
+            </div>
 
             <div className="user_list_infos">
                 <li v-for="user in infos.users" :key="user.id">
                     <div className="admin_access">
                         <RouterLink :to="'/profile-user/' + user" v-if="infos.admin.find(t => t === user)" className="admin">{{ user }}</RouterLink>
+                        <h1 v-if="infos.admin.find(t => t === user)" className="admin_info">admin</h1>
                         <RouterLink :to="'/profile-user/' + user" v-else className="not_admin">{{ user }}</RouterLink>
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="ban(user)"><font-awesome-icon icon="fa-solid fa-user-xmark" /></button>
                         <button v-if="isAdmin && !infos.admin.find(t => t === user)" className="button_admin" @click="remove(user)"><font-awesome-icon icon="fa-solid fa-user-minus" /></button>
@@ -122,13 +153,15 @@ export default {
             </div>
 
             <div className="private_public">
-                <button v-if="owner" @click="change_visibility">{{ visibility }}</button>
-                <button v-if="owner && infos.is_password" @click="removePassword()">Remove password</button>
-                <form v-if="owner" @submit.prevent="change_password">
-                    <input v-model="password" placeholder='set password' :maxlength="9">
-                </form>
+                <button v-if="owner" @click="change_visibility" className="public_button">{{ visibility }}</button>
+                <div className="div_pw">
+                    <form v-if="owner" @submit.prevent="change_password">
+                        <input className="set_password" v-model="password" placeholder='set password' :maxlength="9">
+                    </form>
+                    <button v-if="owner && pw" @click="removePassword()" className="remove_pw_button">Remove password</button>
+                    <h1 v-if="!owner">{{ visibility }}</h1>
+                </div>
 
-                <h1 v-else>{{ visibility }}</h1>
             </div>
         </div>
 

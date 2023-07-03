@@ -1,5 +1,14 @@
 @import './base.css';
 
+@keyframes fadeIn {
+    0% {
+        scale: 1;
+        background-color: rgb(123, 89, 163);
+        opacity: 1;
+    }
+}
+
+
 .game_mode_div_test {
     display: flex;
     width: 100%;
@@ -12,24 +21,22 @@
 
 .game_mode_one_div {
     display: flex;
-    width: 50%;
-    height: 7%;
+    width: 70%;
+    height: 15%;
     margin: 3%;
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    background-color: rgb(37, 53, 107);
 }
 
 .game_mode_two_div {
     display: flex;
-    width: 50%;
-    height: 7%;
+    width: 70%;
+    height: 15%;
     margin: 3%;
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    background-color: rgb(37, 53, 107);
 }
 
 .game_mode_three_div {
@@ -40,21 +47,165 @@
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    background-color: rgb(37, 53, 107);
 }
 
 .modes_routers {
+    margin: 2%;
     display: flex;
     width: 100%;
     height: 100%;
+    margin: 2%;
     justify-content: center;
     align-items: center;
-    font-size: 250%;
-    color: rgb(150, 150, 150);
+    font-size: 300%;
+    color: rgb(221, 221, 221);
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
+    border-radius: 8px 8px 8px 8px;
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
 }
 
 .modes_routers:hover {
-    scale: 1.1;
-    background-color: transparent;
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
     font-weight: bold;
+    transform: scale(1.1);
 }
+
+.quit_queue {
+    display: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 2%;
+    justify-content: center;
+    align-items: center;
+    font-size: 300%;
+    color: rgb(221, 221, 221);
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
+    border-radius: 8px 8px 8px 8px;
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
+}
+
+.quit_queue:hover {
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+.lds-roller {
+    position: absolute;
+    left: 45%;
+    top: 15%;
+  }
+  
+  .lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+  }
+  .lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    margin: -4px 0 0 -4px;
+  }
+  .lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+  .lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+  }
+  .lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+  .lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+  }
+  .lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+  }
+  .lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+  }
+  .lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+  .lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+  }
+  .lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+  .lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+  }
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+  .lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+  }
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+  .lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+  }
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+  .lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+  }
+  @keyframes lds-roller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.ready_button {
+	position: absolute;
+    display: flex;
+    width: 20%;
+    height: 10%;
+    top: 80%;
+    left: 23%;
+    margin: 2%;
+    justify-content: center;
+    align-items: center;
+    font-size: 300%;
+    color: rgb(221, 221, 221);
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
+    border-radius: 8px 8px 8px 8px;
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
+}
+
+.ready_button:hover {
+    background-color: rgb(123, 89, 163);
+    border-color: transparent;
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+
+

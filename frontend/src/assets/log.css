@@ -1,7 +1,5 @@
 @import './base.css';
 
-    /* border: 3px solid hsla(167, 68%, 45%, 0.226); */
-
 #log {
     display: flex;
     width: 100vw;
@@ -24,18 +22,13 @@
     height: 50%;
     align-self: center;
     flex-direction: column;
-    /* box-shadow: inset 1px 1px 20px black; */
-    /* text-transform: uppercase; */
 }
   
   .button_log {
-    /* background-color: blue; */
-    /* margin: em; */
     color: rgb(255, 255, 255);
     text-shadow: 2px 2px 3px pink;
     display: flex;
     font-size: 150%;
-    /* align-self: center; */
     font-weight: bolder;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 10px 10px 10px 10px;
@@ -44,37 +37,26 @@
   
   
   .log_id_div {
-    /* background-color: aquamarine; */
-    /* margin-top: ; */
     display: flex;
-    /* margin: 2em; */
     width: 100%;
     justify-content: flex-end;
     align-items: center;
     flex-direction: column;
   
     height: 50%;
-    /* box-shadow: inset 1px 1px 20px black; */
-    /* text-transform: uppercase; */
 }
   
   .login_div {
-    /* background-color: aquamarine; */
     display: flex;
-    /* margin: 2em; */
     width: 100%;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     align-self: flex-end;
     height: 50%;
-    /* box-shadow: inset 1px 1px 20px black; */
-    /* text-transform: uppercase; */
 }
   
   .button_user_log {
-    /* background-color: blue; */
-    /* margin: 2em; */
     width: 70%;
     height: 17%;
     margin: 2%;
@@ -83,7 +65,6 @@
     color: rgb(48, 48, 48);
     display: flex;
     font-size: 150%;
-    /* align-self: center; */
     font-weight: bolder;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px 5px 5px 5px;
@@ -91,7 +72,6 @@
 }
   
   .button_login_log {
-    /* background-color: hsla(160, 100%, 11%, 0.534); */
     background-color: hsl(230, 18%, 32%);
     width: 50%;
     height: 15%;
@@ -99,7 +79,6 @@
     padding: 0.5em;
     display: flex;
     font-size: 140%;
-    /* align-self: center; */
     font-weight: bolder;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 5px 5px 5px 5px;
@@ -108,7 +87,6 @@
 }
   
 ::placeholder {
-    /* color: rgba(0, 0, 0, 0.589); */
     color: rgb(229, 225, 243);
 }
   

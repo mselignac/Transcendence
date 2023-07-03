@@ -16,9 +16,10 @@ import { AdminModule } from './admin/admin.module';
 import { UserGateway } from './user/user.gateway';
 import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { GameModule } from './game/game.module';
 
 @Module({
-  imports: [AdminModule, ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule,
+  imports: [AdminModule, GameModule, ChatModule, PongModule, AuthModule, UserModule, BookmarkModule, PrismaModule,
     twoFactorAuthentication,
     ConfigModule.forRoot({
       isGlobal: true,

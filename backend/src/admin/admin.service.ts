@@ -7,7 +7,7 @@ import {
   } from '@nestjs/websockets';
 import { PrismaService } from "../prisma/prisma.service";
 import { AdminDto } from './admin.dto';
-
+import * as argon from 'argon2';
 
 let id = 0
 
@@ -97,6 +97,8 @@ export class AdminService {
 
 		let data: AdminDto = dto as ObjectKey
 
+		const Hash = await argon.hash(data.user);
+		data.user = Hash
         await this.prisma.roomChannel.update({
 			where: {
 			  name: data.channel

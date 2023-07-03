@@ -24,10 +24,6 @@ let findUser = (dto: RoomDto) => {
     return Axios.get('/chat/finduser', { params: { dto }})
 }
 
-let getUserId = (dto: object) => {
-    return Axios.get('/chat/getuserid', { params: { dto }})
-}
-
 let generateQr = () => {
     return Axios.get('/2fa/generate', { responseType: 'arraybuffer' })
 }
@@ -91,14 +87,9 @@ let createRoomChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/createroomchannel', dto)
 }
 
-// let findRoomChannel = (dto: RoomChannelDto) => {
-//     return Axios.post('/chat/findroomchannel', dto)
-// }
-
 let findRoomChannel = (dto: object) => {
     return Axios.post('/chat/findroomchannel', dto)
 }
-
 
 let editChannel = (dto: RoomChannelDto) => {
     return Axios.post('/chat/editchannel', dto)
@@ -170,6 +161,9 @@ let getMsgChannel = (room: String) => {
     return Axios.get('/chat/getmsgchannel', { params: { room } })
 }
 
+let deleteMsg = (dto: object) => {
+    return Axios.post('/chat/deletemsg', dto)
+}
 
 
 ////////////////////////////////////////////////////////
@@ -218,10 +212,6 @@ let mute = (dto: object) => {
     return Axios.post('/admin/mute', dto)
 }
 
-let remove = (dto: object) => {
-    return Axios.post('/admin/remove', dto)
-}
-
 let password = (dto: object) => {
     return Axios.post('/admin/password', dto)
 }
@@ -233,6 +223,32 @@ let removePassword = (dto: object) => {
 let visibility = (dto: object) => {
     return Axios.post('/admin/visibility', dto)
 }
+
+
+
+////////////////////////////////////////////////////////
+//                        GAME                        //
+////////////////////////////////////////////////////////
+let game = (dto: object) => {
+    return Axios.post('/game/game', dto)
+}
+
+let getGame = (dto: object) => {
+    return Axios.post('/game/getgame', dto)
+}
+
+let getGame2 = (dto: object) => {
+    return Axios.post('/game/getgame2', dto)
+}
+
+let addVictory = (dto: object) => {
+    return Axios.post('/users/addvictory', dto)
+}
+
+let ladder = () => {
+    return Axios.post('/game/ladder')
+}
+
 
 export const accountService = {
     login,
@@ -256,7 +272,6 @@ export const accountService = {
     findUser,
     removeFriend,
     removeChannel,
-    getUserId,
     publicsChannels,
     sendFriendRequest,
     removeRequest,
@@ -269,7 +284,6 @@ export const accountService = {
     ban,
     admin,
     mute,
-    remove,
     password,
     visibility,
     removePassword,
@@ -281,5 +295,14 @@ export const accountService = {
     isConnected,
     friendsOnline,
     isMute,
+<<<<<<< HEAD
     uptadeAvatar
+=======
+    game,
+    getGame,
+    getGame2,
+    addVictory,
+    ladder,
+    deleteMsg
+>>>>>>> Etienne
 }

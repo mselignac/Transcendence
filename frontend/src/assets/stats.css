@@ -17,7 +17,14 @@
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    background-color: rgb(37, 53, 107);
+    background-color: rgb(123, 89, 163);
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
+}
+
+.stats_one_div:hover {
+    background-color: rgb(123, 89, 163);
+    transform: scale(1.1);
 }
 
 .stats_two_div {
@@ -28,7 +35,14 @@
     border-radius: 8px 8px 8px 8px;
     justify-content: center;
     align-items: center;
-    background-color: rgb(37, 53, 107);
+    background-color: rgb(123, 89, 163);
+    transform-origin: 50% 65%;
+    transition: transform 0.6s, filter 3s ease-in-out;
+}
+
+.stats_two_div:hover {
+    background-color: rgb(123, 89, 163);
+    transform: scale(1.1);
 }
 
 .stats_three_div {
@@ -49,11 +63,10 @@
     justify-content: center;
     align-items: center;
     font-size: 250%;
-    color: rgb(150, 150, 150);
+    color: rgb(221, 221, 221);
 }
 
 .stats_routers:hover {
-    scale: 1.1;
     background-color: transparent;
     font-weight: bold;
 }
