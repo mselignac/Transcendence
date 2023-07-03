@@ -121,6 +121,10 @@ a,
     grid-template-columns: 1fr;
     /* padding: 0 2rem; */
   }
+
+  .channel_public {
+    height: 60px !important;
+  }
 }
 
 @media (max-width: 575px) {
@@ -172,6 +176,10 @@ a,
     display: grid;
     grid-template-columns: 1fr;
     /* padding: 0 2rem; */
+  }
+
+  .channel_public {
+    height: 40px !important;
   }
 }
 

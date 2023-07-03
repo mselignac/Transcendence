@@ -80,7 +80,8 @@ export default {
           this.username = res.data.login
         })
         .catch (res => console.log(res))
-        this.text = ''
+        this.text = '';
+        router.go();
       },
 
       async logout() {
@@ -151,23 +152,25 @@ export default {
         </div>
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
-        <button class="button_change_login" @click="test_popup2">Change login</button>
-        <!-- <div v-if="popup" className="test_popup"> -->
-      <div v-if="button_change_login" className="test_popup2">
+        <!-- <button class="button_change_login" @click="test_popup2">Change login</button>
+        <div v-if="popup" className="test_popup"> -->
+      <!-- <div v-if="button_change_login" className="test_popup2">
           <form @submit.prevent="change_username">
             <input pattern="[a-zA-Z]+" title="only letters accepted" v-model="login" placeholder='new login' :maxlength="9">
             <button @click="change_username_close" className="button_no">cancel</button>
           </form>
-      </div>
-      <!-- <div className="profile_username"> -->
-        <!-- <form @submit.prevent="change_username" className="border_right_bottom_two"> -->
-          <!-- <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted"> -->
+      </div> -->
+      
+      <div className="profile_username">
+        <form @submit.prevent="change_username" className="border_right_bottom_two">
+          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
           <!-- <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9"> -->
-        <!-- </form> -->
+        </form>
         <!-- <h1>{{ this.username }}</h1> -->
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
-      <!-- </div> -->
-      <div className="profile_bottom">
+      </div>
+      
+      <!-- <div className="profile_bottom"> -->
       <!-- <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
           <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
@@ -176,7 +179,7 @@ export default {
         <input className="profile_change_username" v-model="text" placeholder='change username'>
       </div> -->
     <!-- </div> -->
-      </div>
+      <!-- </div> -->
       </div>
       
       <div className="profile_two">
