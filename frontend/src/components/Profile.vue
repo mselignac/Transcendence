@@ -159,7 +159,6 @@ export default {
             <button @click="change_username_close" className="button_no">cancel</button>
           </form>
       </div>
-<<<<<<< HEAD
       <!-- <div className="profile_username"> -->
         <!-- <form @submit.prevent="change_username" className="border_right_bottom_two"> -->
           <!-- <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted"> -->
@@ -169,7 +168,6 @@ export default {
         <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
       <!-- </div> -->
       <div className="profile_bottom">
-=======
       <!-- <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
           <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
@@ -179,12 +177,12 @@ export default {
       </div> -->
     <!-- </div> -->
       </div>
+      </div>
       
       <div className="profile_two">
         <h1 className="profile_user">{{ users.email }}</h1>
       </div>
       <div className="profile_three">
->>>>>>> Etienne
         <!-- <h1 className="profile_user">{{ users.name }}</h1>
           <h1 className="profile_user">{{ users.phone }}</h1> -->
         <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>

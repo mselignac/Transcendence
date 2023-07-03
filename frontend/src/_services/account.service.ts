@@ -295,14 +295,11 @@ export const accountService = {
     isConnected,
     friendsOnline,
     isMute,
-<<<<<<< HEAD
-    uptadeAvatar
-=======
+    uptadeAvatar,
     game,
     getGame,
     getGame2,
     addVictory,
     ladder,
     deleteMsg
->>>>>>> Etienne
 }
