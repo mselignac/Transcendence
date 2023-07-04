@@ -87,7 +87,6 @@ export class UserService {
 		let ban = await this.prisma.roomChannel.findUnique({
 			where: {
 				name: dataa.users[0]
-				// name: dataa.name
 			},
 			select: {
 				users_ban: !null
@@ -98,40 +97,23 @@ export class UserService {
 			if (!ban.users_ban.find(t => t === dataa.name)) {
 				await this.prisma.user.update({
 				where: {
-				//   login: dataa.id
 				id: dataa.name
 				},
 				data: {
 				channels: {
-					// push: dataa.name
 					push: dataa.users[0]
 				}
 				}})
 			}
-			// else if (ban[0] == undefined) {
-			// 	await this.prisma.user.update({
-			// 	where: {
-			// 	//   login: dataa.id
-			// 	id: dataa.name
-			// 	},
-			// 	data: {
-			// 	channels: {
-			// 		// push: dataa.name
-			// 		push: dataa.users[0]
-			// 	}
-			// 	}})
-			// }
 		}
 		else {
 			await this.prisma.user.update({
 				where: {
-					// login: dataa.id
 				  id: dataa.name
 				},
 				data: {
 				  channels: {
 					push: dataa.users[0]
-					// push: dataa.name
 				  }
 				}})
 		}
@@ -267,10 +249,6 @@ export class UserService {
 			},
 		})
 
-		// if (user.online)
-		// 	return true
-		// else
-		// 	return false
 		return (user.online)
 	}
 
@@ -314,7 +292,6 @@ export class UserService {
 		let data: userDto = dto as ObjectKey
 		let users = await this.prisma.user.findMany({
 			where: {
-				// friends:  { in: data.login }
 				friends: {
 					hasEvery: [data.login],
 				  },
@@ -341,8 +318,6 @@ export class UserService {
 				victory: {increment: 1}
 			}
 		})
-
-		// return (user)
 
 	}
 
@@ -400,14 +375,6 @@ export class UserService {
 				where: { user: data.old },
 				data: { user: data.new }
 			})
-			// await this.prisma.room.updateMany({
-			// 	where: { user_one: data.old },
-			// 	data: { user_one: data.new }
-			// })
-			// await this.prisma.room.updateMany({
-			// 	where: { user_two: data.old },
-			// 	data: { user_two: data.new }
-			// })
 			await this.prisma.roomChannel.updateMany({
 				where: { owner: data.old },
 				data: { owner: data.new }
@@ -417,11 +384,6 @@ export class UserService {
 			throw new Error('Username already exists');
 		}
 	}
-
-
-// friends / users / admins / blocked / ban / request  => trouver comment changer facilement dans un tableau
-
-
 
 	async turnOnTwoFactorAuthentication(email: string) {
 		return this.prisma.user.update({

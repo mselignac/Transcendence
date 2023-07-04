@@ -300,7 +300,6 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	setTimeout(() => {
 		client.emit('reset');
 	}, 5000);
-	// this.server.in(data.id.toString()).disconnectSockets(true);
 	delete this.gameRoomList[data.id];
   }
 

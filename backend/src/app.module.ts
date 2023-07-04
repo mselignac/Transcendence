@@ -25,9 +25,6 @@ import { GameModule } from './game/game.module';
       isGlobal: true,
     }),
     UploadModule,
-    // MulterModule.register({
-    //   dest: './files',
-    // })
   ],
   controllers: [PongController],
   providers: [PongGateway, PongService, JwtService, ChatGateway, UserGateway]

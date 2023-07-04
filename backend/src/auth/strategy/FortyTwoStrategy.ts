@@ -31,6 +31,5 @@ export class FortyTwoStrategy extends PassportStrategy(Strategy, '42') {
     });
     if (user) cb(null, user);
     else cb(null, false);
-    // return user || null;
   }
 }

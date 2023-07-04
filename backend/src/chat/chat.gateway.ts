@@ -20,8 +20,6 @@ import {
   export class ChatGateway
     implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
-    // room = new ChatService();
-
     @WebSocketServer() server: Server;
   
     private logger: Logger = new Logger('ChatGateway');

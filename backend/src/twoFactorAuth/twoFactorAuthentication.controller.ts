@@ -23,7 +23,6 @@ import { twoFaJwtStrategy } from './2fajwt.strategy';
 	constructor(
 	  private readonly twofactor: TwoFactorAuthenticationService,
 	  private readonly userService: UserService,
-	//   private config: ConfigService,
 	) {}
 
 	//Route: "http://localhost:3000/2fa/generate" to generate the secret and the qr code

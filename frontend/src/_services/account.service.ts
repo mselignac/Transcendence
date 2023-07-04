@@ -69,7 +69,6 @@ let isConnected = (dto: object) => {
 }
 
 let friendsOnline = (dto: object) => {
-    // console.log(dto)
     return Axios.post('users/friendsonline', dto)
 }
 

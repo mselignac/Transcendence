@@ -25,7 +25,6 @@ export class AuthController {
   }
 
 //Route: "http://localhost:8080/auth/42/redirect" 42-passport redirect from login to this route, then it will redirect to the frontend
-//   @UseFilters(new HttpExceptionFilter())
   @UseGuards(FortyTwoGuard)
   @Get('42/redirect')
   async handlerRedirect(@Req() req: Request) {

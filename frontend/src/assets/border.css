@@ -75,8 +75,6 @@
     grid-row: 1;
     grid-template-rows: 1fr 7fr;
     background-color: transparent;
-    /* background-color: red; */
-    /* overflow: hidden; */
 }
 
 .border_right_bottom {
@@ -85,10 +83,7 @@
     position: relative;
     border-radius: 10px 0px 0px 0px;
     background-color: #2e2e2e;
-    /* background-color: red; */
     grid-template-rows: 2fr 1fr 10fr;
-    /* box-shadow: inset 20px 20px 20px rgb(54, 54, 54); */
-    /* overflow: hidden; */
 }
 
 .border_right_bottom_one {
