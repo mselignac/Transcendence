@@ -67,7 +67,7 @@ export default {
     <div v-if="popup" className="test_popup">
       <div className="test_popup2">
           <form @submit.prevent="change_popup">
-            <input pattern="[a-zA-Z]+" title="only letters accepted" v-model="login" placeholder='set login' :maxlength="9">
+            <input pattern="[a-zA-Z]+" className="set_login" title="only letters accepted" v-model="login" placeholder='set login' :maxlength="9">
           </form>
       </div>
     </div>

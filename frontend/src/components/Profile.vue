@@ -146,17 +146,17 @@ export default {
 <template>
   <Borders/>
 
-  <div className="main_div" @click="handleClickOutside">
+  <div className="main_div" >
     <div className="profile_div">
 
       <div className="profile_picture">
         <button @click="popup = true" className="profile_picture_button"><img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/></button>
-        <div v-if="popup" className="test_popup" >
-          <div className="test_popup2">
-            <form v-on:submit.prevent="upload" enctype="multipart/form-data" ref="upload_form" >
+        <div v-if="popup" className="popup_picture" >
+          <div className="popup_picture2">
+            <form v-on:submit.prevent="upload" className="form_picture" enctype="multipart/form-data" ref="upload_form" >
               <label for="picture" >Séléctionnez une image</label><br>
               <input type="file" id="picture" name="picture" required accept=".jpg,.png,.gif" @change="handleFileUpload( $event )"/>
-              <button type="submit">change Avatar</button>
+              <button type="submit" className="button_picture">change Avatar</button>
             </form>
           </div>
         </div>

@@ -147,11 +147,25 @@
     scale: 1.1;
 }
 
+.button_picture {
+    background-color: rgb(10, 236, 169);
+    border-radius: 10px 10px 10px 10px;
+    border-color: transparent;
+}
+
+.button_picture:hover {
+    scale: 1.1;
+}
+
 .profile_picture_img
 {
     width: 13vw; /* Spécifiez la largeur souhaitée */
     height: 13vw; /* La hauteur s'ajustera automatiquement en conservant les proportions */
     border-radius: 50%; /* Applique une forme arrondie à l'image */
+}
+
+.form_picture {
+    margin:10px;
 }
 
 
@@ -185,3 +199,7 @@
     display: flex;
     margin-right: 20px;
 }
+/* 
+.toggle-off {
+    background-color: red;
+} */
