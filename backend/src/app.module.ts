@@ -13,9 +13,9 @@ import { JwtService } from '@nestjs/jwt';
 import { ChatModule } from './chat/chat.module';
 import { twoFactorAuthentication } from './twoFactorAuth/twoFactorAuthentication.module';
 import { AdminModule } from './admin/admin.module';
-import { UserGateway } from './user/user.gateway';
 import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { UserGateway } from './user.gateway';
 import { GameModule } from './game/game.module';
 
 @Module({

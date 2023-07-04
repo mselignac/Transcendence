@@ -96,6 +96,7 @@ export default {
         accountService.logout()
         // .catch (res => console.log(res))
         await router.push('/');
+        router.go()
       },
 
       async turnOn2fa() {
