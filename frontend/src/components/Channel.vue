@@ -99,7 +99,9 @@ export default {
       },
 
       async isBlocked(user) {
-        await accountService.isBlocked({ name: this.my_username, user_one: user })
+        let blocked = await accountService.findUser({ login: user })
+
+        await accountService.isBlocked({ name: this.my_username, user_one: blocked.data.id })
         .then(res => {  this.block = res.data })
         .catch (res => console.log(res))
         return(true)

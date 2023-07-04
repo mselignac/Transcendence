@@ -87,7 +87,7 @@ export default {
         await accountService.usersMe()
         .then((response) => {
           this.me = response.data
-          if (this.me.login == this.username)
+          if (this.me.id == this.id)
             router.push('/profile')
           if (response.data.friends.find(t => t === this.id))
             this.is_friend = true

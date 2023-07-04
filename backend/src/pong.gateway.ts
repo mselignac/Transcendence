@@ -97,6 +97,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 			usernameTwo: data.receiver,
 			id: this.privateRoomCount,
 	  	};
+		console.log(" Usernames ", newWaitingRoom.usernameOne, newWaitingRoom.usernameTwo);
 	  	this.privateWaitingRoomList.push(newWaitingRoom);
 		client.emit("inviteInfo", {id: this.privateRoomCount});
 		this.privateRoomCount++;
