@@ -55,7 +55,6 @@ export default {
         if (this.twofactor == true && this.validate == false)
         {
           accountService.save2FaToken(Cookies.get('2fajwt'))
-          .catch (res => console.log(res))
           this.popup2fa = true
         }
     }
