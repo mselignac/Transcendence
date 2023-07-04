@@ -142,7 +142,7 @@ export default {
       <div className="profile_picture">
         <button @click="popup = true" className="profile_picture_button"><img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/></button>
         <div v-if="popup" className="popup_picture" >
-          <div className="test_popup2">
+          <div className="popup_picture2">
             <form v-on:submit.prevent="upload" className="form_picture" enctype="multipart/form-data" ref="upload_form" >
               <label for="picture" >Séléctionnez une image</label><br>
               <input type="file" id="picture" name="picture" required accept=".jpg,.png,.gif" @change="handleFileUpload( $event )"/>
@@ -197,7 +197,7 @@ export default {
           <h1 className="twofactor_auth"> twofactor auth </h1>
           <Toggle
           v-model="value"
-          on-label="On" background-color="green"
+          on-label="On"
           off-label="Off"
           />
         </div>
