@@ -4,6 +4,7 @@ import Pong from './Pong.vue'
 import $socket from '../plugin/socket';
 import { ref } from 'vue';
 import { accountService } from '../_services/account.service'
+import router from '@/router';
 
 </script>
 
@@ -91,6 +92,7 @@ socket.on("reset", (data) => {
 	inGame.value = false;
 	tRoomId.value = null;
 	appExist.value = false;
+	router.go();
 })
 
 socket.on('gameStarted', (data) => {

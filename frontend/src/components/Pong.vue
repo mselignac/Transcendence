@@ -3,6 +3,7 @@
 	import * as PIXI from 'pixi.js';
 	import { ref, defineComponent } from 'vue';
 	import { accountService } from '../_services/account.service'
+import router from '@/router';
 
 </script>
 
@@ -424,7 +425,7 @@
 					console.log("CHECK");
 					if (actualUsername.value === data.winner && data.winner !== "false")
 						accountService.addVictory({ login: data.winner })
-						.catch(res => console.log(res))
+						.catch(res => console.log(res));
 					if (side._value == 'right' && data.winner !== "false")
 						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});
