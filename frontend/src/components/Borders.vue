@@ -287,6 +287,7 @@ export default {
       },
 
       async block() {
+        console.log(this.test_friend_login)
         await accountService.block({ name: this.users.id, user_one: this.test_friend_login.id })
         .catch((res) => console.log(res))
 
@@ -311,7 +312,7 @@ export default {
       async getLogin(friendss) {
         await accountService.getLogin( { login: friendss } )
         .then(res => {
-          this.test_friend_login = res.data.login,
+          this.test_friend_login = res.data,
           this.testtt = res.data
         });
         return (this.testtt);

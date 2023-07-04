@@ -172,6 +172,9 @@ export class ChatService {
       let msg = await this.prisma.message.findMany({
         where: {
           roomId: room.id
+        },
+        orderBy: {
+            id: 'asc'
         }
       })
 

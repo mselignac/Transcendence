@@ -69,6 +69,10 @@ export default {
           accountService.getMsg(this.room) 
             .then(res => {
                 this.msg = res.data
+                // console.log(this.msg)
+                // this.msg.sort(this.msg.id)
+                // this.msg.id.sort()
+                // console.log('after', this.msg)
             })
             .catch(err => console.log (err))
 
