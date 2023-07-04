@@ -147,6 +147,16 @@
     scale: 1.1;
 }
 
+.button_picture {
+    background-color: rgb(10, 236, 169);
+    border-radius: 10px 10px 10px 10px;
+    border-color: transparent;
+}
+
+.button_picture:hover {
+    scale: 1.1;
+}
+
 .profile_picture_img
 {
     width: 13vw; /* Spécifiez la largeur souhaitée */
