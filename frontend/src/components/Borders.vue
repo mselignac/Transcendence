@@ -3,12 +3,27 @@ import { accountService } from '@/_services'
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
 import router from '@/router';
 import io from "socket.io-client"
+// import $socketUser from '../plugin/socket.user.ts';
 
 export type users_type = {
   username: string
 }
 
 const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
+
+
+
+// let socket = io('http://localhost:3000/user',
+// { 
+//     transports: ["websocket"],
+//     forceNew: true,
+//     upgrade: false,
+// }
+// );
+
+
+// socket.auth = { name: 'elisa' };
+// let socket = $socketUser;
 
 export default {
     data() {
@@ -260,6 +275,11 @@ export default {
         await router.push('/channel/' + route)
         router.go()
       },
+      
+      async go_to_info(route: string) {
+        await router.push('/infos/' + route)
+        router.go()
+      },
 
       async go_to_profile(route: string) {
         await router.push('/profile-user/' + route)
@@ -289,28 +309,27 @@ export default {
       },
 
       async getLogin(friendss) {
-        console.log(friendss)
         await accountService.getLogin( { login: friendss } )
         .then(res => {
           this.test_friend_login = res.data.login,
           this.testtt = res.data
         });
-        console.log(this.testtt)
         return (this.testtt);
       },
 
-      async socket_connected() {
-        console.log('la')
-        this.friends_online = ''
-        await accountService.friendsOnline({ login: this.users.id })
-        .then(res => this.friends_online = res.data )
-        .catch (res => console.log(res))
-
-
-        this.list_friend = []
-        for (let i = 0; this.friends_online[i]; i++) {
-            let login = await this.getLogin(this.friends_online[i].id)
-            this.list_friend.push( login )
+      async socket_connected(login) {
+        for (let i = 0; this.list_friend[i]; i++) {
+            if (this.list_friend[i].id == login.name){
+              this.list_friend[i].online = true
+            }
+        }
+      },
+      
+      async socket_disconnected(login) {
+        for (let i = 0; this.list_friend[i]; i++) {
+            if (this.list_friend[i].id == login.name) {
+              this.list_friend[i].online = false
+            }
         }
       }
 
@@ -334,6 +353,8 @@ export default {
           this.friends_online = res.data
       })
         .catch (res => console.log(res))
+
+
         let $socket = io(`ws://${host}:${port}/user`, { 
             transports: ["websocket"],
             forceNew: true,
@@ -341,33 +362,18 @@ export default {
         });
         $socket.auth = { name: this.user_test.id }
         
-        $socket.on('connection', () => {
-            // this.list_friend = []
-            
-            
-            // accountService.friendsOnline({ login: this.users.id })
-            // .then(res => this.friends_online = res.data )
-            // .catch (res => console.log(res))
-
-
-
-            console.log('ici')
-            this.socket_connected()
-
-
-
-            // for (let i = 0; this.friends_online[i]; i++) {
-            //     let login = this.getLogin(this.friends_online[i].id)
-            //     console.log('login', login)
-            //     this.list_friend.push( login )
-            // }
-            // console.log(this.friends_online)
+        $socket.on('connection', (data) => {
+            this.socket_connected(data.login)
         })
 
-        // for (let i = 0; this.friends_online[i]; i++) {
-        //     let login = await this.getLogin(this.friends_online[i].id)
-        //     this.list_friend.push( login )
-        // }
+        $socket.on('disconnection', (data) => {
+            this.socket_disconnected(data.login)
+        })
+
+        for (let i = 0; this.friends_online[i]; i++) {
+            let login = await this.getLogin(this.friends_online[i].id)
+            this.list_friend.push( login )
+        }
 
       }
 
@@ -390,7 +396,7 @@ export default {
   <div className="channel_menu" v-if="channel">
     <RouterLink :to="'/channel/' + test_channel" className="elements_menu" @click="go_to_channel(test_channel)" v-if="channel">Chat</RouterLink>
     <button className="elements_menu" v-if="channel" @click=removeChannel(test_channel)>Quit</button>
-    <RouterLink :to="'/infos/' + test_channel" className="elements_menu" v-if="channel">Infos</RouterLink>
+    <RouterLink :to="'/infos/' + test_channel" className="elements_menu" v-if="channel" @click="go_to_info(test_channel)">Infos</RouterLink>
     <button className="close_menu" v-if="channel" @click="change_channel">close</button>
   </div>
 

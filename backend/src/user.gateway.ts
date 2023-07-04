@@ -8,7 +8,7 @@ import {
   } from '@nestjs/websockets';
   import { Logger } from '@nestjs/common';
   import { Socket, Server } from 'socket.io';
-import { UserService } from './user.service';
+import { UserService } from './user/user.service';
   
   @WebSocketGateway({
     namespace: '/user',
@@ -35,14 +35,15 @@ import { UserService } from './user.service';
     }
 
     async handleDisconnect(client: Socket) {
-      // this.logger.log(`Client disconnected: ${client.id}`);
+      this.logger.log(`DECONNECTED`);
       await this.userService.offline(client.handshake.auth)
-      this.server.emit('connection');
+      this.server.emit('disconnection', { login: client.handshake.auth });
     }
 
     async handleConnection(client: Socket, ...args: any[]) {
       // this.logger.log(`Client connected: ${client.id}`);
       await this.userService.online(client.handshake.auth)
-      this.server.emit('connection');
+      console.log("HERE");
+      this.server.emit('connection', { login: client.handshake.auth });
     }
   }
