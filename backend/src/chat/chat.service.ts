@@ -350,18 +350,18 @@ export class ChatService {
 
       let dataa: MessageDto = dto as ObjectKey
 
-      const { users_ban } = await this.prisma.roomChannel.findUnique({
+      const { users } = await this.prisma.roomChannel.findUnique({
         where: {
           name: dataa.room
         },
         select: {
-          users_ban: !null
+          users: !null
         }
       })
 
       let login = await this.findUser({ login: dataa.username });
 
-      if (!users_ban.find(t => t === login.id)) {
+      if (users.find(t => t === login.id)) {
         await this.prisma.roomChannel.update({
           where: {
             name: dataa.room
