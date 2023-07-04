@@ -75,7 +75,13 @@ export default {
     },
 
     async change_username() {
-      await accountService.updateUsername(this.text)
+      // await accountService.updateUsername(this.text)
+      //   .then((res) => {
+      //     this.username = res.data.login
+      //   })
+      //   .catch (res => console.log(res))
+      //   this.text = ''
+      await accountService.changeUsername( { old: this.users.login, new: this.text })
         .then((res) => {
           this.username = res.data.login
         })
@@ -85,7 +91,10 @@ export default {
       },
 
       async logout() {
-        accountService.logout();
+        Cookies.remove('jwt');
+        Cookies.remove('2fajwt');
+        accountService.logout()
+        // .catch (res => console.log(res))
         await router.push('/');
       },
 
@@ -164,11 +173,16 @@ export default {
       <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
           <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
-          <!-- <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9"> -->
         </form>
-        <!-- <h1>{{ this.username }}</h1> -->
-        <!-- <input className="profile_change_username" v-model="text" placeholder='change username'> -->
       </div>
+      <!-- <div className="profile_username">
+        <form @submit.prevent="change_username" className="border_right_bottom_two">
+          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
+          <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9">
+        </form>
+          <h1>{{ this.username }}</h1>
+        <input className="profile_change_username" v-model="text" placeholder='change username'> -->
+      <!-- </div> -->
       
       <!-- <div className="profile_bottom"> -->
       <!-- <div className="profile_username">

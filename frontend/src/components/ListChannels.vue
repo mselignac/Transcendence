@@ -18,7 +18,7 @@ export default {
     components: { Borders },
     methods: {
         joinChannel(channel) {
-            this.isInChannel = channel.users.find(t => t === this.me.login)
+            this.isInChannel = channel.users.find(t => t === this.me.id)
             if (this.isInChannel)
                 router.push('/channel/' + channel.name)
             else {
@@ -27,14 +27,18 @@ export default {
             }
         },
 
-        yes() {
+        async yes() {
+            console.log(this.channel)
             if (this.channel.is_password == true)
+            {
+                console.log('password')
               this.password = true
+            }
             else {
-                accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
+                await accountService.editChannel({ name: this.channel.name, users: [ this.me.id ] })
                 .catch (res => console.log(res))
-                let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
-                accountService.addChannel(dto)
+                let dto: RoomChannelDto = { name: this.me.id, users: [ this.channel.name ] }
+                await accountService.addChannel(dto)
                 .catch (res => console.log(res))
 
                 this.joinChannelMsg = false
@@ -53,10 +57,10 @@ export default {
             .catch((res) => console.log(res))
 
             if (this.check_password == true) {
-                accountService.editChannel({ name: this.channel.name, users: [ this.me.login ] })
+                await accountService.editChannel({ name: this.channel.name, users: [ this.me.id ] })
                 .catch (res => console.log(res))
-                let dto: RoomChannelDto = { name: this.me.login, users: [ this.channel.name ] }
-                accountService.addChannel(dto)
+                let dto: RoomChannelDto = { name: this.me.id, users: [ this.channel.name ] }
+                await accountService.addChannel(dto)
                 .catch (res => console.log(res))
                 router.push('/channel/' + this.channel.name)
             }

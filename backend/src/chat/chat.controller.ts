@@ -5,6 +5,11 @@ import { Body, Controller, Get, Patch, Req , Post } from '@nestjs/common';
 export class ChatController {
 	constructor(private chatService: ChatService) {}
 
+	@Post('getlogin') 
+	getLogin(@Body() dto: object) {
+		return this.chatService.getLogin(dto);
+	}
+
 	@Post('createroom')
 	createRoom(@Body() dto: object) {
 	  return this.chatService.createRoom(dto) ;

@@ -4,6 +4,7 @@ import { EditUserDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { RoomChannelDto, RoomDto, userDto } from 'src/chat';
+import { loginDto } from './login.dto';
 
 @Injectable()
 export class UserService {
@@ -43,7 +44,7 @@ export class UserService {
 
 		await this.prisma.user.update({
 			where: {
-			  login: dataa.name
+			  id: dataa.name
 			},
 			data: {
 			  friends: {
@@ -58,7 +59,7 @@ export class UserService {
 
 		const { friends } = await this.prisma.user.findUnique({
 			where: {
-			  login: data.name
+			  id: data.name
 			},
 			select: {
 			  friends: true
@@ -67,7 +68,7 @@ export class UserService {
 
 		  await this.prisma.user.update({
 			where: {
-				login: data.name
+				id: data.name
 			},
 			data: {
 			  friends: {
@@ -86,31 +87,51 @@ export class UserService {
 		let ban = await this.prisma.roomChannel.findUnique({
 			where: {
 				name: dataa.users[0]
+				// name: dataa.name
 			},
 			select: {
 				users_ban: !null
 			}
 		})
 
-		if (ban && !ban.users_ban.find(t => t === dataa.name)) {
-			await this.prisma.user.update({
-			where: {
-			  login: dataa.name
-			},
-			data: {
-			  channels: {
-				push: dataa.users[0]
-			  }
-			}})
+		if (ban) {
+			if (!ban.users_ban.find(t => t === dataa.name)) {
+				await this.prisma.user.update({
+				where: {
+				//   login: dataa.id
+				id: dataa.name
+				},
+				data: {
+				channels: {
+					// push: dataa.name
+					push: dataa.users[0]
+				}
+				}})
+			}
+			// else if (ban[0] == undefined) {
+			// 	await this.prisma.user.update({
+			// 	where: {
+			// 	//   login: dataa.id
+			// 	id: dataa.name
+			// 	},
+			// 	data: {
+			// 	channels: {
+			// 		// push: dataa.name
+			// 		push: dataa.users[0]
+			// 	}
+			// 	}})
+			// }
 		}
-		else if (!ban) {
+		else {
 			await this.prisma.user.update({
 				where: {
-				  login: dataa.name
+					// login: dataa.id
+				  id: dataa.name
 				},
 				data: {
 				  channels: {
 					push: dataa.users[0]
+					// push: dataa.name
 				  }
 				}})
 		}
@@ -124,7 +145,7 @@ export class UserService {
 
 		const { channels } = await this.prisma.user.findUnique({
 			where: {
-			  login: data.name
+			  id: data.name
 			},
 			select: {
 			  channels: true
@@ -133,7 +154,7 @@ export class UserService {
 
 		  await this.prisma.user.update({
 			where: {
-				login: data.name
+				id: data.name
 			},
 			data: {
 			  channels: {
@@ -149,7 +170,7 @@ export class UserService {
 		let data: RoomDto = dto as ObjectKey
 		await this.prisma.user.update({
 			where: {
-				login: data.name
+				id: data.name
 			},
 			data: {
 				blocked: {
@@ -160,7 +181,7 @@ export class UserService {
 
 		const { requests } = await this.prisma.user.findUnique({
 			where: {
-				login: data.user_one
+				id: data.user_one
 			  },
 			  select: {
 				requests: true
@@ -169,7 +190,7 @@ export class UserService {
 
 		await this.prisma.user.update({
 			where: {
-				login: data.user_one
+				id: data.user_one
 			},
 			data: {
 			requests: {
@@ -185,7 +206,7 @@ export class UserService {
 		let data: RoomDto = dto as ObjectKey
 		const { blocked } = await this.prisma.user.findUnique({
 			where: {
-				login: data.name
+				id: data.name
 			  },
 			  select: {
 				blocked: true
@@ -194,7 +215,7 @@ export class UserService {
 
 		await this.prisma.user.update({
 			where: {
-				login: data.name
+				id: data.name
 			},
 			data: {
 			blocked: {
@@ -299,7 +320,7 @@ export class UserService {
 				  },
 			},
 			select: {
-			  login: !null,
+			  id: true,
 			  online: !null
 			},
 		})
@@ -312,8 +333,6 @@ export class UserService {
 		type ObjectKey = keyof typeof dto;
 
 		let data: userDto = dto as ObjectKey
-		console.log("ici");
-		console.log(data);
 		let user = await this.prisma.user.update({
 			where: {
 				login: data.login
@@ -343,6 +362,66 @@ export class UserService {
 			throw new Error('Username already exists');
 		}
 	}
+
+
+
+
+	async changeUsername(dto: object) {
+		type ObjectKey = keyof typeof dto;
+
+		let data: loginDto = dto as ObjectKey
+
+
+		const user = await this.prisma.user.findUnique({
+			where: { login: data.new },
+		});
+		if (!user) {
+			await this.prisma.user.update({
+				where: { login: data.old },
+				data: { login: data.new },
+			});
+			await this.prisma.message.updateMany({
+				where: { username: data.old },
+				data: { username: data.new },
+			});
+			await this.prisma.game.updateMany({
+				where: { user_one: data.old },
+				data: { user_one: data.new }
+			})
+			await this.prisma.game.updateMany({
+				where: { user_two: data.old },
+				data: { user_two: data.new }
+			})
+			await this.prisma.game.updateMany({
+				where: { victory: data.old },
+				data: { victory: data.new }
+			})
+			await this.prisma.mute.updateMany({
+				where: { user: data.old },
+				data: { user: data.new }
+			})
+			// await this.prisma.room.updateMany({
+			// 	where: { user_one: data.old },
+			// 	data: { user_one: data.new }
+			// })
+			// await this.prisma.room.updateMany({
+			// 	where: { user_two: data.old },
+			// 	data: { user_two: data.new }
+			// })
+			await this.prisma.roomChannel.updateMany({
+				where: { owner: data.old },
+				data: { owner: data.new }
+			})
+		}
+		else {
+			throw new Error('Username already exists');
+		}
+	}
+
+
+// friends / users / admins / blocked / ban / request  => trouver comment changer facilement dans un tableau
+
+
 
 	async turnOnTwoFactorAuthentication(email: string) {
 		return this.prisma.user.update({

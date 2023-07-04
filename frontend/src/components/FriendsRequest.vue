@@ -7,35 +7,55 @@ import { accountService } from '@/_services';
 export default {
     data() {
         return {
-            friends_requests: '',
-            me: ''
+            friends_requests: [],
+            me: '',
+            friends: '',
         }
     },
     methods: {
-        acceptFriend(friend) {
-            let room: RoomDto = { name: 'room', user_one: this.me.login, user_two: friend }
-            accountService.createRoom(room)
+
+        async getLogin(friend) {
+            await accountService.getLogin( { login: friend } )
+            .then(res => {
+                this.friends = res.data
+            });
+            // this.friend = 'salut'
+            return (this.friends);
+        },
+
+        async acceptFriend(friend) {
+            // let login = await accountService.getLogin( { login: friend } )
+            let room: RoomDto = { name: 'room', user_one: this.me.id, user_two: friend.id }
+            await accountService.createRoom(room)
               .catch(res => console.log(res))
 
-            let dto: RoomChannelDto = { name: this.me.login, users: [ friend ] }
-            accountService.addFriend(dto)
+            let dto: RoomChannelDto = { name: this.me.id, users: [ friend.id ] }
+            await accountService.addFriend(dto)
                 .catch(res => console.log(res))
-            let dto2: RoomChannelDto = { name: friend, users: [ this.me.login ] }
-            accountService.addFriend(dto2)
+            let dto2: RoomChannelDto = { name: friend.id, users: [ this.me.id ] }
+            await accountService.addFriend(dto2)
                 .catch(res => console.log(res))
-            accountService.removeRequest({ name: this.me.login, user_one: friend })
+            await accountService.removeRequest({ name: this.me.login, user_one: friend.id })
                 .catch(res => console.log(res))
                 
             this.friends_requests = this.friends_requests.filter((t) => t !== friend)
         }
     },
-    created() {
-        accountService.usersMe()
+    async created() {
+        await accountService.usersMe()
             .then(res => {
                 this.me = res.data
-                this.friends_requests = res.data.requests
+                // this.friends_requests = res.data.requests
             })
             .catch(res => console.log(res))
+
+
+        for (let i = 0; this.me.requests[i]; i++) {
+            let login = await this.getLogin(this.me.requests[i])
+            this.friends_requests.push( login )
+            // console.log(test)
+            // console.log(login)
+        }
     }
 }
 </script>
@@ -68,7 +88,7 @@ export default {
                 <ul>
                     <li v-for="friend in friends_requests">
                         <div className="user_request">
-                            <h1 className="request">{{ friend }}</h1>
+                            <h1 className="request">{{ friend.login }}</h1>
                             <button className="button_request" @click="acceptFriend(friend)"><font-awesome-icon icon="fa-solid fa-square-plus" /></button>
                         </div>
                     </li>
