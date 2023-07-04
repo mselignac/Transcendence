@@ -328,10 +328,7 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	if (index !== -1) {
     	this.specialWaitingRoomList.splice(index, 1);
 	}
-	console.log(`Client disconnected: ${client.id}`);
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
-	console.log(`Client connected: ${client.id}`);
-  }
+  handleConnection(client: Socket, ...args: any[]) {}
 }
