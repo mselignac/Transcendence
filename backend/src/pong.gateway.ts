@@ -87,17 +87,18 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 		if (index !== -1) {
     		return ;
 		}
-		index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.sender);
-		if (index !== -1) {
-    		return ;
-	}
+	// 	index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.sender);
+	// 	if (index !== -1) {
+	// 		client.emit("")
+    // 		return ;
+	// }
 	  	const newWaitingRoom: privateWaitingRoom = {
 			client: client,
 			usernameOne: data.sender,
 			usernameTwo: data.receiver,
 			id: this.privateRoomCount,
 	  	};
-		console.log(" Usernames ", newWaitingRoom.usernameOne, newWaitingRoom.usernameTwo);
+		// console.log(" PRIVATE INVITE ", newWaitingRoom.usernameOne, newWaitingRoom.usernameTwo);
 	  	this.privateWaitingRoomList.push(newWaitingRoom);
 		client.emit("inviteInfo", {id: this.privateRoomCount});
 		this.privateRoomCount++;
@@ -106,12 +107,18 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 	@SubscribeMessage('confirmInvite')
 	confirmInvite(client: Socket, data: any): void {
 		let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.receiver);
-		if (index === -1) {
-    		return ;
+		while (index !== -1) {
+			if (this.privateWaitingRoomList[index].usernameTwo === data.sender) {
+				break ;
+			}
+			index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === data.receiver);
 		}
+		if (index === -1)
+			return ;
 		this.privateWaitingRoomList[index].receiverClient = client;
 		this.privateWaitingRoomList[index].client.emit('goPlay');
 		this.privateWaitingRoomList[index].receiverClient.emit('goPlay');
+		// console.log("CONFIRM INVITE", data.sender, data.receiver);
 		this.privateGameInit(this.privateWaitingRoomList[index], false);
 	}
 
@@ -151,10 +158,13 @@ implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 		  };
 		this.inGameList.push(newGameUser1);
 		this.inGameList.push(newGameUser2);
+
+		// console.log("PRIVATE GAME INIT", newGameUser1, newGameUser2);
 	
 		if (specialMode === false) {
 			let index = this.privateWaitingRoomList.findIndex(privateWaitingRoom => privateWaitingRoom.usernameOne === this.gameRoomList.slice(-1)[0].dataChariot.leftPlayer.nickname);
 			if (index !== -1) {
+				// console.log("HERE");
 				this.privateWaitingRoomList.splice(index, 1);
 			}
 		}
