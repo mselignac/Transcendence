@@ -77,27 +77,31 @@ export default {
           return text.length > 0
       },
 
-      invite() {
-        socket_pong.emit("privateInvite", {sender: this.my_username, receiver: this.idchat});
+      async invite() {
+        let name = await accountService.getLogin({ login: this.idchat })
+        console.log(name)
+        socket_pong.emit("privateInvite", {sender: this.me.login, receiver: name.data.login });
         this.text = "Do you want to play?"
         this.send_msg()
         },
 
         async accept_invitation(id) {
             console.log("HERE 1");
-            socket_pong.emit("confirmInvite", {sender: this.my_username, receiver: this.idchat});
+            let name = await accountService.getLogin({ login: this.idchat })
+            socket_pong.emit("confirmInvite", {sender: this.me.login, receiver: name.data.login });
             await accountService.deleteMsg({login: id})
             .catch(res => console.log(res))
-            // this.button = false
+            this.button = false
         },
 
         async refuse_invitation(id) {
             this.text = "Invitation declined.";
             this.send_msg();
-            socket_pong.emit("declineInvite", {sender: this.my_username, receiver: this.idchat})
+            let name = await accountService.getLogin({ login: this.idchat })
+            socket_pong.emit("declineInvite", {sender: this.me.login, receiver: name.data.login  })
             await accountService.deleteMsg({login: id})
             .catch(res => console.log(res))
-            // this.button = false
+            this.button = false
         }
     },
 

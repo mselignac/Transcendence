@@ -182,8 +182,8 @@ export default {
                 <!-- <li v-for="user in infos.users" :key="user.id"> -->
                 <li v-for="user in test" :key="user.id">
                     <div className="admin_access">
-                        <RouterLink :to="'/profile-user/' + user" v-if="infos.admin.find(t => t === user.id)" className="admin">{{ user.login }}</RouterLink>
-                        <RouterLink :to="'/profile-user/' + user" v-else className="not_admin">{{ user.login }}</RouterLink>
+                        <RouterLink :to="'/profile-user/' + user.id" v-if="infos.admin.find(t => t === user.id)" className="admin">{{ user.login }}</RouterLink>
+                        <RouterLink :to="'/profile-user/' + user.id" v-else className="not_admin">{{ user.login }}</RouterLink>
                         <button v-if="isAdmin && infos.owner != user.login && me.login != user.login" className="button_admin" title="Ban" @click="ban(user.id)"><font-awesome-icon icon="fa-solid fa-user-xmark" /></button>
                         <button v-if="isAdmin && infos.owner != user.login && me.login != user.login" className="button_admin" title="Kick" @click="remove(user.id)"><font-awesome-icon icon="fa-solid fa-user-minus" /></button>
                         <button v-if="isAdmin && infos.owner != user.login && me.login != user.login" className="button_admin" title="Mute" @click="mute(user.id)"><font-awesome-icon icon="fa-solid fa-comment-slash" /></button>

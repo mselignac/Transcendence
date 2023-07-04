@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Borders from './Borders.vue';
 import { accountService } from '@/_services';
+import router from '@/router';
 </script>
 
 <script lang=ts>
@@ -37,7 +38,7 @@ export default {
                 .catch(res => console.log(res))
             await accountService.removeRequest({ name: this.me.login, user_one: friend.id })
                 .catch(res => console.log(res))
-                
+            router.go()
             this.friends_requests = this.friends_requests.filter((t) => t !== friend)
         }
     },
