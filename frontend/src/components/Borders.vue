@@ -3,7 +3,10 @@ import { accountService } from '@/_services'
 import { RoomChannelDto }  from '@/_services/room.channel.dto'
 import router from '@/router';
 import io from "socket.io-client"
+import $socket from '../plugin/socket';
 // import $socketUser from '../plugin/socket.user.ts';
+
+let socket_pong = $socket;
 
 export type users_type = {
   username: string
@@ -376,6 +379,11 @@ export default {
             let login = await this.getLogin(this.friends_online[i].id)
             this.list_friend.push( login )
         }
+
+        socket_pong.on('goPlay', (data) => {
+        console.log("HERE GO PLAY");
+        router.push({path: '/game-mode'});
+    })
 
       }
 

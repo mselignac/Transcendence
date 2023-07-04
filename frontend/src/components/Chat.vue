@@ -86,7 +86,7 @@ export default {
         },
 
         async accept_invitation(id) {
-            console.log("HERE 1");
+            inviteId.value = -1;
             let name = await accountService.getLogin({ login: this.idchat })
             socket_pong.emit("confirmInvite", {sender: this.me.login, receiver: name.data.login });
             await accountService.deleteMsg({login: id})
@@ -95,6 +95,7 @@ export default {
         },
 
         async refuse_invitation(id) {
+            inviteId.value = -1;
             this.text = "Invitation declined.";
             this.send_msg();
             let name = await accountService.getLogin({ login: this.idchat })
@@ -102,7 +103,26 @@ export default {
             await accountService.deleteMsg({login: id})
             .catch(res => console.log(res))
             this.button = false
-        }
+        },
+
+        async msg_stop_invite() {
+            
+            const message: message_type = {
+                  id: id++,
+                  text: 'invite no longer exist',
+                  username: this.my_username,
+              }
+              let msg: MessageDto = { room: this.room, text: 'invite no longer exist', username: data.login }
+              await accountService.addMessage(msg)
+                .catch (res => console.log(res))
+              $socket_chat.emit('msgToServer', this.room, message)
+              this.button = false
+        },
+
+        beforeRouteLeave(to: any, from: any, next: any) {
+            socket_pong.emit("declineInvite");
+            this.msg_stop_invite();
+        },
     },
 
     async created() {
@@ -140,6 +160,10 @@ export default {
         }
     },   
 }
+    socket_pong.on('stopInvite', (data) => {
+        inviteId.value = -1;
+        this.msg_stop_invite(data);
+    }),
 
     socket_pong.on('inviteInfo', (dataInvite) => {
             inviteId.value = dataInvite.id;
@@ -147,8 +171,11 @@ export default {
 
     socket_pong.on('goPlay', (data) => {
         console.log("HERE GO PLAY");
+        inviteId.value = -1;
         router.push({path: '/game-mode'});
     })
+
+    
 </script>
 
 <template>
