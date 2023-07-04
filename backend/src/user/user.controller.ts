@@ -86,4 +86,9 @@ export class UserController {
 		const url = await this.uploadService.upload(file.originalname, file);
 		return this.userService.updateAvatar(url, req.user.id);
 	}
+
+	@Post('addvictory')
+    addVictory(@Body() dto: object) {
+        return this.userService.addVictory(dto)
+    }
 }

@@ -424,7 +424,6 @@
 					endText.style.fontSize = backImgSprite.width / 15;
 					endText.visible = true;
 					ball.visible = false;
-					console.log("CHECK");
 					if (actualUsername.value === data.winner && data.winner !== "false") {
 						console.log("Salut");
 						accountService.addVictory({ login: data.winner })
