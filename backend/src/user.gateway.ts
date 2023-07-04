@@ -43,7 +43,6 @@ import { UserService } from './user/user.service';
     async handleConnection(client: Socket, ...args: any[]) {
       // this.logger.log(`Client connected: ${client.id}`);
       await this.userService.online(client.handshake.auth)
-      console.log("HERE");
       this.server.emit('connection', { login: client.handshake.auth });
     }
   }
