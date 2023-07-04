@@ -290,21 +290,35 @@ export default {
         router.go()
       },
 
-      async block() {
-        console.log(this.test_friend_login)
-        await accountService.block({ name: this.users.id, user_one: this.test_friend_login.id })
+      // async block(friend) {
+      //   console.log(this.test_friend_login)
+      //   await accountService.block({ name: this.users.id, user_one: this.test_friend_login.id })
+      //   .catch((res) => console.log(res))
+
+      //   await accountService.removeFriend({ name: this.users.id, user_one: this.test_friend_login.id })
+      //     .catch(res => console.log(res))
+
+      //   await accountService.removeFriend({ name: this.test_friend_login.id, user_one: this.users.id })
+      //     .catch(res => console.log(res))
+
+      //   this.friend = false
+      //   this.friends = this.friends.filter((t) => t !== this.test_friend_login.id)
+      // },
+
+      async block(friend) {
+        console.log(friend)
+        await accountService.block({ name: this.users.id, user_one: friend.id })
         .catch((res) => console.log(res))
 
-        await accountService.removeFriend({ name: this.users.id, user_one: this.test_friend_login.id })
+        await accountService.removeFriend({ name: this.users.id, user_one: friend.id })
           .catch(res => console.log(res))
 
-        await accountService.removeFriend({ name: this.test_friend_login.id, user_one: this.users.id })
+        await accountService.removeFriend({ name: friend.id, user_one: this.users.id })
           .catch(res => console.log(res))
 
         this.friend = false
-        this.friends = this.friends.filter((t) => t !== this.test_friend_login.id)
+        this.friends = this.friends.filter((t) => t !== friend.id)
       },
-
       async isConnected(friend)
       {
         await accountService.isConnected({ name: friend })
@@ -394,7 +408,7 @@ export default {
     <!-- <button className="elements_menu" v-if="friend" @click="go_to(test_friend)">Chat</button> -->
     <!-- <button className="elements_menu" v-if="friend">Watch the game</button>
     <button className="elements_menu" v-if="friend">Invite to channel ></button> -->
-    <button className="elements_menu" v-if="friend" @click="block">Block</button>
+    <button className="elements_menu" v-if="friend" @click="block(test_friend)">Block</button>
     <button className="close_menu" v-if="friend" @click="change_friend">close</button>
   </div>
 
