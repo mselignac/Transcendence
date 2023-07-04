@@ -1,9 +1,11 @@
 <script setup lang="ts">
 	import $socket from '../plugin/socket';
 	import * as PIXI from 'pixi.js';
-	import { ref, defineComponent } from 'vue';
+	import { ref, watch, defineComponent } from 'vue';
+	import axios from 'axios';
+	import { io } from "socket.io-client";
 	import { accountService } from '../_services/account.service'
-import router from '@/router';
+	import router from '@/router';
 
 </script>
 
@@ -422,10 +424,11 @@ import router from '@/router';
 					endText.style.fontSize = backImgSprite.width / 15;
 					endText.visible = true;
 					ball.visible = false;
-					console.log("CHECK");
-					if (actualUsername.value === data.winner && data.winner !== "false")
+					if (actualUsername.value === data.winner && data.winner !== "false") {
+						console.log("Salut");
 						accountService.addVictory({ login: data.winner })
-						.catch(res => console.log(res));
+						.catch(res => console.log(res))
+					}
 					if (side._value == 'right' && data.winner !== "false")
 						accountService.game({ user_one: leftUsername._value, user_two: rightUsername._value, score_one: leftScoreText.text, score_two: rightScoreText.text, victory: data.winner })
 					socket.emit("gameEnded", {id: tRoomId.value});
