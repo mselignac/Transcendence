@@ -247,7 +247,7 @@ export class UserService {
 		let data: RoomDto = dto as ObjectKey
 		let requests = await this.prisma.user.findUnique({
 			where: {
-				login: data.name
+				id: data.name
 			},
 		})
 

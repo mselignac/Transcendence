@@ -86,6 +86,12 @@ export default {
             await accountService.findRoomChannel(channel)
             .then((response) => { this.infos = response.data })
             .catch (res => console.log(res))
+
+            this.test = []
+            for (let i = 0; this.infos.users[i]; i++) {
+                let login = await this.getLogin(this.infos.users[i])
+                this.test.push( login )
+            }
         },
         mute(user) {
             let start = new Date();

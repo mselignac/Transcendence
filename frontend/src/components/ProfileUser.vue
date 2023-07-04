@@ -99,7 +99,7 @@ export default {
 
         this.username = this.exist.login
 
-        await accountService.isRequest({ name: this.username, user_one: this.me.login })
+        await accountService.isRequest({ name: this.exist.id, user_one: this.me.id })
         .then(res => {
           if (res.data == true)
             this.request = true
