@@ -23,7 +23,6 @@ export type message_type = {
     id: number,
     text: string,
     username: string,
-    // socketid: string
 }
 
 export default {
@@ -160,7 +159,6 @@ export default {
                 <div className="chat_msg_div">
                     <li v-for="chat in msg" :key="chat.id" className="msg_form">
                         <div v-if="check_username(chat.username)" className="test_msg">
-                            <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink> -->
                             <h4>{{ chat.text }}</h4>
                         </div>
                         <div v-else-if="isBlocked(chat.username) && !block" className="msg_user_test">

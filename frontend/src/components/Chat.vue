@@ -65,7 +65,7 @@ export default {
               this.text = ''
         }
       },
-      receivedMessage(message: message_type) {      // ajouter async/await? (bug si pas en localhost) ou router.go mais cest tres tres moche
+      receivedMessage(message: message_type) {
           accountService.getMsg(this.room) 
             .then(res => {
                 this.msg = res.data
@@ -135,11 +135,6 @@ export default {
         if (!this.me.friends.find(t => t === this.idchat))
             router.push('/main-page')
         else {
-            // await accountService.findUser({ login: this.idchat })
-            // .then(res => { this.exist = res.data })
-            // .catch (res => console.log(res))
-
-
             await accountService.getLogin( { login: this.idchat })
             .then(res => { this.exist = res.data})
             .catch (res => console.log(res))
@@ -183,15 +178,11 @@ export default {
       <div className="main_div">
         <div className="chat_div_test">
             <div className="chat_top_test">
-                <!-- <div className="logo_chat_profile_test">
-                    <font-awesome-icon icon="fa-regular fa-circle-user" />
-                </div> -->
                 <img className="profile_picture_img_chat" :src="exist.avatarUrl" class="profile_picture_img_chat"/>
                 <RouterLink :to="'/profile-user/' + idchat" className="chat_name">{{ exist.login }}</RouterLink>
             </div>
             <div className="chat_bottom_test">
                 <div className="logo_chat_test">
-                    <!-- <font-awesome-icon icon="fa-regular fa-face-laugh-beam" /> -->
                     <font-awesome-icon icon="fa-regular fa-paper-plane" />
                 </div>
                 <div className="type_msg">
@@ -207,11 +198,9 @@ export default {
                 <div className="chat_msg_div">
                     <li v-for="chat in msg" :key="chat.id" className="msg_form">
                         <div v-if="check_username(chat.username)" className="test_msg">
-                            <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)">play</RouterLink> -->
                             <h4>{{ chat.text }}</h4>
                         </div>
                         <div v-else className="msg_user_test">
-                            <!-- <RouterLink to="/pong" v-if="check_invite(chat.text)" className="msg_user_testt">play</RouterLink> -->
                             <h4 className="msg_user_testt">{{ chat.text }}</h4>
                             <div v-if="check_invite(chat.text) && button === true" className="button_invite_yes">
                                 <button @click="accept_invitation(chat.id)" className="button_invite_yes_no">yes</button>

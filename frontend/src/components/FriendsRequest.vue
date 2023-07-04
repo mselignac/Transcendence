@@ -20,12 +20,10 @@ export default {
             .then(res => {
                 this.friends = res.data
             });
-            // this.friend = 'salut'
             return (this.friends);
         },
 
         async acceptFriend(friend) {
-            // let login = await accountService.getLogin( { login: friend } )
             let room: RoomDto = { name: 'room', user_one: this.me.id, user_two: friend.id }
             await accountService.createRoom(room)
               .catch(res => console.log(res))
@@ -46,7 +44,6 @@ export default {
         await accountService.usersMe()
             .then(res => {
                 this.me = res.data
-                // this.friends_requests = res.data.requests
             })
             .catch(res => console.log(res))
 
@@ -54,29 +51,10 @@ export default {
         for (let i = 0; this.me.requests[i]; i++) {
             let login = await this.getLogin(this.me.requests[i])
             this.friends_requests.push( login )
-            // console.log(test)
-            // console.log(login)
         }
     }
 }
 </script>
-
-<!-- <template>
-    <Borders/>
-    <div className="main_div">
-        <div className="friends_requests_div">
-            <h1 v-if="!this.friends_requests.length" className="no_friends_requests">You don't have any friends requests</h1>
-            <div v-else>
-                <ul>
-                    <li v-for="friend in friends_requests">
-                    <h1><font-awesome-icon icon="fa-solid fa-user" />{{ friend }}</h1>
-                    <button className="connected" @click="acceptFriend(friend)">add</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</template> -->
 
 <template>
     <Borders/>

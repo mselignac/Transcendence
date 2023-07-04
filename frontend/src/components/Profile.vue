@@ -75,12 +75,6 @@ export default {
     },
 
     async change_username() {
-      // await accountService.updateUsername(this.text)
-      //   .then((res) => {
-      //     this.username = res.data.login
-      //   })
-      //   .catch (res => console.log(res))
-      //   this.text = ''
       await accountService.changeUsername( { old: this.users.login, new: this.text })
         .then((res) => {
           this.username = res.data.login
@@ -94,7 +88,6 @@ export default {
         Cookies.remove('jwt');
         Cookies.remove('2fajwt');
         accountService.logout()
-        // .catch (res => console.log(res))
         await router.push('/');
         router.go()
       },
@@ -160,49 +153,19 @@ export default {
             </form>
           </div>
         </div>
-        <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
-        <!-- <button class="button_change_login" @click="test_popup2">Change login</button>
-        <div v-if="popup" className="test_popup"> -->
-      <!-- <div v-if="button_change_login" className="test_popup2">
-          <form @submit.prevent="change_username">
-            <input pattern="[a-zA-Z]+" title="only letters accepted" v-model="login" placeholder='new login' :maxlength="9">
-            <button @click="change_username_close" className="button_no">cancel</button>
-          </form>
-      </div> -->
       
       <div className="profile_username">
         <form @submit.prevent="change_username" className="border_right_bottom_two">
           <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
         </form>
       </div>
-      <!-- <div className="profile_username">
-        <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
-          <input className="profile_change_username" v-on:keypress="isLetter($event)" v-model="text" placeholder='change username' :maxlength="9">
-        </form>
-          <h1>{{ this.username }}</h1>
-        <input className="profile_change_username" v-model="text" placeholder='change username'> -->
-      <!-- </div> -->
-      
-      <!-- <div className="profile_bottom"> -->
-      <!-- <div className="profile_username">
-        <form @submit.prevent="change_username" className="border_right_bottom_two">
-          <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
-        </form>
-        <h1>{{ this.username }}</h1>
-        <input className="profile_change_username" v-model="text" placeholder='change username'>
-      </div> -->
-    <!-- </div> -->
-      <!-- </div> -->
       </div>
       
       <div className="profile_two">
         <h1 className="profile_user">{{ users.email }}</h1>
       </div>
       <div className="profile_three">
-        <!-- <h1 className="profile_user">{{ users.name }}</h1>
-          <h1 className="profile_user">{{ users.phone }}</h1> -->
         <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
         <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
         <button @click="logout" className="button_access_profile">logout</button>
@@ -225,28 +188,6 @@ export default {
         </div>
       </div>
     </div>
-	<!-- <div className="profile_div">
-	  <div className="profile_picture">
-		<button className="profile_picture_button"><img className="" src=""/></button>
-		<h1 className="profile_user">{{ this.username }}</h1>
-	  </div>
-	  <div className="profile_username">
-		<form @submit.prevent="change_username" className="border_right_bottom_two">
-
-		  <input className="profile_change_username" v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
-		</form>
-	  </div>
-	  <div className="profile_bottom">
-		  <h1 className="profile_user">{{ users.email }}</h1>
-		  <button @click="logout">log out</button>
-		  <RouterLink to="/stats" className="button_access_profile">stats</RouterLink>
-		  <RouterLink to="/game-mode" className="button_access_profile">play</RouterLink>
-	  </div> -->
-
-	<!-- </div> -->
-  <!-- </div> -->
-
-  	<!-- Le formulaire d'upload avec la référence "upload_form" -->
 </template>
 
 <style src="@vueform/toggle/themes/default.css"></style>

@@ -8,7 +8,6 @@ import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import unoverlay from 'unoverlay-vue'
-// import VueChatScroll from 'vue-chat-scroll';
 
 import './assets/main.css'
 import './assets/login.css'
@@ -29,6 +28,3 @@ library.add(faUserSecret, faFaceLaughBeam, faCircleUser, faMagnifyingGlass, faUs
 
 const app = createApp(App).use(router, VueAxios, axios, unoverlay)
 .component('font-awesome-icon', FontAwesomeIcon).mount('#app')
-// app.config.globalProperties.axios=axios
-// app.component('font-awesome-icon', FontAwesomeIcon)
-// app.mount('#app')

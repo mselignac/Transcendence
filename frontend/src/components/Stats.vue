@@ -33,9 +33,6 @@ export default {
             <div className="stats_two_div">
                 <RouterLink :to="'/ladder/' + me.id" className="stats_routers">Ladder</RouterLink>
             </div>
-            <!-- <div className="stats_three_div">
-                <RouterLink to="achievements" className="stats_routers">Achievements</RouterLink>
-            </div> -->
         </div>
     </div>
 </template>

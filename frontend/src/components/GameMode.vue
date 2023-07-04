@@ -106,7 +106,6 @@ socket.on('gameStarted', (data) => {
 	<div className="main_div" ref="mainDiv">
 		<Pong ref="pongRef" v-if="inGame" :roomid="tRoomId" :appExist="appExist" :dimensions="this.$refs.mainDiv"/>
 		<button @click="this.play()" v-if="inGame && !isPlaying" className="ready_button">Ready</button>
-		<!-- <button v-on:click="this.play()" v-if="inGame" >Ready</button> -->
 		<div class="lds-roller" v-if="isWaiting"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 		<div className="game_mode_div_test" v-if="!inGame">
 			<div className="game_mode_one_div" v-if="!inGame">

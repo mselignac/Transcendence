@@ -42,7 +42,6 @@ export default {
         .then(res => this.games2 = res.data )
         .catch (res => console.log(res))
 
-        // console.log(this.games)
     }
 }
 </script>

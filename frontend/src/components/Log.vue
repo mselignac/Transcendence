@@ -1,43 +1,3 @@
-<!-- <script>
-
-import { accountService } from '../_services';
-
-export default {
-    data() {
-        return {
-            msg: 'Login',
-            text: '',
-            text2: '',
-            user: {
-              email: '',
-              password: ''
-            }
-        }
-    },
-    methods: {
-      login(){
-      }
-    }
-}
-</script>
-
-<template>
-  <div className="log_div">
-    <div className="log_id_div">
-      <input className="button_user_log" v-model="text" placeholder='Username'>
-      <input className="button_user_log" v-model="text" placeholder="Password">
-    </div>
-    <div className="login_div">
-      <RouterLink to="/main-page" className="button_login_log">{{ msg }}</RouterLink>
-    </div>
-  </div>
-
-</template> -->
-
-
-
-
-
 <template>
   <div>
       <h1>Connexion</h1>
@@ -52,7 +12,6 @@ export default {
           </div>
           <div class="formGroup">
               <button type="submit" class="button">Connexion</button>
-            <!-- <RouterLink to="/main-page" class="button"> Connexion </RouterLink> -->
           </div>
       </form>
   </div>

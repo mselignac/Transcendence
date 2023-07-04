@@ -66,20 +66,9 @@ export default {
     },
 
     async created() {
-      // await accountService.findUser({ login: this.id })
-      // .then(res => { this.exist = res.data })
-      // .catch (res => console.log(res))
-
-
-      
-
       await accountService.getLogin( { login: this.id })
       .then(res => { this.exist = res.data})
       .catch (res => console.log(res))
-      // console.log('exist ', this.exist)
-
-
-      // console.log(this.exist)
       if (!this.exist) {
         router.push('/main-page')
       }
@@ -129,9 +118,6 @@ export default {
           <RouterLink :to="'/ladder/' + id" className="button_access_profile">ladder</RouterLink>
           <RouterLink :to="'/chat/' + id" v-if="is_friend" className="button_access_profile">chat</RouterLink>
       </div>
-      <!-- <div className="profile_bottom">
-          <button v-if="is_friend" className="button-85">play</button>
-      </div> -->
 
     </div>
   </div>

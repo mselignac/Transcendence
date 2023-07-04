@@ -4,7 +4,6 @@ import { RoomChannelDto }  from '@/_services/room.channel.dto'
 import router from '@/router';
 import io from "socket.io-client"
 import $socket from '../plugin/socket';
-// import $socketUser from '../plugin/socket.user.ts';
 
 let socket_pong = $socket;
 
@@ -13,20 +12,6 @@ export type users_type = {
 }
 
 const { VITE_APP_BACKEND_PORT: port, VITE_APP_HOST: host } = await import.meta.env;
-
-
-
-// let socket = io('http://localhost:3000/user',
-// { 
-//     transports: ["websocket"],
-//     forceNew: true,
-//     upgrade: false,
-// }
-// );
-
-
-// socket.auth = { name: 'elisa' };
-// let socket = $socketUser;
 
 export default {
     data() {
@@ -92,25 +77,6 @@ export default {
         this.channels_friends = true
       },
 
-      // async addFriend() {
-      //   if (this.validateInput(this.newFriend)) {
-
-      //     let user: object = { login: this.newFriend }
-      //     await accountService.findUser(user)
-      //       .then(res => { this.exist = res.data })
-      //       .catch(res => console.log(res))
-
-      //     if (this.exist && this.newFriend != this.my_username) {
-      //       let is_blocked = await accountService.isBlocked({ name: this.newFriend , user_one: this.my_username })
-      //       if (is_blocked.data == false) {
-      //         accountService.sendFriendRequest({ name: this.newFriend, user_one: this.my_username })
-      //           .catch(res => console.log(res))
-      //       }
-      //     }
-      //     this.newFriend = ''
-      //   }
-      // },
-
       async addFriend() {
         if (this.validateInput(this.newFriend)) {
 
@@ -133,26 +99,6 @@ export default {
         }
       },
 
-      // removeFriend(friends: friend_type) {
-
-      //   let friend: object = { name: this.my_username, user_one: friends }
-      //   accountService.removeFriend(friend)
-      //     .catch(res => console.log(res))
-
-      //   let second_friend: object = { name: friends, user_one: this.my_username }
-      //   accountService.removeFriend(second_friend)
-      //     .catch(res => console.log(res))
-
-      //   this.friend = false
-      //   this.friends = this.friends.filter((t) => t !== friends)
-      //   // let online = this.friends_online.find({login: friends, online: true})
-      //   // if (!online)
-      //   //   online = this.friends_online.find({login: friends, online: false})
-
-      //   // this.friends_online = this.friends_online.filter((t) => t !== online)
-      // },
-
-
       removeFriend(friends) {
 
         let friend: object = { name: this.users.id, user_one: friends.id }
@@ -165,9 +111,6 @@ export default {
 
         this.friend = false
         this.friends = this.friends.filter((t) => t !== friends.login)
-        // let online = this.friends_online.find({login: friends, online: true})
-        // if (!online)
-        //   online = this.friends_online.find({login: friends, online: false})
 
         router.go()
         this.friends_online = this.friends_online.filter((t) => t !== friends)
@@ -293,21 +236,6 @@ export default {
         router.go()
       },
 
-      // async block(friend) {
-      //   console.log(this.test_friend_login)
-      //   await accountService.block({ name: this.users.id, user_one: this.test_friend_login.id })
-      //   .catch((res) => console.log(res))
-
-      //   await accountService.removeFriend({ name: this.users.id, user_one: this.test_friend_login.id })
-      //     .catch(res => console.log(res))
-
-      //   await accountService.removeFriend({ name: this.test_friend_login.id, user_one: this.users.id })
-      //     .catch(res => console.log(res))
-
-      //   this.friend = false
-      //   this.friends = this.friends.filter((t) => t !== this.test_friend_login.id)
-      // },
-
       async block(friend) {
         console.log(friend)
         await accountService.block({ name: this.users.id, user_one: friend.id })
@@ -413,9 +341,6 @@ export default {
     <RouterLink :to="'/profile-user/' + test_friend.id" className="elements_menu" @click="go_to_profile(test_friend.id)" v-if="friend">Profile</RouterLink>
     <button ref="button" className="elements_menu" v-if="friend" @click="removeFriend(test_friend)">Unfriend</button>
     <RouterLink :to="'/chat/' + test_friend.id" className="elements_menu" @click="go_to(test_friend.id)" v-if="friend">Chat</RouterLink>
-    <!-- <button className="elements_menu" v-if="friend" @click="go_to(test_friend)">Chat</button> -->
-    <!-- <button className="elements_menu" v-if="friend">Watch the game</button>
-    <button className="elements_menu" v-if="friend">Invite to channel ></button> -->
     <button className="elements_menu" v-if="friend" @click="block(test_friend)">Block</button>
     <button className="close_menu" v-if="friend" @click="change_friend">close</button>
   </div>
@@ -501,17 +426,9 @@ export default {
 
             <li v-for="friend_list in list_friend" className="friends_usernames">
               <button @click="friend_menu(friend_list)" className="friends_usernames">{{ friend_list.login }}</button>
-              <!-- <button @click="friend_menu(friend_list)" v-if="test(friend_list.login)" className="friends_usernames">aaaaaaaa</button> -->
               <h1 className="connected" v-if="friend_list.online"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
               <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
             </li>
-            
-            <!-- <li v-for="friend in friends_online" className="friends_usernames">
-              <button @click="friend_menu(friend)" v-if="getLogin(friend.id)" className="friends_usernames">{{ test_friend_login }}</button>
-              <h1 className="connected" v-if="friend.online"><font-awesome-icon icon="fa-solid fa-circle" /></h1>
-              <h1 className="not_connected" v-else><font-awesome-icon icon="fa-solid fa-circle" /></h1>
-            </li> -->
-
 
           </ul>
         </div>

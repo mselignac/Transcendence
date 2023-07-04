@@ -240,14 +240,6 @@
     padding: 1%;
     margin-top: 2%;
     font-weight: bold;
-    /* background-color: rgb(15, 170, 15);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1%;
-    margin-top: 2%;
-    width: 9%;
-    height: 30%; */
 }
 
 #button_join_channel_no {
@@ -264,14 +256,6 @@
     align-items: center;
     padding: 1%;
     margin-top: 2%;
-    /* width: 9%;
-    height: 30%;
-    background-color: rgb(197, 26, 14);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1%;
-    margin-top: 2%; */
 }
 
 .admin_access {
