@@ -28,6 +28,11 @@ export class UserController {
 		return this.userService.editUsername(req.user.id, dto.username);
 	}
 
+	@Post('changeusername')
+	changeUsername(@Body() dto: object) {
+		return this.userService.changeUsername(dto);
+	}
+
 	@Post('addfriend')
 	addFriend(@Body() dto: object) {
 		return this.userService.addFriend(dto) ;

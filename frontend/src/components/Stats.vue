@@ -28,10 +28,10 @@ export default {
     <div className="main_div">
         <div className="stats_div">
             <div className="stats_one_div">
-                <RouterLink :to="'/game-history/' + me.login" className="stats_routers">Game history</RouterLink>
+                <RouterLink :to="'/game-history/' + me.id" className="stats_routers">Game history</RouterLink>
             </div>
             <div className="stats_two_div">
-                <RouterLink :to="'/ladder/' + me.login" className="stats_routers">Ladder</RouterLink>
+                <RouterLink :to="'/ladder/' + me.id" className="stats_routers">Ladder</RouterLink>
             </div>
             <!-- <div className="stats_three_div">
                 <RouterLink to="achievements" className="stats_routers">Achievements</RouterLink>

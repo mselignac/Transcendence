@@ -54,7 +54,13 @@ export default {
 
   methods: {
     async change_username() {
-      await accountService.updateUsername(this.text)
+      // await accountService.updateUsername(this.text)
+      //   .then((res) => {
+      //     this.username = res.data.login
+      //   })
+      //   .catch (res => console.log(res))
+      //   this.text = ''
+      await accountService.changeUsername( { old: this.users.login, new: this.text })
         .then((res) => {
           this.username = res.data.login
         })
@@ -66,7 +72,7 @@ export default {
         Cookies.remove('jwt');
         Cookies.remove('2fajwt');
         accountService.logout()
-        .catch (res => console.log(res))
+        // .catch (res => console.log(res))
         await router.push('/');
       },
 
@@ -105,6 +111,9 @@ export default {
         <img className="profile_picture_img" :src="users.avatarUrl" class="profile_picture_img"/>
         <!-- <button className="profile_picture_button"><img className="" src=""/></button> -->
         <h1 className="profile_user">{{ users.login }}</h1>
+        <form @submit.prevent="change_username">
+          <input v-model="text" placeholder='change username' :maxlength="9" pattern="[a-zA-Z]+" title="only letters accepted">
+        </form>
       </div>
       <!-- <div className="profile_username"> -->
         <!-- <form @submit.prevent="change_username" className="border_right_bottom_two">

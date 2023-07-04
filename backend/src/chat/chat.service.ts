@@ -29,6 +29,28 @@ export class ChatService {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
+    async getLogin(dto: object) {
+      type ObjectKey = keyof typeof dto;
+
+      let data: userDto = dto as ObjectKey
+
+      let user = await this.prisma.user.findUnique({
+        where: {
+          id: data.login
+        },
+        select: {
+          id: !null,
+          login: !null,
+          avatarUrl: !null,
+          online: !null
+        }
+      })
+
+      if (user)
+        return user;
+
+    }
+
     async findUser(dto: object) {
       type ObjectKey = keyof typeof dto;
 
@@ -39,7 +61,8 @@ export class ChatService {
           login: data.login
         },
         select: {
-          avatarUrl: !null
+          avatarUrl: !null,
+          id: !null
         }
       })
       if (user)
@@ -227,6 +250,8 @@ export class ChatService {
           }
       },})
 
+      let tmp: string = data.id
+      delete data.id
       if (room[0] === undefined) {
         const user = await this.prisma.roomChannel.create({
             data,
@@ -236,7 +261,7 @@ export class ChatService {
             name: data.name
           },
           data: {
-            owner: data.users[0],
+            owner: tmp,
             admin: {
               push: data.users[0]
             }
@@ -366,7 +391,8 @@ export class ChatService {
         },
         select: {
           name: !null,
-          users: !null
+          users: !null,
+          is_password: !null
         }
       })
 
@@ -383,7 +409,8 @@ export class ChatService {
           name: data.name
         }
       })
-      return (await argon.verify(room.password, data.users[0]))
+      let res = await argon.verify(room.password, data.users[0])
+      return (res)
 
     }
 

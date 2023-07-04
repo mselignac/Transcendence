@@ -14,8 +14,16 @@ let usersMe = () => {
     return Axios.get('/users/me')
 }
 
+let getLogin = (dto: object) => {
+    return Axios.post('/chat/getlogin', dto);
+}
+
 let updateUsername = (username: string) => {
     return Axios.patch('/users/username', { username })
+}
+
+let changeUsername = (dto: object) => {
+    return Axios.post('/users/changeusername', dto)
 }
 
 let findUser = (dto: RoomDto) => {
@@ -59,6 +67,7 @@ let isConnected = (dto: object) => {
 }
 
 let friendsOnline = (dto: object) => {
+    // console.log(dto)
     return Axios.post('users/friendsonline', dto)
 }
 
@@ -289,5 +298,7 @@ export const accountService = {
     getGame2,
     addVictory,
     ladder,
-    deleteMsg
+    deleteMsg,
+    changeUsername,
+    getLogin
 }

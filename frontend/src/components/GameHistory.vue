@@ -14,7 +14,8 @@ export default {
             titleClass: 'title',
             username: this.id,
             games: '',
-            games2: ''
+            games2: '',
+            exist: ''
         }
     },
     methods: {
@@ -25,11 +26,19 @@ export default {
         }
     },
     async created() {
-        await accountService.getGame({ user_one: this.id })
+        
+        await accountService.getLogin( { login: this.id })
+            .then(res => { this.exist = res.data})
+            .catch (res => console.log(res))
+
+        if (!this.exist) {
+            router.push('/main-page')
+        }
+        await accountService.getGame({ user_one: this.exist.login })
         .then(res => this.games = res.data )
         .catch (res => console.log(res))
 
-        await accountService.getGame2({ user_one: this.id })
+        await accountService.getGame2({ user_one: this.exist.login })
         .then(res => this.games2 = res.data )
         .catch (res => console.log(res))
 

@@ -20,6 +20,14 @@ export default {
         }
     },
     async created() {
+        await accountService.getLogin( { login: this.id })
+            .then(res => { this.exist = res.data})
+            .catch (res => console.log(res))
+
+        if (!this.exist) {
+            router.push('/main-page')
+        }
+
         await accountService.ladder()
         .then(res => this.ladder = res.data )
         .catch (res => console.log(res))
@@ -45,7 +53,7 @@ export default {
             </div>
             <div className="stats_right_bottom">
                 <li v-for="user in ladder">
-                    <div className="ladder_element" v-if="user.login != id">
+                    <div className="ladder_element" v-if="user.login != exist.login">
                         <h1 v-if="user.victory != 0 && ladder[0] == user" className="login_ladder"><font-awesome-icon icon="fa-solid fa-crown" /></h1>
                         <h1 className="login_ladder">{{ user.login }}</h1>
                         <h1 className="login_ladder">victories: {{ user.victory }}</h1>

@@ -12,7 +12,7 @@ export default {
         return {
             users: [],
             text: '',
-            username: this.id,
+            username: '',
             me: '',
             is_friend: false,
             is_blocked: false,
@@ -27,29 +27,29 @@ export default {
       },
 
       async add() {
-        await accountService.sendFriendRequest({ name: this.username, user_one: this.me.login })
+        await accountService.sendFriendRequest({ name: this.username, user_one: this.me.id })
           .catch(res => console.log(res))
         this.request = true
       },
 
       async remove() {
-        await accountService.removeFriend({ name: this.me.login, user_one: this.username })
+        await accountService.removeFriend({ name: this.me.id, user_one: this.id })
           .catch(res => console.log(res))
 
-        await accountService.removeFriend({ name: this.username, user_one: this.me.login })
+        await accountService.removeFriend({ name: this.id, user_one: this.me.id })
           .catch(res => console.log(res))
 
         this.is_friend = false
       },
 
       async block() {
-        await accountService.block({ name: this.me.login, user_one: this.username })
+        await accountService.block({ name: this.me.id, user_one: this.id })
         .catch((res) => console.log(res))
 
-        await accountService.removeFriend({ name: this.me.login, user_one: this.username })
+        await accountService.removeFriend({ name: this.me.id, user_one: this.id })
           .catch(res => console.log(res))
 
-        await accountService.removeFriend({ name: this.username, user_one: this.me.login })
+        await accountService.removeFriend({ name: this.id, user_one: this.me.id })
           .catch(res => console.log(res))
 
         this.is_friend = false
@@ -58,7 +58,7 @@ export default {
       },
 
       async unblock() {
-        await accountService.unblock({ name: this.me.login, user_one: this.username })
+        await accountService.unblock({ name: this.me.id, user_one: this.id })
         .catch((res) => console.log(res))
 
         this.is_blocked = false
@@ -66,12 +66,23 @@ export default {
     },
 
     async created() {
-      await accountService.findUser({ login: this.id })
-      .then(res => { this.exist = res.data })
-      .catch (res => console.log(res))
+      // await accountService.findUser({ login: this.id })
+      // .then(res => { this.exist = res.data })
+      // .catch (res => console.log(res))
 
-      if (!this.exist)
+
+      
+
+      await accountService.getLogin( { login: this.id })
+      .then(res => { this.exist = res.data})
+      .catch (res => console.log(res))
+      // console.log('exist ', this.exist)
+
+
+      // console.log(this.exist)
+      if (!this.exist) {
         router.push('/main-page')
+      }
       else {
         await accountService.usersMe()
         .then((response) => {
@@ -85,6 +96,8 @@ export default {
 
         })
         .catch (res => console.log(res))
+
+        this.username = this.exist.login
 
         await accountService.isRequest({ name: this.username, user_one: this.me.login })
         .then(res => {

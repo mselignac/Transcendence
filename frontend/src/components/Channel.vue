@@ -37,7 +37,8 @@ export default {
             room: room,
             block: false,
             mute: false,
-            infos: ''
+            infos: '',
+            me: ''
         }
     },
     methods: {
@@ -51,7 +52,7 @@ export default {
 
       async isMute() {
             let time = new Date();
-            await accountService.isMute({ channel: this.idchannel, user: this.my_username })
+            await accountService.isMute({ channel: this.idchannel, user: this.me.id })
             .then(res => {
                 if (res.data.length) {
                     let test = time - res.data[0].date
@@ -106,7 +107,9 @@ export default {
 
     async created() {
         await accountService.usersMe()
-        .then((response) => { this.my_username = response.data.login })
+        .then((response) => { 
+            this.my_username = response.data.login,
+            this.me = response.data })
         .catch (res => console.log(res))
         let dto: RoomChannelDto = { name: this.idchannel, users: this.my_username }
         await accountService.findRoomChannel(dto) 
@@ -116,7 +119,7 @@ export default {
         })
         .catch(err => console.log(err))
 
-        if (this.infos && this.infos.users.find(t => t === this.my_username)) {
+        if (this.infos && this.infos.users.find(t => t === this.me.id)) {
             accountService.getMsgChannel(this.room) 
                 .then(res => { this.msg = res.data })
                 .catch(err => console.log(err))
