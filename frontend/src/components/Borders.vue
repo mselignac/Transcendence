@@ -119,8 +119,11 @@ export default {
           if (this.exist && this.newFriend != this.my_username) {
             let is_blocked = await accountService.isBlocked({ name: this.newFriend , user_one: this.users.id })
             if (is_blocked.data == false) {
-              accountService.sendFriendRequest({ name: this.newFriend, user_one: this.users.id })
+              let req = await accountService.isRequest({name: this.exist.id, user_one: this.users.id})
+              if (req.data == false) {
+                accountService.sendFriendRequest({ name: this.newFriend, user_one: this.users.id })
                 .catch(res => console.log(res))
+              }
             }
           }
           this.newFriend = ''
