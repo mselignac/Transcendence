@@ -163,6 +163,7 @@ export default {
         // if (!online)
         //   online = this.friends_online.find({login: friends, online: false})
 
+        router.go()
         this.friends_online = this.friends_online.filter((t) => t !== friends)
         },
 
