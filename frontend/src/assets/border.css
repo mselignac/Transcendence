@@ -396,7 +396,8 @@
     display: flex;
     margin-top: 350px;
     width: 90%;
-    height: 350%;
+    height: 250%;
+    font-size: 70%;
 
     position: absolute;
     z-index: 1;
@@ -437,7 +438,7 @@
 .yes_no {
     display: flex;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 1vw;
     justify-content: space-evenly;
 }
 
