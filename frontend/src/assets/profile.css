@@ -164,6 +164,10 @@
     border-radius: 50%; /* Applique une forme arrondie à l'image */
 }
 
+.form_picture {
+    margin:10px;
+}
+
 
 @keyframes smooth-appear {
     to{
